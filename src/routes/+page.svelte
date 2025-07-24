@@ -7,7 +7,7 @@
         let u = user.userstate
         if(u.id==""){
             let localuser = getLocalStorage()
-            if(localuser.id ==""){
+            if(localuser.id == ""){
                 goto("/login")
             }
             else{

@@ -10,6 +10,11 @@
     import Home from '../svgs/Home.svelte';
     import Menu from '../svgs/Menu.svelte';
     import Xmark from '../svgs/Xmark.svelte';
+    import Bebe from '../svgs/Bebe.svelte';
+    import Medicos from '../svgs/Medicos.svelte';
+    import Reportes from '../svgs/Reportes.svelte';
+    import Unidad from '../svgs/Unidad.svelte';
+    import User from '../svgs/User.svelte';
     import  estilos  from '$lib/estilo';
     import  CONSTANTES  from '$lib/constantes';
     import { toDark } from '$lib/string/string';
@@ -18,11 +23,11 @@
     let ruta = import.meta.env.VITE_RUTA
     const menuItems = [
         {id:"inicio", icon:Home, label: "Inicio", href: "/inicio" },
-        {id:"users",icon:Home,  label: "Usuarios", href: "/users" },
-        {id:"medicos",icon:Home,  label: "Medicos", href: "/medicos" },
-        {id:"unidades",icon:Home,  label: "Unidades", href: "/unidades" },
-        {id:"bebes",icon:Home,  label: "Bebes", href: "/bebes" },
-        {id:"reportes",icon:Home,  label: "Reportes", href: "/reportes" }
+        {id:"users",icon:User,  label: "Usuarios", href: "/user/lista" },
+        {id:"medicos",icon:Medicos,  label: "Medicos", href: "/medicos" },
+        {id:"unidades",icon:Unidad,  label: "Unidades", href: "/unidades" },
+        {id:"bebes",icon:Bebe,  label: "Bebes", href: "/bebes" },
+        {id:"reportes",icon:Reportes,  label: "Reportes", href: "/reportes" }
     ]
     let sidebar = $state(false)
     let nombreuser = $state("")
