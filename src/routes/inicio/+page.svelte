@@ -17,7 +17,6 @@
     })
 </script>
 <Navbar>
-<h1 class="text-xl">Inicio</h1>
-<h2 class="text-lg">User {nombreuser}</h2>
-<button class="btn btn-xl" onclick={salir}>Salir</button>
+    No se inicio
+    
 </Navbar>
