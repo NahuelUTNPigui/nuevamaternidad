@@ -41,7 +41,7 @@
     }
     onMount(()=>{
         slug = $page.params.slug
-        bebe = constantes.bebescte.filter(b=>b.id==slug)[0]
+        bebe = constantes.bebescte.filter(b=>b.id=="1")[0]
         nombre=bebe.name
         madre=bebe.motherName
         birthDate=bebe.birthDate
@@ -59,6 +59,7 @@
             ${toDark(oscuro,"bg-gray-900 text-white","bg-gray-50 text-gray-900 ")}
         `}
     >
+        <p>Perfil a modo de demostración básica</p>
         <Header/>
         <Compartido
             bind:nombre

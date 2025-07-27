@@ -6,20 +6,22 @@
     import constantes from "$lib/constantes"
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    
+    import PocketBase from 'pocketbase'
+    let ruta = import.meta.env.VITE_RUTA
+    const pb = new PocketBase(ruta);
     //Filtros
     let estado = $state("")
     let buscar = $state("")
 
     function filtrarBebe(bebe){
         const matchesSearch =
-            bebe.name.toLowerCase().includes(buscar.toLowerCase()) ||
-            bebe.motherName.toLowerCase().includes(buscar.toLowerCase()) ||
-            bebe.medicalRecordNumber.toLowerCase().includes(buscar.toLowerCase());
+            bebe.nombremama.toLowerCase().includes(buscar.toLowerCase()) ||
+            bebe.nombrebebe.toLowerCase().includes(buscar.toLowerCase()) ||
+            bebe.hcbebe.toLowerCase().includes(buscar.toLowerCase());
 
-        const matchesStatus = estado ? baby.status === estado : true
+        //const matchesStatus = estado ? baby.status === estado : true
 
-        return matchesSearch && matchesStatus
+        return matchesSearch //&& matchesStatus
     }
     let bebes = $state([])
     let bebesrows = $derived(bebes.filter(bebe=>filtrarBebe(bebe)))
@@ -27,15 +29,20 @@
         let direction = "asc"//"desc"
     }
 
-   
-    onMount(()=>{
-        bebes = constantes.bebescte.map(b=>b)
+   function nuevo(){
+    goto("/bebes/nuevo")
+   }
+    onMount(async ()=>{
+        let records  = await pb.collection("bebes").getFullList({})
+        bebes = records.map(b=>b)
     })
 </script>
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
+        <p>Hacer click en el boto para ver el ingreso del bebe</p>
         <Header/>
         <Buscador bind:buscar bind:estado/>
+        <p>Hacer click en alguna fila para ver el perfil del bebe</p>
         <Listado bind:bebesrows/>
     </div>
 </Navbar>

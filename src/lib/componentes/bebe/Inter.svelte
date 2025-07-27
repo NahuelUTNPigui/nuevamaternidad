@@ -9,12 +9,26 @@
     import Sepsis from "./Sepsis.svelte";
     let oscuro = $derived(darker.oscurostate)
 </script>
-<div class="tab-content bg-white dark:bg-gray-900 rounded-md p-4 space-y-2">
+<div 
+  class={`
+    tab-content rounded-md p-4 space-y-4
+    ${toDark(oscuro,"bg-gray-900 ","bg-white")}
+  `}
+>
   <!-- Sistema Respiratorio -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
-    <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-blue-500 dark:text-blue-300">🫁</span> Sistema Respiratorio
+    <div 
+      class={`
+        collapse-title text-md 
+        font-medium flex items-center gap-2`}
+    >
+        Sistema Respiratorio
     </div>
     <div class="collapse-content">
         <Respiratorio/>
@@ -22,10 +36,15 @@
   </div>
 
   <!-- Alimentación -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
     <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-yellow-500 dark:text-yellow-300">🍽️</span> Alimentación
+         Alimentación
     </div>
     <div class="collapse-content">
         <Alimentacion/>
@@ -33,10 +52,17 @@
   </div>
 
   <!-- Catéteres -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
-    <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-pink-500 dark:text-pink-300">💉</span> Catéteres
+    <div 
+      class="collapse-title text-md font-medium flex items-center gap-2"
+    >
+      Catéteres
     </div>
     <div class="collapse-content">
         <Cateteres/>
@@ -44,10 +70,15 @@
   </div>
 
   <!-- Sepsis -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
     <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-red-500 dark:text-red-300">🦠</span> Sepsis
+        Sepsis
     </div>
     <div class="collapse-content">
         <Sepsis/>
@@ -55,10 +86,15 @@
   </div>
 
   <!-- Sistema Cardiovascular -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
     <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-pink-600 dark:text-pink-400">❤️</span> Sistema Cardiovascular
+        Sistema Cardiovascular
     </div>
     <div class="collapse-content">
         <Cardio/>
@@ -66,10 +102,15 @@
   </div>
 
   <!-- Otros Sistemas -->
-  <div class="collapse collapse-arrow bg-white dark:bg-gray-800 border border-base-300 dark:border-gray-700 rounded-box">
+  <div 
+    class={`
+      collapse collapse-arrow rounded-box border 
+      ${toDark(oscuro,"bg-gray-800 border-gray-700","border-base-300 bg-white")}
+    `}
+  >
     <input type="checkbox" />
     <div class="collapse-title text-md font-medium flex items-center gap-2">
-        <span class="text-green-600 dark:text-green-400">🧬</span> Otros Sistemas
+        Otros Sistemas
     </div>
     <div class="collapse-content">
         <Otros/>

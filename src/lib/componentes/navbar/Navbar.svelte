@@ -85,7 +85,7 @@
         min-h-screen transition-colors duration-300 
         ${
             oscuro
-            ? `dark bg-slate-900`
+            ? `bg-slate-900`
             : `bg-blue-50`}
     `)
     let navclass=$derived(`
@@ -357,12 +357,14 @@
                     space-x-3 px-3 py-2 
                     rounded-md transition-colors 
                     duration-200 
+                    cursor-pointer
                     ${
                         oscuro 
                         ? "text-red-400 hover:bg-red-900/20" 
                         : "text-red-600 hover:bg-red-50"
                     }
                 `}
+                onclick={salir}
             >
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

@@ -9,14 +9,15 @@
     }
 </script>
 <div class={`
-        ${toDark(oscuro,"bg-gray-900  text-gray-100","bg-gray-50 text-gray-800")}
+        bg-transparent
+        ${toDark(oscuro,"text-gray-100","text-gray-800")}
         min-h-screen p-4 
     `}
 >
     <!-- Título -->
     <div class="mb-4">
         <h2 class="text-xl font-bold flex items-center gap-2">
-            Bebés Registrados
+            Bebés
             <span class={`
                     text-sm 
                     ${toDark(oscuro,"bg-blue-800 text-blue-200","bg-blue-100 text-blue-800")}
@@ -70,17 +71,17 @@
                         }}
                     >
                         <div class="table-cell px-4 py-3 font-semibold flex items-center gap-2">
-                            <span class="h-2 w-2 bg-green-500 rounded-full inline-block"></span> {b.name}
+                            <span class="h-2 w-2 bg-green-500 rounded-full inline-block"></span> {b.nombrebebe}
                         </div>
-                        <div class="table-cell px-4 py-3">{b.motherName}</div>
-                        <div class="table-cell px-4 py-3">{b.medicalRecordNumber}</div>
-                        <div class="table-cell px-4 py-3">{b.birthDate}</div>
+                        <div class="table-cell px-4 py-3">{b.nombremama}</div>
+                        <div class="table-cell px-4 py-3">{b.hcbebe}</div>
+                        <div class="table-cell px-4 py-3">{new Date(b.fechanacimientobebe).toLocaleDateString()}</div>
                         <div class="table-cell px-4 py-3">
-                            <span class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full">{b.gestationalAge}</span>
+                            <span class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full">{20}</span>
                         </div>
-                        <div class="table-cell px-4 py-3">{b.weight}</div>
+                        <div class="table-cell px-4 py-3">{b.pesoingresobebe}</div>
                         <div class="table-cell px-4 py-3">
-                            <span class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full">{b.status}</span>
+                            <span class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full">{b.active?"Activo":""}</span>
                         </div>
                         
                     </div>

@@ -1,13 +1,14 @@
 <script>
     import { darker } from "$lib/stores/oscuro.svelte";
     import { toDark } from "$lib/string/string";
-    import { goto } from "$app/navigation";
-    import  CONSTANTES  from '$lib/constantes';
+    import Swal from "sweetalert2";
+    import constantes from "$lib/constantes";
     let oscuro = $derived(darker.oscurostate)
     function nuevo(){
-        goto("/bebes/nuevo")
+        Swal.fire("Crear médico","Se desarrollara la implementacion","info")
     }
 </script>
+<!-- Título -->
 <header class="mb-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         
@@ -18,10 +19,10 @@
             `}
         >
             <h1 class={`text-2xl font-bold ${toDark(oscuro,"text-white","text-gray-900")}`}>
-                Listado de Bebés
+                Listado de médicos
             </h1>
             <p class={`text-sm ${toDark(oscuro,"text-gray-400","text-gray-500")} `}>
-                Sistema de {CONSTANTES.nombreapp}
+                Sistema de {constantes.nombreapp}
             </p>
         </div>
         <button
@@ -35,7 +36,7 @@
             onclick={nuevo}
         >
             <span class="text-lg font-bold">+</span>
-            <span class="text-sm font-medium">Nuevo Ingreso</span>
+            <span class="text-sm font-medium">Nuevo médico</span>
         </button>
     </div>
 </header>
