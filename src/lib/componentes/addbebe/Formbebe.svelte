@@ -30,21 +30,41 @@
       class="label text-sm font-medium">Nombre del Bebé</label>
       <input id="nombreb" type="text" placeholder="Nombre completo del bebé" 
         bind:value={nombre}
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`}
+        class={`
+          input input-bordered w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `}
       />
     </div>
     <div>
       <label for="dnib" class="label text-sm font-medium">DNI del Bebé</label>
       <input id="dnib" type="text" placeholder="DNI (opcional)" 
       bind:value={dni}
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`}
+        class={`
+          input input-bordered w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `}
       />
     </div>
     <div>
       <label for="hclinic" class="label text-sm font-medium">N° Historia Clínica</label>
       <input id="hclinic" type="text" placeholder="Ej: HC 9483638" 
         bind:value={hc}
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`}
+        class={`input input-bordered w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `}
       />
     </div>
     <div>
@@ -53,21 +73,45 @@
       
       <input id="bdate" type="date" 
         bind:value={fechanacimiento} 
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`} required 
+        class={`
+          input input-bordered
+          w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `} 
       />
     </div>
     <div>
       <label for="bingreso" class="label text-sm font-medium">Fecha de Ingreso</label>
       <input id="bingreso" type="date" 
       bind:value={fechaingreso} 
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`} 
+        class={`
+          input input-bordered
+          w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `} 
       />
     </div>
     <div>
       <label for="bpesoingreso" class="label text-sm font-medium">Peso al Ingreso</label>
       <input id="bpesoingreso" type="text" 
         bind:value={pesoingreso} 
-        class={`input input-bordered w-full ${toDark(oscuro,"bg-gray-900","")}`}
+        class={`
+          input input-bordered
+          w-full 
+          ${toDark(
+            oscuro,
+            "bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-sky-500",
+            "bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:ring-2 focus:ring-sky-400"
+          )}
+        `}
        />
     </div>
   </div>

@@ -106,7 +106,11 @@
                     <button
                         onclick={toggleSidebar}
                         class={`
-                            p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-${color}-500 transition-colors duration-100 
+                            cursor-pointer
+                            p-2 rounded-md  flex items-center gap-2
+                            focus:outline-none focus:ring-2 
+                            focus:ring-${color}-500 transition-colors 
+                            duration-100 
                             ${  
                                 oscuro
                                 ? `text-${darkcolor}-300 hover:text-white hover:bg-${darkcolor}-700`
@@ -116,6 +120,7 @@
                         aria-label="Abrir menú"
                     >
                         <Menu  />
+                        <span class="hidden md:inline font-medium">Menú</span>
                     </button>
                     <div class="flex items-center">
                         <h1
@@ -146,7 +151,16 @@
                         <!-- Botón del usuario -->
                         <button
                             onclick={toggleMenu}
-                            class={`h-8 w-8 bg-gradient-to-r from-${color}-500 to-${color}-600 rounded-full flex items-center justify-center shadow-md focus:outline-none`}
+                            class={`
+                                hover:scale-105 
+                                transition duration-100
+                                cursor-pointer
+                                h-8 w-8 bg-gradient-to-r 
+                                from-${color}-500 to-${color}-600 
+                                rounded-full flex items-center 
+                                justify-center shadow-md focus:outline-none
+                            `}
+
                         >
                             <span class="text-dark dark:text-white text-sm font-medium">{letra}</span>
                         </button>

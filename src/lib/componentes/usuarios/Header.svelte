@@ -4,8 +4,11 @@
     import Swal from "sweetalert2";
     import constantes from "$lib/constantes";
     let oscuro = $derived(darker.oscurostate)
+    let {
+        clickFila
+    } = $props()
     function nuevo(){
-        Swal.fire("Crear usuario","Se desarrollara la implementacion","info")
+        clickFila()
     }
 </script>
 <!-- Título -->

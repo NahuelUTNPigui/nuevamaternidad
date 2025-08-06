@@ -146,6 +146,7 @@
                 "name": email.trim(),
                 "nombre":"",
                 "apellido":"",
+                "rol":"admin",
                 "active": true
             };
             const record = await pb.collection('users').create(data);

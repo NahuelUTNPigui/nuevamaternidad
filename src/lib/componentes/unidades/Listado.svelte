@@ -67,14 +67,14 @@
                             <span class="h-2 w-2 bg-green-500 rounded-full inline-block"></span> UCI
                         </div>
                         <div class="table-cell px-4 py-3">10</div>
-                    </div>
+                </div>
             </div>
         </div>
         
     </div>
   </div>
 
-  <!-- Cards Mobile -->
+    <!-- Cards Mobile -->
     <div 
         class={`
             sm:hidden p-4 border-b

@@ -2,11 +2,16 @@
     import { darker } from "$lib/stores/oscuro.svelte";
     import { toDark } from "$lib/string/string";
     import Swal from "sweetalert2";
+    import { roles,getNombre } from "$lib/roles";
     let oscuro = $derived(darker.oscurostate)
-    let {usuariosrows = $bindable([{name:"xxx"}])} = $props()
+    let {
+        usuariosrows = $bindable([{name:"xxx"}]),
+        clickFila
+    } = $props()
     
     function handleClick(id){
-        Swal.fire("Modificar usuario","En desarrollo","info")
+        clickFila(id)
+        //Swal.fire("Modificar usuario","En desarrollo","info")
     }
 </script>
 <div class={`
@@ -45,11 +50,12 @@
             `}
         >
             <div class="table-row">
+                <div class="table-cell px-4 py-3">Correo</div>
                 <div class="table-cell px-4 py-3">Nombre</div>
+                <div class="table-cell px-4 py-3">Apellido</div>
                 <div class="table-cell px-4 py-3">Rol</div>
             </div>
         </div>
-        <div class="table-row-group">
             <div class="table-row-group">
                 {#each usuariosrows as u,i}
                     <div
@@ -69,11 +75,12 @@
                         <div class="table-cell px-4 py-3 font-semibold flex items-center gap-2">
                             <span class="h-2 w-2 bg-green-500 rounded-full inline-block"></span> {u.name}
                         </div>
-                        <div class="table-cell px-4 py-3">común</div>
+                        <div class="table-cell px-4 py-3">{u.nombre}</div>
+                        <div class="table-cell px-4 py-3">{u.apellido}</div>
+                        <div class="table-cell px-4 py-3">{getNombre(u.rol)}</div>
                     </div>
                 {/each}
             </div>
-        </div>
         
     </div>
   </div>
@@ -89,7 +96,7 @@
             <div
                 role="button"
                 tabindex="0"
-                onclick={()=>handleClick(b.id)}
+                onclick={()=>handleClick(u.id)}
                 onkeydown={(e) => {
                     e.preventDefault();
                 }}
@@ -103,7 +110,7 @@
                     </div>
                 </div>
                 <div class="mt-2 text-sm space-y-1">
-                    <div><span class="font-medium">Rol:</span>Común</div>
+                    <div><span class="font-medium">Rol:</span>{getNombre(u.rol)}</div>
                 </div>
             </div>
         {/each}

@@ -28,6 +28,7 @@
 <button
     onclick={toggleDarkmode}
     class={`
+        cursor-pointer
         p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 
         ${
             oscuro?
