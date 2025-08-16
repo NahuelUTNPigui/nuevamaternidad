@@ -1,8 +1,6 @@
 <script>
     import Navbar from "$lib/componentes/navbar/Navbar.svelte";
-    import Formulario from "$lib/componentes/usuarios/Formulario.svelte";
-    
 </script>
 <Navbar>
-    Perfil 
+    area id
 </Navbar>

@@ -17,7 +17,7 @@
   }
 </script>
 
-<!-- Modal Formulario Agregar Médico - Dark Mode & Mobile Responsive -->
+<!-- Modal Formulario Agregar Usuario - Dark Mode & Mobile Responsive -->
 <div
   class={`
     ${td(oscuro,"bg-gray-900","bg-white")}
@@ -152,6 +152,7 @@
     <button
       onclick={cancelar}
       class={`
+        cursor-pointer
         px-4 py-2 rounded-md 
         ${td(oscuro,"bg-gray-700 text-gray-200 hover:bg-gray-600","bg-gray-100 text-gray-800 hover:bg-gray-200" )} 
       `}
@@ -160,8 +161,8 @@
     <button
         onclick={guardar}
       class={`
+        cursor-pointer
         px-4 py-2 rounded-md 
-
         bg-blue-600 text-white 
         hover:bg-blue-700 transition-colors
       `}

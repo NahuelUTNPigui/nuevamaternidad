@@ -2,6 +2,7 @@
     import { darker } from "$lib/stores/oscuro.svelte";
     import { toDark } from "$lib/string/string";
     import { goto } from "$app/navigation";
+    import Exportar from "../Exportar.svelte";
     import  CONSTANTES  from '$lib/constantes';
     let oscuro = $derived(darker.oscurostate)
     function nuevo(){
@@ -37,5 +38,13 @@
             <span class="text-lg font-bold">+</span>
             <span class="text-sm font-medium">Nuevo Ingreso</span>
         </button>
+        <Exportar
+            data={[]}
+            titulo={""}
+            confiltro={false}
+            filtros={[]}
+            prepararData={[]}
+            sheetname={""}
+        />
     </div>
 </header>

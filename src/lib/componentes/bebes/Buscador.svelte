@@ -12,7 +12,7 @@
 <div 
     class={`
         rounded-md p-4 shadow-sm mb-4
-        ${toDark(oscuro,"bg-gray-800","bg-white")}
+        ${toDark(oscuro,"bg-slate-900","bg-white")}
         
     `}
 >

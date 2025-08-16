@@ -1,18 +1,16 @@
 <script>
     import { darker } from "$lib/stores/oscuro.svelte";
     import { toDark } from "$lib/string/string";
-    import Swal from "sweetalert2";
-    import constantes from "$lib/constantes";
+    import { goto } from "$app/navigation";
     import Exportar from "../Exportar.svelte";
+    import  CONSTANTES  from '$lib/constantes';
+    import Swal from "sweetalert2";
     let oscuro = $derived(darker.oscurostate)
-    let {
-        clickFila
-    } = $props()
-    function nuevo(){
-        clickFila()
+    function limpiar(){
+        Swal.fire("Filtros","Limpiar filtros","info")
     }
+    
 </script>
-<!-- Título -->
 <header class="mb-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         
@@ -23,10 +21,10 @@
             `}
         >
             <h1 class={`text-2xl font-bold ${toDark(oscuro,"text-white","text-gray-900")}`}>
-                Listado de unidades
+                Reporte de Bebés
             </h1>
             <p class={`text-sm ${toDark(oscuro,"text-gray-400","text-gray-500")} `}>
-                Sistema de {constantes.nombreapp}
+                Sistema de {CONSTANTES.nombreapp}
             </p>
         </div>
         <button
@@ -37,9 +35,9 @@
                 ${toDark(oscuro,"bg-blue-500 hover:bg-blue-600 ","bg-blue-600 hover:bg-blue-700")}
                   
             `}
-            onclick={nuevo}
+            onclick={limpiar}
         >
-            <span class="text-lg font-bold">+</span>
+            
             <span class="text-sm font-medium">Nueva unidad</span>
         </button>
         <Exportar

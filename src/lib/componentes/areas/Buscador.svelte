@@ -9,8 +9,8 @@
 </script>
 <div 
     class={`
-        rounded-md p-4 shadow-xl mb-4
-        ${toDark(oscuro,"bg-slate-900","bg-white")}
+        rounded-md p-4 shadow-md mb-4
+        ${toDark(oscuro,"bg-slate-800","bg-white")}
         
     `}
 >

@@ -1,0 +1,10 @@
+NEC	si (estadio) no
+        PERFORACION UNICA	si no
+        ONFALOCELE	
+        GASTROQUISIS	
+        HDC	si no
+        HDC DIAGNOSTICO	PRENATAL POSTNATAL
+        HDC TTO QUIRURGICO	PROTESIS CIERRE 1°
+        TQT	
+        DRENAJE PLEURAL	A
+        DRENAJE VENTRICULAR	

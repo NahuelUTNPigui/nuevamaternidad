@@ -23,7 +23,7 @@
             `}
         >
             <h1 class={`text-2xl font-bold ${toDark(oscuro,"text-white","text-gray-900")}`}>
-                Listado de unidades
+                Listado de áreas
             </h1>
             <p class={`text-sm ${toDark(oscuro,"text-gray-400","text-gray-500")} `}>
                 Sistema de {constantes.nombreapp}
@@ -40,7 +40,7 @@
             onclick={nuevo}
         >
             <span class="text-lg font-bold">+</span>
-            <span class="text-sm font-medium">Nueva unidad</span>
+            <span class="text-sm font-medium">Nueva área</span>
         </button>
         <Exportar
             data={[]}

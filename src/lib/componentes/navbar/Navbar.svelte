@@ -24,7 +24,7 @@
     const menuItems = [
         {id:"inicio", icon:Home, label: "Inicio", href: "/inicio" },
         {id:"users",icon:User,  label: "Usuarios", href: "/user/lista" },
-        {id:"medicos",icon:Medicos,  label: "Medicos", href: "/medicos" },
+        {id:"areas",icon:Medicos,  label: "Áreas", href: "/areas" },
         {id:"unidades",icon:Unidad,  label: "Unidades", href: "/unidades" },
         {id:"bebes",icon:Bebe,  label: "Bebes", href: "/bebes" },
         {id:"reportes",icon:Reportes,  label: "Reportes", href: "/reportes" }

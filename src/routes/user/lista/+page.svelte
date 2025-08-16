@@ -14,7 +14,9 @@
     let oscuro = $derived(darker.oscurostate)
     let buscar = $state("")
     let users = $state([])
-    let usuariosrows = $derived(users.filter(u=>u.name.toLowerCase().includes(buscar.toLowerCase())))
+
+    let usuariosrows = $derived(users.filter(u=>buscarUser(u)))
+    
     //usuario
     let id = $state("")
     let nombre = $state("")
@@ -27,6 +29,12 @@
             sort: '-name',
         });
     })
+    function buscarUser(_u){
+        let porNombre = _u.nombre.toLowerCase().includes(buscar.toLowerCase())
+        let porApellido = _u.apellido.toLowerCase().includes(buscar.toLowerCase())
+
+        return  porNombre || porApellido
+    }
     function clickFila(id){ 
         userModal.showModal()
     }
@@ -50,7 +58,7 @@
 <!-- Open the modal using ID.showModal() method -->
 
 <dialog id="userModal" class="modal">
-  <div class="modal-box bg-transparent">
+  <div class="modal-box bg-transparent  ">
     <Formulario
         {cancelar}
         {guardar}

@@ -1,0 +1,1 @@
+Diagnosticos con valores separados por coma

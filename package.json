@@ -23,6 +23,7 @@
 		"@tailwindcss/vite": "^4.1.10",
 		"pocketbase": "^0.26.1",
 		"sweetalert2": "^11.22.2",
-		"tailwindcss": "^4.1.10"
+		"tailwindcss": "^4.1.10",
+		"xlsx": "^0.18.5"
 	}
 }

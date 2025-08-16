@@ -3,6 +3,7 @@
     import { toDark } from "$lib/string/string";
     import Swal from "sweetalert2";
     import constantes from "$lib/constantes";
+    import Exportar from "../Exportar.svelte";
     let oscuro = $derived(darker.oscurostate)
     let {
         clickFila
@@ -41,5 +42,13 @@
             <span class="text-lg font-bold">+</span>
             <span class="text-sm font-medium">Nuevo usuario</span>
         </button>
+        <Exportar
+            data={[]}
+            titulo={""}
+            confiltro={false}
+            filtros={[]}
+            prepararData={[]}
+            sheetname={""}
+        />
     </div>
 </header>

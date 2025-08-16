@@ -1,0 +1,11 @@
+        PROTECTOR GASTRICO
+        INHIBIDOR BOMBA H+
+        PROBIOTICO
+        ERITROMICINA
+        FENTANILO
+        MORFINA
+        MIDAZOLAM
+        PRECEDEX
+        METADONA
+        VECURONIO
+        PROSTAGL
