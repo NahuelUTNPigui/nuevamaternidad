@@ -16,13 +16,15 @@
         
     `}
 >
-    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <div class="flex flex-col  sm:items-center gap-3">
         <!-- 🔍 Input de búsqueda -->
         <div 
             class={`
                 rounded-md px-3 py-2
                 flex items-center flex-1 border 
-                ${toDark(oscuro,"border-gray-600 bg-gray-900","border-gray-300 bg-white")}
+                dark:border-gray-600 dark:bg-gray-900
+                border-gray-300 bg-white
+                
                 
             `}
         >

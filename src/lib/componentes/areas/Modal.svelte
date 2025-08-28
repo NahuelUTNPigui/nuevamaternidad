@@ -1,53 +1,55 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate);
-    
-    let {
-        id=$bindable(""),
-        nombre=$bindable(""),
-        cancelar,
-        guardar
-    } = $props()
-    function td(oscuro,o1,o2){
-    return toDark(oscuro,o1,o2)
+  import { darker } from "$lib/stores/oscuro.svelte";
+  import { toDark } from "$lib/string/string";
+  let oscuro = $derived(darker.oscurostate);
+
+  let {
+    id = $bindable(""),
+    nombre = $bindable(""),
+    cancelar,
+    guardar,
+    eliminar,
+  } = $props();
+  function td(oscuro, o1, o2) {
+    return toDark(oscuro, o1, o2);
   }
 </script>
+
 <!-- Modal Formulario Agregar Area - Dark Mode & Mobile Responsive -->
 <div
   class={`
-    ${td(oscuro,"bg-gray-900","bg-white")}
+    ${td(oscuro, "bg-gray-900", "bg-white")}
     w-full max-w-md mx-auto rounded-xl shadow-lg p-6 space-y-4
   `}
 >
-    <div class="flex items-center space-x-2">
-    
-      {#if id == ""}
-        <h2 class={`
-              ${td(oscuro,"text-gray-100","text-gray-800")}
+  <div class="flex items-center space-x-2">
+    {#if id == ""}
+      <h2
+        class={`
+              ${td(oscuro, "text-gray-100", "text-gray-800")}
               text-lg font-semibold 
             `}
-        >
-          Agregar Nueva Area
-        </h2>
-      {:else}
-        <h2 class={`
-              ${td(oscuro,"text-gray-100","text-gray-800")}
+      >
+        Agregar Nueva Area
+      </h2>
+    {:else}
+      <h2
+        class={`
+              ${td(oscuro, "text-gray-100", "text-gray-800")}
               text-lg font-semibold 
             `}
-        >
-          Modificar Area
-        </h2>
-      {/if}
+      >
+        Modificar Area
+      </h2>
+    {/if}
   </div>
   <div class="space-y-2">
     <label
       for="unombre"
       class={`
-        ${td(oscuro,"text-gray-300","text-gray-700")}
+        ${td(oscuro, "text-gray-300", "text-gray-700")}
         block text-sm font-medium 
-      `}
-      >Nombre</label
+      `}>Nombre</label
     >
     <input
       id="unombre"
@@ -57,7 +59,7 @@
       class={`
         w-full px-3 py-2 border rounded-md 
         focus:outline-none focus:ring-2 focus:ring-blue-500
-        ${td(oscuro,"bg-gray-800 text-gray-100 border-gray-600","text-gray-900 bg-white border-gray-300")}
+        ${td(oscuro, "bg-gray-800 text-gray-100 border-gray-600", "text-gray-900 bg-white border-gray-300")}
       `}
     />
   </div>
@@ -67,20 +69,32 @@
       class={`
         cursor-pointer    
         px-4 py-2 rounded-md 
-        ${td(oscuro,"bg-gray-700 text-gray-200 hover:bg-gray-600","bg-gray-100 text-gray-800 hover:bg-gray-200" )} 
-      `}
-      >Cancelar</button
+        dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600
+        bg-gray-100 text-gray-800 hover:bg-gray-200
+        
+      `}>Cancelar</button
     >
+    {#if id != ""}
+      <button
+        onclick={eliminar}
+        class={`
+        cursor-pointer    
+        px-4 py-2 rounded-md 
+        dark:bg-red-700 dark:text-gray-200 dark:hover:bg-red-600
+        bg-red-100 text-gray-800 hover:bg-red-200
+        
+      `}>Eliminar</button
+      >
+    {/if}
     <button
-        onclick={guardar}
+      onclick={guardar}
       class={`
         cursor-pointer
         px-4 py-2 rounded-md 
 
         bg-blue-600 text-white 
         hover:bg-blue-700 transition-colors
-      `}
-      >Agregar</button
+      `}>Guardar</button
     >
   </div>
 </div>

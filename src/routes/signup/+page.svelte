@@ -304,6 +304,7 @@
                                 type="button"
                                 onclick={togglePassVissibility}
                                 class={`
+                                cursor-pointer
                                     absolute inset-y-0 right-0 pr-3 flex items-center transition-colors duration-200 
                                     ${
                                         oscuro 
@@ -369,6 +370,7 @@
                                 type="button"
                                 onclick={togglePassVissibility}
                                 class={`
+                                cursor-pointer
                                     absolute inset-y-0 right-0 pr-3 flex items-center transition-colors duration-200 
                                     ${
                                         oscuro 
@@ -390,6 +392,7 @@
                         type="button"
                         onclick={crearUsuario}
                         class={`
+                        cursor-pointer
                             w-full py-3 px-4 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
                             bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 active:scale-95
                             text-white shadow-lg
@@ -402,6 +405,7 @@
                         type="button"
                         onclick={volver}
                         class={`
+                        cursor-pointer
                             w-full py-3 px-4 rounded-md font-medium transition-all duration-200 
                             focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 
                             bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 

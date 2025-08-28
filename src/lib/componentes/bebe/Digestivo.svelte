@@ -5,5 +5,5 @@
     
   `}
 >
-otros
+Digestivo
 </div>

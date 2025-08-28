@@ -3,11 +3,9 @@
     import { toDark } from "$lib/string/string";
     import Swal from "sweetalert2";
     let oscuro = $derived(darker.oscurostate);
-    let {
-        unidadesrows = $bindable([ ]),clickFila 
-    } = $props()
+    let { unidadesrows = $bindable([]), clickFila } = $props();
     function handleClick(id) {
-        clickFila()
+        clickFila(id);
         //Swal.fire("Modificar unidad", "En desarrollo", "info");
     }
 </script>
@@ -30,128 +28,82 @@
                     
                     rounded-full px-2 py-0.5`}
             >
-                1
+                {unidadesrows.length}
             </span>
         </h2>
     </div>
     <!-- Tabla en Escritorio y Tarjetas en Mobile -->
-    <div class="hidden sm:table text-sm text-left">
-        <div
-            class={`
-            ${toDark(oscuro, "bg-gray-800", "bg-white")}
-            overflow-x-auto  shadow-md rounded-lg
-        `}
-        >
-            <div
-                class={`
-                table-header-group
-                ${toDark(oscuro, "bg-gray-700 text-gray-200", "bg-gray-100 text-gray-700 ")}
-            `}
-            >
-                <div class="table-row">
-                    <div class="table-cell px-4 py-3">Nombre</div>
-                    <div class="table-cell px-4 py-3">Bebes</div>
-                </div>
-            </div>
-
-            <div class="table-row-group">
-                {#each  unidadesrows as u,i}
-                    <div
-                        role="button"
-                        tabindex="0"
-                        class={`
-                                table-row border-b
-                                ${toDark(oscuro, "border-gray-700", "border-gray-200")}
-                                ${toDark(oscuro, "hover:bg-gray-700", "hover:bg-gray-100")}
-                                cursor-pointer
-                            `}
-                        onclick={() => handleClick(u.id)}
-                        onkeydown={(e) => {
-                            e.preventDefault();
-                        }}
-                    >   
-                        
-                        <div
-                            class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
-                        >
-                            <span
-                                class="h-2 w-2 bg-green-500 rounded-full inline-block"
-                            ></span> {u.nombre}
-                        </div>
-                        <div class="table-cell px-4 py-3">{u.nombrebebe}</div>
-                    </div>
-                {/each}
-                
-            </div>
-        </div>
-    </div>
-
-    <!-- Cards Mobile -->
-    <div
-        class={`
-            sm:hidden p-4 border-b
-            ${toDark(oscuro, "border-gray-700", "border-gray-200")}
-        `}
-    >   
-        {#each unidadesrows as u,i}
-            <div
-                role="button"
-                tabindex="0"
-                onclick={() => handleClick(u.id)}
-                onkeydown={(e) => {
-                    e.preventDefault();
-                }}
-            >
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2 font-semibold text-lg">
-                        {u.nombre}
-                    </div>
-                </div>
-                <div class="mt-2 text-sm space-y-1">
-                    <div><span class="font-medium">Bebé: </span>{u.nombrebebe}</div>
-                </div>
-            </div>
-        {/each}
-        
-    </div>
-</div>
-<div class="p-4 sm:p-6 dark:bg-base-200">
-    <!-- Tabla en Escritorio y Tarjetas en Mobile -->
-    <div class="hidden sm:block">
-        <div
-            class="overflow-x-auto bg-base-100 rounded-lg shadow border border-base-300"
-        >
-            <table class="table table-zebra">
-                <thead class="text-sm text-gray-500 dark:text-gray-400">
-                    <tr>
-                        <th>Nombre </th>
+    <div class="container mx-auto px-4 pb-12">
+        <div class="hidden md:block overflow-x-auto">
+            <table class="table w-full">
+                <thead>
+                    <tr class="bg-base-200">
+                        <th class="text-base-content font-bold">Unidad</th>
+                        <th class="text-base-content font-bold">Área</th>
+                        <th class="text-base-content font-bold">Bebé</th>
+                        <th class="text-base-content font-bold">Activa</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td
-                            ><span class="flex items-center gap-2"
-                                ><span class="badge badge-success w-2 h-2 p-0"
-                                ></span>UCI</span
-                            ></td
+                    {#each unidadesrows as fila, i}
+                        <tr
+                            class="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900"
+                            onclick={() => handleClick(fila.id)}
                         >
-                    </tr>
+                            <td>
+                                {fila.nombre}
+                            </td>
+                            <td>
+                                {fila.expand.area.nombre}
+                            </td>
+                            <td>
+                                {fila.nombrebebe}
+                            </td>
+                            <td>
+                                <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" disabled bind:checked={fila.active}/>
+                            </td>
+                        </tr>
+                    {/each}
                 </tbody>
             </table>
         </div>
     </div>
 
     <!-- Cards Mobile -->
-    <div class="sm:hidden flex flex-col gap-3">
-        <div class="card bg-base-100 shadow border border-base-300">
-            <div class="card-body p-4">
-                <div class="flex justify-between items-center mb-2">
-                    <div class="text-base font-semibold dark:text-white">
-                        UCI
+    <div class="md:hidden space-y-4">
+        {#each unidadesrows as fila, i}
+            <div
+                class="card bg-base-100 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900 shadow-xl border border-base-200"
+            >
+                <button onclick={() => handleClick(fila.id)}>
+                    <div class="card-body p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="card-title text-lg">
+                                {fila.nombre}
+                            </h3>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Área:</span>
+                                <span class="text-right"
+                                    >{fila.expand.area.nombre}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Bebé:</span>
+                                <span class="text-right"
+                                    >{fila.nombrebebe}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Activa:</span>
+                                <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" disabled bind:checked={fila.active}/>
+                            </div>
+                            
+                        </div>
                     </div>
-                </div>
+                </button>
             </div>
-        </div>
-        <!-- ... más tarjetas ... -->
+        {/each}
     </div>
 </div>

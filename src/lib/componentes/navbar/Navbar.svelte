@@ -168,6 +168,7 @@
                         <!-- Dropdown -->
                         {#if menuAbierto}
                             <div class={`
+
                                     absolute right-0 mt-2 w-40
                                     ${toDark(oscuro,"bg-gray-800","bg-white")}
                                     ${toDark(oscuro,"border-gray-700","border-gray-200")}
@@ -176,6 +177,7 @@
                             >
                                 <button
                                     class={`
+                                        cursor-pointer
                                         block w-full text-left 
                                         px-4 py-2 text-sm 
                                         ${toDark(oscuro,"text-gray-100","text-gray-700")}
@@ -188,10 +190,12 @@
                                 <!-- Podés agregar más opciones si querés -->
                                  <button
                                     class={`
+                                        cursor-pointer
                                         block w-full text-left 
                                         px-4 py-2 text-sm 
-                                        ${toDark(oscuro,"text-gray-100","text-gray-700")}
-                                        ${toDark(oscuro,"hover:bg-gray-700","hover:bg-gray-100")}
+                                        dark:text-gray-100 text-gray-700
+                                        dark:hover:bg-gray-700 hover:bg-gray-100
+                                        
                                     `}
                                     onclick={salir}
                                 >

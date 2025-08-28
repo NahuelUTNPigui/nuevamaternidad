@@ -9,15 +9,29 @@
     import Materno from "./Materno.svelte";
     import Cateteres from "./Cateteres.svelte";
     import Alimentacion from "./Alimentacion.svelte";
+    import Infecciones from "./Infecciones.svelte";
+    import Respiratorio from "./Respiratorio.svelte";
+    import Cardio from "./Cardio.svelte";
+    import Intropico from "./Intropico.svelte";
+    import Hemoderiva from "./Hemoderiva.svelte";
+    import Neuro from "./Neuro.svelte";
+    import Oftamologia from "./Oftamologia.svelte";
+    import Digestivo from "./Digestivo.svelte";
+    import Genetica from "./Genetica.svelte";
+    import Medicacion from "./Medicacion.svelte";
+    import Otros from "./Otros.svelte";
     let oscuro = $derived(darker.oscurostate);
     function td(_oscuro, o1, o2) {
         return toDark(_oscuro, o1, o2);
     }
+    
 </script>
 
 <!-- Collapsible Sections -->
 
-<div class="space-y-4 grid lg:grid-cols-1 grid-cols-1 gap-2">
+<div class="space-y-2 grid lg:grid-cols-1 grid-cols-1 gap-2">
+
+
     <!-- Basico -->
     
     <Collapse
@@ -66,66 +80,66 @@
     <Collapse
         titulo="Infecciones"
     >
-        Infecciones
+        <Infecciones />
     </Collapse>
     <!-- Respiratorio -->
     <Collapse
         titulo="Respiratorio"
     >
-        Respiratorio
+        <Respiratorio/>
     </Collapse>
     <!-- Cardiovascular y ductus -->
     <Collapse
         titulo="Cardiovascular y ductus"
     >
-        Cardiovascular y ductus
+        <Cardio/>
     </Collapse>
     <!-- Inotrópicos y Diuréticos  -->
     <Collapse
         titulo="Inotrópicos y Diuréticos"
     >
-        Inotrópicos y Diuréticos
+        <Intropico/>
     </Collapse>
     <!-- Sangre  -->
     <Collapse
         titulo="Sangre"
     >
-        Sangre
+        <Hemoderiva/>
     </Collapse>
     <!-- Neurologico  -->
     <Collapse
         titulo="Neurologico"
     >
-        Neurologico
+        <Neuro/>
     </Collapse>
     <!-- Oftamología  -->
     <Collapse
         titulo="Oftamología"
     >
-        Oftamología
+        <Oftamologia/>
     </Collapse>
     <!-- Digestivo y Quirúrgico  -->
     <Collapse
         titulo="Digestivo y Quirúrgico"
     >
-        Digestivo y Quirúrgico
+        <Digestivo />
     </Collapse>
     <!-- Genética  -->
     <Collapse
         titulo="Genética"
     >
-        Genética
+        <Genetica/>
     </Collapse>
     <!-- Medicación  -->
     <Collapse
         titulo="Medicación"
     >
-        Medicación
+        <Medicacion/>
     </Collapse>
     <!-- Otros  -->
     <Collapse
         titulo="Otros"
     >
-        Otros
+        <Otros/>
     </Collapse>
 </div>

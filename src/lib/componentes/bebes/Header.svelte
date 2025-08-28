@@ -27,7 +27,7 @@
         </div>
         <button
             class={`
-                cursor-pointer flex items-center gap-2 px-4 py-2 
+                cursor-pointer  text-center gap-2 px-4 py-2 
                 transition-colors rounded-md
                 text-white
                 ${toDark(oscuro,"bg-blue-500 hover:bg-blue-600 ","bg-blue-600 hover:bg-blue-700")}
@@ -35,8 +35,7 @@
             `}
             onclick={nuevo}
         >
-            <span class="text-lg font-bold">+</span>
-            <span class="text-sm font-medium">Nuevo Ingreso</span>
+            <span class="text-xl font-medium ">Nuevo Ingreso</span>
         </button>
         <Exportar
             data={[]}

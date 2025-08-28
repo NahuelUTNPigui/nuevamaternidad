@@ -9,6 +9,15 @@
     onMount(()=>{
         oscuro = getOscuroStorage()
         darker.setOscurostate(oscuro)
+        if(!oscuro){
+            document.querySelector("html").setAttribute("data-theme","light")     
+            document.documentElement.classList.remove('dark');
+        }
+        else{
+            
+            document.querySelector("html").setAttribute("data-theme","dark")   
+            document.documentElement.classList.add('dark');
+        }
     })
     function toggleDarkmode(){
         oscuro = !oscuro

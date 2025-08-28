@@ -5,5 +5,5 @@
     
   `}
 >
-otros
+diagnostico
 </div>
