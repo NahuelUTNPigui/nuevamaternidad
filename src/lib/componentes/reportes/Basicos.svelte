@@ -1,59 +1,65 @@
 <script>
+    import InputSelect from "../Formulario/InputSelect.svelte";
+    import InputDate from "../Formulario/InputDate.svelte";
+    import { onMount } from "svelte";
+    import PocketBase from "pocketbase";
 
+    let ruta = import.meta.env.VITE_RUTA;
+
+    const pb = new PocketBase(ruta);
+    let {
+        unidad = $bindable(""),
+        area = $bindable(""),
+        fechadesde = $bindable(""),
+        fechahasta = $bindable(""),
+    } = $props();
+
+    let unidades = $state([]);
+    let areas = $state([]);
+    let unidadesarea = $derived(
+        unidades
+            .filter((u) => u.area == area)
+            .concat({ id: "", nombre: "Todas" }),
+    );
+
+    onMount(async () => {
+        areas = await pb.collection("areas").getFullList({});
+        areas.concat({ id: "", nombre: "Todas" });
+        unidades = await pb.collection("Unidades").getFullList({});
+    });
 </script>
+
 <div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Unidad -->
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text font-medium">Unidad</span>
-            </label>
-            <select
-                class="select select-bordered select-sm focus:shadow-lg transition-all duration-300"
-            >
-                <option value="" disabled selected>Seleccionar unidad</option>
-                <option value="urgencias">Todas</option>
-                <option value="cuidados-intensivos">unidad 1</option>
-            </select>
-        </div>
-
         <!-- Área -->
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text font-medium">Área</span>
-            </label>
-            <select
-                class="select select-bordered select-sm focus:shadow-lg transition-all duration-300"
-            >
-                <option value="" disabled selected>Seleccionar área</option>
-                <option value="norte">Todas</option>
-                <option value="norte">UCI 1</option>
-                <option value="sur">UTI 1</option>
-            </select>
-        </div>
-    </div>
-</div>
-
-<div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text font-medium">Fecha Desde</span>
-            </label>
-            <input
-                type="date"
-                class="input input-bordered input-sm focus:shadow-lg transition-all duration-300"
-            />
-        </div>
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text font-medium">Fecha Hasta</span>
-            </label>
-            <input
-                type="date"
-                class="input input-bordered input-sm focus:shadow-lg transition-all duration-300"
-            />
-        </div>
+        <InputSelect
+            idetiqueta="farea"
+            etiqueta="Área"
+            modoedicion={true}
+            bind:value={area}
+            bind:lista={areas}
+        />
+        <!-- Unidad -->
+        <InputSelect
+            idetiqueta="funidad"
+            etiqueta="Unidad"
+            modoedicion={true}
+            bind:value={unidad}
+            bind:lista={unidadesarea}
+        />
+        <!-- Fecha desde -->
+        <InputDate
+            idetiqueta="ffechadesde"
+            etiqueta="Fecha desde"
+            modoedicion={true}
+            bind:value={fechadesde}
+        />
+        <!-- Fecha hasta -->
+        <InputDate
+            idetiqueta="ffechahasta"
+            etiqueta="Fecha hasta"
+            modoedicion={true}
+            bind:value={fechahasta}
+        />
     </div>
 </div>

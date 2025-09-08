@@ -1,156 +1,168 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate)
+  import Modoedicion from "./Modoedicion.svelte";
+  import InputText from "../Formulario/InputText.svelte";
+  import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
+  import InputDate from "../Formulario/InputDate.svelte";
+  import InputSelect from "../Formulario/InputSelect.svelte";
+  import opciones from "$lib/opciones";
+  let {
+    modoedicion = $bindable(false),
+    //ingreso basico
+    fechaingresobebe = $bindable(""),
+    pesoingresobebe = $bindable(""),
+    temperatura_ingreso = $bindable(""),
+    //parto
+    tipo_parto = $bindable(""),
+    parto_domiciliario = $bindable(""),
+    liquido_meconial = $bindable(""),
+    rem = $bindable(""),
+    apgar_1 = $bindable(""),
+    apgar_5 = $bindable(""),
+    apgar_10 = $bindable(""),
+    //reanimacion
+    reanimacion = $bindable(""),
+    fallece = $bindable(""),
+    rciu = $bindable(""),
+  } = $props();
 </script>
-<div 
+
+<div
   class={`
-    ${toDark(oscuro,"bg-gray-900","bg-white")}
-    tab-content   rounded-md p-4 space-y-4
+    dark:bg-gray-900 bg-whitea  
+    tab-content rounded-md p-4 space-y-4
   `}
 >
-  <div class="grid md:grid-cols-2 gap-4">
-    <!-- 🏥 Datos Básicos de Ingreso -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800","bg-white")}
-        rounded-md p-4 shadow
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-green-300","text-green-700")}
-          
-        `}
-      > Datos Básicos de Ingreso</h3>
-      <p><strong>Tipo de Ingreso:</strong>
-        <span 
-          class={`
-            ${toDark(oscuro,"bg-green-700 text-green-100","bg-green-100 text-green-800")}
-            px-2 py-0.5 rounded-full text-xs
-          `}
-        >Propio</span>
-      </p>
-      <p><strong>Sexo:</strong>
-        <span 
-          class={`
-            ${toDark(oscuro,"bg-blue-700 text-blue-100","bg-blue-100 text-blue-800")}
-            px-2 py-0.5 rounded-full text-xs
-          `}
-        >Masculino</span>
-      </p>
-      <p><strong>Tipo de Parto:</strong> cesarea stp</p>
-      <p><strong>Parto Domiciliario:</strong>
-        <span 
-          class={`
-          ${toDark(oscuro,"bg-green-700 text-green-100","bg-green-100 text-green-800")}
-            
-            px-2 py-0.5 rounded-full text-xs
-          `}
-        >No</span>
-      </p>
-      <p><strong>Edad Gestacional:</strong> 30 semanas</p>
-      <p><strong>Temperatura al Ingreso:</strong> <em>No registrado</em></p>
-      <p><strong>RCIU:</strong>
-        <span 
-          class={`
-            ${toDark(oscuro,"bg-yellow-700 text-yellow-100","bg-yellow-100 text-yellow-800")}
-            px-2 py-0.5 rounded-full text-xs
-          `}
-        >Sí</span>
-      </p>
-    </div>
+  <!-- Sección: Ingreso -->
+<div class="mb-8">
+  <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+    Información de Ingreso
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Fecha de Ingreso -->
+    <InputDate
+      bind:value={fechaingresobebe}
+      etiqueta="Fecha de Ingreso"
+      idetiqueta="fechaingresobebe"
+      bind:modoedicion
+    />
 
-    <!-- 💓 APGAR -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800 ","bg-white")}
-        rounded-md p-4 shadow
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-pink-300","text-pink-700")}
-        `}
-      >APGAR</h3>
-      <div class="grid grid-cols-3 gap-2 text-center">
-        <div>
-          <p 
-            class={`
-              text-sm 
-              ${toDark(oscuro,"text-gray-400","text-gray-500")}
-            `}
-          >1 minuto</p>
-          <p 
-            class="text-lg font-semibold">5</p>
-        </div>
-        <div>
-          <p 
-            class={`
-              text-sm 
-              ${toDark(oscuro,"text-gray-400","text-gray-500")}
-            `}
-          >5 minutos</p>
-          <p class="text-lg font-semibold">6</p>
-        </div>
-        <div>
-          <p 
-            class={`
-              text-sm 
-              ${toDark(oscuro,"text-gray-400","text-gray-500")}
-            `}
-          >10 minutos</p>
-          <p class="text-lg font-semibold">7</p>
-        </div>
-      </div>
-    </div>
+    <!-- Peso al Ingreso (kg) -->
+    <InputText
+      bind:value={pesoingresobebe}
+      etiqueta="Peso al Ingreso (kg)"
+      idetiqueta="pesoingresobebe"
+      bind:modoedicion
+    />
 
-    <!-- 🚨 Reanimación -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800","bg-white")} 
-        rounded-md p-4 shadow md:col-span-2
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-indigo-300","text-indigo-700")}
-        `}
-      >Reanimación</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-        <p class="flex justify-between">
-          <span>Necesitó Reanimación</span>
-          <span 
-            class={`
-              ${toDark(oscuro,"bg-yellow-700 text-yellow-100","bg-yellow-100 text-yellow-800")}
-              
-              px-2 py-0.5 rounded-full text-xs
-            `}
-          >Sí</span>
-        </p>
-        <p class="flex justify-between">
-          <span>Intubación</span>
-          <span 
-            class={`
-              ${toDark(oscuro,"bg-yellow-700 text-yellow-100","bg-yellow-100 text-yellow-800")}
-              px-2 py-0.5 rounded-full text-xs
-            `}
-          >Sí</span>
-        </p>
-        <p class="flex justify-between">
-          <span>VPP Neopuff</span>
-          <span 
-            class={`
-              ${toDark(oscuro,"bg-yellow-700 text-yellow-100","bg-yellow-100 text-yellow-800")}
-              px-2 py-0.5 rounded-full text-xs
-            `}
-          >Sí</span>
-        </p>
-      </div>
-    </div>
+    <!-- Temperatura al Ingreso (°C) -->
+    <InputText
+      bind:value={temperatura_ingreso}
+      etiqueta="Temperatura al Ingreso (°C)"
+      idetiqueta="temperatura_ingreso"
+      bind:modoedicion
+    />
   </div>
 </div>
 
+<!-- Sección: Parto -->
+<div class="mb-8">
+  <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+    Detalles del Parto
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Tipo de Parto -->
+    <InputSelect
+      bind:value={tipo_parto}
+      lista={opciones.TIPOPARTO}
+      etiqueta="Tipo de Parto"
+      idetiqueta="tipo_parto"
+      bind:modoedicion
+    />
+
+    <!-- Parto Domiciliario -->
+    <InputSelect
+      bind:value={parto_domiciliario}
+      lista={opciones.SINO}
+      etiqueta="Parto Domiciliario"
+      idetiqueta="parto_domiciliario"
+      bind:modoedicion
+    />
+
+    <!-- Líquido Meconial -->
+    <InputSelect
+      bind:value={liquido_meconial}
+      lista={opciones.SINO}
+      etiqueta="Líquido Meconial"
+      idetiqueta="liquido_meconial"
+      bind:modoedicion
+    />
+
+    <!-- REM -->
+    <InputSelect
+      lista={opciones.REM}
+      bind:value={rem}
+      etiqueta="REM"
+      idetiqueta="rem"
+      bind:modoedicion
+    />
+
+    <!-- Apgar 1 minuto -->
+    <InputText
+      bind:value={apgar_1}
+      etiqueta="Apgar 1 minuto"
+      idetiqueta="apgar_1"
+      bind:modoedicion
+    />
+
+    <!-- Apgar 5 minutos -->
+    <InputText
+      bind:value={apgar_5}
+      etiqueta="Apgar 5 minutos"
+      idetiqueta="apgar_5"
+      bind:modoedicion
+    />
+
+    <!-- Apgar 10 minutos -->
+    <InputText
+      bind:value={apgar_10}
+      etiqueta="Apgar 10 minutos"
+      idetiqueta="apgar_10"
+      bind:modoedicion
+    />
+  </div>
+</div>
+
+<!-- Sección: Complicaciones -->
+<div class="mb-8">
+  <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-error">
+    Complicaciones
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Reanimación -->
+    <InputSelect
+    lista = {opciones.REANIMACION}
+      bind:value={reanimacion}
+      etiqueta="Reanimación"
+      idetiqueta="reanimacion"
+      bind:modoedicion
+    />
+
+    <!-- Fallece (Horas después) -->
+    <InputSelect
+    lista = {opciones.SINO}
+      bind:value={fallece}
+      etiqueta="Fallece (Horas después)"
+      idetiqueta="fallece"
+      bind:modoedicion
+    />
+
+    <!-- RCIU -->
+    <InputOpcionalText
+      bind:value={rciu}
+      etiqueta="RCIU (Retraso de Crecimiento Intrauterino)"
+      idetiqueta="rciu"
+      bind:modoedicion
+    />
+  </div>
+</div>
+</div>

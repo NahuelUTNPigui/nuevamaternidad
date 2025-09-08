@@ -1,9 +1,19 @@
 <script>
     let{
         titulo,
-        children
+        children,
+        show = $bindable(true)
     } = $props()
-    let collapseclass="collapse collapse-plus bg-gradient-to-br from-white to-base-50 dark:from-base-300 dark:to-base-200 shadow-lg border border-primary/20 dark:border-primary/30 hover:shadow-xl transition-all duration-300 group"
+    
+    
+    let collapseclass=$derived(`
+            collapse collapse-plus bg-gradient-to-br 
+            from-white to-base-50 dark:from-base-300 
+            dark:to-base-200 shadow-lg border border-primary/20 
+            dark:border-primary/30 hover:shadow-xl 
+            transition-all duration-300 group
+            ${show?"":"hidden"}
+    `)
     
     let collapsetitleclass="collapse-title text-xl font-medium flex items-center gap-3 px-6 py-4 group-hover:bg-primary/5  transition-colors duration-200"
     

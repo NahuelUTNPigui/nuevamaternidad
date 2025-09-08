@@ -1,7 +1,5 @@
 <script>
-  import { darker } from "$lib/stores/oscuro.svelte";
-  import { toDark } from "$lib/string/string";
-  let oscuro = $derived(darker.oscurostate);
+
   let {
     nombre = $bindable(""),
     birthDate = $bindable(""),
@@ -12,6 +10,7 @@
     clinicNumber = $bindable(""),
     modoedicion = $bindable(false),
     guardar,
+    eliminar,
     closeEditar,
     openEditar,
   } = $props();
@@ -19,14 +18,18 @@
 
 <!-- Etiquetas -->
 <div class="flex flex-wrap gap-2 mb-4 text-sm">
+  {#if clinicNumber.length>0}
   <span
     class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded-full"
     >HC: {clinicNumber}</span
   >
+  {/if}
+  {#if sexo.length>0}
   <span
     class="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full"
     >{sexo}</span
   >
+  {/if}
   <span
     class="bg-purple-100 dark:bg-purple-700 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full"
     >EG: {edadGestacional} semanas</span
@@ -59,21 +62,33 @@
       aria-label="Editar perfil"
       onclick={guardar}
     >
-      Guardar
+      Guardar cambios
     </button>
   {/if}
 
   <button
     id="btnCancelar"
     type="button"
-    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
+    class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
            bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100
            dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2
-           focus:ring-gray-400 dark:focus:ring-offset-gray-900 hidden"
+           focus:ring-gray-400 dark:focus:ring-offset-gray-900 "
     aria-label="Cancelar edición"
     onclick={closeEditar}
   >
     Cancelar
+  </button>
+  <button
+    id="btnEliminar"
+    type="button"
+    class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
+         bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800
+         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+         dark:focus:ring-offset-gray-900"
+    aria-label="Cancelar edición"
+    onclick={eliminar}
+  >
+    Eliminar
   </button>
 </div>
 <!-- Resumen superior -->

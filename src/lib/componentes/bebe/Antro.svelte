@@ -1,81 +1,182 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate)
+  import InputText from "../Formulario/InputText.svelte";
+  let {
+    modoedicion = $bindable(false),
+    pesorn = $bindable(""),
+    peso7d = $bindable(""),
+    peso14d = $bindable(""),
+    peso21d = $bindable(""),
+    peso28d = $bindable(""),
+    peso36sem = $bindable(""),
+    tallarn = $bindable(""),
+    talla7d = $bindable(""),
+    talla14d = $bindable(""),
+    talla21d = $bindable(""),
+    talla28d = $bindable(""),
+    talla36sem = $bindable(""),
+    scorezrn = $bindable(""),
+    scorez7d = $bindable(""),
+    scorez14d = $bindable(""),
+    scorez21d = $bindable(""),
+    scorez28d = $bindable(""),
+    scorez36sem = $bindable(""),
+    edadrecuperapeso = $bindable(""),
+  } = $props();
 </script>
-<div 
-    class={`
+
+<div
+  class={`
       tab-content rounded-md p-4 space-y-4
-      ${toDark(oscuro,"bg-gray-900 ","bg-white")}
+      dark:bg-gray-900 bg-white
+      
     `}
 >
-  <div class="grid md:grid-cols-3 gap-4">
-
-    <!-- Peso -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800","bg-white")}
-        rounded-md p-4 shadow text-sm
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-blue-300","text-blue-600")}
-        `}
-      >Peso</h3>
-      <p><strong>Peso al Nacer:</strong> 695 g</p>
-      <p><strong>Peso al Ingreso:</strong> 695 g</p>
-      <p><strong>Peso Actual:</strong> 680 g</p>
-      <p><strong>Peso al Alta:</strong> 
-        <span 
-          class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
-        >No registrado</span></p>
+  <div class="grid grid-cols-1 gap-4">
+    <!-- Sección: Peso -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+        Peso (kg)
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputText
+          bind:value={pesorn}
+          etiqueta="Peso recién nacido"
+          idetiqueta="pesorn"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={peso7d}
+          etiqueta="Peso 7 días"
+          idetiqueta="peso7d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={peso14d}
+          etiqueta="Peso 14 días"
+          idetiqueta="peso14d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={peso21d}
+          etiqueta="Peso 21 días"
+          idetiqueta="peso21d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={peso28d}
+          etiqueta="Peso 28 días"
+          idetiqueta="peso28d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={peso36sem}
+          etiqueta="Peso 36 semanas"
+          idetiqueta="peso36sem"
+          bind:modoedicion
+        />
+      </div>
     </div>
 
-    <!-- Talla -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800 ","bg-white")}
-        rounded-md p-4 shadow text-sm
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-green-300","text-green-600")}
-        `}
-      >Talla</h3>
-      <p><strong>Talla al Nacer:</strong> 32 cm</p>
-      <p><strong>Talla al Ingreso:</strong> 32 cm</p>
-      <p><strong>Talla Actual:</strong> 33 cm</p>
-      <p><strong>Talla al Alta:</strong> 
-        <span 
-          class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
-        >No registrado</span></p>
+    <!-- Sección: Talla -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-secondary">
+        Talla (cm)
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputText
+          bind:value={tallarn}
+          etiqueta="Talla al nacer (RN)"
+          idetiqueta="tallarn"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={talla7d}
+          etiqueta="Talla 7 días"
+          idetiqueta="talla7d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={talla14d}
+          etiqueta="Talla 14 días"
+          idetiqueta="talla14d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={talla21d}
+          etiqueta="Talla 21 días"
+          idetiqueta="talla21d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={talla28d}
+          etiqueta="Talla 28 días"
+          idetiqueta="talla28d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={talla36sem}
+          etiqueta="Talla 36 semanas"
+          idetiqueta="talla36sem"
+          bind:modoedicion
+        />
+      </div>
     </div>
 
-    <!-- Perímetro Cefálico -->
-    <div 
-      class={`
-        ${toDark(oscuro,"bg-gray-800","bg-white")}
-        rounded-md p-4 shadow text-sm
-      `}
-    >
-      <h3 
-        class={`
-          font-semibold text-lg mb-2 
-          ${toDark(oscuro,"text-purple-300","text-purple-600")}
-        `}
-      >Perímetro Cefálico</h3>
-      <p><strong>PC al Nacer:</strong> 23 cm</p>
-      <p><strong>PC al Ingreso:</strong> 23 cm</p>
-      <p><strong>PC Actual:</strong> 23.5 cm</p>
-      <p><strong>PC al Alta:</strong> 
-        <span 
-          class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
-        >No registrado</span></p>
+    <!-- Sección: Score Z -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-accent">
+        Score Z
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputText
+          bind:value={scorezrn}
+          etiqueta="Score Z al nacer (RN)"
+          idetiqueta="scorezrn"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={scorez7d}
+          etiqueta="Score Z 7 días"
+          idetiqueta="scorez7d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={scorez14d}
+          etiqueta="Score Z 14 días"
+          idetiqueta="scorez14d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={scorez21d}
+          etiqueta="Score Z 21 días"
+          idetiqueta="scorez21d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={scorez28d}
+          etiqueta="Score Z 28 días"
+          idetiqueta="scorez28d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={scorez36sem}
+          etiqueta="Score Z 36 semanas"
+          idetiqueta="scorez36sem"
+          bind:modoedicion
+        />
+      </div>
     </div>
-
+    <!-- Sección: Score Z -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4">
+        Edad recuperar pesos
+      </h3>
+      <InputText
+        bind:value={edadrecuperapeso}
+        etiqueta="Edad recuperar pesos nacimiento"
+        idetiqueta="edadrecupera"
+        bind:modoedicion
+      />
+    </div>
   </div>
 </div>

@@ -1,28 +1,117 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate)
+    import Modoedicion from "./Modoedicion.svelte";
+    import InputText from "../Formulario/InputText.svelte";
+    import InputSelect from "../Formulario/InputSelect.svelte";
+    import opciones from "$lib/opciones";
+    let {
+        modoedicion = $bindable(false),
+        alimentacionenteraltrofica=$bindable(""),
+        alimentacionenteralcompletoedad=$bindable(""),
+        alimentacionenteralcalorias=$bindable(""),
+        tipoalimentacionenteral=$bindable(""),
+        nutricionparenteral=$bindable(""),
+        nptedadinicio=$bindable(""),
+        nptduraciondias=$bindable(""),
+        nptdiacomienzo=$bindable(""),
+        nptaportetotal=$bindable(""),
+        nptdiacomienzolipido=$bindable(""),
+        nptaportetotallipido=$bindable(""),
+    } = $props();
 </script>
-<div>Alimentación Enteral Trófica</div>
-<div class="badge badge-success">Sí</div>
-<div>Alimentación Enteral Completa</div>
-<div 
-    class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
->No registrado</div>
-<div>Tipo Alimentación Enteral</div><div>mixta</div>
-<div>Nutrición Parenteral</div>
-<div class="badge badge-warning">Sí</div>
 
-<div class="col-span-2 mt-4 font-semibold">Detalles Nutrición Parenteral</div>
-<div>Edad Inicio</div><div>RN</div>
-<div>Día Comienzo AA</div><div>1</div>
-<div>Duración (días)</div>
-<div 
-    class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
->No registrado</div>
-<div>Día Comienzo Lípido</div><div>1</div>
-<div>Aporte Total AA</div><div>3.5</div>
-<div>Aporte Total Lípido</div>
-<div 
-    class={`${toDark(oscuro,"text-gray-400","text-gray-500")}`}
->No registrado</div>
+<!-- Sección: Alimentación Enteral -->
+<div class="mb-8">
+    <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+        Alimentación Enteral
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <InputSelect
+            lista={opciones.SINO}
+            bind:value={alimentacionenteraltrofica}
+
+            etiqueta="Alimentación Enteral Trófica"
+            idetiqueta="alimentacionenteraltrofica"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={alimentacionenteralcompletoedad}
+            etiqueta="Edad al lograr Alimentación Completa (días)"
+            idetiqueta="alimentacionenteralcompletoedad"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={alimentacionenteralcalorias}
+            etiqueta="Calorías al inicio (kcal/kg/día)"
+            idetiqueta="alimentacionenteralcalorias"
+            bind:modoedicion
+        />
+
+        <InputSelect
+            lista={opciones.ALIMENTACION_ENTERAL_TROFICA}
+            bind:value={tipoalimentacionenteral}
+            etiqueta="Tipo de Alimentación Enteral"
+            idetiqueta="tipoalimentacionenteral"
+            bind:modoedicion
+        />
+    </div>
+</div>
+
+<!-- Sección: Nutrición Parenteral -->
+<div class="mb-8">
+    <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-secondary">
+        Nutrición Parenteral Total (NPT)
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputSelect
+            lista={opciones.SINO}
+            bind:value={nutricionparenteral}
+            etiqueta="Recibió NPT"
+            idetiqueta="nutricionparenteral"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptedadinicio}
+            etiqueta="Edad de inicio de NPT (días)"
+            idetiqueta="nptedadinicio"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptduraciondias}
+            etiqueta="Duración de NPT (días)"
+            idetiqueta="nptduraciondias"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptdiacomienzo}
+            etiqueta="Día de inicio de NPT"
+            idetiqueta="nptdiacomienzo"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptaportetotal}
+            etiqueta="Aporte calórico total de NPT"
+            idetiqueta="nptaportetotal"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptdiacomienzolipido}
+            etiqueta="Día de inicio de lípidos en NPT"
+            idetiqueta="nptdiacomienzolipido"
+            bind:modoedicion
+        />
+
+        <InputText
+            bind:value={nptaportetotallipido}
+            etiqueta="Aporte total de lípidos en NPT"
+            idetiqueta="nptaportetotallipido"
+            bind:modoedicion
+        />
+    </div>
+</div>

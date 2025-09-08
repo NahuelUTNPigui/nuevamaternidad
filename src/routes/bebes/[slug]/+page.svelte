@@ -17,17 +17,15 @@
 
     import Antro from "$lib/componentes/bebe/Antro.svelte";
     let ruta = import.meta.env.VITE_RUTA;
+
     const pb = new PocketBase(ruta);
-
-    
-
 
     let slug = $state("");
     let bebe = $state({});
 
     let bebeviejo = $state({});
     //pagina
-    let modoedicion = $state(false)
+    let modoedicion = $state(false);
     //Datos
     let nombre = $state("");
     let birthDate = $state("");
@@ -41,8 +39,8 @@
     let nombremama = $state("");
     let dnimama = $state("");
     let hcmama = $state("");
-    let unidadbebe =$state("")
-    let areabebe = $state("")
+    let unidadbebe = $state("");
+    let areabebe = $state("");
     let nombrebebe = $state("");
     let dnibebe = $state("");
     let pesobebe = $state("");
@@ -67,7 +65,7 @@
     let rciu = $state("");
     let area = $state("");
     let unidad = $state("");
-    let diagnotico = $state("");
+    let diagnostico = $state("");
     let pesorn = $state("");
     let peso7d = $state("");
     let peso14d = $state("");
@@ -86,6 +84,7 @@
     let scorez21d = $state("");
     let scorez28d = $state("");
     let scorez36sem = $state("");
+    let edadrecuperapeso = $state("")
     let fechanacimientomama = $state("");
     let educacionmama = $state("");
     let paridad = $state("");
@@ -188,6 +187,7 @@
     let hdc = $state("");
     let hdcdiagnostico = $state("");
     let hdcttoquirurgico = $state("");
+    let tot = $state("");
     let drenajepleural = $state("");
     let drenajeventricular = $state("");
     let geneticat21 = $state("");
@@ -214,10 +214,9 @@
     let altacondiciones = $state("");
 
     //Combos
-    let unidades = $state([])
-    let areas = $state([])
-    let unidadesarea =$derived(unidades.filter(u=>u.area == areabebe))
-
+    let unidades = $state([]);
+    let areas = $state([]);
+    let unidadesarea = $derived(unidades.filter((u) => u.area == areabebe));
 
     //Datos viejos
     let nombreviejo = $state("");
@@ -255,7 +254,7 @@
     let rciuviejo = $state("");
     let areaviejo = $state("");
     let unidadviejo = $state("");
-    let diagnoticoviejo = $state("");
+    let diagnosticoviejo = $state("");
     let pesornviejo = $state("");
     let peso7dviejo = $state("");
     let peso14dviejo = $state("");
@@ -274,6 +273,7 @@
     let scorez21dviejo = $state("");
     let scorez28dviejo = $state("");
     let scorez36semviejo = $state("");
+    let edadrecuperapesoviejo = $state("");
     let fechanacimientomamaviejo = $state("");
     let educacionmamaviejo = $state("");
     let paridadviejo = $state("");
@@ -376,6 +376,7 @@
     let hdcviejo = $state("");
     let hdcdiagnosticoviejo = $state("");
     let hdcttoquirurgicoviejo = $state("");
+    let totviejo = $state("");
     let drenajepleuralviejo = $state("");
     let drenajeventricularviejo = $state("");
     let geneticat21viejo = $state("");
@@ -447,7 +448,7 @@
         rciuviejo = rciu;
         areaviejo = area;
         unidadviejo = unidad;
-        diagnoticoviejo = diagnotico;
+        diagnosticoviejo = diagnostico;
         pesornviejo = pesorn;
         peso7dviejo = peso7d;
         peso14dviejo = peso14d;
@@ -466,6 +467,7 @@
         scorez21dviejo = scorez21d;
         scorez28dviejo = scorez28d;
         scorez36semviejo = scorez36sem;
+        edadrecuperapesoviejo = edadrecuperapeso
         fechanacimientomamaviejo = fechanacimientomama;
         educacionmamaviejo = educacionmama;
         paridadviejo = paridad;
@@ -568,6 +570,7 @@
         hdcviejo = hdc;
         hdcdiagnosticoviejo = hdcdiagnostico;
         hdcttoquirurgicoviejo = hdcttoquirurgico;
+        totviejo = tot;
         drenajepleuralviejo = drenajepleural;
         drenajeventricularviejo = drenajeventricular;
         geneticat21viejo = geneticat21;
@@ -621,7 +624,7 @@
         rciu = rciuviejo;
         area = areaviejo;
         unidad = unidadviejo;
-        diagnotico = diagnoticoviejo;
+        diagnostico = diagnosticoviejo;
         pesorn = pesornviejo;
         peso7d = peso7dviejo;
         peso14d = peso14dviejo;
@@ -634,6 +637,7 @@
         talla21d = talla21dviejo;
         talla28d = talla28dviejo;
         talla36sem = talla36semviejo;
+        edadrecuperapeso = edadrecuperapesoviejo
         scorezrn = scorezrnviejo;
         scorez7d = scorez7dviejo;
         scorez14d = scorez14dviejo;
@@ -742,6 +746,7 @@
         hdc = hdcviejo;
         hdcdiagnostico = hdcdiagnosticoviejo;
         hdcttoquirurgico = hdcttoquirurgicoviejo;
+        tot = totviejo;
         drenajepleural = drenajepleuralviejo;
         drenajeventricular = drenajeventricularviejo;
         geneticat21 = geneticat21viejo;
@@ -776,18 +781,239 @@
         sexo = record.gender;
         clinicNumber = record.medicalRecordNumber;
     }
-    function openEditar(){
-        modoedicion = true
+    function openEditar() {
+        modoedicion = true;
     }
-    function closeEditar(){
-        modoedicion = false
+    function closeEditar() {
+        modoedicion = false;
     }
-    function guardar(){
-        closeEditar()
+    function eliminar() {
+        try {
+            Swal.fire({
+                title: "Seguro que deseas eliminar al bebe?",
+                showDenyButton: true,
+
+                confirmButtonText: "Eliminar",
+                denyButtonText: `Cancelar`,
+            }).then(async (result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire("Saved!", "", "success");
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error eliminar", "No se pudo eliminar al bebe", "error");
+        }
+    }
+    async function guardar() {
+        try {
+            let data = {
+                nombremama,
+                dnimama,
+                hcmama,
+                nombrebebe,
+                dnibebe,
+                pesobebe,
+                hcbebe,
+                fechanacimientobebe:fechanacimientobebe+" 03:00:00",
+                fechaingresobebe:fechaingresobebe+" 03:00:00",
+                pesoingresobebe,
+                active,
+                conalta,
+                identificacion,
+                codigo,
+                temperatura_ingreso,
+                tipo_parto,
+                rem,
+                parto_domiciliario,
+                liquido_meconial,
+                apgar_1,
+                apgar_5,
+                apgar_10,
+                reanimacion,
+                fallece,
+                rciu,
+                area,
+                unidad,
+                diagnostico,
+                pesorn,
+                peso7d,
+                peso14d,
+                peso21d,
+                peso28d,
+                peso36sem,
+                tallarn,
+                talla7d,
+                talla14d,
+                talla21d,
+                talla28d,
+                talla36sem,
+                scorezrn,
+                scorez7d,
+                scorez14d,
+                scorez21d,
+                scorez28d,
+                scorez36sem,
+                edadrecuperapeso,
+                fechanacimientomama,
+                educacionmama,
+                paridad,
+                gemelocantidad,
+                gemelonumero,
+                controlprenatal,
+                corticoideprenatal,
+                tabaquismo,
+                adiccion,
+                egb,
+                sulfatomg,
+                diabetesprevia,
+                diabetesgestacional,
+                crioaminitis,
+                infeccioncongenita,
+                itu,
+                desprendimientoplacenta,
+                sufrimientofetal,
+                htcronica,
+                hie,
+                eclampsia,
+                preeclampsia,
+                colestasis,
+                cateteresumbilicalvenoso,
+                cateteresumbilicalarterial,
+                percutanea,
+                viacentral,
+                alimentacionenteraltrofica,
+                alimentacionenteralcompletoedad,
+                alimentacionenteralcalorias,
+                tipoalimentacionenteral,
+                nutricionparenteral,
+                nptedadinicio,
+                nptduraciondias,
+                nptdiacomienzo,
+                nptaportetotal,
+                nptdiacomienzolipido,
+                nptaportetotallipido,
+                sepsistemprana,
+                sepsistempranagermen,
+                sepsistempranaatbdias,
+                sepsistardia,
+                sepsistardiagermen,
+                sepsistardiaatbdias,
+                emh,
+                ndosissurfactante,
+                salam,
+                apneas,
+                neumotorax,
+                taquipneatransitoria,
+                hipertpulmonar,
+                enfermedadintersticial,
+                bql,
+                dbp36sem,
+                o236sem,
+                surfactante,
+                arm,
+                intubadodesdeutpr,
+                vafo,
+                cpap,
+                oaf,
+                cbf,
+                cafeina,
+                aminofilina,
+                corticoideinhalado,
+                corticoidepostnatal,
+                oxidonitrico,
+                ductus,
+                ductusdiagnostico,
+                ductusttofarmacologico1ciclo,
+                ductusttofarmacologico2ciclo,
+                ductusttoquirurgico,
+                cardiopatiacongenita,
+                diagcc,
+                inotropicosdopamina,
+                inotropicosdobutamina,
+                inotropicosadrenalina,
+                inotropicosmilrinona,
+                inotropicosvasopresina,
+                diureticosfurosemida,
+                diureticosespironolac,
+                diureticoshidroclotiaz,
+                hemoderivadostgrn,
+                hemoderivadosplasman,
+                hemoderivadosplaquetasn,
+                hemoderivadosgamman,
+                exanguineotransfusion,
+                ecotf,
+                hivgrado,
+                convulsiones,
+                ehi,
+                hipotermiatipo,
+                fondoojo,
+                rop,
+                roptto,
+                necestadio,
+                perforacionunica,
+                onfalocele,
+                gastroquisis,
+                hdc,
+                hdcdiagnostico,
+                hdcttoquirurgico,
+                tot,
+                drenajepleural,
+                drenajeventricular,
+                geneticat21,
+                geneticat13,
+                geneticat18,
+                geneticavacterl,
+                geneticaturner,
+                medprotectorgastricodias,
+                medinhibidorbombahdias,
+                medprobiodias,
+                meleritromicinadias,
+                medfentanilodias,
+                medmorfinadias,
+                medmidazolamdias,
+                medprecedexdias,
+                medmetadonadias,
+                medvecuroniadias,
+                medprostagldias,
+                malformacionescongenitas,
+                cirugias,
+                complicaciones,
+                altafecha:altafecha+" 03:00:00",
+                altadiagnosticos,
+                altacondiciones,
+            };
+            let datahistorial = {
+                ...data,
+                bebe: slug,
+            };
+            await pb.collection("bebes").update(slug,data);
+            await pb.collection("historialbebes").create(datahistorial)
+            Swal.fire("Éxito editar", "Se pudo editar al bebe", "success");
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error editar", "No se pudo editar al bebe", "error");
+        }
+        closeEditar();
+    }
+    async function getAreas() {
+        const records = await pb.collection("areas").getFullList({});
+        areas = records;
+    }
+    async function getUnidades() {
+        const records = await pb.collection("unidadesbebe").getFullList({
+            filter: "active = true",
+        });
+        unidades = records.filter((u) => u.bebe != "" || u.bebe == slug);
     }
     onMount(async () => {
         slug = $page.params.slug;
         try {
+            await getAreas();
+            await getUnidades();
             let record = await pb.collection("bebes").getOne(slug, {});
 
             nombremama = record.nombremama;
@@ -816,7 +1042,7 @@
             rciu = record.rciu;
             area = record.area;
             unidad = record.unidad;
-            diagnotico = record.diagnotico;
+            diagnostico = record.diagnostico;
             pesorn = record.pesorn;
             peso7d = record.peso7d;
             peso14d = record.peso14d;
@@ -863,8 +1089,7 @@
             percutanea = record.percutanea;
             viacentral = record.viacentral;
             alimentacionenteraltrofica = record.alimentacionenteraltrofica;
-            alimentacionenteralcompletoedad =
-                record.alimentacionenteralcompletoedad;
+            alimentacionenteralcompletoedad =record.alimentacionenteralcompletoedad;
             alimentacionenteralcalorias = record.alimentacionenteralcalorias;
             tipoalimentacionenteral = record.tipoalimentacionenteral;
             nutricionparenteral = record.nutricionparenteral;
@@ -981,7 +1206,7 @@
     >
         <Header />
         <Compartido
-        bind:unidadbebe={unidadbebe}
+            bind:unidadbebe
             bind:nombre={nombrebebe}
             bind:madre={nombremama}
             bind:birthDate={fechanacimientobebe}
@@ -992,6 +1217,7 @@
             {closeEditar}
             {openEditar}
             {guardar}
+            {eliminar}
             bind:modoedicion
         />
         <!--Tabs 2-->
@@ -1012,27 +1238,23 @@
                 aria-label="Identificación"
                 checked
             />
-            <Identificacion 
+            <Identificacion
+                bind:areas
+                bind:unidadesarea
                 bind:modoedicion
-                
                 bind:unidadbebe
                 bind:areabebe
-                bind:nombrebebe 
+                bind:nombrebebe
                 bind:dnibebe
                 bind:hcbebe
                 bind:fechanacimientobebe
                 bind:pesobebe
-                
                 bind:identificacion
                 bind:codigo
                 bind:sexo
-                
                 bind:nombremama
                 bind:dnimama
                 bind:hcmama
-
-                
-
             />
             <!-- Ingreso -->
             <input
@@ -1041,7 +1263,22 @@
                 class="tab"
                 aria-label="Ingreso"
             />
-            <Ingreso />
+            <Ingreso
+                bind:modoedicion
+                bind:fechaingresobebe
+                bind:pesoingresobebe
+                bind:temperatura_ingreso
+                bind:tipo_parto
+                bind:parto_domiciliario
+                bind:liquido_meconial
+                bind:rem
+                bind:apgar_1
+                bind:apgar_5
+                bind:apgar_10
+                bind:reanimacion
+                bind:fallece
+                bind:rciu
+            />
             <!-- Antropometría -->
             <input
                 type="radio"
@@ -1049,7 +1286,27 @@
                 class="tab"
                 aria-label="Antropometría"
             />
-            <Antro />
+            <Antro
+                bind:modoedicion
+                bind:pesorn
+                bind:peso7d
+                bind:peso14d
+                bind:peso21d
+                bind:peso28d
+                bind:peso36sem
+                bind:tallarn
+                bind:talla7d
+                bind:talla14d
+                bind:talla21d
+                bind:talla28d
+                bind:talla36sem
+                bind:scorezrn
+                bind:scorez7d
+                bind:scorez14d
+                bind:scorez21d
+                bind:scorez28d
+                bind:scorez36sem
+            />
             <!-- Datos maternos -->
             <input
                 type="radio"
@@ -1057,7 +1314,33 @@
                 class="tab"
                 aria-label="Materno"
             />
-            <Materno />
+            <Materno
+                bind:modoedicion
+                bind:nombremama
+                bind:fechanacimientomama
+                bind:educacionmama
+                bind:paridad
+                bind:gemelocantidad
+                bind:gemelonumero
+                bind:controlprenatal
+                bind:corticoideprenatal
+                bind:tabaquismo
+                bind:adiccion
+                bind:egb
+                bind:sulfatomg
+                bind:diabetesprevia
+                bind:diabetesgestacional
+                bind:crioaminitis
+                bind:infeccioncongenita
+                bind:itu
+                bind:desprendimientoplacenta
+                bind:sufrimientofetal
+                bind:htcronica
+                bind:hie
+                bind:eclampsia
+                bind:preeclampsia
+                bind:colestasis
+            />
             <!-- Internacion -->
             <input
                 type="radio"
@@ -1065,7 +1348,110 @@
                 class="tab"
                 aria-label="Internación"
             />
-            <Inter />
+            <Inter
+                bind:modoedicion
+                bind:cateteresumbilicalvenoso
+                bind:cateteresumbilicalarterial
+                bind:percutanea
+                bind:viacentral
+                bind:alimentacionenteraltrofica
+                bind:alimentacionenteralcompletoedad
+                bind:alimentacionenteralcalorias
+                bind:tipoalimentacionenteral
+                bind:nutricionparenteral
+                bind:nptedadinicio
+                bind:nptduraciondias
+                bind:nptdiacomienzo
+                bind:nptaportetotal
+                bind:nptdiacomienzolipido
+                bind:nptaportetotallipido
+                bind:sepsistemprana
+                bind:sepsistempranagermen
+                bind:sepsistempranaatbdias
+                bind:sepsistardia
+                bind:sepsistardiagermen
+                bind:sepsistardiaatbdias
+                bind:emh
+                bind:ndosissurfactante
+                bind:salam
+                bind:apneas
+                bind:neumotorax
+                bind:taquipneatransitoria
+                bind:hipertpulmonar
+                bind:enfermedadintersticial
+                bind:bql
+                bind:dbp36sem
+                bind:o236sem
+                bind:surfactante
+                bind:arm
+                bind:intubadodesdeutpr
+                bind:vafo
+                bind:cpap
+                bind:oaf
+                bind:cbf
+                bind:cafeina
+                bind:aminofilina
+                bind:corticoideinhalado
+                bind:corticoidepostnatal
+                bind:oxidonitrico
+                bind:ductus
+                bind:ductusdiagnostico
+                bind:ductusttofarmacologico1ciclo
+                bind:ductusttofarmacologico2ciclo
+                bind:ductusttoquirurgico
+                bind:cardiopatiacongenita
+                bind:diagcc
+                bind:inotropicosdopamina
+                bind:inotropicosdobutamina
+                bind:inotropicosadrenalina
+                bind:inotropicosmilrinona
+                bind:inotropicosvasopresina
+                bind:diureticosfurosemida
+                bind:diureticosespironolac
+                bind:diureticoshidroclotiaz
+                bind:hemoderivadostgrn
+                bind:hemoderivadosplasman
+                bind:hemoderivadosplaquetasn
+                bind:hemoderivadosgamman
+                bind:exanguineotransfusion
+                bind:ecotf
+                bind:hivgrado
+                bind:convulsiones
+                bind:ehi
+                bind:hipotermiatipo
+                bind:fondoojo
+                bind:rop
+                bind:roptto
+                bind:necestadio
+                bind:perforacionunica
+                bind:onfalocele
+                bind:gastroquisis
+                bind:hdc
+                bind:hdcdiagnostico
+                bind:hdcttoquirurgico
+                bind:tot
+                bind:drenajepleural
+                bind:drenajeventricular
+                bind:geneticat21
+                bind:geneticat13
+                bind:geneticat18
+                bind:geneticavacterl
+                bind:geneticaturner
+                bind:medprotectorgastricodias
+                bind:medinhibidorbombahdias
+                bind:medprobiodias
+                bind:meleritromicinadias
+                bind:medfentanilodias
+                bind:medmorfinadias
+                bind:medmidazolamdias
+                bind:medprecedexdias
+                bind:medmetadonadias
+                bind:medvecuroniadias
+                bind:medprostagldias
+                bind:malformacionescongenitas
+                bind:cirugias
+                bind:complicaciones
+            />
             <!-- Diagnostico -->
             <input
                 type="radio"
@@ -1073,7 +1459,7 @@
                 class="tab"
                 aria-label="Diagnostico"
             />
-            <Diagnostico />
+            <Diagnostico bind:modoedicion bind:diagnostico />
             <!-- Alta -->
             <input
                 type="radio"
@@ -1081,7 +1467,12 @@
                 class="tab"
                 aria-label="Alta"
             />
-            <Alta />
+            <Alta
+                bind:modoedicion
+                bind:altacondiciones
+                bind:altadiagnosticos
+                bind:altafecha
+            />
         </div>
     </div>
 </Navbar>
