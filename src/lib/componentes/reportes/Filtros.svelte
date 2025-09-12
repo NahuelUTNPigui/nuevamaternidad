@@ -23,7 +23,8 @@
     import { onMount } from "svelte";
 
     let {
-        limpiarCheck,
+        cambiarFiltro,
+        cambiarCheck,
         setProxy,
         setFiltros,
         setProxyChecks,
@@ -78,7 +79,6 @@
         liquido = $bindable(""),
         fallece = $bindable(""),
 
-
         peso_rn = $bindable(""),
         peso_7 = $bindable(""),
         peso_14 = $bindable(""),
@@ -106,7 +106,6 @@
         recuperarpesodesde = $bindable(""),
         recuperarpesohasta = $bindable(""),
 
-
         edad_materna = $bindable(""),
         niveleducativo = $bindable(""),
         paridad = $bindable(""),
@@ -115,6 +114,7 @@
         tabaquismo = $bindable(""),
         adiccion = $bindable(""),
         egb = $bindable(""),
+        crioaminintis = $bindable(""),
         sulfato = $bindable(""),
         diabetes = $bindable(""),
         colico = $bindable(""),
@@ -126,10 +126,12 @@
         preeclampisa = $bindable(""),
         eclampsia = $bindable(""),
         colestasis = $bindable(""),
+
         umbilicalvenoso = $bindable(""),
         umbilicalarterial = $bindable(""),
         percutaneo = $bindable(""),
         central = $bindable(""),
+
         trofica = $bindable(""),
         volumenenteral = $bindable(""),
         caloriasenteral = $bindable(""),
@@ -141,6 +143,7 @@
         aporteaa = $bindable(""),
         comienzolipido = $bindable(""),
         aportelipido = $bindable(""),
+
         tempranoestado = $bindable(""),
         tempranogermen = $bindable(""),
         tempranoantibiotico = $bindable(""),
@@ -149,6 +152,7 @@
         tardegermen = $bindable(""),
         tardeantibiotico = $bindable(""),
         tardeatb = $bindable(""),
+
         emh = $bindable(""),
         apena = $bindable(""),
         neumotorax = $bindable(""),
@@ -169,8 +173,10 @@
         corticoideinhalado = $bindable(""),
         corticoidepostnatal = $bindable(""),
         oxidonitrico = $bindable(""),
+
         ductus = $bindable(""),
         cardiocongenita = $bindable(""),
+
         dopamina = $bindable(""),
         dobutamina = $bindable(""),
         adrenalina = $bindable(""),
@@ -179,17 +185,21 @@
         furosemida = $bindable(""),
         espironolacta = $bindable(""),
         hidrocloritiazida = $bindable(""),
+
         tgr = $bindable(""),
         plasma = $bindable(""),
         inmunoglobina = $bindable(""),
         transfusion = $bindable(""),
+
         hiv = $bindable(""),
         convulsiones = $bindable(""),
         ehi = $bindable(""),
         hipo = $bindable(""),
+
         fondoojo = $bindable(""),
         rop = $bindable(""),
         tratamientorop = $bindable(""),
+
         nec = $bindable(""),
         perforacion = $bindable(""),
         onfalocele = $bindable(""),
@@ -198,11 +208,13 @@
         tqt = $bindable(""),
         drenajepleural = $bindable(""),
         drenajeventricular = $bindable(""),
+
         trisomia21 = $bindable(""),
         trisomia13 = $bindable(""),
         trisomia18 = $bindable(""),
         vacterl = $bindable(""),
         turner = $bindable(""),
+
         protectorgastrico = $bindable(""),
         inhibidor = $bindable(""),
         probiotico = $bindable(""),
@@ -214,9 +226,11 @@
         metadona = $bindable(""),
         vecuronio = $bindable(""),
         prostaglandinas = $bindable(""),
+
         malformacionescongenitas = $bindable(""),
         cirugias = $bindable(""),
         complicaciones = $bindable(""),
+        diagnostico = $bindable(""),
     } = $props();
 
     onMount(() => {});
@@ -283,76 +297,123 @@
 
     <!-- Datos ingreso -->
     <Collapse titulo="Datos del Ingreso" bind:show={checked_ingreso}>
-        <Ingreso 
-bind:tipoingreso
-bind:ingresodesde
-bind:ingresohasta
-bind:tipoparto
-bind:partodomicilio
-bind:apgar_1
-bind:apgar_5
-bind:apgar_10
-bind:gestaciondesde
-bind:gestacionhasta
-bind:rciu
-bind:temperatura_ingreso
-bind:rem
-bind:reanimacion
-bind:liquido
-bind:fallece
+        <Ingreso
+            bind:tipoingreso
+            bind:ingresodesde
+            bind:ingresohasta
+            bind:tipoparto
+            bind:partodomicilio
+            bind:apgar_1
+            bind:apgar_5
+            bind:apgar_10
+            bind:gestaciondesde
+            bind:gestacionhasta
+            bind:rciu
+            bind:temperatura_ingreso
+            bind:rem
+            bind:reanimacion
+            bind:liquido
+            bind:fallece
         />
     </Collapse>
 
     <!-- Antropometria -->
     <Collapse titulo="Antropometría" bind:show={checked_antropometria}>
-        <Antropometria 
-bind:peso_rn
-bind:peso_7
-bind:peso_14
-bind:peso_21
-bind:peso_28
-bind:peso_36
-bind:cefalico_rn
-bind:cefalico_7
-bind:cefalico_14
-bind:cefalico_21
-bind:cefalico_28
-bind:cefalico_36
-bind:talla_rn
-bind:talla_7
-bind:talla_14
-bind:talla_21
-bind:talla_28
-bind:talla_36
-bind:scorez_rn
-bind:scorez_7
-bind:scorez_14
-bind:scorez_21
-bind:scorez_28
-bind:scorez_36
-bind:recuperarpesodesde
-bind:recuperarpesohasta
+        <Antropometria
+            bind:peso_rn
+            bind:peso_7
+            bind:peso_14
+            bind:peso_21
+            bind:peso_28
+            bind:peso_36
+            bind:cefalico_rn
+            bind:cefalico_7
+            bind:cefalico_14
+            bind:cefalico_21
+            bind:cefalico_28
+            bind:cefalico_36
+            bind:talla_rn
+            bind:talla_7
+            bind:talla_14
+            bind:talla_21
+            bind:talla_28
+            bind:talla_36
+            bind:scorez_rn
+            bind:scorez_7
+            bind:scorez_14
+            bind:scorez_21
+            bind:scorez_28
+            bind:scorez_36
+            bind:recuperarpesodesde
+            bind:recuperarpesohasta
         />
     </Collapse>
 
     <!-- Datos maternos -->
     <Collapse titulo="Datos Maternos" bind:show={checked_maternos}>
-        <Materno />
+        <Materno
+            bind:edad_materna
+            bind:niveleducativo
+            bind:paridad
+            bind:gemelos
+            bind:controlparental
+            bind:tabaquismo
+            bind:adiccion
+            bind:egb
+            bind:crioaminintis
+            bind:sulfato
+            bind:diabetes
+            bind:colico
+            bind:congenita
+            bind:itu
+            bind:desprendimiento
+            bind:ht
+            bind:hie
+            bind:preeclampisa
+            bind:eclampsia
+            bind:colestasis
+        />
     </Collapse>
 
     <!-- Catéteres -->
     <Collapse titulo="Catéteres" bind:show={checked_cateteres}>
-        <Cateteres />
+        <Cateteres
+            bind:umbilicalvenoso
+            bind:umbilicalarterial
+            bind:percutaneo
+            bind:central
+        />
     </Collapse>
 
     <!-- Alimentación -->
     <Collapse titulo="Alimentación" bind:show={checked_alimentacion}>
-        <Alimentacion />
+        <Alimentacion
+            bind:trofica
+            bind:volumenenteral
+            bind:caloriasenteral
+            bind:tipoenteral
+            bind:nutricionparental
+            bind:edadnpt
+            bind:duracionnpt
+            bind:comienzoaa
+            bind:aporteaa
+            bind:comienzolipido
+            bind:aportelipido
+        />
     </Collapse>
 
     <!-- Infecciones -->
     <Collapse titulo="Infecciones" bind:show={checked_infecciones}>
-        <Infecciones />
+        <Infecciones
+            bind:tempranoestado
+            bind:tempranogermen
+            bind:tempranoantibiotico
+            bind:tempranoatb
+            bind:tardeestado
+            bind:tardegermen
+            bind:tardeantibiotico
+            bind:tardeatb
+        />
     </Collapse>
 
     <!-- Respiratorio -->
@@ -360,51 +421,117 @@ bind:recuperarpesohasta
         titulo="Patologías Respiratorias"
         bind:show={checked_respiratorias}
     >
-        <Respiratorio />
+        <Respiratorio
+            bind:emh
+            bind:apena
+            bind:neumotorax
+            bind:taquipnea
+            bind:hipertension
+            bind:interstecial
+            bind:dbp
+            bind:oxigeno
+            bind:surfactante
+            bind:arm
+            bind:intubado
+            bind:vafo
+            bind:cpap
+            bind:oaf
+            bind:cbf
+            bind:cafeina
+            bind:aminofilina
+            bind:corticoideinhalado
+            bind:corticoidepostnatal
+            bind:oxidonitrico
+        />
     </Collapse>
 
     <!-- Cardiovascular y ductus -->
     <Collapse titulo="Cardiovascular" bind:show={checked_cardiovascular}>
-        <Cardio />
+        <Cardio bind:ductus bind:cardiocongenita />
     </Collapse>
 
     <!-- Inotrópicos y Diuréticos -->
     <Collapse titulo="Inotrópicos" bind:show={checked_inotropicos}>
-        <Intropico />
+        <Intropico
+            bind:dopamina
+            bind:dobutamina
+            bind:adrenalina
+            bind:milrinona
+            bind:vasopresina
+            bind:furosemida
+            bind:espironolacta
+            bind:hidrocloritiazida
+        />
     </Collapse>
 
     <!-- Sangre -->
     <Collapse titulo="Hematología y Transfusiones" bind:show={checked_sangre}>
-        <Hemoderiva />
+        <Hemoderiva bind:tgr bind:plasma bind:inmunoglobina bind:transfusion />
     </Collapse>
 
     <!-- Neurologico -->
     <Collapse titulo="Patologías Neurológicas" bind:show={checked_neurologicas}>
-        <Neuro />
+        <Neuro bind:hiv bind:convulsiones bind:ehi bind:hipo />
     </Collapse>
 
     <!-- Oftamología -->
     <Collapse titulo="Oftalmología" bind:show={checked_oftalmologia}>
-        <Oftamologia />
+        <Oftamologia 
+bind:fondoojo
+bind:rop
+bind:tratamientorop
+        />
     </Collapse>
 
     <!-- Digestivo y Quirúrgico -->
     <Collapse titulo="Sistema Digestivo" bind:show={checked_digestivo}>
-        <Digestivo />
+        <Digestivo 
+bind:nec
+bind:perforacion
+bind:onfalocele
+bind:gastrosquisis
+bind:atresia
+bind:tqt
+bind:drenajepleural
+bind:drenajeventricular
+        />
     </Collapse>
 
     <!-- Genética -->
     <Collapse titulo="Antecedentes Genéticos" bind:show={checked_genetica}>
-        <Genetica />
+        <Genetica
+bind:trisomia21
+bind:trisomia13
+bind:trisomia18
+bind:vacterl
+bind:turner
+         />
     </Collapse>
 
     <!-- Medicación -->
     <Collapse titulo="Medicación" bind:show={checked_medicacion}>
-        <Medicacion />
+        <Medicacion 
+bind:protectorgastrico
+bind:inhibidor
+bind:probiotico
+bind:eritromicina
+bind:fentanilo
+bind:morfina
+bind:midozolam
+bind:precedex
+bind:metadona
+bind:vecuronio
+bind:prostaglandinas
+        />
     </Collapse>
 
     <!-- Otros -->
     <Collapse titulo="Otros" bind:show={checked_otros}>
-        <Otros />
+        <Otros 
+bind:malformacionescongenitas
+bind:cirugias
+bind:complicaciones
+        />
+
     </Collapse>
 </div>

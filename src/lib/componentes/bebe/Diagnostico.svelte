@@ -1,6 +1,6 @@
 <script>
   import InputText from "../Formulario/InputText.svelte";
-    import Modoedicion from "./Modoedicion.svelte";
+  import InputMas from "../Formulario/InputMas.svelte";
   let {
     modoedicion=$bindable(false),
     diagnostico = $bindable("")
@@ -19,7 +19,7 @@
   </h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Diagnostico -->
-    <InputText
+    <InputMas
       bind:value={diagnostico}
       etiqueta="Diagnostico"
       idetiqueta="diagnostico"

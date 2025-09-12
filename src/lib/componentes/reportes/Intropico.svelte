@@ -1,194 +1,89 @@
+<script>
+        import InputSelect from "../Formulario/InputSelect.svelte";
+        import opciones from "$lib/opciones";
+        let{
+                dopamina = $bindable(""),
+                dobutamina = $bindable(""),
+                adrenalina = $bindable(""),
+                milrinona = $bindable(""),
+                vasopresina = $bindable(""),
+                furosemida = $bindable(""),
+                espironolacta = $bindable(""),
+                hidrocloritiazida = $bindable(""),
+        }=$props()
+</script>
 <!-- Inotrópicos -->
 <div>
         <h3 class="font-medium mb-3 text-base-content">Inotrópicos</h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <!-- Dopamina -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Dopamina</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="dopamina-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mcg/kg/min)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Dopamina"
+                        etiqueta="Dopamina"
+                        modoedicion={true}
+                        bind:value={dopamina}
+                        lista={opciones.SINO}
+                />
                 <!-- Dobutamina -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Dobutamina</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="dobutamina-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mcg/kg/min)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Dobutamina"
+                        etiqueta="Dobutamina"
+                        modoedicion={true}
+                        bind:value={dobutamina}
+                        lista={opciones.SINO}
+                />
                 <!-- Adrenalina -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Adrenalina</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="adrenalina-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mcg/kg/min)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Adrenalina"
+                        etiqueta="Adrenalina"
+                        modoedicion={true}
+                        bind:value={adrenalina}
+                        lista={opciones.SINO}
+                />
                 <!-- Milrinona -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Milrinona</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="milrinona-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mcg/kg/min)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Milrinona"
+                        etiqueta="Milrinona"
+                        modoedicion={true}
+                        bind:value={milrinona}
+                        lista={opciones.SINO}
+                />
                 <!-- Vasopresina -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Vasopresina</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="vasopresina-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (UI/kg/h)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
+                <InputSelect
+                        idetiqueta="Vasopresina"
+                        etiqueta="Vasopresina"
+                        modoedicion={true}
+                        bind:value={vasopresina}
+                        lista={opciones.SINO}
+                />
         </div>
-</div>
-
-<!-- Diuréticos -->
-<div>
         <h3 class="font-medium mb-3 text-base-content">Diuréticos</h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <!-- Furosemida -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Furosemida</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div id="furosemida-dosis" class="mt-1 hidden pl-4">
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mg/kg/día)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Furosemida"
+                        etiqueta="Furosemida"
+                        modoedicion={true}
+                        bind:value={furosemida}
+                        lista={opciones.SINO}
+                />
                 <!-- Espironolactona -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Espironolactona</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div
-                                id="espironolactona-dosis"
-                                class="mt-1 hidden pl-4"
-                        >
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mg/kg/día)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Espironolactona"
+                        etiqueta="Espironolactona"
+                        modoedicion={true}
+                        bind:value={espironolacta}
+                        lista={opciones.SINO}
+                />
                 <!-- Hidroclorotiazida -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Hidroclorotiazida</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                        <div
-                                id="hidroclorotiazida-dosis"
-                                class="mt-1 hidden pl-4"
-                        >
-                                <input
-                                        type="text"
-                                        placeholder="Dosis (mg/kg/día)"
-                                        class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
+                <InputSelect
+                        idetiqueta="Hidroclorotiazida"
+                        etiqueta="Hidroclorotiazida"
+                        modoedicion={true}
+                        bind:value={hidrocloritiazida}
+                        lista={opciones.SINO}
+                />
         </div>
+        
 </div>
+

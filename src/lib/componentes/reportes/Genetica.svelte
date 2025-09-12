@@ -1,64 +1,54 @@
-<!-- Trisomía 21 -->
-<div class="form-control">
-	<label
-		class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-	>
-		<span class="label-text">Trisomía 21 (Down)</span>
-		<select class="select select-bordered select-xs ml-auto min-w-24">
-			<option value="no">No</option>
-			<option value="si">Sí</option>
-		</select>
-	</label>
-</div>
-
+<script>
+	import InputSelect from "../Formulario/InputSelect.svelte";
+	import opciones from "$lib/opciones";
+	let {
+trisomia21=$bindable(""),
+trisomia13=$bindable(""),
+trisomia18=$bindable(""),
+vacterl=$bindable(""),
+turner=$bindable(""),
+	} = $props()
+</script>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Trisomía 21 -->	
+<InputSelect
+                idetiqueta="Trisomía 21"
+                etiqueta="Trisomía 21"
+                modoedicion={true}
+                bind:value={trisomia21}
+                lista={opciones.SINO}
+        />
 <!-- Trisomía 13 -->
-<div class="form-control">
-	<label
-		class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-	>
-		<span class="label-text">Trisomía 13 (Patau)</span>
-		<select class="select select-bordered select-xs ml-auto min-w-24">
-			<option value="no">No</option>
-			<option value="si">Sí</option>
-		</select>
-	</label>
-</div>
-
+<InputSelect
+                idetiqueta="Trisomía 13"
+                etiqueta="Trisomía 13"
+                modoedicion={true}
+                bind:value={trisomia13}
+                lista={opciones.SINO}
+        />
 <!-- Trisomía 18 -->
-<div class="form-control">
-	<label
-		class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-	>
-		<span class="label-text">Trisomía 18 (Edwards)</span>
-		<select class="select select-bordered select-xs ml-auto min-w-24">
-			<option value="no">No</option>
-			<option value="si">Sí</option>
-		</select>
-	</label>
-</div>
-
+<InputSelect
+                idetiqueta="Trisomía 18"
+                etiqueta="Trisomía 18"
+                modoedicion={true}
+                bind:value={trisomia18}
+                lista={opciones.SINO}
+        />
 <!-- VACTERL -->
-<div class="form-control">
-	<label
-		class="label cursor-pointer justify-start hover:bg-accent/5 rounded-lg p-2 transition-all duration-200"
-	>
-		<span class="label-text">VACTERL</span>
-		<select class="select select-bordered select-xs ml-auto min-w-24">
-			<option value="no">No</option>
-			<option value="si">Sí</option>
-		</select>
-	</label>
+<InputSelect
+                idetiqueta="VACTERL"
+                etiqueta="VACTERL"
+                modoedicion={true}
+                bind:value={vacterl}
+                lista={opciones.SINO}
+        />
+<!-- Síndrome de Turner -->
+<InputSelect
+                idetiqueta="Síndrome de Turner"
+                etiqueta="Síndrome de Turner"
+                modoedicion={true}
+                bind:value={turner}
+                lista={opciones.SINO}
+        />
 </div>
 
-<!-- Síndrome de Turner -->
-<div class="form-control">
-	<label
-		class="label cursor-pointer justify-start hover:bg-accent/5 rounded-lg p-2 transition-all duration-200"
-	>
-		<span class="label-text">Síndrome de Turner</span>
-		<select class="select select-bordered select-xs ml-auto min-w-24">
-			<option value="no">No</option>
-			<option value="si">Sí</option>
-		</select>
-	</label>
-</div>

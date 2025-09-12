@@ -1,55 +1,50 @@
+<script>
+        import InputSelect from "../Formulario/InputSelect.svelte";
+        import opciones from "$lib/opciones";
+        let {
+                edad_materna = $bindable(""),
+                niveleducativo = $bindable(""),
+                paridad = $bindable(""),
+                gemelos = $bindable(""),
+                controlparental = $bindable(""),
+                tabaquismo = $bindable(""),
+                adiccion = $bindable(""),
+                egb = $bindable(""),
+                crioaminintis = $bindable(""),
+                colestasis = $bindable(""),
+                sulfato = $bindable(""),
+                diabetes = $bindable(""),
+                colico = $bindable(""),
+                congenita = $bindable(""),
+                itu = $bindable(""),
+                desprendimiento = $bindable(""),
+                ht = $bindable(""),
+                hie = $bindable(""),
+                preeclampisa = $bindable(""),
+                eclampsia = $bindable(""),
+        } = $props();
+</script>
+
 <!-- Edad Materna y Nivel Educativo -->
 <div>
         <h3 class="font-medium mb-3 text-base-content">
                 Información Demográfica
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Edad Materna -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >Edad Materna (años)</span
-                                >
-                        </label>
-                        <div class="flex gap-2">
-                                <input
-                                        type="number"
-                                        placeholder="Desde"
-                                        class="input input-bordered flex-1 input-sm focus:shadow-lg transition-all duration-300"
-                                />
-                                <input
-                                        type="number"
-                                        placeholder="Hasta"
-                                        class="input input-bordered flex-1 input-sm focus:shadow-lg transition-all duration-300"
-                                />
-                        </div>
-                </div>
-
-                <!-- Nivel Educativo -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >Nivel Educativo</span
-                                >
-                        </label>
-                        <select
-                                class="selecat select-bordered select-sm focus:shadow-lg transition-all duration-300"
-                                >a
-                                <option value="" disabled selected
-                                        >Seleccionar nivel</option
-                                >
-                                <option value="analfabeta">Analfabeta</option>
-                                <option value="primario-ci"
-                                        >Primario (C.I.)</option
-                                >
-                                <option value="secundario-ci"
-                                        >Secundario (C.I.)</option
-                                >
-                                <option value="terc-uni-ci"
-                                        >Terciario/Universitario (C.I.)</option
-                                >
-                        </select>
-                </div>
+                <InputSelect
+                        idetiqueta="fedadm"
+                        etiqueta="Edad materna"
+                        modoedicion={true}
+                        bind:value={edad_materna}
+                        lista={opciones.EDAD_MADRE}
+                />
+                <InputSelect
+                        idetiqueta="feducacionm"
+                        etiqueta="Educación materna"
+                        modoedicion={true}
+                        bind:value={niveleducativo}
+                        lista={opciones.NIVEL_EDUCACION}
+                />
         </div>
 </div>
 
@@ -58,35 +53,22 @@
         <h3 class="font-medium mb-3 text-base-content">Embarazo y Parto</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Paridad -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >Paridad</span
-                                >
-                        </label>
-                        <input
-                                type="number"
-                                placeholder="Número de partos"
-                                class="input input-bordered input-sm focus:shadow-lg transition-all duration-300"
-                        />
-                </div>
+                <InputSelect
+                        idetiqueta="fparidad"
+                        etiqueta="Paridad"
+                        modoedicion={true}
+                        bind:value={paridad}
+                        lista={opciones.PARIDAD_MADRE}
+                />
 
                 <!-- Gemelos -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >Gemelo (cantidad)</span
-                                >
-                        </label>
-                        <select
-                                class="select select-bordered select-sm focus:shadow-lg transition-all duration-300"
-                        >
-                                <option value="no">No</option>
-                                <option value="1">Gemelo (2)</option>
-                                <option value="2">Trillizo (3)</option>
-                                <option value="3">Más de 3</option>
-                        </select>
-                </div>
+                <InputSelect
+                        idetiqueta="fGEMELO"
+                        etiqueta="Gemelos"
+                        modoedicion={true}
+                        bind:value={gemelos}
+                        lista={opciones.GEMELO}
+                />
         </div>
 </div>
 
@@ -95,54 +77,31 @@
         <h3 class="font-medium mb-3 text-base-content">
                 Factores de Riesgo Conductuales
         </h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Control Prenatal -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Control Prenatal</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="si">Sí</option>
-                                        <option value="ci">C/I</option>
-                                        <option value="no">No</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fcontrol"
+                        etiqueta="Control parental"
+                        modoedicion={true}
+                        bind:value={controlparental}
+                        lista={opciones.SINO}
+                />
                 <!-- Tabaquismo -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Tabaquismo</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="ftaba"
+                        etiqueta="Tabaquismo"
+                        modoedicion={true}
+                        bind:value={tabaquismo}
+                        lista={opciones.SINO}
+                />
                 <!-- Adicción -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Adicción (drogas/alcohol)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
+                <InputSelect
+                        idetiqueta="fadiccion"
+                        etiqueta="Adicción (Droga/Alcohol)"
+                        modoedicion={true}
+                        bind:value={adiccion}
+                        lista={opciones.SINO}
+                />
         </div>
 </div>
 
@@ -151,113 +110,55 @@
         <h3 class="font-medium mb-3 text-base-content">
                 Infecciones y Condiciones
         </h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- EGB -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >EGB (Estreptococo Grupo B)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="negativo"
-                                                >Negativo</option
-                                        >
-                                        <option value="positivo"
-                                                >Positivo</option
-                                        >
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fegb"
+                        etiqueta="EGB"
+                        modoedicion={true}
+                        bind:value={egb}
+                        lista={opciones.SINO}
+                />
                 <!-- Sulfato de Magnesio -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Sulfato de Mg (neuroprotector)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fsulfato"
+                        etiqueta="Sulfato de Magnesio"
+                        modoedicion={true}
+                        bind:value={sulfato}
+                        lista={opciones.SINO}
+                />
                 <!-- Diabetes -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Diabetes</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-28"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="previa">Previa</option>
-                                        <option value="gestacional"
-                                                >Gestacional</option
-                                        >
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fdiabetes"
+                        etiqueta="Diabetes"
+                        modoedicion={true}
+                        bind:value={diabetes}
+                        lista={opciones.SINO}
+                />
                 <!-- Criomaninitis -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Cólico/Criomaninitis</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fcrioaminitis"
+                        etiqueta="Criomaninitis"
+                        modoedicion={true}
+                        bind:value={crioaminintis}
+                        lista={opciones.SINO}
+                />
                 <!-- Infección Congénita -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Infección Congénita</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="finfeccion"
+                        etiqueta="Infección Congénita"
+                        modoedicion={true}
+                        bind:value={congenita}
+                        lista={opciones.SINO}
+                />
                 <!-- ITU -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >ITU (Infección Urinaria)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
+                <InputSelect
+                        idetiqueta="fitu"
+                        etiqueta="ITU"
+                        modoedicion={true}
+                        bind:value={itu}
+                        lista={opciones.SINO}
+                />
         </div>
 </div>
 
@@ -266,77 +167,54 @@
         <h3 class="font-medium mb-3 text-base-content">
                 Complicaciones Obstétricas
         </h3>
-        <div class="space-y-2 flex flex-col gap-1.5">
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text"
-                                        >Desprendimiento de Placenta</span
-                                >
-                        </label>
-                </div>
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text">HT Crónica</span>
-                        </label>
-                </div>
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text"
-                                        >HIE (Hipertensión Inducida por
-                                        Embarazo)</span
-                                >
-                        </label>
-                </div>
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text">Preeclampsia</span>
-                        </label>
-                </div>
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text">Eclampsia</span>
-                        </label>
-                </div>
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-error/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <input
-                                        type="checkbox"
-                                        class="checkbox checkbox-error mr-2"
-                                />
-                                <span class="label-text">Colestasis</span>
-                        </label>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!--Desprendimiento-->
+                <InputSelect
+                        idetiqueta="fDesprendimiento"
+                        etiqueta="Desprendimiento"
+                        modoedicion={true}
+                        bind:value={desprendimiento}
+                        lista={opciones.SINO}
+                />
+                <!--HT Crónica-->
+                <InputSelect
+                        idetiqueta="fHT"
+                        etiqueta="HT Crónica"
+                        modoedicion={true}
+                        bind:value={ht}
+                        lista={opciones.SINO}
+                />
+                <!--HIE (Hipertensión Inducida por Embarazo)-->
+                <InputSelect
+                        idetiqueta="fHIE"
+                        etiqueta="HIE"
+                        modoedicion={true}
+                        bind:value={hie}
+                        lista={opciones.SINO}
+                />
+                <!--Preeclampsia-->
+                <InputSelect
+                        idetiqueta="fPreeclampsia"
+                        etiqueta="Preeclampsia"
+                        modoedicion={true}
+                        bind:value={preeclampisa}
+                        lista={opciones.SINO}
+                />
+                <!--Eclampsia-->
+                <InputSelect
+                        idetiqueta="fEclampsia"
+                        etiqueta="Eclampsia"
+                        modoedicion={true}
+                        bind:value={eclampsia}
+                        lista={opciones.SINO}
+                />
+                <!--Colestasis-->
+                <InputSelect
+                        idetiqueta="fColestasis"
+                        etiqueta="Colestasis"
+                        modoedicion={true}
+                        bind:value={colestasis}
+                        lista={opciones.SINO}
+                />
         </div>
 </div>

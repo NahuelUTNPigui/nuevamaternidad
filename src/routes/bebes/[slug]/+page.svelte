@@ -16,6 +16,7 @@
     import { page } from "$app/stores";
 
     import Antro from "$lib/componentes/bebe/Antro.svelte";
+    import Otros from "$lib/componentes/bebe/Otros.svelte";
     let ruta = import.meta.env.VITE_RUTA;
 
     const pb = new PocketBase(ruta);
@@ -1306,6 +1307,7 @@
                 bind:scorez21d
                 bind:scorez28d
                 bind:scorez36sem
+                bind:edadrecuperapeso
             />
             <!-- Datos maternos -->
             <input
@@ -1460,6 +1462,19 @@
                 aria-label="Diagnostico"
             />
             <Diagnostico bind:modoedicion bind:diagnostico />
+            <!-- Otros -->
+            <input
+                type="radio"
+                name="perfil_tabs"
+                class="tab"
+                aria-label="Otros"
+            />
+            <Otros
+                bind:modoedicion
+                bind:malformacionescongenitas
+                bind:cirugias
+                bind:complicaciones
+            />
             <!-- Alta -->
             <input
                 type="radio"

@@ -79,48 +79,18 @@
           bind:modoedicion
           bind:value={dnibebe}
         />
-        <div class="form-control">
-          <label class="label" for="hc">
-            <span class="label-text font-medium">Historia Clínica (HC)</span>
-          </label>
-          {#snippet childrenviewhc()}
-            <p class=" bg-transparent font-medium m-1">
-              {hcbebe}
-            </p>
-          {/snippet}
-          {#snippet childrenedithc()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={hcbebe}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewhc}
-            childrenedit={childrenedithc}
-          />
-        </div>
-        <div class="form-control">
-          <label class="label" for="peso">
-            <span class="label-text font-medium">Peso (g)</span>
-          </label>
-          {#snippet childrenviewpeso()}
-            <p class=" bg-transparent font-medium m-1">
-              {pesobebe}
-            </p>
-          {/snippet}
-          {#snippet childreneditpeso()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={pesobebe}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewpeso}
-            childrenedit={childreneditpeso}
-          />
-        </div>
+        <InputText
+        idetiqueta={"hc"}
+          etiqueta="Historia Clínica"
+          bind:modoedicion
+          bind:value={pesobebe}
+        />
+        <InputText
+        idetiqueta={"Peso (g)"}
+          etiqueta="Peso (g)"
+          bind:modoedicion
+          bind:value={hcbebe}
+        />
         <InputDate
         idetiqueta={"fechanac"}
           etiqueta="Fecha nacimiento"
@@ -137,49 +107,18 @@
     >
       <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">Identificación del Registro</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-control">
-          <label class="label" for="nombre">
-            <span class="label-text font-medium">Identificación unico</span>
-          </label>
-          {#snippet childrenviewide()}
-            <p class=" bg-transparent font-medium m-1">
-              {identificacion}
-            </p>
-          {/snippet}
-          {#snippet childreneditide()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={identificacion}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewide}
-            childrenedit={childreneditide}
-          />
-        </div>
-        <div class="form-control">
-          <label class="label" for="codigo">
-            <span class="label-text font-medium">Código</span>
-          </label>
-
-          {#snippet childrenviewcodigo()}
-            <p class=" bg-transparent font-medium m-1">
-              {codigo}
-            </p>
-          {/snippet}
-          {#snippet childreneditcodigo()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={codigo}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewcodigo}
-            childrenedit={childreneditcodigo}
-          />
-        </div>
+        <InputText
+        idetiqueta={"Identificación unico"}
+          etiqueta="Identificación unico"
+          bind:modoedicion
+          bind:value={identificacion}
+        />
+        <InputText
+        idetiqueta={"Código"}
+          etiqueta="Código"
+          bind:modoedicion
+          bind:value={codigo}
+        />
       </div>
     </div>
     <div
@@ -190,69 +129,24 @@
     >
       <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">Información de la Madre</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-control">
-          <label class="label" for="nombremama">
-            <span class="label-text font-medium">Nombre</span>
-          </label>
-          {#snippet childrenviewcodigo()}
-            <p class=" bg-transparent font-medium m-1">
-              {codigo}
-            </p>
-          {/snippet}
-          {#snippet childreneditcodigo()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={codigo}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewcodigo}
-            childrenedit={childreneditcodigo}
-          />
-        </div>
-        <div class="form-control">
-          <label class="label" for="dnimama">
-            <span class="label-text font-medium">DNI</span>
-          </label>
-          {#snippet childrenviewcodigo()}
-            <p class=" bg-transparent font-medium m-1">
-              {codigo}
-            </p>
-          {/snippet}
-          {#snippet childreneditcodigo()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={codigo}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewcodigo}
-            childrenedit={childreneditcodigo}
-          />
-        </div>
-        <div class="form-control">
-          <label class="label" for="hcmama">
-            <span class="label-text font-medium">Historia Clínica (HC)</span>
-          </label>
-          {#snippet childrenviewhcmama()}
-            <p class=" bg-transparent font-medium m-1">
-              {hcmama}
-            </p>
-          {/snippet}
-          {#snippet childrenedithcmama()}
-            <input
-              class="input input-bordered font-medium"
-              bind:value={hcmama}
-            />
-          {/snippet}
-          <Modoedicion
-            bind:modoedicion
-            childrenview={childrenviewhcmama}
-            childrenedit={childrenedithcmama}
-          />
-        </div>
+        <InputText
+          idetiqueta={"Nombremadre"}
+          etiqueta="Nombre"
+          bind:modoedicion
+          bind:value={nombremama}
+        />
+        <InputText
+          idetiqueta={"DNImadre"}
+          etiqueta="DNI"
+          bind:modoedicion
+          bind:value={dnimama}
+        />
+        <InputText
+          idetiqueta={"Historia Clínica madre"}
+          etiqueta="Historia Clínica "
+          bind:modoedicion
+          bind:value={hcmama}
+        />
       </div>
     </div>
   </div>

@@ -1,396 +1,213 @@
+<script>
+        import InputSelect from "../Formulario/InputSelect.svelte";
+        import opciones from "$lib/opciones";
+        let {
+        emh = $bindable(""),
+        apena = $bindable(""),
+        neumotorax = $bindable(""),
+        taquipnea = $bindable(""),
+        hipertension = $bindable(""),
+        interstecial = $bindable(""),
+        dbp = $bindable(""),
+        oxigeno = $bindable(""),
+        surfactante = $bindable(""),
+        arm = $bindable(""),
+        intubado = $bindable(""),
+        vafo = $bindable(""),
+        cpap = $bindable(""),
+        oaf = $bindable(""),
+        cbf = $bindable(""),
+        cafeina = $bindable(""),
+        aminofilina = $bindable(""),
+        corticoideinhalado = $bindable(""),
+        corticoidepostnatal = $bindable(""),
+        oxidonitrico = $bindable(""),
+        } = $props()
+</script>
+
+
 <!-- Diagnósticos Respiratorios -->
 <div>
         <h3 class="font-medium mb-3 text-base-content">
                 Diagnósticos Respiratorios
         </h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- EMH -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Enfermedad de Membrana Hialina (EMH)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                        
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="femh"
+                        etiqueta="EMH"
+                        modoedicion={true}
+                        bind:value={emh}
+                        lista={opciones.SINO}    
+                />
                 <!-- Número de dosis de surfactante (condicional) -->
-                <div id="surfactant-doses" class="form-control hidden pl-4">
-                        <label class="label">
-                                <span class="label-text text-sm"
-                                        >N° de Dosis de Surfactante</span
-                                >
-                        </label>
-                        <input
-                                type="number"
-                                min="1"
-                                max="3"
-                                placeholder="1-3"
-                                class="input input-bordered input-xs w-full focus:shadow-sm transition-all duration-300"
-                        />
-                </div>
-
                 <!-- Apneas -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Apneas del Prematuro</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fapena"
+                        etiqueta="Apnea"
+                        modoedicion={true}
+                        bind:value={apena}
+                        lista={opciones.SINO}    
+                />
                 <!-- Neumotórax -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Neumotórax</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fneumo"
+                        etiqueta="Neumotórax"
+                        modoedicion={true}
+                        bind:value={neumotorax}
+                        lista={opciones.SINO}    
+                />
                 <!-- Taquipnea Transitoria -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Taquipnea Transitoria</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Taquipnea"
+                        etiqueta="Taquipnea Transitoria"
+                        modoedicion={true}
+                        bind:value={taquipnea}
+                        lista={opciones.SINO}    
+                />
                 <!-- Hipertensión Pulmonar -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Hipertensión Pulmonar</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Hipertensión"
+                        etiqueta="Hipertensión Pulmonar"
+                        modoedicion={true}
+                        bind:value={hipertension}
+                        lista={opciones.SINO}    
+                />
                 <!-- Enfermedad Intersticial -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-primary/5 rounded-lg p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Enfermedad Intersticial</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
+                <InputSelect
+                        idetiqueta="Intersticial"
+                        etiqueta="Enfermedad Intersticial"
+                        modoedicion={true}
+                        bind:value={interstecial}
+                        lista={opciones.SINO}    
+                />
         </div>
-</div>
-
-<!-- DBP y O2 a las 36 semanas -->
-<div>
+        
         <h3 class="font-medium mb-3 text-base-content">
                 Evaluación a las 36 semanas
         </h3>
-        <div class="space-y-3">
-                <!-- DBP -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >DBP (intentado a 36 sem)</span
-                                >
-                        </label>
-                        <select class="select select-bordered select-sm w-full">
-                                <option value="no">No</option>
-                                <option value="si">Sí</option>
-                        </select>
-                </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- DBP --> 
+                <InputSelect
+                        idetiqueta="Intersticial"
+                        etiqueta="Enfermedad Intersticial"
+                        modoedicion={true}
+                        bind:value={interstecial}
+                        lista={opciones.SINO}    
+                />       
                 <!-- O2 a las 36 semanas -->
-                <div class="form-control">
-                        <label class="label">
-                                <span class="label-text font-medium"
-                                        >Oxígeno a las 36 semanas</span
-                                >
-                        </label>
-                        <select
-                                class="select select-bordered select-sm w-full"
-                                
-                        >
-                                <option value="no">No</option>
-                                <option value="cpap">CPAP</option>
-                                <option value="vni">VNI</option>
-                                <option value="o2">O2 (FiO₂)</option>
-                        </select>
-                </div>
-
+                <InputSelect
+                        idetiqueta="fo2"
+                        etiqueta="O2 a las 36 semanas"
+                        modoedicion={true}
+                        bind:value={oxigeno}
+                        lista={opciones.O2_36SEM}    
+                />
                 <!-- FiO2 ±30% -->
-                <div id="fio2-input" class="form-control hidden">
-                        <label class="label">
-                                <span class="label-text text-sm"
-                                        >FiO₂ (%) ±30%</span
-                                >
-                        </label>
-                        <div class="flex gap-2">
-                                <input
-                                        type="number"
-                                        step="0.01"
-                                        placeholder="Desde"
-                                        class="input input-bordered flex-1 input-xs focus:shadow-sm transition-all duration-300"
-                                />
-                                <input
-                                        type="number"
-                                        step="0.01"
-                                        placeholder="Hasta"
-                                        class="input input-bordered flex-1 input-xs focus:shadow-sm transition-all duration-300"
-                                />
-                        </div>
-                </div>
         </div>
-</div>
-
-<!-- Soportes Respiratorios -->
-<div>
         <h3 class="font-medium mb-3 text-base-content">
                 Soportes Respiratorios
         </h3>
-        <div class="space-y-2 text-sm">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Surfactante -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Surfactante</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Surfactante"
+                        etiqueta="Surfactante"
+                        modoedicion={true}
+                        bind:value={surfactante}
+                        lista={opciones.SINO}    
+                />
                 <!-- ARM -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >ARM (maniobras de reclutamiento)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="ARM"
+                        etiqueta="ARM"
+                        modoedicion={true}
+                        bind:value={arm}
+                        lista={opciones.SINO}    
+                />
                 <!-- Intubado desde UTPR -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Intubado desde UTPR</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="UTPR"
+                        etiqueta="Intubado desde UTPRl"
+                        modoedicion={true}
+                        bind:value={intubado}
+                        lista={opciones.SINO}    
+                />
                 <!-- VAFO -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >VAFO (Vent. Asist. Flujo Espont.)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="VAFO"
+                        etiqueta="VAFO"
+                        modoedicion={true}
+                        bind:value={vafo}
+                        lista={opciones.SINO}    
+                />
                 <!-- CPAP -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">CPAP</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="CPAP"
+                        etiqueta="CPAP"
+                        modoedicion={true}
+                        bind:value={cpap}
+                        lista={opciones.SINO}    
+                />
                 <!-- OAF -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >OAF (Oxígeno de Alto Flujo)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="OAF"
+                        etiqueta="OAF"
+                        modoedicion={true}
+                        bind:value={oaf}
+                        lista={opciones.SINO}    
+                />
                 <!-- CBF -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-secondary/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >CBF (Canula Biflujo)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
+                <InputSelect
+                        idetiqueta="CBF"
+                        etiqueta="CBF"
+                        modoedicion={true}
+                        bind:value={cbf}
+                        lista={opciones.SINO}    
+                />
         </div>
-</div>
-
-<!-- Medicamentos Respiratorios -->
-<div>
         <h3 class="font-medium mb-3 text-base-content">Medicamentos</h3>
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Cafeína -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-accent/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Cafeína</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Cafeína"
+                        etiqueta="Cafeína"
+                        modoedicion={true}
+                        bind:value={cafeina}
+                        lista={opciones.SINO}    
+                />
                 <!-- Aminofilina -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-accent/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text">Aminofilina</span>
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Aminofilina"
+                        etiqueta="Aminofilina"
+                        modoedicion={true}
+                        bind:value={aminofilina}
+                        lista={opciones.SINO}    
+                />
                 <!-- Corticoide Inhalado -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-accent/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Corticoide Inhalado</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Corticoide Inhalado"
+                        etiqueta="Corticoide Inhalado"
+                        modoedicion={true}
+                        bind:value={corticoidepostnatal}
+                        lista={opciones.SINO}    
+                />
                 <!-- Corticoide Postnatal -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-accent/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Corticoide Postnatal</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
-
+                <InputSelect
+                        idetiqueta="Corticoide Postnatal"
+                        etiqueta="Corticoide Postnatal"
+                        modoedicion={true}
+                        bind:value={corticoidepostnatal}
+                        lista={opciones.SINO}    
+                />
                 <!-- Óxido Nítrico -->
-                <div class="form-control">
-                        <label
-                                class="label cursor-pointer justify-start hover:bg-accent/5 rounded p-2 transition-all duration-200"
-                        >
-                                <span class="label-text"
-                                        >Óxido Nítrico (NO)</span
-                                >
-                                <select
-                                        class="select select-bordered select-xs ml-auto min-w-24"
-                                >
-                                        <option value="no">No</option>
-                                        <option value="si">Sí</option>
-                                </select>
-                        </label>
-                </div>
+                <InputSelect
+                        idetiqueta="Óxido Nítrico"
+                        etiqueta="Óxido Nítrico"
+                        modoedicion={true}
+                        bind:value={oxidonitrico}
+                        lista={opciones.SINO}    
+                />
         </div>
 </div>
+

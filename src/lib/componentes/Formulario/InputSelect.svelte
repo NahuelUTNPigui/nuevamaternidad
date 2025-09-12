@@ -15,9 +15,11 @@
 </script>
 
 <div class="form-control">
+  {#if etiqueta.length>0}
   <label class="label" for={idetiqueta}>
     <span class="label-text font-medium">{etiqueta}</span>
   </label>
+  {/if}
 
   <!-- Vista (solo lectura) -->
   {#snippet childrenview()}
