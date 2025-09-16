@@ -1,7 +1,8 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
-        let{
+        let {
+                cambiarFiltro,
                 dopamina = $bindable(""),
                 dobutamina = $bindable(""),
                 adrenalina = $bindable(""),
@@ -10,8 +11,9 @@
                 furosemida = $bindable(""),
                 espironolacta = $bindable(""),
                 hidrocloritiazida = $bindable(""),
-        }=$props()
+        } = $props();
 </script>
+
 <!-- Inotrópicos -->
 <div>
         <h3 class="font-medium mb-3 text-base-content">Inotrópicos</h3>
@@ -23,6 +25,7 @@
                         modoedicion={true}
                         bind:value={dopamina}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Dobutamina -->
                 <InputSelect
@@ -31,6 +34,7 @@
                         modoedicion={true}
                         bind:value={dobutamina}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Adrenalina -->
                 <InputSelect
@@ -39,6 +43,7 @@
                         modoedicion={true}
                         bind:value={adrenalina}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Milrinona -->
                 <InputSelect
@@ -47,6 +52,7 @@
                         modoedicion={true}
                         bind:value={milrinona}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Vasopresina -->
                 <InputSelect
@@ -55,6 +61,7 @@
                         modoedicion={true}
                         bind:value={vasopresina}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
         <h3 class="font-medium mb-3 text-base-content">Diuréticos</h3>
@@ -66,6 +73,7 @@
                         modoedicion={true}
                         bind:value={furosemida}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Espironolactona -->
                 <InputSelect
@@ -74,6 +82,7 @@
                         modoedicion={true}
                         bind:value={espironolacta}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Hidroclorotiazida -->
                 <InputSelect
@@ -82,8 +91,7 @@
                         modoedicion={true}
                         bind:value={hidrocloritiazida}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
-        
 </div>
-

@@ -2,11 +2,12 @@
     import InputSelect from "../Formulario/InputSelect.svelte";
     import opciones from "$lib/opciones";
     let {
-tgr = $bindable(""),
-plasma = $bindable(""),
-inmunoglobina = $bindable(""),
-transfusion = $bindable(""),
-    } = $props()
+        cambiarFiltro,
+        tgr = $bindable(""),
+        plasma = $bindable(""),
+        inmunoglobina = $bindable(""),
+        transfusion = $bindable(""),
+    } = $props();
 </script>
 
 <!-- Hemoderivados -->
@@ -20,6 +21,7 @@ transfusion = $bindable(""),
             modoedicion={true}
             bind:value={tgr}
             lista={opciones.TGR}
+            cambiar={cambiarFiltro}
         />
         <!-- Plasma -->
         <InputSelect
@@ -28,6 +30,7 @@ transfusion = $bindable(""),
             modoedicion={true}
             bind:value={plasma}
             lista={opciones.PLASMA}
+            cambiar={cambiarFiltro}
         />
         <!-- Inmunoglobulina (Gamma) -->
         <InputSelect
@@ -36,6 +39,7 @@ transfusion = $bindable(""),
             modoedicion={true}
             bind:value={inmunoglobina}
             lista={opciones.GAMMAGLOBULINA}
+            cambiar={cambiarFiltro}
         />
         <!-- Exanguinotransfusión -->
         <InputSelect
@@ -44,8 +48,7 @@ transfusion = $bindable(""),
             modoedicion={true}
             bind:value={tgr}
             lista={opciones.SINO}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>
-
-

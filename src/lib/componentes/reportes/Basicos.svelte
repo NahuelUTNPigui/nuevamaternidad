@@ -8,6 +8,7 @@
 
     const pb = new PocketBase(ruta);
     let {
+        cambiarFiltro,
         unidad = $bindable(""),
         area = $bindable(""),
         fechadesde = $bindable(""),
@@ -38,6 +39,7 @@
             modoedicion={true}
             bind:value={area}
             bind:lista={areas}
+            cambiar={cambiarFiltro}
         />
         <!-- Unidad -->
         <InputSelect
@@ -46,6 +48,7 @@
             modoedicion={true}
             bind:value={unidad}
             bind:lista={unidadesarea}
+            cambiar={cambiarFiltro}
         />
         <!-- Fecha desde -->
         <InputDate
@@ -53,6 +56,8 @@
             etiqueta="Fecha desde"
             modoedicion={true}
             bind:value={fechadesde}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <!-- Fecha hasta -->
         <InputDate
@@ -60,6 +65,8 @@
             etiqueta="Fecha hasta"
             modoedicion={true}
             bind:value={fechahasta}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
     </div>
 </div>

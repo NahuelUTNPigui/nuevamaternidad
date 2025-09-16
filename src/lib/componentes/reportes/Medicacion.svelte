@@ -3,6 +3,7 @@
         import opciones from "$lib/opciones";
         
         let {
+                cambiarFiltro,
                 protectorgastrico = $bindable(""),
                 inhibidor = $bindable(""),
                 probiotico = $bindable(""),
@@ -25,6 +26,7 @@
                 modoedicion={true}
                 bind:value={protectorgastrico}
                 lista={opciones.PROTECTOR}
+                cambiar={cambiarFiltro}
         />
         <!-- Inhibidor de la Bomba de Protones -->
         <InputSelect
@@ -33,6 +35,7 @@
                 modoedicion={true}
                 bind:value={inhibidor}
                 lista={opciones.INHIBIDOR}
+                cambiar={cambiarFiltro}
         />
         <!-- Probiótico -->
         <InputSelect
@@ -41,6 +44,7 @@
                 modoedicion={true}
                 bind:value={probiotico}
                 lista={opciones.PROBIOTICO}
+                cambiar={cambiarFiltro}
         />
         <!-- Eritromicina -->
         <InputSelect
@@ -49,6 +53,7 @@
                 modoedicion={true}
                 bind:value={eritromicina}
                 lista={opciones.ERITROMICINA}
+                cambiar={cambiarFiltro}
         />
         <!-- Fentanilo -->
         <InputSelect
@@ -57,6 +62,7 @@
                 modoedicion={true}
                 bind:value={fentanilo}
                 lista={opciones.FENTANILO}
+                cambiar={cambiarFiltro}
         />
         <!-- Morfina -->
         <InputSelect
@@ -65,6 +71,7 @@
                 modoedicion={true}
                 bind:value={morfina}
                 lista={opciones.MORFINA}
+                cambiar={cambiarFiltro}
         />
         <!-- Midazolam -->
         <InputSelect
@@ -73,6 +80,7 @@
                 modoedicion={true}
                 bind:value={midozolam}
                 lista={opciones.MIDAZOLAM}
+                cambiar={cambiarFiltro}
         />
         <!-- Precedex (Dexmedetomidina) -->
         <InputSelect
@@ -81,6 +89,7 @@
                 modoedicion={true}
                 bind:value={precedex}
                 lista={opciones.PRECEDEX}
+                cambiar={cambiarFiltro}
         />
         <!-- Metadona -->
         <InputSelect
@@ -89,6 +98,7 @@
                 modoedicion={true}
                 bind:value={metadona}
                 lista={opciones.METADONA}
+                cambiar={cambiarFiltro}
         />
         <!-- Vecuronio -->
         <InputSelect
@@ -97,6 +107,7 @@
                 modoedicion={true}
                 bind:value={vecuronio}
                 lista={opciones.VECURONIO}
+                cambiar={cambiarFiltro}
         />
         <!-- Prostaglandinas (PGE1) -->
         <InputSelect
@@ -105,5 +116,6 @@
                 modoedicion={true}
                 bind:value={prostaglandinas}
                 lista={opciones.PROSTAGLANDINA}
+                cambiar={cambiarFiltro}
         />
 </div>

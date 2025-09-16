@@ -2,6 +2,7 @@
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
         let {
+                cambiarFiltro,
                 edad_materna = $bindable(""),
                 niveleducativo = $bindable(""),
                 paridad = $bindable(""),
@@ -37,6 +38,7 @@
                         modoedicion={true}
                         bind:value={edad_materna}
                         lista={opciones.EDAD_MADRE}
+                        cambiar={cambiarFiltro}
                 />
                 <InputSelect
                         idetiqueta="feducacionm"
@@ -44,6 +46,7 @@
                         modoedicion={true}
                         bind:value={niveleducativo}
                         lista={opciones.NIVEL_EDUCACION}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>
@@ -59,6 +62,7 @@
                         modoedicion={true}
                         bind:value={paridad}
                         lista={opciones.PARIDAD_MADRE}
+                        cambiar={cambiarFiltro}
                 />
 
                 <!-- Gemelos -->
@@ -68,6 +72,7 @@
                         modoedicion={true}
                         bind:value={gemelos}
                         lista={opciones.GEMELO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>
@@ -85,6 +90,7 @@
                         modoedicion={true}
                         bind:value={controlparental}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Tabaquismo -->
                 <InputSelect
@@ -93,6 +99,7 @@
                         modoedicion={true}
                         bind:value={tabaquismo}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Adicción -->
                 <InputSelect
@@ -101,6 +108,7 @@
                         modoedicion={true}
                         bind:value={adiccion}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>
@@ -118,6 +126,7 @@
                         modoedicion={true}
                         bind:value={egb}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Sulfato de Magnesio -->
                 <InputSelect
@@ -126,6 +135,7 @@
                         modoedicion={true}
                         bind:value={sulfato}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Diabetes -->
                 <InputSelect
@@ -134,6 +144,7 @@
                         modoedicion={true}
                         bind:value={diabetes}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Criomaninitis -->
                 <InputSelect
@@ -142,6 +153,7 @@
                         modoedicion={true}
                         bind:value={crioaminintis}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Infección Congénita -->
                 <InputSelect
@@ -150,6 +162,7 @@
                         modoedicion={true}
                         bind:value={congenita}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- ITU -->
                 <InputSelect
@@ -158,6 +171,7 @@
                         modoedicion={true}
                         bind:value={itu}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>
@@ -175,6 +189,7 @@
                         modoedicion={true}
                         bind:value={desprendimiento}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!--HT Crónica-->
                 <InputSelect
@@ -183,6 +198,7 @@
                         modoedicion={true}
                         bind:value={ht}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!--HIE (Hipertensión Inducida por Embarazo)-->
                 <InputSelect
@@ -191,6 +207,7 @@
                         modoedicion={true}
                         bind:value={hie}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!--Preeclampsia-->
                 <InputSelect
@@ -199,6 +216,7 @@
                         modoedicion={true}
                         bind:value={preeclampisa}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!--Eclampsia-->
                 <InputSelect
@@ -207,6 +225,7 @@
                         modoedicion={true}
                         bind:value={eclampsia}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!--Colestasis-->
                 <InputSelect
@@ -215,6 +234,7 @@
                         modoedicion={true}
                         bind:value={colestasis}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>

@@ -5,6 +5,9 @@
     etiqueta,
     modoedicion = $bindable(false),
     value = $bindable(""),
+    cambiar=()=>{},
+    escribir=()=>{}
+    
   } = $props();
 </script>
 

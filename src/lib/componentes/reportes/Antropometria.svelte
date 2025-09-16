@@ -6,6 +6,7 @@
     import Edad from "./antro/Edad.svelte";
 
     let {
+        cambiarFiltro,
         peso_rn = $bindable(""),
         peso_7 = $bindable(""),
         peso_14 = $bindable(""),

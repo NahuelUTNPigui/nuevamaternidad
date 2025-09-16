@@ -2,12 +2,14 @@
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
         let {
-           umbilicalvenoso = $bindable(""),
-        umbilicalarterial = $bindable(""),
-        percutaneo = $bindable(""),
-        central = $bindable(""),     
-        }=$props()
+                cambiarFiltro,
+                umbilicalvenoso = $bindable(""),
+                umbilicalarterial = $bindable(""),
+                percutaneo = $bindable(""),
+                central = $bindable(""),
+        } = $props();
 </script>
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Catéter Umbilical Venoso (CUV) -->
         <InputSelect
@@ -16,6 +18,7 @@
                 modoedicion={true}
                 bind:value={umbilicalvenoso}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
         <!-- Catéter Umbilical Arterial (CUA) -->
         <InputSelect
@@ -24,6 +27,8 @@
                 modoedicion={true}
                 bind:value={umbilicalarterial}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
+                
         />
         <!-- Catéter Periférico Percutáneo -->
         <InputSelect
@@ -32,6 +37,7 @@
                 modoedicion={true}
                 bind:value={percutaneo}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
         <!-- Vía Central (PICC, etc.) -->
         <InputSelect
@@ -40,11 +46,6 @@
                 modoedicion={true}
                 bind:value={central}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
-
 </div>
-
-
-
-
-

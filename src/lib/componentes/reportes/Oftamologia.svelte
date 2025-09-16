@@ -2,6 +2,7 @@
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
         let {
+                cambiarFiltro,
                 fondoojo = $bindable(""),
                 rop = $bindable(""),
                 tratamientorop = $bindable(""),
@@ -16,6 +17,7 @@
                 modoedicion={true}
                 bind:value={fondoojo}
                 lista={opciones.SINO}
+                cambiar = {cambiarFiltro}
         />
         <!-- ROP (Retinopatía del Prematuro) -->
         <InputSelect
@@ -24,6 +26,7 @@
                 modoedicion={true}
                 bind:value={rop}
                 lista={opciones.ROP}
+                cambiar = {cambiarFiltro}
         />
         <!-- Tratamiento de ROP -->
         <InputSelect
@@ -32,5 +35,6 @@
                 modoedicion={true}
                 bind:value={tratamientorop}
                 lista={opciones.ROP_TTO}
+                cambiar = {cambiarFiltro}
         />
 </div>

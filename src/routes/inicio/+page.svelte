@@ -166,7 +166,7 @@
     function salir() {
         setLocalStorageDefault();
         user.setDefault();
-        console.log("salir");
+
         goto("/");
     }
     async function getUnidades() {

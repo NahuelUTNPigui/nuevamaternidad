@@ -5,7 +5,10 @@
     idetiqueta,
     etiqueta,
     modoedicion = $bindable(false),
-    value = $bindable("") // se mantiene como string: "A + B + C"
+    value = $bindable(""), // se mantiene como string: "A + B + C"
+    
+    cambiar=()=>{},
+    escribir=()=>{}
   } = $props();
 
   // Función para obtener los tags limpios
@@ -57,7 +60,7 @@
       <input
         id={idetiqueta}
         type="text"
-        
+        oninput={escribir}
         class="input input-bordered w-full font-medium focus:ring-2"
         bind:value
         autocomplete="off"

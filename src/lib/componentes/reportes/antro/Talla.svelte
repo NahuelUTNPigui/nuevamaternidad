@@ -2,6 +2,7 @@
     import InputSelect from "$lib/componentes/Formulario/InputSelect.svelte";
     import opciones from "$lib/opciones";
     let {
+        cambiarFiltro,
         talla_rn = $bindable(""),
         talla_7 = $bindable(""),
         talla_14 = $bindable(""),

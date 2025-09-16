@@ -1,6 +1,7 @@
 <script>
     import InputText from "$lib/componentes/Formulario/InputText.svelte";
     let {
+        cambiarFiltro,
         recuperarpesodesde = $bindable(""),
         recuperarpesohasta = $bindable(""),
     }=$props()

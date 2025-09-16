@@ -5,6 +5,8 @@
     etiqueta,
     modoedicion = $bindable(false),
     value = $bindable(""),
+    escribir=()=>{}
+    
   } = $props();
 </script>
 
@@ -21,6 +23,7 @@
       type="text"
       class="input input-bordered w-full font-medium"
       bind:value
+      oninput={escribir}
     />
   {/snippet}
   <Modoedicion bind:modoedicion {childrenview} {childrenedit} />

@@ -2,6 +2,7 @@
     import InputSelect from "$lib/componentes/Formulario/InputSelect.svelte";
     import opciones from "$lib/opciones";
     let {
+        cambiarFiltro,
         cefalico_rn = $bindable(""),
         cefalico_7 = $bindable(""),
         cefalico_14 = $bindable(""),

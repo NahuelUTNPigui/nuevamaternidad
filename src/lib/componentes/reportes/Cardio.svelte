@@ -1,8 +1,11 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
-        let { ductus = $bindable(""), cardiocongenita = $bindable("") } =
-                $props();
+        let {
+                cambiarFiltro, 
+                ductus = $bindable(""), 
+                cardiocongenita = $bindable("") 
+        } = $props();
 </script>
 
 <div>
@@ -14,6 +17,7 @@
                         modoedicion={true}
                         bind:value={ductus}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Cardiopatía Congénita -->
                 <InputSelect
@@ -22,6 +26,7 @@
                         modoedicion={true}
                         bind:value={cardiocongenita}
                         lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>

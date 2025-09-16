@@ -4,9 +4,12 @@
     import Exportar from "../Exportar.svelte";
     import  CONSTANTES  from '$lib/constantes';
     import Swal from "sweetalert2";
-    function limpiar(){
-        Swal.fire("Filtros","Limpiar filtros","info")
-    }
+    import InputSelect from "../Formulario/InputSelect.svelte";
+    let {
+        sinhistorial=$bindable(false),
+        limpiar
+    } = $props()
+    
     
 </script>
 <header class="mb-8">
@@ -50,5 +53,15 @@
             prepararData={[]}
             sheetname={""}
         />
+    </div>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <InputSelect
+            idetiqueta="fhistorial"
+            etiqueta="Sin historial"
+            modoedicion={true}
+            bind:value={sinhistorial}
+            lista={[{id:false,nombre:"Todos"},{id:true,nombre:"Sin historial"}]}
+        />
+
     </div>
 </header>

@@ -4,6 +4,7 @@
     import InputSelect from "../Formulario/InputSelect.svelte";
     import opciones from "$lib/opciones";
     let {
+        cambiarFiltro,
         dnimadre = $bindable(""),
         nombremadre = $bindable(""),
         dnirn = $bindable(""),
@@ -25,13 +26,16 @@
             etiqueta="DNI RN"
             modoedicion={true}
             bind:value={dnirn}
+            escribir={cambiarFiltro}
         />
+        
         <!-- DNI Madre -->
         <InputText
             idetiqueta="dnimadre"
             etiqueta="DNI Madre"
             modoedicion={true}
             bind:value={dnimadre}
+            escribir={cambiarFiltro}
         />
         <!-- NOmbre rn -->
         <InputText
@@ -39,6 +43,7 @@
             etiqueta="Nombre RN"
             modoedicion={true}
             bind:value={nombrern}
+            escribir={cambiarFiltro}
         />
         <!-- NOmbre madre -->
         <InputText
@@ -46,6 +51,7 @@
             etiqueta="Nombre madre"
             modoedicion={true}
             bind:value={nombremadre}
+            escribir={cambiarFiltro}
         />
         <!-- Sexo rn -->
         <InputSelect
@@ -54,6 +60,8 @@
             modoedicion={true}
             bind:value={sexorn}
             lista={opciones.SEXO}
+            cambiar={cambiarFiltro}
+            
         />
     </div>
 </div>
@@ -67,6 +75,8 @@
             etiqueta="Nacimiento desde"
             modoedicion={true}
             bind:value={nacdesde}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <!-- Fecha de Nacimiento hasta-->
         <InputDate
@@ -74,6 +84,8 @@
             etiqueta="Nacimiento hasta"
             modoedicion={true}
             bind:value={nachasta}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <!-- Fecha de egreso desde -->
         <InputDate
@@ -81,6 +93,8 @@
             etiqueta="Egreso hasta"
             modoedicion={true}
             bind:value={egresodesde}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <!-- Fecha de egreso hasta-->
         <InputDate
@@ -88,6 +102,8 @@
             etiqueta="Egreso hasta"
             modoedicion={true}
             bind:value={egresohasta}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         
     </div>

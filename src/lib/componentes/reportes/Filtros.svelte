@@ -244,6 +244,7 @@
     <Collapse titulo="Secciones">
         <Secciones
             show={true}
+            {cambiarCheck}
             bind:checked_identificacion
             bind:checked_ingreso
             bind:checked_antropometria
@@ -274,6 +275,7 @@
             bind:area
             bind:fechadesde
             bind:fechahasta
+            
         />
     </Collapse>
 

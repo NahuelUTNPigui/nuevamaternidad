@@ -2,6 +2,7 @@
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
         let {
+                cambiarFiltro,
                 nec = $bindable(""),
                 perforacion = $bindable(""),
                 onfalocele = $bindable(""),
@@ -21,6 +22,7 @@
                 modoedicion={true}
                 bind:value={nec}
                 lista={opciones.NEC}
+                cambiar={cambiarFiltro}
         />
         <!-- Perforación Única -->
         <InputSelect
@@ -29,6 +31,7 @@
                 modoedicion={true}
                 bind:value={perforacion}
                 lista={opciones.PERFORACION_UNICA}
+                cambiar={cambiarFiltro}
         />
         <!-- Malformaciones Congénitas -->
         <!-- Onfalocele -->
@@ -38,6 +41,7 @@
                 modoedicion={true}
                 bind:value={onfalocele}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
         <!-- Gastrosquisis -->
         <InputSelect
@@ -46,6 +50,7 @@
                 modoedicion={true}
                 bind:value={gastrosquisis}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
         <!-- Atresia de Colon (HDC) -->
         <InputSelect
@@ -54,6 +59,7 @@
                 modoedicion={true}
                 bind:value={atresia}
                 lista={opciones.HDC_DIAGNOSTICO}
+                cambiar={cambiarFiltro}
         />
 
         <!-- TQT (Tratamiento Quirúrgico Temprano) -->
@@ -63,6 +69,7 @@
                 modoedicion={true}
                 bind:value={tqt}
                 lista={opciones.HDC_TTO_QUIRURGICO}
+                cambiar={cambiarFiltro}
         />
         <!-- Drenajes -->
 
@@ -73,6 +80,7 @@
                 modoedicion={true}
                 bind:value={drenajepleural}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
         <!-- Drenaje Ventricular -->
         <InputSelect
@@ -81,5 +89,6 @@
                 modoedicion={true}
                 bind:value={drenajeventricular}
                 lista={opciones.SINO}
+                cambiar={cambiarFiltro}
         />
 </div>

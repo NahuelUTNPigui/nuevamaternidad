@@ -10,7 +10,8 @@
     getNombre = (id) => {
       const item = lista.find((a) => a.id === id);
       return item ? item.nombre : "";
-    }
+    },
+    cambiar = ()=>{}
   } = $props();
 </script>
 
@@ -34,6 +35,7 @@
       id={idetiqueta}
       class="select select-bordered w-full font-medium"
       bind:value
+      onchange={cambiar}
     >
       <option value="" disabled selected>Selecciona una opción</option>
       {#each lista as a}

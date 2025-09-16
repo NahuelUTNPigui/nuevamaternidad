@@ -4,6 +4,7 @@
     import InputText from "../Formulario/InputText.svelte";
     import opciones from "$lib/opciones";
     let {
+        cambiarFiltro,
         tipoingreso = $bindable(""),
         ingresodesde = $bindable(""),
         ingresohasta = $bindable(""),
@@ -20,8 +21,9 @@
         reanimacion = $bindable(""),
         liquido = $bindable(""),
         fallece = $bindable(""),
-    }=$props()
+    } = $props();
 </script>
+
 <!-- Tipo de Ingreso y Sexo -->
 <div>
     <h3 class="font-medium mb-3 text-base-content">Origen y Características</h3>
@@ -32,6 +34,8 @@
             etiqueta="Ingreso desde"
             modoedicion={true}
             bind:value={ingresodesde}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <!--Ingreso hasta-->
         <InputDate
@@ -39,6 +43,8 @@
             etiqueta="Ingreso hasta"
             modoedicion={true}
             bind:value={ingresohasta}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
 
         <!-- Tipo de Ingreso -->
@@ -48,6 +54,7 @@
             modoedicion={true}
             bind:value={tipoingreso}
             lista={opciones.INGRESOS}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>
@@ -64,6 +71,7 @@
             modoedicion={true}
             bind:value={tipoparto}
             lista={opciones.TIPOPARTO}
+            cambiar={cambiarFiltro}
         />
         <!-- Domiciliario -->
         <InputSelect
@@ -72,8 +80,8 @@
             modoedicion={true}
             bind:value={partodomicilio}
             lista={opciones.DOMICILIARIO}
+            cambiar={cambiarFiltro}
         />
-        
     </div>
 </div>
 
@@ -88,6 +96,7 @@
             modoedicion={true}
             bind:value={apgar_1}
             lista={opciones.APGAR_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fapgar5"
@@ -95,6 +104,7 @@
             modoedicion={true}
             bind:value={apgar_5}
             lista={opciones.APGAR_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fapgar10"
@@ -102,6 +112,7 @@
             modoedicion={true}
             bind:value={apgar_10}
             lista={opciones.APGAR_RANGO}
+            cambiar={cambiarFiltro}
         />
         <!-- Edad gestacional -->
     </div>
@@ -111,15 +122,18 @@
             etiqueta="Gestacional desde"
             modoedicion={true}
             bind:value={gestaciondesde}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
         <InputText
             idetiqueta="gestacionaledadhasta"
             etiqueta="Gestacional hasta"
             modoedicion={true}
             bind:value={gestacionhasta}
+            cambiar={cambiarFiltro}
+            escribir={cambiarFiltro}
         />
     </div>
-    
 </div>
 
 <!-- T Ingreso y RCIU -->
@@ -133,6 +147,7 @@
             modoedicion={true}
             bind:value={temperatura_ingreso}
             lista={opciones.TEMPERATURA_RANGO}
+            cambiar={cambiarFiltro}
         />
         <!-- RCIU -->
         <InputSelect
@@ -141,6 +156,7 @@
             modoedicion={true}
             bind:value={rciu}
             lista={opciones.RCIU}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>
@@ -156,6 +172,7 @@
             modoedicion={true}
             bind:value={rem}
             lista={opciones.REM}
+            cambiar={cambiarFiltro}
         />
         <!-- Reanimación -->
         <InputSelect
@@ -164,6 +181,7 @@
             modoedicion={true}
             bind:value={reanimacion}
             lista={opciones.REANIMACION}
+            cambiar={cambiarFiltro}
         />
         <!-- Líquido Meconial -->
         <InputSelect
@@ -172,6 +190,7 @@
             modoedicion={true}
             bind:value={liquido}
             lista={opciones.LIQUIDO}
+            cambiar={cambiarFiltro}
         />
         <!-- Fallece en Sala de Parto -->
         <InputSelect
@@ -180,6 +199,7 @@
             modoedicion={true}
             bind:value={fallece}
             lista={opciones.FALLECE}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

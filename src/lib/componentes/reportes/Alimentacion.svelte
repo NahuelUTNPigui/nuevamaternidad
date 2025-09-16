@@ -2,6 +2,7 @@
     import InputSelect from "../Formulario/InputSelect.svelte";
     import opciones from "$lib/opciones";
     let{
+        cambiarFiltro,
         trofica = $bindable(""),
         volumenenteral = $bindable(""),
         caloriasenteral = $bindable(""),
