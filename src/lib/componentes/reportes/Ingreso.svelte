@@ -13,6 +13,7 @@
         apgar_1 = $bindable(""),
         apgar_5 = $bindable(""),
         apgar_10 = $bindable(""),
+        gestacion = $bindable(""),
         gestaciondesde = $bindable(""),
         gestacionhasta = $bindable(""),
         rciu = $bindable(""),
@@ -115,24 +116,34 @@
             cambiar={cambiarFiltro}
         />
         <!-- Edad gestacional -->
+        <InputSelect
+            idetiqueta="gestacion"
+            etiqueta="Edad gestacional"
+            modoedicion={true}
+            bind:value={gestacion}
+            lista={opciones.EDAD_GESTACIONAL}
+            cambiar={cambiarFiltro}
+        />
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <InputText
-            idetiqueta="gestacionaledaddesde"
-            etiqueta="Gestacional desde"
-            modoedicion={true}
-            bind:value={gestaciondesde}
-            cambiar={cambiarFiltro}
-            escribir={cambiarFiltro}
-        />
-        <InputText
-            idetiqueta="gestacionaledadhasta"
-            etiqueta="Gestacional hasta"
-            modoedicion={true}
-            bind:value={gestacionhasta}
-            cambiar={cambiarFiltro}
-            escribir={cambiarFiltro}
-        />
+    <div class="hidden grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div class="hidden">
+            <InputText
+                idetiqueta="gestacionaledaddesde"
+                etiqueta="Gestacional desde"
+                modoedicion={true}
+                bind:value={gestaciondesde}
+                cambiar={cambiarFiltro}
+                escribir={cambiarFiltro}
+            />
+            <InputText
+                idetiqueta="gestacionaledadhasta"
+                etiqueta="Gestacional hasta"
+                modoedicion={true}
+                bind:value={gestacionhasta}
+                cambiar={cambiarFiltro}
+                escribir={cambiarFiltro}
+            />
+        </div>
     </div>
 </div>
 

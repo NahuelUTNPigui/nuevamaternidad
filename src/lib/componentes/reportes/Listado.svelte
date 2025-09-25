@@ -50,11 +50,25 @@
 
                 `}
             >
-                <div class="table-row">
-                    
+                <div class="table-row overflow-x-auto">
+                    <div class="table-cell px-4 py-3">Fecha ingreso</div>
+                    <div class="table-cell px-4 py-3">Tipo parto</div>
+                    <div class="table-cell px-4 py-3">Domiciliario</div>
+                    <div class="table-cell px-4 py-3">Tipo ingreso</div>
+                    <div class="table-cell px-4 py-3">Edad gestacional</div>
+                    <div class="table-cell px-4 py-3">APGAR 1</div>
+                    <div class="table-cell px-4 py-3">APGAR 5</div>
+                    <div class="table-cell px-4 py-3">APGAR 10</div>
                     <div class="table-cell px-4 py-3">Nombre</div>
-                    <div class="table-cell px-4 py-3">Madre</div>
+                    <div class="table-cell px-4 py-3">Temperatura</div>
+                    <div class="table-cell px-4 py-3">RCIU</div>
+                    <div class="table-cell px-4 py-3">REM</div>
+                    <div class="table-cell px-4 py-3">Reanimacion</div>
+                    <div class="table-cell px-4 py-3">Liquido</div>
+                    <div class="table-cell px-4 py-3">Fallece</div>
+                    <div class="table-cell px-4 py-3">Sexo</div>
                     <div class="table-cell px-4 py-3">HC</div>
+                    <div class="table-cell px-4 py-3">Madre</div>
                     <div class="table-cell px-4 py-3">Fecha Nac.</div>
                     <div class="table-cell px-4 py-3">Peso</div>
                     <div class="table-cell px-4 py-3">Estado</div>
@@ -70,20 +84,35 @@
                             table-row border-b
                             dark:border-gray-700 dark:hover:bg-gray-700
                             border-gray-200 hover:bg-gray-100
-                            cursor-pointer
+                            cursor-pointer overflow-x-auto
                         `}
                         onclick={()=>handleClick(b.id)}
                         onkeydown={(e) => {
                             e.preventDefault();
                         }}
                     >
+                        <div class="table-cell px-4 py-3">{new Date(b.fechaingresobebe)?new Date(b.fechaingresobebe).toLocaleDateString():""}</div>
+                        <div class="table-cell px-4 py-3">{b.tipo_parto}</div>
+                        <div class="table-cell px-4 py-3">{b.parto_domiciliario}</div>
+                        <div class="table-cell px-4 py-3">{b.tipoingreso}</div>
+                        <div class="table-cell px-4 py-3">{b.edad_gestacional}</div>
+                        <div class="table-cell px-4 py-3">{b.apgar_1}</div>
+                        <div class="table-cell px-4 py-3">{b.apgar_5}</div>
+                        <div class="table-cell px-4 py-3">{b.apgar_10}</div>
                         
                         <div class="table-cell px-4 py-3 font-semibold flex items-center gap-2">
                             {b.nombrebebe}
                         </div>
+                        <div class="table-cell px-4 py-3">{b.temperatura_ingreso}</div>
+                        <div class="table-cell px-4 py-3">{b.rciu}</div>
+                        <div class="table-cell px-4 py-3">{b.rem}</div>
+                        <div class="table-cell px-4 py-3">{b.reanimacion}</div>
+                        <div class="table-cell px-4 py-3">{b.liquido_meconial}</div>
+                        <div class="table-cell px-4 py-3">{b.fallece}</div>
+                        <div class="table-cell px-4 py-3">{b.sexo}</div>
                         <div class="table-cell px-4 py-3">{b.nombremama}</div>
                         <div class="table-cell px-4 py-3">{b.hcbebe}</div>
-                        <div class="table-cell px-4 py-3">{new Date(b.fechanacimientobebe).toLocaleDateString()}</div>
+                        <div class="table-cell px-4 py-3">{new Date(b.fechanacimientobebe)?new Date(b.fechanacimientobebe).toLocaleDateString():""}</div>
                         
                         <div class="table-cell px-4 py-3">{b.pesoingresobebe}</div>
                         <div class="table-cell px-4 py-3">

@@ -39,6 +39,7 @@
     let fechaingresobebe = $state("");
     let tipoingreso = $state("");
     let edadingreso = $state("");
+    let edad_gestacional = $state("");
     let sexo = $state("");
     let pesoingresobebe = $state("");
     let temperaturaingreso = $state("");
@@ -75,6 +76,7 @@
             pesoingresobebe,
             pesobebe:pesoingresobebe,
             temperatura_ingreso:temperaturaingreso,
+            edad_gestacional,
             //parto
             tipo_parto,
             rem,
@@ -147,6 +149,7 @@
                     bind:sexo
                     bind:pesoingresobebe
                     bind:temperaturaingreso
+                    bind:edad_gestacional
                 />
             </Collapse>
             <Collapse titulo="Datos madre">

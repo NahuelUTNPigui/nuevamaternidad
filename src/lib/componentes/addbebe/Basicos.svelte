@@ -17,6 +17,7 @@
         sexo = $bindable(""),
         pesoingresobebe = $bindable(""),
         temperaturaingreso = $bindable(""),
+        edad_gestacional=$bindable("")
     } = $props();
 </script>
 
@@ -165,6 +166,20 @@
                 bind:value={pesoingresobebe}
             />
         </div>
+        <div class="form-control">
+            <label class="label" for="temperatura_ingreso">
+                <span class="label-text font-semibold"
+                    >Edad gestacional </span
+                >
+            </label>
+            <input
+                type="text"
+                name="edad_gestacional"
+                
+                class="input input-bordered w-full"
+                bind:value={edad_gestacional}
+            />
+        </div>
     </div>
 
     <!-- Columna 2 -->
@@ -198,9 +213,8 @@
                 {/each}
             </select>
         </div>
-
         <div class="form-control">
-            <label class="label" for="temperatura_ingreso">
+            <label class="label" for="edad_gestacional">
                 <span class="label-text font-semibold"
                     >Temperatura Ingreso (°C)</span
                 >
@@ -214,5 +228,7 @@
                 bind:value={temperaturaingreso}
             />
         </div>
+        
+        
     </div>
 </div>

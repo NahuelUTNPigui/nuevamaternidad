@@ -34,7 +34,7 @@
     let peso = $state("");
     let edadGestacional = $state("");
     let sexo = $state("");
-    let hcnumero = $state("");
+    let hcbebe = $state("");
     //actualizado
 
     let nombremama = $state("");
@@ -45,9 +45,10 @@
     let nombrebebe = $state("");
     let dnibebe = $state("");
     let pesobebe = $state("");
-    let hcbebe = $state("");
     let fechanacimientobebe = $state("");
     let fechaingresobebe = $state("");
+    let tipoingreso = $state("");
+    let edad_gestacional = $state("")
     let pesoingresobebe = $state("");
     let active = $state("");
     let conalta = $state("");
@@ -237,6 +238,8 @@
     let hcbebeviejo = $state("");
     let fechanacimientobebeviejo = $state("");
     let fechaingresobebeviejo = $state("");
+    let tipoingresoviejo = $state("")
+    let edad_gestacionalviejo=$state("")
     let pesoingresobebeviejo = $state("");
     let activeviejo = $state("");
     let conaltaviejo = $state("");
@@ -429,8 +432,11 @@
         dnibebeviejo = dnibebe;
         pesobebeviejo = pesobebe;
         hcbebeviejo = hcbebe;
+        sexoviejo = sexo
         fechanacimientobebeviejo = fechanacimientobebe;
         fechaingresobebeviejo = fechaingresobebe;
+        tipoingresoviejo = tipoingreso
+        edad_gestacionalviejo = edad_gestacional
         pesoingresobebeviejo = pesoingresobebe;
         activeviejo = active;
         conaltaviejo = conalta;
@@ -605,8 +611,11 @@
         dnibebe = dnibebeviejo;
         pesobebe = pesobebeviejo;
         hcbebe = hcbebeviejo;
+        sexo = sexoviejo
         fechanacimientobebe = fechanacimientobebeviejo;
         fechaingresobebe = fechaingresobebeviejo;
+        tipoingreso = tipoingresoviejo
+        edad_gestacional = edad_gestacionalviejo
         pesoingresobebe = pesoingresobebeviejo;
         active = activeviejo;
         conalta = conaltaviejo;
@@ -773,20 +782,16 @@
         altadiagnosticos = altadiagnosticosviejo;
         altacondiciones = altacondicionesviejo;
     }
-    function setDatos(record) {
-        nombre = record.name;
-        madre = record.motherName;
-        birthDate = record.birthDate;
-        peso = record.weight;
-        edadGestacional = record.gestationalAge;
-        sexo = record.gender;
-        clinicNumber = record.medicalRecordNumber;
-    }
+    
     function openEditar() {
         modoedicion = true;
+        setViejo()
     }
     function closeEditar() {
         modoedicion = false;
+        recoverViejo()
+
+
     }
     function eliminar() {
         try {
@@ -810,6 +815,7 @@
         }
     }
     async function guardar() {
+        
         try {
             let data = {
                 nombremama,
@@ -817,11 +823,14 @@
                 hcmama,
                 nombrebebe,
                 dnibebe,
+                sexo,
                 pesobebe,
                 hcbebe,
                 fechanacimientobebe:fechanacimientobebe+" 03:00:00",
                 fechaingresobebe:fechaingresobebe+" 03:00:00",
                 pesoingresobebe,
+                tipoingreso,
+                edad_gestacional,
                 active,
                 conalta,
                 identificacion,
@@ -991,6 +1000,7 @@
                 ...data,
                 bebe: slug,
             };
+            setViejo()
             await pb.collection("bebes").update(slug,data);
             await pb.collection("historialbebes").create(datahistorial)
             Swal.fire("Éxito editar", "Se pudo editar al bebe", "success");
@@ -1023,8 +1033,11 @@
             nombrebebe = record.nombrebebe;
             dnibebe = record.dnibebe;
             hcbebe = record.hcbebe;
+            sexo = record.sexo
             fechanacimientobebe = record.fechanacimientobebe;
             fechaingresobebe = record.fechaingresobebe;
+            tipoingreso = record.tipoingreso
+            edad_gestacional = record.edad_gestacional
             pesoingresobebe = record.pesoingresobebe;
             active = record.active;
             conalta = record.conalta;
@@ -1212,9 +1225,10 @@
             bind:madre={nombremama}
             bind:birthDate={fechanacimientobebe}
             bind:peso={pesobebe}
-            bind:edadGestacional
+            bind:edad_gestacional
+
             bind:sexo
-            bind:clinicNumber={hcnumero}
+            bind:clinicNumber={hcbebe}
             {closeEditar}
             {openEditar}
             {guardar}
@@ -1268,6 +1282,8 @@
                 bind:modoedicion
                 bind:fechaingresobebe
                 bind:pesoingresobebe
+                bind:tipoingreso
+                bind:edad_gestacional
                 bind:temperatura_ingreso
                 bind:tipo_parto
                 bind:parto_domiciliario

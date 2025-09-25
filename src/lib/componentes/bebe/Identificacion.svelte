@@ -83,13 +83,13 @@
         idetiqueta={"hc"}
           etiqueta="Historia Clínica"
           bind:modoedicion
-          bind:value={pesobebe}
+          bind:value={hcbebe}
         />
         <InputText
         idetiqueta={"Peso (g)"}
           etiqueta="Peso (g)"
           bind:modoedicion
-          bind:value={hcbebe}
+          bind:value={pesobebe}
         />
         <InputDate
         idetiqueta={"fechanac"}

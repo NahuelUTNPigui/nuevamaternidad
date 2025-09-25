@@ -7,7 +7,9 @@
     import InputSelect from "../Formulario/InputSelect.svelte";
     let {
         sinhistorial=$bindable(false),
-        limpiar
+        limpiar,
+        limpiarFiltros,
+        limpiarChecks
     } = $props()
     
     
@@ -45,6 +47,38 @@
             
             <span class="text-lg font-medium">Limpiar</span>
         </button>
+        <button
+            class={`
+                cursor-pointer flex items-center gap-2 px-4 py-2 
+                transition-colors rounded-md
+                text-white justify-center
+                dark:bg-blue-500 dark:hover:bg-blue-600
+                bg-blue-600 hover:bg-blue-700
+
+                
+                  
+            `}
+            onclick={limpiarFiltros}
+        >
+            
+            <span class="text-lg font-medium">Limpiar filtros</span>
+        </button>
+        <button
+            class={`
+                cursor-pointer flex items-center gap-2 px-4 py-2 
+                transition-colors rounded-md
+                text-white justify-center
+                dark:bg-blue-500 dark:hover:bg-blue-600
+                bg-blue-600 hover:bg-blue-700
+
+                
+                  
+            `}
+            onclick={limpiarChecks}
+        >
+            
+            <span class="text-lg font-medium">Limpiar secciones</span>
+        </button>
         <Exportar
             data={[]}
             titulo={""}
@@ -54,7 +88,7 @@
             sheetname={""}
         />
     </div>
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
         <InputSelect
             idetiqueta="fhistorial"
             etiqueta="Sin historial"

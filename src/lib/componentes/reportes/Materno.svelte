@@ -8,6 +8,7 @@
                 paridad = $bindable(""),
                 gemelos = $bindable(""),
                 controlparental = $bindable(""),
+                corticoideprenatal=$bindable(""),
                 tabaquismo = $bindable(""),
                 adiccion = $bindable(""),
                 egb = $bindable(""),
@@ -66,14 +67,16 @@
                 />
 
                 <!-- Gemelos -->
-                <InputSelect
-                        idetiqueta="fGEMELO"
-                        etiqueta="Gemelos"
-                        modoedicion={true}
-                        bind:value={gemelos}
-                        lista={opciones.GEMELO}
-                        cambiar={cambiarFiltro}
-                />
+                <div class="hidden">
+                        <InputSelect
+                                idetiqueta="fGEMELO"
+                                etiqueta="Gemelos"
+                                modoedicion={true}
+                                bind:value={gemelos}
+                                lista={opciones.GEMELO}
+                                cambiar={cambiarFiltro}
+                        />
+                </div>
         </div>
 </div>
 
@@ -86,9 +89,18 @@
                 <!-- Control Prenatal -->
                 <InputSelect
                         idetiqueta="fcontrol"
-                        etiqueta="Control parental"
+                        etiqueta="Control prenatal"
                         modoedicion={true}
                         bind:value={controlparental}
+                        lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
+                />
+                <!-- Corticoides Prenatal -->
+                <InputSelect
+                        idetiqueta="fcorticoideprenatal"
+                        etiqueta="Corticoides Prenatal"
+                        modoedicion={true}
+                        bind:value={corticoideprenatal}
                         lista={opciones.SINO}
                         cambiar={cambiarFiltro}
                 />
@@ -104,7 +116,7 @@
                 <!-- Adicción -->
                 <InputSelect
                         idetiqueta="fadiccion"
-                        etiqueta="Adicción (Droga/Alcohol)"
+                        etiqueta="Adicción "
                         modoedicion={true}
                         bind:value={adiccion}
                         lista={opciones.SINO}

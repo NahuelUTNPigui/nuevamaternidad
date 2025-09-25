@@ -21,6 +21,7 @@
     import Secciones from "./Secciones.svelte";
     import { createStorageProxy } from "$lib/filtros/filtros";
     import { onMount } from "svelte";
+    import Alta from "./Alta.svelte";
 
     let {
         cambiarFiltro,
@@ -29,6 +30,9 @@
         setFiltros,
         setProxyChecks,
         setFiltrosChecks,
+        areas=$bindable([]),
+        unidades=$bindable([]),
+        unidadesarea=$bindable([]),
         checked_identificacion = $bindable(true),
         checked_ingreso = $bindable(true),
         checked_antropometria = $bindable(true),
@@ -46,6 +50,7 @@
         checked_oftalmologia = $bindable(true),
         checked_digestivo = $bindable(true),
         checked_genetica = $bindable(true),
+        checked_alta = $bindable(true),
         checked_otros = $bindable(true),
         unidad = $bindable(""),
         area = $bindable(""),
@@ -70,6 +75,7 @@
         apgar_1 = $bindable(""),
         apgar_5 = $bindable(""),
         apgar_10 = $bindable(""),
+        gestacion=$bindable(""),
         gestaciondesde = $bindable(""),
         gestacionhasta = $bindable(""),
         rciu = $bindable(""),
@@ -111,6 +117,7 @@
         paridad = $bindable(""),
         gemelos = $bindable(""),
         controlparental = $bindable(""),
+        corticoideprenatal=$bindable(""),
         tabaquismo = $bindable(""),
         adiccion = $bindable(""),
         egb = $bindable(""),
@@ -233,7 +240,233 @@
         diagnostico = $bindable(""),
     } = $props();
 
+    let modedebug = import.meta.env.VITE_DEBUG == "si";
+
     onMount(() => {});
+    //verdes
+    //<!-- Basico -->
+    let verdebasico = $derived(
+        unidad.length > 0 ||
+            area.length > 0 ||
+            fechadesde.length > 0 ||
+            fechahasta.length > 0,
+    );
+    //<!-- Identificación y Datos Filiatorios -->
+    let verdefilia = $derived(
+        dnimadre.length > 0 ||
+            nombremadre.length > 0 ||
+            dnirn.length > 0 ||
+            nombrern.length > 0 ||
+            nacdesde.length > 0 ||
+            nachasta.length > 0 ||
+            sexorn.length > 0 ||
+            egresodesde.length > 0 ||
+            egresohasta.length > 0,
+    );
+    //<!-- Datos ingreso -->
+    let verdeingreso = $derived(
+        tipoingreso.length > 0 ||
+            ingresodesde.length > 0 ||
+            ingresohasta.length > 0 ||
+            tipoparto.length > 0 ||
+            partodomicilio.length > 0 ||
+            apgar_1.length > 0 ||
+            apgar_5.length > 0 ||
+            apgar_10.length > 0 ||
+            gestacion.length > 0  ||
+            gestaciondesde.length > 0 ||
+            gestacionhasta.length > 0 ||
+            rciu.length > 0 ||
+            temperatura_ingreso.length > 0 ||
+            rem.length > 0 ||
+            reanimacion.length > 0 ||
+            liquido.length > 0 ||
+            fallece === 0 || fallece === 1,
+    );
+    //<!-- Antropometria -->
+    let verdeantro = $derived(
+        peso_rn.length > 0 ||
+            peso_7.length > 0 ||
+            peso_14.length > 0 ||
+            peso_21.length > 0 ||
+            peso_28.length > 0 ||
+            peso_36.length > 0 ||
+            cefalico_rn.length > 0 ||
+            cefalico_7.length > 0 ||
+            cefalico_14.length > 0 ||
+            cefalico_21.length > 0 ||
+            cefalico_28.length > 0 ||
+            cefalico_36.length > 0 ||
+            talla_rn.length > 0 ||
+            talla_7.length > 0 ||
+            talla_14.length > 0 ||
+            talla_21.length > 0 ||
+            talla_28.length > 0 ||
+            talla_36.length > 0 ||
+            scorez_rn.length > 0 ||
+            scorez_7.length > 0 ||
+            scorez_14.length > 0 ||
+            scorez_21.length > 0 ||
+            scorez_28.length > 0 ||
+            scorez_36.length > 0 ||
+            recuperarpesodesde.length > 0 ||
+            recuperarpesohasta.length > 0,
+    );
+    //<!-- Datos maternos -->
+    let verdematernos = $derived(
+        edad_materna.length > 0 ||
+            niveleducativo.length > 0 ||
+            paridad.length > 0 ||
+            gemelos.length > 0 ||
+            controlparental.length > 0 ||
+            corticoideprenatal.length > 0 ||
+            tabaquismo.length > 0 ||
+            adiccion.length > 0 ||
+            egb.length > 0 ||
+            crioaminintis.length > 0 ||
+            sulfato.length > 0 ||
+            diabetes.length > 0 ||
+            colico.length > 0 ||
+            congenita.length > 0 ||
+            itu.length > 0 ||
+            desprendimiento.length > 0 ||
+            ht.length > 0 ||
+            hie.length > 0 ||
+            preeclampisa.length > 0 ||
+            eclampsia.length > 0 ||
+            colestasis.length > 0,
+    );
+    //<!-- Catéteres -->
+    let verdecate = $derived(
+        umbilicalvenoso.length > 0 ||
+            umbilicalarterial.length > 0 ||
+            percutaneo.length > 0 ||
+            central.length > 0,
+    );
+    //<!-- Alimentación -->
+    let verdealimentacion = $derived(
+        trofica.length > 0 ||
+            volumenenteral.length > 0 ||
+            caloriasenteral.length > 0 ||
+            tipoenteral.length > 0 ||
+            nutricionparental.length > 0 ||
+            edadnpt.length > 0 ||
+            duracionnpt.length > 0 ||
+            comienzoaa.length > 0 ||
+            aporteaa.length > 0 ||
+            comienzolipido.length > 0 ||
+            aportelipido.length > 0,
+    );
+    //<!-- Infecciones -->
+    let verdeInfecciones = $derived(
+        tempranoestado.length > 0 ||
+            tempranogermen.length > 0 ||
+            tempranoantibiotico.length > 0 ||
+            tempranoatb.length > 0 ||
+            tardeestado.length > 0 ||
+            tardegermen.length > 0 ||
+            tardeantibiotico.length > 0 ||
+            tardeatb.length > 0,
+    );
+    //<!-- Respiratorio -->
+    let verdeRespiratorio = $derived(
+        emh.length > 0 ||
+            apena.length > 0 ||
+            neumotorax.length > 0 ||
+            taquipnea.length > 0 ||
+            hipertension.length > 0 ||
+            interstecial.length > 0 ||
+            dbp.length > 0 ||
+            oxigeno.length > 0 ||
+            surfactante.length > 0 ||
+            arm.length > 0 ||
+            intubado.length > 0 ||
+            vafo.length > 0 ||
+            cpap.length > 0 ||
+            oaf.length > 0 ||
+            cbf.length > 0 ||
+            cafeina.length > 0 ||
+            aminofilina.length > 0 ||
+            corticoideinhalado.length > 0 ||
+            corticoidepostnatal.length > 0 ||
+            oxidonitrico.length > 0,
+    );
+    //<!-- Cardiovascular y ductus -->
+    let verdeductus = $derived(ductus.length > 0 || cardiocongenita.length > 0);
+    //<!-- Inotrópicos y Diuréticos -->
+    let verdeinotro = $derived(
+        dopamina.length > 0 ||
+            dobutamina.length > 0 ||
+            adrenalina.length > 0 ||
+            milrinona.length > 0 ||
+            vasopresina.length > 0 ||
+            furosemida.length > 0 ||
+            espironolacta.length > 0 ||
+            hidrocloritiazida.length > 0,
+    );
+    //<!-- Sangre -->
+    let verdeSangre = $derived(
+        tgr.length > 0 ||
+            plasma.length > 0 ||
+            inmunoglobina.length > 0 ||
+            transfusion.length > 0,
+    );
+    //<!-- Neurologico -->
+    let verdeNeurologico = $derived(
+        hiv.length > 0 ||
+            convulsiones.length > 0 ||
+            ehi.length > 0 ||
+            hipo.length > 0,
+    );
+    //<!-- Oftamología -->
+    let verdeofta = $derived(
+        fondoojo.length > 0 || rop.length > 0 || tratamientorop.length > 0,
+    );
+    //<!-- Digestivo y Quirúrgico -->
+    let verdediges = $derived(
+        nec.length > 0 ||
+            perforacion.length > 0 ||
+            onfalocele.length > 0 ||
+            gastrosquisis.length > 0 ||
+            atresia.length > 0 ||
+            tqt.length > 0 ||
+            drenajepleural.length > 0 ||
+            drenajeventricular.length > 0,
+    );
+    //<!-- Genética -->
+    let verdegen = $derived(
+        trisomia21.length > 0 ||
+            trisomia13.length > 0 ||
+            trisomia18.length > 0 ||
+            vacterl.length > 0 ||
+            turner.length > 0,
+    );
+    //<!-- medicacion -->
+    let verdemedicacion = $derived(
+        protectorgastrico.length>0||
+        inhibidor.length>0||
+        probiotico.length>0||
+        eritromicina.length>0||
+        fentanilo.length>0||
+        morfina.length>0||
+        midozolam.length>0||
+        precedex.length>0||
+        metadona.length>0||
+        vecuronio.length>0||
+        prostaglandinas.length>0
+    );
+    //<!-- otros -->
+    let verdeotros = $derived(
+        malformacionescongenitas.length>0||
+        cirugias.length>0||
+        complicaciones.length>0
+    );
+    //<!-- otros -->
+    //let  = $derived(
+    //    malformacionescongenitas.length>0||
+    //    cirugias.length>0||
+    //    complicaciones.length>0
+    //);
 </script>
 
 <!-- Collapsible Sections -->
@@ -262,20 +495,30 @@
             bind:checked_oftalmologia
             bind:checked_digestivo
             bind:checked_genetica
+            bind:checked_alta
             bind:checked_otros
         />
     </Collapse>
 
     <!-- Basico -->
 
-    <Collapse titulo="Basico">
+    <Collapse titulo="Basico" bind:verde={verdebasico}>
+        {#if modedebug}
+            {unidad.length}
+            {area.length}
+            {fechadesde.length}
+            {fechahasta.length}
+        {/if}
         <Basicos
             show={true}
+            {cambiarFiltro}
+            bind:unidades
+            bind:areas
+            bind:unidadesarea
             bind:unidad
             bind:area
             bind:fechadesde
             bind:fechahasta
-            
         />
     </Collapse>
 
@@ -283,8 +526,10 @@
     <Collapse
         titulo="Identificación y Datos Filiatorios"
         bind:show={checked_identificacion}
+        bind:verde={verdefilia}
     >
         <Filiatorios
+            {cambiarFiltro}
             bind:dnimadre
             bind:nombremadre
             bind:dnirn
@@ -298,8 +543,13 @@
     </Collapse>
 
     <!-- Datos ingreso -->
-    <Collapse titulo="Datos del Ingreso" bind:show={checked_ingreso}>
+    <Collapse
+        titulo="Datos del Ingreso"
+        bind:show={checked_ingreso}
+        bind:verde={verdeingreso}
+    >
         <Ingreso
+            {cambiarFiltro}
             bind:tipoingreso
             bind:ingresodesde
             bind:ingresohasta
@@ -309,6 +559,7 @@
             bind:apgar_5
             bind:apgar_10
             bind:gestaciondesde
+            bind:gestacion
             bind:gestacionhasta
             bind:rciu
             bind:temperatura_ingreso
@@ -320,8 +571,13 @@
     </Collapse>
 
     <!-- Antropometria -->
-    <Collapse titulo="Antropometría" bind:show={checked_antropometria}>
+    <Collapse
+        titulo="Antropometría"
+        bind:show={checked_antropometria}
+        bind:verde={verdeantro}
+    >
         <Antropometria
+            {cambiarFiltro}
             bind:peso_rn
             bind:peso_7
             bind:peso_14
@@ -352,8 +608,13 @@
     </Collapse>
 
     <!-- Datos maternos -->
-    <Collapse titulo="Datos Maternos" bind:show={checked_maternos}>
+    <Collapse
+        titulo="Datos Maternos"
+        bind:show={checked_maternos}
+        bind:verde={verdematernos}
+    >
         <Materno
+            {cambiarFiltro}
             bind:edad_materna
             bind:niveleducativo
             bind:paridad
@@ -378,8 +639,13 @@
     </Collapse>
 
     <!-- Catéteres -->
-    <Collapse titulo="Catéteres" bind:show={checked_cateteres}>
+    <Collapse
+        titulo="Catéteres"
+        bind:show={checked_cateteres}
+        bind:verde={verdecate}
+    >
         <Cateteres
+            {cambiarFiltro}
             bind:umbilicalvenoso
             bind:umbilicalarterial
             bind:percutaneo
@@ -388,8 +654,13 @@
     </Collapse>
 
     <!-- Alimentación -->
-    <Collapse titulo="Alimentación" bind:show={checked_alimentacion}>
+    <Collapse
+        titulo="Alimentación"
+        bind:show={checked_alimentacion}
+        bind:verde={verdealimentacion}
+    >
         <Alimentacion
+            {cambiarFiltro}
             bind:trofica
             bind:volumenenteral
             bind:caloriasenteral
@@ -405,8 +676,13 @@
     </Collapse>
 
     <!-- Infecciones -->
-    <Collapse titulo="Infecciones" bind:show={checked_infecciones}>
+    <Collapse
+        titulo="Infecciones"
+        bind:show={checked_infecciones}
+        bind:verde={verdeInfecciones}
+    >
         <Infecciones
+            {cambiarFiltro}
             bind:tempranoestado
             bind:tempranogermen
             bind:tempranoantibiotico
@@ -422,8 +698,10 @@
     <Collapse
         titulo="Patologías Respiratorias"
         bind:show={checked_respiratorias}
+        bind:verde={verdeRespiratorio}
     >
         <Respiratorio
+            {cambiarFiltro}
             bind:emh
             bind:apena
             bind:neumotorax
@@ -448,13 +726,22 @@
     </Collapse>
 
     <!-- Cardiovascular y ductus -->
-    <Collapse titulo="Cardiovascular" bind:show={checked_cardiovascular}>
-        <Cardio bind:ductus bind:cardiocongenita />
+    <Collapse
+        titulo="Cardiovascular"
+        bind:show={checked_cardiovascular}
+        bind:verde={verdeductus}
+    >
+        <Cardio {cambiarFiltro} bind:ductus bind:cardiocongenita />
     </Collapse>
 
     <!-- Inotrópicos y Diuréticos -->
-    <Collapse titulo="Inotrópicos" bind:show={checked_inotropicos}>
+    <Collapse
+        titulo="Inotrópicos"
+        bind:show={checked_inotropicos}
+        bind:verde={verdeinotro}
+    >
         <Intropico
+            {cambiarFiltro}
             bind:dopamina
             bind:dobutamina
             bind:adrenalina
@@ -467,73 +754,119 @@
     </Collapse>
 
     <!-- Sangre -->
-    <Collapse titulo="Hematología y Transfusiones" bind:show={checked_sangre}>
-        <Hemoderiva bind:tgr bind:plasma bind:inmunoglobina bind:transfusion />
+    <Collapse
+        titulo="Hematología y Transfusiones"
+        bind:show={checked_sangre}
+        bind:verde={verdeSangre}
+    >
+        <Hemoderiva
+            {cambiarFiltro}
+            bind:tgr
+            bind:plasma
+            bind:inmunoglobina
+            bind:transfusion
+        />
     </Collapse>
 
     <!-- Neurologico -->
-    <Collapse titulo="Patologías Neurológicas" bind:show={checked_neurologicas}>
-        <Neuro bind:hiv bind:convulsiones bind:ehi bind:hipo />
+    <Collapse
+        titulo="Patologías Neurológicas"
+        bind:show={checked_neurologicas}
+        bind:verde={verdeNeurologico}
+    >
+        <Neuro {cambiarFiltro} bind:hiv bind:convulsiones bind:ehi bind:hipo />
     </Collapse>
 
     <!-- Oftamología -->
-    <Collapse titulo="Oftalmología" bind:show={checked_oftalmologia}>
-        <Oftamologia 
-bind:fondoojo
-bind:rop
-bind:tratamientorop
+    <Collapse
+        titulo="Oftalmología"
+        bind:show={checked_oftalmologia}
+        bind:verde={verdeofta}
+    >
+        <Oftamologia
+            {cambiarFiltro}
+            bind:fondoojo
+            bind:rop
+            bind:tratamientorop
         />
     </Collapse>
 
     <!-- Digestivo y Quirúrgico -->
-    <Collapse titulo="Sistema Digestivo" bind:show={checked_digestivo}>
-        <Digestivo 
-bind:nec
-bind:perforacion
-bind:onfalocele
-bind:gastrosquisis
-bind:atresia
-bind:tqt
-bind:drenajepleural
-bind:drenajeventricular
+    <Collapse
+        titulo="Sistema Digestivo"
+        bind:show={checked_digestivo}
+        bind:verde={verdediges}
+    >
+        <Digestivo
+            {cambiarFiltro}
+            bind:nec
+            bind:perforacion
+            bind:onfalocele
+            bind:gastrosquisis
+            bind:atresia
+            bind:tqt
+            bind:drenajepleural
+            bind:drenajeventricular
         />
     </Collapse>
 
     <!-- Genética -->
-    <Collapse titulo="Antecedentes Genéticos" bind:show={checked_genetica}>
+    <Collapse
+        titulo="Antecedentes Genéticos"
+        bind:show={checked_genetica}
+        bind:verde={verdegen}
+    >
         <Genetica
-bind:trisomia21
-bind:trisomia13
-bind:trisomia18
-bind:vacterl
-bind:turner
-         />
+            {cambiarFiltro}
+            bind:trisomia21
+            bind:trisomia13
+            bind:trisomia18
+            bind:vacterl
+            bind:turner
+        />
     </Collapse>
 
     <!-- Medicación -->
-    <Collapse titulo="Medicación" bind:show={checked_medicacion}>
-        <Medicacion 
-bind:protectorgastrico
-bind:inhibidor
-bind:probiotico
-bind:eritromicina
-bind:fentanilo
-bind:morfina
-bind:midozolam
-bind:precedex
-bind:metadona
-bind:vecuronio
-bind:prostaglandinas
+    <Collapse 
+        titulo="Medicación" 
+        bind:show={checked_medicacion}
+        bind:verde={verdemedicacion}
+    >
+        <Medicacion
+            {cambiarFiltro}
+            bind:protectorgastrico
+            bind:inhibidor
+            bind:probiotico
+            bind:eritromicina
+            bind:fentanilo
+            bind:morfina
+            bind:midozolam
+            bind:precedex
+            bind:metadona
+            bind:vecuronio
+            bind:prostaglandinas
         />
     </Collapse>
 
     <!-- Otros -->
-    <Collapse titulo="Otros" bind:show={checked_otros}>
-        <Otros 
-bind:malformacionescongenitas
-bind:cirugias
-bind:complicaciones
+    <Collapse 
+        titulo="Otros"
+        bind:show={checked_otros}
+        bind:verde={verdeotros}
+    >
+        <Otros
+            {cambiarFiltro}
+            bind:malformacionescongenitas
+            bind:cirugias
+            bind:complicaciones
         />
-
+    </Collapse>
+    <!-- Alta -->
+    <Collapse 
+        titulo="Alta"
+        bind:show={checked_alta}
+        bind:verde={verdeotros}
+    >
+        <Alta/>
     </Collapse>
 </div>

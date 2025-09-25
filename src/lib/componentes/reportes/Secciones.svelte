@@ -19,6 +19,7 @@
         checked_oftalmologia = $bindable(true),
         checked_digestivo = $bindable(true),
         checked_genetica = $bindable(true),
+        checked_alta = $bindable(true),
         checked_otros = $bindable(true)
     } = $props()
 </script>
@@ -52,5 +53,6 @@
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_digestivo} idlabel="chk-digestivo" label="Sistema Digestivo" />
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_genetica} idlabel="chk-genetica" label="Antecedentes Genéticos" />
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_otros} idlabel="chk-otros" label="Otros" />
+        <FilterCheck cambiar={cambiarCheck} bind:value={checked_alta} idlabel="chk-altas" label="Alta" />
     </div>
 </div>

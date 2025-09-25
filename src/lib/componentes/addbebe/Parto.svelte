@@ -38,7 +38,7 @@
                 class="select select-bordered w-full"
                 bind:value={parto_domicilio}
             >
-                {#each opciones.DOMICLIARIO as fila}
+                {#each opciones.SINO as fila}
                     <option value={fila.id}>{fila.nombre}</option>
                 {/each}
             </select>

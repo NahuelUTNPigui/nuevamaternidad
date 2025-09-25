@@ -2,7 +2,8 @@
     let{
         titulo,
         children,
-        show = $bindable(true)
+        show = $bindable(true),
+        verde = $bindable(false)
     } = $props()
     
     
@@ -18,7 +19,7 @@
     let collapsetitleclass="collapse-title text-xl font-medium flex items-center gap-3 px-6 py-4 group-hover:bg-primary/5  transition-colors duration-200"
     
     
-    let collapsepunto="w-3 h-3 bg-primary rounded-full mr-3"
+    let collapsepunto=$derived(`w-3 h-3 rounded-full mr-3 ${verde?"bg-success":"bg-primary"}`)
     
     let collapsetext="text-black/90 dark:text-white font-semibold tracking-wide"
     

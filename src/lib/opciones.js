@@ -5,6 +5,7 @@ export default {
     { id: "no", nombre: "No" }
   ],
   INGRESOS: [
+    { id: "", nombre: "" },
     { id: "propio", nombre: "Propio" },
     { id: "derivado", nombre: "Derivado" }
   ],
@@ -51,9 +52,9 @@ export default {
   ],
 
   FALLECE: [
-    { id: 0, nombre: "" },
+    { id: -1, nombre: "" },
     { id: 1, nombre: "Si" },
-    { id: 2, nombre: "No" }
+    { id: 0, nombre: "No" }
   ],
 
   // ========================
@@ -298,313 +299,329 @@ export default {
     { id: "si-tipo3", nombre: "Sí (Tipo III)" },
   ],
   //Filtros
+  //Rangos
   APGAR_RANGO: [
     { id: "", nombre: "" },
-    { id: "alto", nombre: "Alto (8,9,10)" },
-    { id: "medio", nombre: "Medio (5,6,7)" },
-    { id: "bajo", nombre: "Bajo (1,2,3,4)" },
+    { id: "alto", nombre: "Alto (8,9,10)", min: "8", max: "11" },
+    { id: "medio", nombre: "Medio (5,6,7)", min: "5", max: "8" },
+    { id: "bajo", nombre: "Bajo (1,2,3,4)", min: "1", max: "5" },
+  ],
+  EDAD_GESTACIONAL: [
+  { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (≥ 42 semanas)", min: "42.0", max: "50.0" },
+    { id: "media", nombre: "Medio (< 42 semanas)", min: "37.0", max: "42.0" },
+    { id: "baja", nombre: "Bajo (< 37 semanas)", min: "0.0", max: "37.0" },
   ],
   TEMPERATURA_RANGO: [
     { id: "", nombre: "" },
-    { id: "alto", nombre: "Alto (> 37.8°)" },
-    { id: "medio", nombre: "Medio (<= 37.5°)" },
-    { id: "bajo", nombre: "Bajo (< 36°)" },
+    { id: "alto", nombre: "Alto (>= 37.5°)", min: "37.5", max: "100" }, // asumiendo límite superior razonable
+    { id: "medio", nombre: "Medio (< 37.5°)", min: "36.0", max: "37.5" }, // ajustado para no solapar con "bajo"
+    { id: "bajo", nombre: "Bajo (< 36°)", min: "0", max: "35.9" },
   ],
   PESO_RANGO: {
     RN: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 4000 g)" },
-      { id: "medio", nombre: "Medio (<= 4000 g)" },
-      { id: "bajo", nombre: "Bajo (< 2500 g)" },
+      { id: "alto", nombre: "Alto (>= 4000 g)", min: "4000", max: "9999" },
+      { id: "medio", nombre: "Medio (< 4000 g)", min: "2500", max: "4000" }, // ajustado para no incluir "bajo"
+      { id: "bajo", nombre: "Bajo (< 2500 g)", min: "0", max: "2500" },
     ],
     DIAS_7: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 4200 g)" },
-      { id: "medio", nombre: "Medio (<= 4200 g)" },
-      { id: "bajo", nombre: "Bajo (< 2800 g)" },
+      { id: "alto", nombre: "Alto (>= 4200 g)", min: "4200", max: "9999" },
+      { id: "medio", nombre: "Medio (< 4200 g)", min: "2800", max: "4200" },
+      { id: "bajo", nombre: "Bajo (< 2800 g)", min: "0", max: "2800" },
     ],
     DIAS_14: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 4600 g)" },
-      { id: "medio", nombre: "Medio (<= 4600 g)" },
-      { id: "bajo", nombre: "Bajo (< 3100 g)" },
+      { id: "alto", nombre: "Alto (>= 4600 g)", min: "4600", max: "9999" },
+      { id: "medio", nombre: "Medio (< 4600 g)", min: "3100", max: "4600" },
+      { id: "bajo", nombre: "Bajo (< 3100 g)", min: "0", max: "3100" },
     ],
     DIAS_21: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 4900 g)" },
-      { id: "medio", nombre: "Medio (<= 4900 g)" },
-      { id: "bajo", nombre: "Bajo (< 3400 g)" },
+      { id: "alto", nombre: "Alto (>= 4900 g)", min: "4900", max: "9999" },
+      { id: "medio", nombre: "Medio (< 4900 g)", min: "3400", max: "4900" },
+      { id: "bajo", nombre: "Bajo (< 3400 g)", min: "0", max: "3400" },
     ],
     DIAS_28: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 5200 g)" },
-      { id: "medio", nombre: "Medio (<= 5200 g)" },
-      { id: "bajo", nombre: "Bajo (< 3600 g)" },
+      { id: "alto", nombre: "Alto (>= 5200 g)", min: "5200", max: "9999" },
+      { id: "medio", nombre: "Medio (< 5200 g)", min: "3600", max: "5200" },
+      { id: "bajo", nombre: "Bajo (< 3600 g)", min: "0", max: "3600" },
     ],
     SEM_36: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 3000 g)" },
-      { id: "medio", nombre: "Medio (<= 3000 g)" },
-      { id: "bajo", nombre: "Bajo (< 2200 g)" },
+      { id: "alto", nombre: "Alto (>= 3000 g)", min: "3000", max: "9999" }, // > 3000 → min = 3001
+      { id: "medio", nombre: "Medio (< 3000 g)", min: "2200", max: "3000" }, // excluye 3000
+      { id: "bajo", nombre: "Bajo (< 2200 g)", min: "0", max: "2200" },
     ],
   },
   CEFALICO_RANGO: {
     RN: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 37.5.cm)" },
-      { id: "medio", nombre: "Medio (<=  37.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 32 cm)" },
+      { id: "alto", nombre: "Alto (>= 37.5 cm)", min: "37.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 37.5 cm)", min: "32.0", max: "37.5" }, // desde límite de "bajo" hasta "alto"
+      { id: "bajo", nombre: "Bajo (< 32 cm)", min: "0.0", max: "32.0" },
     ],
     DIAS_7: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 38.5 cm)" },
-      { id: "medio", nombre: "Medio (<=  38.5m)" },
-      { id: "bajo", nombre: "Bajo (< 33.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 38.5 cm)", min: "38.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 38.5 cm)", min: "33.5", max: "38.5" },
+      { id: "bajo", nombre: "Bajo (< 33.5 cm)", min: "0.0", max: "33.5" },
     ],
     DIAS_14: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 39.5 cm)" },
-      { id: "medio", nombre: "Medio (<= 39.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 34.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 39.5 cm)", min: "39.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 39.5 cm)", min: "34.5", max: "39.5" },
+      { id: "bajo", nombre: "Bajo (< 34.5 cm)", min: "0.0", max: "34.5" },
     ],
     DIAS_21: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 40.5 cm)" },
-      { id: "medio", nombre: "Medio (<= 40.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 35.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 40.5 cm)", min: "40.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 40.5 cm)", min: "35.5", max: "40.5" },
+      { id: "bajo", nombre: "Bajo (< 35.5 cm)", min: "0.0", max: "35.5" },
     ],
     DIAS_28: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 41.5 cm)" },
-      { id: "medio", nombre: "Medio (<= 41.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 36.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 41.5 cm)", min: "41.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 41.5 cm)", min: "36.5", max: "41.5" },
+      { id: "bajo", nombre: "Bajo (< 36.5 cm)", min: "0.0", max: "36.5" },
     ],
     SEM_36: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 34.5 cm)" },
-      { id: "medio", nombre: "Medio (<= 34.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 30.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 34.5 cm)", min: "34.5", max: "99.9" },
+      { id: "medio", nombre: "Medio (< 34.5 cm)", min: "30.5", max: "34.5" },
+      { id: "bajo", nombre: "Bajo (< 30.5 cm)", min: "0.0", max: "30.5" },
     ],
   },
   TALLA_RANGO: {
     RN: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 54 cm)" },
-      { id: "medio", nombre: "Medio (<= 54 cm)" },
-      { id: "bajo", nombre: "Bajo (< 46 cm)" },
+      { id: "alto", nombre: "Alto (>= 54 cm)", min: "54.0", max: "150.0" },
+      { id: "medio", nombre: "Medio (< 54 cm)", min: "46.0", max: "54.0" },
+      { id: "bajo", nombre: "Bajo (< 46 cm)", min: "0.0", max: "46.0" },
     ],
     DIAS_7: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 55 cm)" },
-      { id: "medio", nombre: "Medio (<= 55 cm)" },
-      { id: "bajo", nombre: "Bajo (< 47.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 55 cm)", min: "55.0", max: "150.0" },
+      { id: "medio", nombre: "Medio (< 55 cm)", min: "47.5", max: "55.0" },
+      { id: "bajo", nombre: "Bajo (< 47.5 cm)", min: "0.0", max: "47.5" },
     ],
     DIAS_14: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 57 cm)" },
-      { id: "medio", nombre: "Medio (<= 57 cm)" },
-      { id: "bajo", nombre: "Bajo (< 49 cm)" },
+      { id: "alto", nombre: "Alto (>= 57 cm)", min: "57.0", max: "150.0" },
+      { id: "medio", nombre: "Medio (< 57 cm)", min: "49.0", max: "57.0" },
+      { id: "bajo", nombre: "Bajo (< 49 cm)", min: "0.0", max: "49.0" },
     ],
     DIAS_21: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 58.5 cm)" },
-      { id: "medio", nombre: "Medio (<= 58.5 cm)" },
-      { id: "bajo", nombre: "Bajo (< 50.5 cm)" },
+      { id: "alto", nombre: "Alto (>= 58.5 cm)", min: "58.5", max: "150.0" },
+      { id: "medio", nombre: "Medio (< 58.5 cm)", min: "50.5", max: "58.5" },
+      { id: "bajo", nombre: "Bajo (< 50.5 cm)", min: "0.0", max: "50.5" },
     ],
     DIAS_28: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 6 cm)" },
-      { id: "medio", nombre: "Medio (<= 60 cm)" },
-      { id: "bajo", nombre: "Bajo (< 52 cm)" },
+      { id: "alto", nombre: "Alto (>= 60 cm)", min: "60.0", max: "150.0" }, // ¡CORREGIDO! (era ">= 6 cm", error obvio)
+      { id: "medio", nombre: "Medio (< 60 cm)", min: "52.0", max: "60.0" },
+      { id: "bajo", nombre: "Bajo (< 52 cm)", min: "0.0", max: "52.0" },
     ],
     SEM_36: [
       { id: "", nombre: "" },
-      { id: "alto", nombre: "Alto (> 50 cm)" },
-      { id: "medio", nombre: "Medio (<= 50 cm)" },
-      { id: "bajo", nombre: "Bajo (< 44 cm)" },
+      { id: "alto", nombre: "Alto (>= 50 cm)", min: "50.0", max: "150.0" },
+      { id: "medio", nombre: "Medio (< 50 cm)", min: "44.0", max: "50.0" },
+      { id: "bajo", nombre: "Bajo (< 44 cm)", min: "0.0", max: "44.0" },
     ],
   },
   SCOREZ_RANGO: [
     { id: "", nombre: "" },
-    { id: "alto", nombre: "Alto (> 1.0°)" },
-    { id: "medio", nombre: "Medio (<= 1.0)" },
-    { id: "bajo", nombre: "Bajo (< -1)" },
+    { id: "alto", nombre: "Alto (>= 1.0°)", min: "1.0", max: "10" },
+    { id: "medio", nombre: "Medio (< 1.0)", min: "-1.0", max: "1.0" },
+    { id: "bajo", nombre: "Bajo (< -1)", min: "-10", max: "-1.1" },
   ],
   EDAD_MADRE: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 25)" },
-    { id: "media", nombre: "Medio (<=  23)" },
-    { id: "baja", nombre: "Bajo (< 18)" },
+    { id: "alta", nombre: "Alto (>= 25)", min: "25", max: "100" },
+    { id: "media", nombre: "Medio (<= 25)", min: "18", max: "25" },
+    { id: "baja", nombre: "Bajo (< 18)", min: "0", max: "18" },
   ],
-  PARIDAD_MADRE:[
+  PARIDAD_MADRE: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 2)" },
-    { id: "media", nombre: "Medio (<= 2)" },
-    { id: "baja", nombre: "Bajo (0)" },
+    { id: "alta", nombre: "Alto (>= 3)", min: "3", max: "100" },
+    { id: "media", nombre: "Medio (< 3)", min: "1", max: "3" },
+    { id: "baja", nombre: "Bajo (0)", min: "0", max: "1" },
   ],
-  GEMELO:[
+  GEMELO: [
     { id: "", nombre: "" },
     { id: "2", nombre: "Gemelo" },
     { id: "3", nombre: "Trillizo" },
     { id: "mas3", nombre: "Más de 3" }
   ],
   //Alimentacion
-  EDAD_INICIO:[
+  EDAD_INICIO: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 3 días)" },
-    { id: "media", nombre: "Medio (<= 3 días)" },
-    { id: "baja", nombre: "Bajo (< 1 días)" },
+    { id: "alta", nombre: "Alto (>= 4 días)", min: "4", max: "365" },
+    { id: "media", nombre: "Medio (< 4 días)", min: "1", max: "4" },
+    { id: "baja", nombre: "Bajo (< 0 días)", min: "0", max: "0" },
   ],
-  DURACION:[
+  DURACION: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 14 días)" },
-    { id: "media", nombre: "Medio (<= 14 días)" },
-    { id: "baja", nombre: "Bajo (< 5 días)" },
+    { id: "alta", nombre: "Alto (>= 14 días)", min: "14", max: "365" },
+    { id: "media", nombre: "Medio (< 14 días)", min: "5", max: "14" }, // ajustado para no solapar con "baja"
+    { id: "baja", nombre: "Bajo (< 5 días)", min: "0", max: "5" },
   ],
-  INICIO_AA:[
+
+  INICIO_AA: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 3 días)" },
-    { id: "media", nombre: "Medio (<= 3 días)" },
-    { id: "baja", nombre: "Bajo (< 2 días)" },
+    { id: "alta", nombre: "Alto (>= 3 días)", min: "3", max: "366" },
+    { id: "media", nombre: "Medio (< 3 días)", min: "2", max: "3" }, // desde límite de "baja" hasta "alta"
+    { id: "baja", nombre: "Bajo (< 2 días)", min: "0", max: "2" },
   ],
-  APORTE_AA:[
+  APORTE_AA: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 2.5 g/kg/día)" },
-    { id: "media", nombre: "Medio (<= 2.5 g/kg/día)" },
-    { id: "baja", nombre: "Bajo (< 1.0 g/kg/día)" },
+    { id: "alta", nombre: "Alto (>= 2.5 g/kg/día)", min: "2.5", max: "10.1" },
+    { id: "media", nombre: "Medio (< 2.5 g/kg/día)", min: "1.0", max: "2.5" },
+    { id: "baja", nombre: "Bajo (< 1.0 g/kg/día)", min: "0.0", max: "1.0" },
   ],
-  COMIENZO_LIPIDO:[
+  COMIENZO_LIPIDO: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 5 días)" },
-    { id: "media", nombre: "Medio (<= 5 días)" },
-    { id: "baja", nombre: "Bajo (< 3 días)" },
+    { id: "alta", nombre: "Alto (>= 5 días)", min: "5", max: "366" },
+    { id: "media", nombre: "Medio (< 5 días)", min: "3", max: "5" },
+    { id: "baja", nombre: "Bajo (< 3 días)", min: "0", max: "3" },
   ],
-  APORTE_LIPIDO:[
+  APORTE_LIPIDO: [
     { id: "", nombre: "" },
-    { id: "alta", nombre: "Alto (> 2.0 g/kg/día)" },
-    { id: "media", nombre: "Medio (<= 2.0 g/kg/día)" },
-    { id: "baja", nombre: "Bajo (< 0.5 g/kg/día)" },
+    { id: "alta", nombre: "Alto (>= 2.0 g/kg/día)", min: "2.0", max: "10.1" },
+    { id: "media", nombre: "Medio (< 2.0 g/kg/día)", min: "0.5", max: "2.0" },
+    { id: "baja", nombre: "Bajo (< 0.5 g/kg/día)", min: "0.0", max: "0.5" },
   ],
 
 
-  ESTADO_INFECCION:[
+  ESTADO_INFECCION: [
     { id: "", nombre: "" },
     { id: "no", nombre: "No" },
     { id: "sospecha", nombre: "Sospecha clínica" },
     { id: "confirmada", nombre: "Confirmada" },
   ],
-  DURACION_TEMPRANA:[
+  DURACION_TEMPRANA: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Baja (<5)" },
-    { id: "media", nombre: "Media (<=10)" },
-    { id: "alta", nombre: "Alta (>10)" },
+    { id: "alta", nombre: "Alta (>=10)", min: "10", max: "366" },
+    { id: "media", nombre: "Media (<10)", min: "5", max: "10" },
+    { id: "baja", nombre: "Baja (<5)", min: "0", max: "5" },
+
   ],
-  DURACION_TARDIA:[
+  DURACION_TARDIA: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Baja (<10)" },
-    { id: "media", nombre: "Media (<=14)" },
-    { id: "alta", nombre: "Alta (>14)" },
+    { id: "alta", nombre: "Alta (>=14)", min: "14", max: "366" },
+    { id: "media", nombre: "Media (<14)", min: "10", max: "14" },
+    { id: "baja", nombre: "Baja (<10)", min: "0", max: "10" },
   ],
+  TGR: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=2) unidades", min: "2", max: "21" },
+    { id: "media", nombre: "Medio (<2) unidades", min: "1", max: "2" },
+    { id: "baja", nombre: "Bajo (0) unidades", min: "0", max: "1" },
+
+  ],
+  PLASMA: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=2) unidades", min: "2", max: "21" },
+    { id: "media", nombre: "Medio (<2) unidades", min: "1", max: "2" },
+    { id: "baja", nombre: "Bajo (0) unidades", min: "0", max: "1" },
 
 
-  TGR:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (0) unidades" },
-    { id: "media", nombre: "Medio (<=2) unidades" },
-    { id: "alta", nombre: "Alto (>2) unidades" },
   ],
-  PLASMA:[
+  PLAQUETAS: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (0) unidades" },
-    { id: "media", nombre: "Medio (<=1) unidades" },
-    { id: "alta", nombre: "Alto (>1) unidades" },
+    { id: "alta", nombre: "Alto (>=2) unidades", min: "2", max: "21" },
+    { id: "media", nombre: "Medio (<2) unidades", min: "1", max: "2" },
+    { id: "baja", nombre: "Bajo (0) unidades", min: "0", max: "1" },
   ],
-  PLAQUETAS:[
+  GAMMAGLOBULINA: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (0) unidades" },
-    { id: "media", nombre: "Medio (<=1) unidades" },
-    { id: "alta", nombre: "Alto (>1) unidades" },
+    { id: "alta", nombre: "Alto (>=2) dosis", min: "2", max: "21" },
+    { id: "media", nombre: "Medio (<2) dosis", min: "1", max: "2" },
+    { id: "baja", nombre: "Bajo (0) dosis", min: "0", max: "1" },
   ],
-  GAMMAGLOBULINA:[
+  TRANSFUCION: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (0) dosis" },
-    { id: "media", nombre: "Medio (<=1) dosis" },
-    { id: "alta", nombre: "Alto (>1) dosis" },
+    { id: "multiple", nombre: "Multiple veces", min: "2", max: "100" },
+    { id: "una", nombre: "Una vez", min: "1", max: "2" },
+    { id: "no", nombre: "No", min: "0", max: "1" },
   ],
-  TRANSFUCION:[
+  PROTECTOR: [
     { id: "", nombre: "" },
-    { id: "no", nombre: "No" },
-    { id: "una", nombre: "Una vez" },
-    { id: "multiple", nombre: "Multiple veces" },
-  ],
+    { id: "alta", nombre: "Alto (>=7) días", min: "7", max: "366" },
+    { id: "media", nombre: "Medio (<7) días", min: "4", max: "7" },
+    { id: "baja", nombre: "Bajo (<4) días", min: "0", max: "4" },
 
-
-
-  PROTECTOR:[
+  ],
+  INHIBIDOR: [
     { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=7) días", min: "7", max: "366" },
+    { id: "media", nombre: "Medio (<7) días", min: "4", max: "7" },
+    { id: "baja", nombre: "Bajo (<4) días", min: "0", max: "4" },
+
+  ],
+  PROBIOTICO: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=14) días", min: "14", max: "366" },
+    { id: "media", nombre: "Medio (<14) días", min: "7", max: "14" },
+    { id: "baja", nombre: "Bajo (<7) días", min: "0", max: "7" },
+
+  ],
+  ERITROMICINA: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=7) días", min: "7", max: "366" },
+    { id: "media", nombre: "Medio (<7) días", min: "4", max: "7" },
+    { id: "baja", nombre: "Bajo (<4) días", min: "0", max: "4" },
+
+  ],
+  FENTANILO: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=5) días", min: "5", max: "366" },
+    { id: "media", nombre: "Medio (<5) días", min: "3", max: "5" },
+    { id: "baja", nombre: "Bajo (<3) días", min: "0", max: "3" },
+
+  ],
+  MORFINA: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=5) días", min: "5", max: "366" },
+    { id: "media", nombre: "Medio (<5) días", min: "3", max: "5" },
+    { id: "baja", nombre: "Bajo (<3) días", min: "0", max: "3" },
+
+  ],
+  MIDAZOLAM: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=5) días", min: "5", max: "366" },
+    { id: "media", nombre: "Medio (<5) días", min: "3", max: "5" },
+    { id: "baja", nombre: "Bajo (<3) días", min: "0", max: "3" },
+  ],
+  PRECEDEX: [
+    { id: "", nombre: "" },
+    { id: "alta", nombre: "Alto (>=7) días" },
+    { id: "media", nombre: "Medio (<7) días" },
     { id: "baja", nombre: "Bajo (<4) días" },
-    { id: "media", nombre: "Medio (<=7) días" },
-    { id: "alta", nombre: "Alto (>7) días" },
   ],
-  INHIBIDOR:[
+  METADONA: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<4) días" },
-    { id: "media", nombre: "Medio (<=7) días" },
-    { id: "alta", nombre: "Alto (>7) días" },
+    { id: "alta", nombre: "Alto (>=7) días", min: "7", max: "366" },
+    { id: "media", nombre: "Medio (<7) días", min: "4", max: "7" },
+    { id: "baja", nombre: "Bajo (<4) días", min: "0", max: "4" },
   ],
-  PROBIOTICO:[
+  VECURONIO: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<7) días" },
-    { id: "media", nombre: "Medio (<=14) días" },
-    { id: "alta", nombre: "Alto (>14) días" },
+    { id: "alta", nombre: "Alto (>=3) días", min: "3", max: "366" },
+    { id: "media", nombre: "Medio (<3) días", min: "2", max: "3" },
+    { id: "baja", nombre: "Bajo (<2) días", min: "0", max: "2" },
+
+
   ],
-  ERITROMICINA:[
+  PROSTAGLANDINA: [
     { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<4) días" },
-    { id: "media", nombre: "Medio (<=7) días" },
-    { id: "alta", nombre: "Alto (>7) días" },
-  ],
-  FENTANILO:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<3) días" },
-    { id: "media", nombre: "Medio (<=5) días" },
-    { id: "alta", nombre: "Alto (>5) días" },
-  ],
-  MORFINA:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<3) días" },
-    { id: "media", nombre: "Medio (<=5) días" },
-    { id: "alta", nombre: "Alto (>5) días" },
-  ],
-  MIDAZOLAM:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<3) días" },
-    { id: "media", nombre: "Medio (<=5) días" },
-    { id: "alta", nombre: "Alto (>5) días" },
-  ],
-  PRECEDEX:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<4) días" },
-    { id: "media", nombre: "Medio (<=7) días" },
-    { id: "alta", nombre: "Alto (>7) días" },
-  ],
-  METADONA:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<7) días" },
-    { id: "media", nombre: "Medio (<=14) días" },
-    { id: "alta", nombre: "Alto (>14) días" },
-  ],
-  VECURONIO:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<2) días" },
-    { id: "media", nombre: "Medio (<=3) días" },
-    { id: "alta", nombre: "Alto (>3) días" },
-  ],
-  PROSTAGLANDINA:[
-    { id: "", nombre: "" },
-    { id: "baja", nombre: "Bajo (<1) días" },
-    { id: "media", nombre: "Medio (<=7) días" },
-    { id: "alta", nombre: "Alto (>7) días" },
+    { id: "alta", nombre: "Alto (>=7) días", min: "7", max: "366" },
+    { id: "media", nombre: "Medio (<7) días", min: "1", max: "7" },
+    { id: "baja", nombre: "Bajo (<1) días", min: "0", max: "1" },
+
   ]
 
 

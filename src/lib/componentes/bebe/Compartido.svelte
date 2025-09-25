@@ -5,7 +5,7 @@
     birthDate = $bindable(""),
     madre = $bindable(""),
     peso = $bindable(""),
-    edadGestacional = $bindable(""),
+    edad_gestacional = $bindable(""),
     sexo = $bindable(""),
     clinicNumber = $bindable(""),
     modoedicion = $bindable(false),
@@ -30,10 +30,12 @@
     >{sexo}</span
   >
   {/if}
-  <span
-    class="bg-purple-100 dark:bg-purple-700 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full"
-    >EG: {edadGestacional} semanas</span
-  >
+  {#if edad_gestacional.length>0}
+    <span
+      class="bg-purple-100 dark:bg-purple-700 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full"
+      >EG: {edad_gestacional} semanas</span
+    >
+  {/if}
 </div>
 <div class="flex flex-col sm:flex-row sm:justify-start gap-2 mb-3 w-full">
   {#if !modoedicion}

@@ -126,9 +126,10 @@
           bind:modoedicion
         />
 
-        <InputText
+        <InputSelect
+          lista={opciones.SINO}
           bind:value={adiccion}
-          etiqueta="Otras Adicciones"
+          etiqueta="Adicciones"
           idetiqueta="adiccion"
           bind:modoedicion
         />

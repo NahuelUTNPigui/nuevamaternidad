@@ -9,23 +9,20 @@
     const pb = new PocketBase(ruta);
     let {
         cambiarFiltro,
+        areas=$bindable([]),
+        unidades=$bindable([]),
+        unidadesarea=$bindable([]),
         unidad = $bindable(""),
         area = $bindable(""),
         fechadesde = $bindable(""),
         fechahasta = $bindable(""),
     } = $props();
 
-    let unidades = $state([]);
-    let areas = $state([]);
-    let unidadesarea = $derived(
-        unidades
-            .filter((u) => u.area == area)
-            .concat({ id: "", nombre: "Todas" }),
-    );
+    
 
     onMount(async () => {
         areas = await pb.collection("areas").getFullList({});
-        areas.concat({ id: "", nombre: "Todas" });
+        areas = areas.concat({ id: "", nombre: "Todas" });
         unidades = await pb.collection("Unidades").getFullList({});
     });
 </script>

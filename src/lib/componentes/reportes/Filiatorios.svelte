@@ -18,7 +18,6 @@
 </script>
 
 <div>
-    <h3 class="font-medium mb-3 text-base-content">Identificación</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- DNI Rn -->
         <InputText
@@ -67,7 +66,6 @@
 </div>
 
 <div>
-    <h3 class="font-medium mb-3 text-base-content">Fechas Clave</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Fecha de Nacimiento desde -->
         <InputDate
@@ -87,24 +85,7 @@
             cambiar={cambiarFiltro}
             escribir={cambiarFiltro}
         />
-        <!-- Fecha de egreso desde -->
-        <InputDate
-            idetiqueta="nachasta"
-            etiqueta="Egreso hasta"
-            modoedicion={true}
-            bind:value={egresodesde}
-            cambiar={cambiarFiltro}
-            escribir={cambiarFiltro}
-        />
-        <!-- Fecha de egreso hasta-->
-        <InputDate
-            idetiqueta="nachasta"
-            etiqueta="Egreso hasta"
-            modoedicion={true}
-            bind:value={egresohasta}
-            cambiar={cambiarFiltro}
-            escribir={cambiarFiltro}
-        />
+        
         
     </div>
 </div>

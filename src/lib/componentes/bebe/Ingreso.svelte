@@ -9,6 +9,8 @@
     modoedicion = $bindable(false),
     //ingreso basico
     fechaingresobebe = $bindable(""),
+    tipoingreso=$bindable(""),
+    edad_gestacional=$bindable(""),
     pesoingresobebe = $bindable(""),
     temperatura_ingreso = $bindable(""),
     //parto
@@ -45,7 +47,14 @@
       idetiqueta="fechaingresobebe"
       bind:modoedicion
     />
-
+    <!--Tipo ingreso-->
+    <InputSelect
+      bind:value={tipoingreso}
+      lista={opciones.INGRESOS}
+      etiqueta="Tipo de ingreso"
+      idetiqueta="tipo_ingreso"
+      bind:modoedicion
+    />
     <!-- Peso al Ingreso (kg) -->
     <InputText
       bind:value={pesoingresobebe}
@@ -59,6 +68,13 @@
       bind:value={temperatura_ingreso}
       etiqueta="Temperatura al Ingreso (°C)"
       idetiqueta="temperatura_ingreso"
+      bind:modoedicion
+    />
+    <!--Edad gestacional-->
+    <InputText
+      bind:value={edad_gestacional}
+      etiqueta="Edad gestacional"
+      idetiqueta="edad_gestacional"
       bind:modoedicion
     />
   </div>
@@ -157,7 +173,8 @@
     />
 
     <!-- RCIU -->
-    <InputOpcionalText
+    <InputSelect
+      lista = {opciones.RCIU}
       bind:value={rciu}
       etiqueta="RCIU (Retraso de Crecimiento Intrauterino)"
       idetiqueta="rciu"

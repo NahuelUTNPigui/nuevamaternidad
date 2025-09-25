@@ -10,6 +10,7 @@
     import { onMount } from "svelte";
     import StatCard from "$lib/componentes/StatCard.svelte";
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
+    import opciones from "$lib/opciones";
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -19,8 +20,16 @@
     let historiasbebes = $state([]);
     let historiasbebesrow = $state([]);
     let filas = $state([]);
-    let sinhistorial = $state(false)
+    let sinhistorial = $state(false);
 
+    //listas
+    let unidades = $state([]);
+    let areas = $state([]);
+    let unidadesarea = $derived(
+        unidades
+            .filter((u) => u.area == area)
+            .concat({ id: "", nombre: "Todas" }),
+    );
     //Chesk
     let checked_identificacion = $state(true);
     let checked_ingreso = $state(true);
@@ -39,6 +48,7 @@
     let checked_oftalmologia = $state(true);
     let checked_digestivo = $state(true);
     let checked_genetica = $state(true);
+    let checked_alta = $state(true);
     let checked_otros = $state(true);
     //filttros
     //basicos
@@ -71,6 +81,7 @@
     let apgar_5 = $state("");
     let apgar_10 = $state("");
 
+    let gestacion = $state("");
     let gestaciondesde = $state("");
     let gestacionhasta = $state("");
 
@@ -119,6 +130,7 @@
     let paridad = $state("");
     let gemelos = $state("");
     let controlparental = $state("");
+    let corticoideprenatal = $state("");
     let tabaquismo = $state("");
     let adiccion = $state("");
     let egb = $state("");
@@ -276,6 +288,7 @@
         checked_oftalmologia: true,
         checked_digestivo: true,
         checked_genetica: true,
+        checked_alta: true,
         checked_otros: true,
     };
     let proxychecks = $state({
@@ -284,7 +297,7 @@
     let checksproxy = createStorageProxy("reportechecks", defaultchecks);
 
     let defaultfiltros = {
-        sinhistorial:"",
+        sinhistorial: "",
         unidad: "",
         area: "",
         fechadesde: "",
@@ -306,6 +319,7 @@
         apgar_1: "",
         apgar_5: "",
         apgar_10: "",
+        gestacion: "",
         gestaciondesde: "",
         gestacionhasta: "",
         rciu: "",
@@ -344,6 +358,7 @@
         paridad: "",
         gemelos: "",
         controlparental: "",
+        corticoideprenatal:"",
         tabaquismo: "",
         adiccion: "",
         egb: "",
@@ -497,8 +512,464 @@
             filas.push(fila);
         }
     }
+    function esSubconjunto(subconjunto, conjunto) {
+        // Verifica que ambos parámetros sean arrays
+        if (!Array.isArray(subconjunto) || !Array.isArray(conjunto)) {
+            throw new Error("Ambos parámetros deben ser arrays");
+        }
+
+        // Convierte el conjunto grande en un Set para búsquedas eficientes
+        const conjuntoSet = new Set(conjunto);
+
+        // Verifica que todos los elementos del subconjunto estén en el conjunto
+        return subconjunto.every((elemento) => conjuntoSet.has(elemento));
+    }
+    function estaEnRango(fecha, fechaDesde, fechaHasta) {
+        // Si la fecha principal es vacía, devolver false
+        if (!fecha) return false;
+
+        // Convertir a objeto Date si son strings
+        const parseDate = (d) => {
+            if (!d) return null;
+            const date = new Date(d);
+            return isNaN(date.getTime()) ? null : date;
+        };
+
+        const fechaObj = parseDate(fecha);
+        const desdeObj = parseDate(fechaDesde);
+        const hastaObj = parseDate(fechaHasta);
+
+        // Si la fecha no es válida, devolver false
+        if (!fechaObj) return false;
+
+        // Verificar rango inferior (si existe)
+        if (desdeObj && fechaObj < desdeObj) return false;
+
+        // Verificar rango superior (si existe)
+        if (hastaObj && fechaObj > hastaObj) return false;
+
+        // Si pasó todas las validaciones, está en rango
+        return true;
+    }
+    function filtrarPorFecha(variableestado, variabledesde, variablehasta) {
+        if (variabledesde.length == 0 && variablehasta.length == 0) {
+            return true;
+        } else {
+            return estaEnRango(variableestado, variabledesde, variablehasta);
+        }
+    }
+    function filtrarPorMas(variableestado, variable) {
+        let listaestado = variableestado
+            .split("+")
+            .map((s) => s.toLocaleLowerCase());
+        let listavariable = variable
+            .split("+")
+            .map((s) => s.toLocaleLowerCase());
+        return esSubconjunto(listavariable, listaestado);
+    }
+    function filtrarPorRango(variableestado, variable, rangos) {
+        if (variable.length == 0) {
+            return true;
+        } else {
+            let valor = Number(variableestado);
+            let rangolista = rangos.filter((r) => r.id == variable);
+            if (rangolista.length > 0) {
+                let rango = rangolista[0];
+                let rangomin = Number(rango.min);
+                let rangomax = Number(rango.max);
+                return valor >= rangomin && valor < rangomax;
+            } else {
+                return true;
+            }
+        }
+    }
+    function filtrarPorParecido(variableestado, variable) {
+        if (variable.length == 0) {
+            return true;
+        }
+        return variableestado
+            .toLocaleLowerCase()
+            .includes(variable.toLocaleLowerCase());
+    }
+
+    function filtrarPorIgualdad(variableestado, variable) {
+        if (variable.length == 0) {
+            return true;
+        }
+        return variableestado == variable;
+    }
+    function filtrarPorFechaEstado(estado, fechadesde, fechahasta) {
+        let estado_inicio = new Date(estado.fecha_inicio);
+        let estado_fin = new Date(estado.fecha_fin);
+        let desde = new Date(fechadesde);
+        let hasta = new Date(fechahasta);
+        let no_valido = estado_fin < desde || estado_inicio > hasta;
+        return !no_valido;
+    }
+    function validarEstadoVariable(variableestado, variable, rango) {
+        if (variable.length == 0) {
+            return true;
+        }
+    }
+    function calcularEdad(fechaNacimiento) {
+        // Asegurarse de que la fecha de nacimiento sea un objeto Date válido
+        const nacimiento = new Date(fechaNacimiento);
+
+        // Verificar si la fecha es válida
+        if (isNaN(nacimiento.getTime())) {
+            return -1;
+        }
+
+        const hoy = new Date();
+
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const mes = hoy.getMonth() - nacimiento.getMonth();
+
+        // Si el mes actual es menor que el mes de nacimiento,
+        // o si estamos en el mismo mes pero el día aún no ha llegado,
+        // restamos un año.
+        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+            edad--;
+        }
+
+        return edad;
+    }
+    function validarEstado(estado) {
+        //fecha
+        if (!filtrarPorFechaEstado(estado, fechadesde, fechahasta)) {
+            return false;
+        }
+        //unidad
+        if (!filtrarPorIgualdad(estado.unidad, unidad)) {
+            return false;
+        }
+        //Area
+        if (!filtrarPorIgualdad(estado.area, area)) {
+            return false;
+        }
+        //dniBebe
+        if (!filtrarPorParecido(estado.dnibebe, dnirn)) {
+            return false;
+        }
+        //dnimama
+        if (!filtrarPorParecido(estado.dnimama, dnimadre)) {
+            return false;
+        }
+        //nombreBebe
+        if (!filtrarPorParecido(estado.nombrebebe, nombrern)) {
+            return false;
+        }
+        //nombremama
+        if (!filtrarPorParecido(estado.nombremama, nombremadre)) {
+            return false;
+        }
+        //Sexo
+        if (!filtrarPorIgualdad(estado.sexo, sexorn)) {
+            return false;
+        }
+
+        //nacimiento
+        if (!filtrarPorFecha(estado.fechanacimientobebe, nacdesde, nachasta)) {
+            return false;
+        }
+        //alta
+        //if(!filtrarPorFecha(estado.fechanacimientobebe,egresodesde,egresohasta)){
+        //    return false
+        //}
+        //ingreso
+        if (
+            !filtrarPorFecha(
+                estado.fechaingresobebe,
+                ingresodesde,
+                ingresohasta,
+            )
+        ) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.tipoingreso, tipoingreso)) {
+            return false;
+        }
+        //parto
+        if (!filtrarPorIgualdad(estado.tipo_parto, tipoparto)) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.parto_domiciliario, partodomicilio)) {
+            return false;
+        }
+        //apgar
+        if (!filtrarPorRango(estado.apgar_1, apgar_1, opciones.APGAR_RANGO)) {
+            return false;
+        }
+        if (!filtrarPorRango(estado.apgar_5, apgar_5, opciones.APGAR_RANGO)) {
+            return false;
+        }
+        if (!filtrarPorRango(estado.apgar_10, apgar_10, opciones.APGAR_RANGO)) {
+            return false;
+        }
+        //edad gestacional
+        if (
+            !filtrarPorRango(
+                estado.edad_gestacional,
+                gestacion,
+                opciones.EDAD_GESTACIONAL,
+            )
+        ) {
+            return false;
+        }
+
+        if (
+            !filtrarPorRango(
+                estado.temperatura_ingreso,
+                temperatura_ingreso,
+                opciones.TEMPERATURA_RANGO,
+            )
+        ) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.rciu, rciu)) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.rem, rem)) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.reanimacion, reanimacion)) {
+            return false;
+        }
+        if (!filtrarPorIgualdad(estado.liquido_meconial, liquido)) {
+            return false;
+        }
+        if (fallece != -1 && !filtrarPorIgualdad(estado.fallece, fallece)) {
+            return false;
+        }
+        //Antropometria
+        //peso
+        if (!filtrarPorRango(estado.pesorn, peso_rn, opciones.PESO_RANGO.RN)) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(estado.peso7d, peso_7, opciones.PESO_RANGO.DIAS_7)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.peso14d,
+                peso_14,
+                opciones.PESO_RANGO.DIAS_14,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.peso21d,
+                peso_21,
+                opciones.PESO_RANGO.DIAS_21,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.peso28d,
+                peso_28,
+                opciones.PESO_RANGO.DIAS_28,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.peso36sem,
+                peso_36,
+                opciones.PESO_RANGO.SEM_36,
+            )
+        ) {
+            return false;
+        }
+
+        //talla
+        if (
+            !filtrarPorRango(estado.tallarn, talla_rn, opciones.TALLA_RANGO.RN)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.talla7d,
+                talla_7,
+                opciones.TALLA_RANGO.DIAS_7,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.talla14d,
+                talla_14,
+                opciones.TALLA_RANGO.DIAS_14,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.talla21d,
+                talla_21,
+                opciones.TALLA_RANGO.DIAS_21,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.talla28d,
+                talla_28,
+                opciones.TALLA_RANGO.DIAS_28,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.talla36sem,
+                talla_36,
+                opciones.TALLA_RANGO.SEM_36,
+            )
+        ) {
+            return false;
+        }
+        //score
+        if (
+            !filtrarPorRango(estado.scorezrn, scorez_rn, opciones.SCOREZ_RANGO)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(estado.scorez7d, scorez_7, opciones.SCOREZ_RANGO)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(estado.scorez14d, scorez_14, opciones.SCOREZ_RANGO)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(estado.scorez21d, scorez_21, opciones.SCOREZ_RANGO)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(estado.scorez28d, scorez_28, opciones.SCOREZ_RANGO)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.scorez36sem,
+                scorez_36,
+                opciones.SCOREZ_RANGO,
+            )
+        ) {
+            return false;
+        }
+        //Datos maternos
+        if (
+            edad_materna.length>0 &&
+            !filtrarPorRango(
+                calcularEdad(estado.fechanacimientomama),
+                edad_materna,
+                opciones.EDAD_MADRE,
+            )
+        )
+            return false;
+        if (!filtrarPorIgualdad(estado.educacionmama, edad_materna)) {
+            return false;
+        }
+        if(!filtrarPorRango(estado.paridad,paridad,opciones.PARIDAD_MADRE)){
+            return false
+        }
+        //Falta gemelos
+        //igualdades
+        if(!filtrarPorIgualdad(estado.controlprenatal,controlparental,opciones.SINO)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.tabaquismo,tabaquismo)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.adiccion,adiccion)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.egb,egb)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+            return false
+        }
+
+
+
+        return true
+    }
     function filterUpdate() {
-        historiasbebesrow = historiasbebes;
+        //historiasbebesrow = historiasbebes;
+        historiasbebesrow = [];
+
+        for (let i = 0; i < historiasbebes.length; i++) {
+            let hb = historiasbebes[i];
+            let id = hb.id;
+            let listaestados = [];
+            let bebehistoria = {
+                id,
+                estados: [],
+            };
+            for (let j = 0; j < hb.estados.length; j++) {
+                let estado = hb.estados[j];
+                if (validarEstado(estado)) {
+                    listaestados.push(estado);
+                }
+            }
+            if (listaestados.length > 0) {
+                bebehistoria.estados = listaestados.map((x) => x);
+
+                historiasbebesrow.push(bebehistoria);
+            }
+        }
+
         procesarFilas();
     }
     async function getHistorial() {
@@ -532,6 +1003,7 @@
         checked_oftalmologia = proxychecks.checked_oftalmologia;
         checked_digestivo = proxychecks.checked_digestivo;
         checked_genetica = proxychecks.checked_genetica;
+        checked_alta = proxychecks.checked_alta;
         checked_otros = proxychecks.checked_otros;
     }
     function setProxyChecks() {
@@ -552,6 +1024,7 @@
         proxychecks.checked_oftalmologia = checked_oftalmologia;
         proxychecks.checked_digestivo = checked_digestivo;
         proxychecks.checked_genetica = checked_genetica;
+        proxychecks.checked_alta = checked_alta;
         proxychecks.checked_otros = checked_otros;
     }
     function setFiltros() {
@@ -577,6 +1050,7 @@
         apgar_1 = proxyfiltros.apgar_1;
         apgar_5 = proxyfiltros.apgar_5;
         apgar_10 = proxyfiltros.apgar_10;
+        gestacion = proxyfiltros.gestacion;
         gestaciondesde = proxyfiltros.gestaciondesde;
         gestacionhasta = proxyfiltros.gestacionhasta;
         rciu = proxyfiltros.rciu;
@@ -615,10 +1089,11 @@
         paridad = proxyfiltros.paridad;
         gemelos = proxyfiltros.gemelos;
         controlparental = proxyfiltros.controlparental;
+        corticoideprenatal=proxyfiltros.corticoideprenatal;
         tabaquismo = proxyfiltros.tabaquismo;
         adiccion = proxyfiltros.adiccion;
         egb = proxyfiltros.egb;
-        crioaminintis = proxyfiltros.crioaminintis
+        crioaminintis = proxyfiltros.crioaminintis;
         sulfato = proxyfiltros.sulfato;
         diabetes = proxyfiltros.diabetes;
         colico = proxyfiltros.colico;
@@ -724,7 +1199,7 @@
         diagnostico = proxyfiltros.diagnostico;
     }
     function setProxy() {
-        proxyfiltros.sinhistorial = sinhistorial
+        proxyfiltros.sinhistorial = sinhistorial;
         proxyfiltros.unidad = unidad;
         proxyfiltros.area = area;
         proxyfiltros.fechadesde = fechadesde;
@@ -746,6 +1221,7 @@
         proxyfiltros.apgar_1 = apgar_1;
         proxyfiltros.apgar_5 = apgar_5;
         proxyfiltros.apgar_10 = apgar_10;
+        proxyfiltros.gestacion = gestacion;
         proxyfiltros.gestaciondesde = gestaciondesde;
         proxyfiltros.gestacionhasta = gestacionhasta;
         proxyfiltros.rciu = rciu;
@@ -784,10 +1260,11 @@
         proxyfiltros.paridad = paridad;
         proxyfiltros.gemelos = gemelos;
         proxyfiltros.controlparental = controlparental;
+        proxyfiltros.corticoideprenatal=corticoideprenatal;
         proxyfiltros.tabaquismo = tabaquismo;
         proxyfiltros.adiccion = adiccion;
         proxyfiltros.egb = egb;
-        proxyfiltros.crioaminintis=crioaminintis
+        proxyfiltros.crioaminintis = crioaminintis;
         proxyfiltros.sulfato = sulfato;
         proxyfiltros.diabetes = diabetes;
         proxyfiltros.colico = colico;
@@ -893,52 +1370,53 @@
         proxyfiltros.diagnostico = diagnostico;
     }
 
-    function cambiarFiltro(){
-        setProxy()
+    function cambiarFiltro() {
+        setProxy();
         proxy.save(proxyfiltros);
-        filterUpdate()
-        
+        filterUpdate();
     }
-    function cambiarCheck(){
-
-        setProxyChecks()
-        checksproxy.save(proxychecks)
-        
-
-    }
-    function limpiar(){
-        proxyfiltros = defaultfiltros
-        proxychecks = defaultchecks
-        setFiltros()
-        setFiltrosChecks()
-        proxy.save(proxyfiltros);
+    function cambiarCheck() {
+        setProxyChecks();
         checksproxy.save(proxychecks);
-        filterUpdate()
-
+    }
+    function limpiarFiltros() {
+        proxyfiltros = defaultfiltros;
+        setFiltros();
+        proxy.save(proxyfiltros);
+    }
+    function limpiarChecks() {
+        proxychecks = defaultchecks;
+        setFiltrosChecks();
+        checksproxy.save(proxychecks);
+    }
+    function limpiar() {
+        limpiarFiltros();
+        limpiarChecks();
+        filterUpdate();
     }
     onMount(async () => {
-        proxychecks = checksproxy.load()
-        proxyfiltros = proxy.load()
+        proxychecks = checksproxy.load();
+        proxyfiltros = proxy.load();
         await getBebes();
         await getHistorial();
         procesarHistorial();
-        setFiltrosChecks()
-        setFiltros()
+        setFiltrosChecks();
+        setFiltros();
         filterUpdate();
-
-        
+        areas = await pb.collection("areas").getFullList({});
+        areas = areas.concat({ id: "", nombre: "Todas" });
+        unidades = await pb.collection("Unidades").getFullList({});
     });
 </script>
 
 <Navbar>
-    <Header
-    bind:sinhistorial
-    {limpiar}
-    />
+    <Header bind:sinhistorial {limpiar} {limpiarFiltros} {limpiarChecks} />
     <Filtros
         {cambiarFiltro}
         {cambiarCheck}
-
+        bind:areas
+        bind:unidades
+        bind:unidadesarea
         bind:checked_identificacion
         bind:checked_ingreso
         bind:checked_antropometria
@@ -956,6 +1434,7 @@
         bind:checked_oftalmologia
         bind:checked_digestivo
         bind:checked_genetica
+        bind:checked_alta
         bind:checked_otros
         bind:unidad
         bind:area
@@ -978,6 +1457,7 @@
         bind:apgar_1
         bind:apgar_5
         bind:apgar_10
+        bind:gestacion
         bind:gestaciondesde
         bind:gestacionhasta
         bind:rciu
@@ -1016,6 +1496,7 @@
         bind:paridad
         bind:gemelos
         bind:controlparental
+        bind:corticoideprenatal
         bind:tabaquismo
         bind:adiccion
         bind:egb
