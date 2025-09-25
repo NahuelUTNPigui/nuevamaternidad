@@ -159,8 +159,9 @@
         tardegermen = $bindable(""),
         tardeantibiotico = $bindable(""),
         tardeatb = $bindable(""),
-
+        salam=$bindable(""),
         emh = $bindable(""),
+        ndosissurfactante = $bindable(""),
         apena = $bindable(""),
         neumotorax = $bindable(""),
         taquipnea = $bindable(""),
@@ -371,6 +372,8 @@
     //<!-- Respiratorio -->
     let verdeRespiratorio = $derived(
         emh.length > 0 ||
+        ndosissurfactante.length>0||
+        salam.length>0||
             apena.length > 0 ||
             neumotorax.length > 0 ||
             taquipnea.length > 0 ||
@@ -703,6 +706,8 @@
         <Respiratorio
             {cambiarFiltro}
             bind:emh
+            bind:ndosissurfactante
+            bind:salam
             bind:apena
             bind:neumotorax
             bind:taquipnea

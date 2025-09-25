@@ -1,9 +1,12 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
+        import InputText from "../Formulario/InputText.svelte";
         let {
                 cambiarFiltro,
                 emh = $bindable(""),
+                ndosissurfactante = $bindable(""),
+                salam = $bindable(""),
                 apena = $bindable(""),
                 neumotorax = $bindable(""),
                 taquipnea = $bindable(""),
@@ -38,6 +41,16 @@
                         etiqueta="EMH"
                         modoedicion={true}
                         bind:value={emh}
+                        lista={opciones.SINO}
+                        cambiar = {cambiarFiltro}
+                />
+                
+                <!-- SALAM -->
+                <InputSelect
+                        idetiqueta="fsalam"
+                        etiqueta="SALAM"
+                        modoedicion={true}
+                        bind:value={salam}
                         lista={opciones.SINO}
                         cambiar = {cambiarFiltro}
                 />
@@ -95,10 +108,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- DBP -->
                 <InputSelect
-                        idetiqueta="Intersticial"
-                        etiqueta="Enfermedad Intersticial"
+                        idetiqueta="DBP"
+                        etiqueta="DBP"
                         modoedicion={true}
-                        bind:value={interstecial}
+                        bind:value={dbp}
                         lista={opciones.SINO}
                         cambiar = {cambiarFiltro}
                 />
@@ -124,6 +137,14 @@
                         modoedicion={true}
                         bind:value={surfactante}
                         lista={opciones.SINO}
+                        cambiar = {cambiarFiltro}
+                />
+                <!-- Dosis surfactante -->
+                <InputText
+                        idetiqueta="fndosissurfactanteh"
+                        etiqueta="Dosis surfactante "
+                        modoedicion={true}
+                        bind:value={ndosissurfactante}
                         cambiar = {cambiarFiltro}
                 />
                 <!-- ARM -->

@@ -14,6 +14,8 @@
         nptduraciondias=$bindable(""),
         nptdiacomienzo=$bindable(""),
         nptaportetotal=$bindable(""),
+        nptdiacomienzoaa=$bindable(""),
+        nptaportetotalaa=$bindable(""),
         nptdiacomienzolipido=$bindable(""),
         nptaportetotallipido=$bindable(""),
     } = $props();
@@ -99,7 +101,19 @@
             idetiqueta="nptaportetotal"
             bind:modoedicion
         />
+        <InputText
+            bind:value={nptdiacomienzoaa}
+            etiqueta="Día de inicio de aminoácidos en NPT"
+            idetiqueta="nptdiacomienzoaa"
+            bind:modoedicion
+        />
 
+        <InputText
+            bind:value={nptaportetotalaa}
+            etiqueta="Aporte total de aminoácidos en NPT"
+            idetiqueta="nptaportetotalaa"
+            bind:modoedicion
+        />
         <InputText
             bind:value={nptdiacomienzolipido}
             etiqueta="Día de inicio de lípidos en NPT"

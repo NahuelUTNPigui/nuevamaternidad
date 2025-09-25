@@ -29,6 +29,8 @@
     nptduraciondias = $bindable(""),
     nptdiacomienzo = $bindable(""),
     nptaportetotal = $bindable(""),
+    nptdiacomienzoaa = $bindable(""),
+    nptaportetotalaa = $bindable(""),
     nptdiacomienzolipido = $bindable(""),
     nptaportetotallipido = $bindable(""),
     sepsistemprana = $bindable(""),
@@ -152,6 +154,8 @@
     bind:nptduraciondias
     bind:nptdiacomienzo
     bind:nptaportetotal
+    bind:nptdiacomienzoaa
+    bind:nptaportetotalaa
     bind:nptdiacomienzolipido
     bind:nptaportetotallipido
     />

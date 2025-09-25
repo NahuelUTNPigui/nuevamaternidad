@@ -1,36 +1,37 @@
 <script>
-    import Modoedicion from "./Modoedicion.svelte";
-    import InputText from "../Formulario/InputText.svelte";
-    import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
-    import InputSelect from "../Formulario/InputSelect.svelte";
-    import opciones from "$lib/opciones";
-    let {
-        modoedicion = $bindable(false),
-        emh = $bindable(""),
-        ndosissurfactante = $bindable(""),
-        salam = $bindable(""),
-        apneas = $bindable(""),
-        neumotorax = $bindable(""),
-        taquipneatransitoria = $bindable(""),
-        hipertpulmonar = $bindable(""),
-        enfermedadintersticial = $bindable(""),
-        bql = $bindable(""),
-        dbp36sem = $bindable(""),
-        o236sem = $bindable(""),
-        surfactante = $bindable(""),
-        arm = $bindable(""),
-        intubadodesdeutpr = $bindable(""),
-        vafo = $bindable(""),
-        cpap = $bindable(""),
-        oaf = $bindable(""),
-        cbf = $bindable(""),
-        cafeina = $bindable(""),
-        aminofilina = $bindable(""),
-        corticoideinhalado = $bindable(""),
-        corticoidepostnatal = $bindable(""),
-        oxidonitrico = $bindable(""),        
-    }=$props()
+  import Modoedicion from "./Modoedicion.svelte";
+  import InputText from "../Formulario/InputText.svelte";
+  import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
+  import InputSelect from "../Formulario/InputSelect.svelte";
+  import opciones from "$lib/opciones";
+  let {
+    modoedicion = $bindable(false),
+    emh = $bindable(""),
+    ndosissurfactante = $bindable(""),
+    salam = $bindable(""),
+    apneas = $bindable(""),
+    neumotorax = $bindable(""),
+    taquipneatransitoria = $bindable(""),
+    hipertpulmonar = $bindable(""),
+    enfermedadintersticial = $bindable(""),
+    bql = $bindable(""),
+    dbp36sem = $bindable(""),
+    o236sem = $bindable(""),
+    surfactante = $bindable(""),
+    arm = $bindable(""),
+    intubadodesdeutpr = $bindable(""),
+    vafo = $bindable(""),
+    cpap = $bindable(""),
+    oaf = $bindable(""),
+    cbf = $bindable(""),
+    cafeina = $bindable(""),
+    aminofilina = $bindable(""),
+    corticoideinhalado = $bindable(""),
+    corticoidepostnatal = $bindable(""),
+    oxidonitrico = $bindable(""),
+  } = $props();
 </script>
+
 <!-- Sección: Estado del Sistema Respiratorio -->
 <div class="mb-8">
   <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
@@ -41,6 +42,12 @@
       lista={opciones.SINO}
       etiqueta="EMH (Enfermedad de Membrana Hialina)"
       idetiqueta="emh"
+      bind:modoedicion
+    />
+    <InputText
+      bind:value={salam}
+      etiqueta="SALAM"
+      idetiqueta="salam"
       bind:modoedicion
     />
 
@@ -130,13 +137,6 @@
       bind:modoedicion
     />
 
-    <InputText
-      bind:value={salam}
-      etiqueta="SALAM"
-      idetiqueta="salam"
-      bind:modoedicion
-    />
-
     <InputOpcionalText
       bind:value={arm}
       etiqueta="ARM (Asistencia Respiratoria Mecánica)"
@@ -145,7 +145,7 @@
     />
 
     <InputSelect
-      lista = {opciones.SINO}
+      lista={opciones.SINO}
       bind:value={intubadodesdeutpr}
       etiqueta="Intubado desde UTPR"
       idetiqueta="intubadodesdeutpr"

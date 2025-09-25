@@ -181,6 +181,8 @@
 
     //patologias respiratorios
     let emh = $state("");
+    let ndosissurfactante = $state("")
+    let salam = $state("");
     let apena = $state("");
     let neumotorax = $state("");
     let taquipnea = $state("");
@@ -398,6 +400,8 @@
         tardeantibiotico: "",
         tardeatb: "",
         emh: "",
+        ndosissurfactante:"",
+        salam:"",
         apena: "",
         neumotorax: "",
         taquipnea: "",
@@ -907,37 +911,172 @@
         if(!filtrarPorIgualdad(estado.egb,egb)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.sulfatomg,sulfato)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.diabetesprevia,diabetes)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.crioaminitis,crioaminintis)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.infeccioncongenita,congenita)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.itu,itu)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.desprendimientoplacenta,desprendimiento)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.htcronica,ht)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.hie,hie)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.eclampsia,eclampsia)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.preeclampisa,preeclampisa)){
             return false
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
+        if(!filtrarPorIgualdad(estado.colestasis,colestasis)){
+            return false
+        }
+        //cateteres
+        if(!filtrarPorIgualdad(estado.cateteresumbilicalvenoso,umbilicalvenoso)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.cateteresumbilicalarterial,umbilicalarterial)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.percutanea,percutaneo)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.viacentral,central)){
+            return false
+        }
+        //alimentacion
+        if(!filtrarPorIgualdad(estado.alimentacionenteraltrofica,trofica)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.tipoalimentacionenteral,tipoenteral)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.nutricionparental,nutricionparental)){
+            return false
+        }
+        if(!filtrarPorRango(estado.nptedadinicio,edadnpt,opciones.EDAD_INICIO)){
+            return false
+        }
+        if(!filtrarPorRango(estado.nptduraciondias,duracionnpt,opciones.DURACION)){
+            return false
+        }
+        //aminoacidos
+        if(!filtrarPorRango(estado.nptdiacomienzoaa,comienzoaa,opciones.INICIO_AA)){
+            return false
+        }
+        if(!filtrarPorRango(estado.nptaportetotalaa,aporteaa,opciones.APORTE_AA)){
+            return false
+        }
+        //lipidos
+        if(!filtrarPorRango(estado.nptdiacomienzolipido,comienzolipido,opciones.COMIENZO_LIPIDO)){
+            return false
+        }
+        if(!filtrarPorRango(estado.nptaportetotallipido,aportelipido,opciones.APORTE_LIPIDO)){
+            return false
+        }
+        //infeccion
+        //temprana
+        if(!filtrarPorIgualdad(estado.sepsistemprana,tempranoestado)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.sepsistempranagermen,tempranogermen)){
+            return false
+        }
+        if(!filtrarPorRango(estado.sepsistempranaatbdias,tempranoatb,opciones.SEPSIS_TEMPRANA)){
+            return false
+        }
+        //tardia
+        if(!filtrarPorIgualdad(estado.sepsistardia,tardeestado)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.sepsistardiagermen,tardegermen)){
+            return false
+        }
+        if(!filtrarPorRango(estado.sepsistardiaatbdias,tardeatb,opciones.SEPSIS_TARDIA)){
+            return false
+        }
+        //Respiatorio
+        if(!filtrarPorIgualdad(estado.emh,emh)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.apneas,apena)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.salam,salam)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.neumotorax,neumotorax)){
+            return false
+        }
+        //taquipneatransitoria
+        if(!filtrarPorIgualdad(estado.taquipneatransitoria,taquipnea)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.hipertpulmonar,hipertension)){
+            return false
+        }
+        //enfermedadintersticial
+        if(!filtrarPorIgualdad(estado.enfermedadintersticial,interstecial)){
+            return false
+        }
+        //36 SEMANAS
+        if(!filtrarPorIgualdad(estado.dbp36sem,dbp)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.o236sem,oxigeno)){
+            return false
+        }
+        //Tratameintos
+        if(!filtrarPorIgualdad(estado.surfactante,surfactante)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.ndosissurfactante,ndosissurfactante)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.arm,arm)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.intubadodesdeutpr,intubado)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.vafo,vafo)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.cpap,cpap)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.oaf,oaf)){
+            return false
+        }
+        if(!filtrarPorParecido(estado.cbf,cbf)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.cafeina,cafeina)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.aminofilina,aminofilina)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoideinhalado,corticoideinhalado)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.corticoidepostnatal,corticoidepostnatal)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.oxidonitrico,oxidonitrico)){
             return false
         }
 
@@ -1129,6 +1268,8 @@
         tardeantibiotico = proxyfiltros.tardeantibiotico;
         tardeatb = proxyfiltros.tardeatb;
         emh = proxyfiltros.emh;
+        ndosissurfactante = proxyfiltros.ndosissurfactante;
+        salam = proxyfiltros.salam;
         apena = proxyfiltros.apena;
         neumotorax = proxyfiltros.neumotorax;
         taquipnea = proxyfiltros.taquipnea;
@@ -1300,6 +1441,8 @@
         proxyfiltros.tardeantibiotico = tardeantibiotico;
         proxyfiltros.tardeatb = tardeatb;
         proxyfiltros.emh = emh;
+        proxyfiltros.ndosissurfactante=ndosissurfactante
+        proxyfiltros.salam = salam;
         proxyfiltros.apena = apena;
         proxyfiltros.neumotorax = neumotorax;
         proxyfiltros.taquipnea = taquipnea;
@@ -1536,6 +1679,8 @@
         bind:tardeantibiotico
         bind:tardeatb
         bind:emh
+        bind:ndosissurfactante
+        bind:salam
         bind:apena
         bind:neumotorax
         bind:taquipnea

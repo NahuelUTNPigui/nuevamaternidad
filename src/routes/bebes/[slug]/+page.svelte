@@ -123,6 +123,8 @@
     let nptduraciondias = $state("");
     let nptdiacomienzo = $state("");
     let nptaportetotal = $state("");
+    let nptdiacomienzoaa = $state("");
+    let nptaportetotalaa = $state("");
     let nptdiacomienzolipido = $state("");
     let nptaportetotallipido = $state("");
     let sepsistemprana = $state("");
@@ -314,6 +316,8 @@
     let nptduraciondiasviejo = $state("");
     let nptdiacomienzoviejo = $state("");
     let nptaportetotalviejo = $state("");
+    let nptdiacomienzoaaviejo = $state("");
+    let nptaportetotalaaviejo = $state("");
     let nptdiacomienzolipidoviejo = $state("");
     let nptaportetotallipidoviejo = $state("");
     let sepsistempranaviejo = $state("");
@@ -511,6 +515,8 @@
         nptduraciondiasviejo = nptduraciondias;
         nptdiacomienzoviejo = nptdiacomienzo;
         nptaportetotalviejo = nptaportetotal;
+        nptdiacomienzoaaviejo = nptdiacomienzoaa
+        nptaportetotalaaviejo = nptaportetotalaa
         nptdiacomienzolipidoviejo = nptdiacomienzolipido;
         nptaportetotallipidoviejo = nptaportetotallipido;
         sepsistempranaviejo = sepsistemprana;
@@ -690,6 +696,9 @@
         nptduraciondias = nptduraciondiasviejo;
         nptdiacomienzo = nptdiacomienzoviejo;
         nptaportetotal = nptaportetotalviejo;
+        nptdiacomienzoaa = nptdiacomienzoaaviejo
+        nptaportetotalaa = nptaportetotalaaviejo
+
         nptdiacomienzolipido = nptdiacomienzolipidoviejo;
         nptaportetotallipido = nptaportetotallipidoviejo;
         sepsistemprana = sepsistempranaviejo;
@@ -904,6 +913,8 @@
                 nptduraciondias,
                 nptdiacomienzo,
                 nptaportetotal,
+                nptdiacomienzoaa,
+                nptaportetotalaa,
                 nptdiacomienzolipido,
                 nptaportetotallipido,
                 sepsistemprana,
@@ -1111,6 +1122,8 @@
             nptduraciondias = record.nptduraciondias;
             nptdiacomienzo = record.nptdiacomienzo;
             nptaportetotal = record.nptaportetotal;
+            nptdiacomienzoaa=record.nptdiacomienzoaa
+            nptaportetotalaa=record.nptaportetotalaa
             nptdiacomienzolipido = record.nptdiacomienzolipido;
             nptaportetotallipido = record.nptaportetotallipido;
             sepsistemprana = record.sepsistemprana;
@@ -1381,6 +1394,8 @@
                 bind:nptduraciondias
                 bind:nptdiacomienzo
                 bind:nptaportetotal
+                bind:nptdiacomienzoaa
+                bind:nptaportetotalaa
                 bind:nptdiacomienzolipido
                 bind:nptaportetotallipido
                 bind:sepsistemprana

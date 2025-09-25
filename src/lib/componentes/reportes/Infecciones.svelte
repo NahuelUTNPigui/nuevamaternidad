@@ -36,13 +36,16 @@
                         bind:value={tempranogermen}
                         escribir={cambiarFiltro}
                 />
-                <InputText
-                        idetiqueta="fantibioticotemprano"
-                        etiqueta="Antibiotico"
-                        modoedicion={true}
-                        bind:value={tempranoantibiotico}
-                        escribir={cambiarFiltro}
-                />
+                <div class="hidden">
+                        <InputText
+                                idetiqueta="fantibioticotemprano"
+                                etiqueta="Antibiotico"
+                                modoedicion={true}
+                                bind:value={tempranoantibiotico}
+                                escribir={cambiarFiltro}
+                        />
+                </div>
+
                 <InputSelect
                         idetiqueta="fantibioticotempano"
                         etiqueta="Duracion "
@@ -75,13 +78,16 @@
                         bind:value={tardegermen}
                         escribir={cambiarFiltro}
                 />
-                <InputText
-                        idetiqueta="fantibioticotarde"
-                        etiqueta="Antibiotico"
-                        modoedicion={true}
-                        bind:value={tardeantibiotico}
-                        escribir={cambiarFiltro}
-                />
+                <div class="hidden">
+                        <InputText
+                                idetiqueta="fantibioticotarde"
+                                etiqueta="Antibiotico"
+                                modoedicion={true}
+                                bind:value={tardeantibiotico}
+                                escribir={cambiarFiltro}
+                        />
+                </div>
+
                 <InputSelect
                         idetiqueta="fantibioticotarde"
                         etiqueta="Duracion "
