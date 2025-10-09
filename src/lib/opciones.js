@@ -314,7 +314,7 @@ export default {
   ],
   TEMPERATURA_RANGO: [
     { id: "", nombre: "" },
-    { id: "alto", nombre: "Alto (>= 37.5°)", min: "37.5", max: "100" }, // asumiendo límite superior razonable
+    { id: "alto", nombre: "Alto (>= 37.5°)", min: "37.5", max: "10000" }, // asumiendo límite superior razonable
     { id: "medio", nombre: "Medio (< 37.5°)", min: "36.0", max: "37.5" }, // ajustado para no solapar con "bajo"
     { id: "bajo", nombre: "Bajo (< 36°)", min: "0", max: "35.9" },
   ],

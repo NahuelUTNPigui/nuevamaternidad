@@ -21,6 +21,7 @@
             modoedicion={true}
             bind:value={cefalico_rn}
             lista={opciones.CEFALICO_RANGO.RN}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpero7"
@@ -28,6 +29,7 @@
             modoedicion={true}
             bind:value={cefalico_7}
             lista={opciones.CEFALICO_RANGO.DIAS_7}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpero14"
@@ -35,6 +37,7 @@
             modoedicion={true}
             bind:value={cefalico_14}
             lista={opciones.CEFALICO_RANGO.DIAS_14}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpero21"
@@ -42,6 +45,7 @@
             modoedicion={true}
             bind:value={cefalico_21}
             lista={opciones.CEFALICO_RANGO.DIAS_21}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpero28"
@@ -49,6 +53,7 @@
             modoedicion={true}
             bind:value={cefalico_28}
             lista={opciones.CEFALICO_RANGO.DIAS_28}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fperosem"
@@ -56,6 +61,7 @@
             modoedicion={true}
             bind:value={cefalico_36}
             lista={opciones.CEFALICO_RANGO.SEM_36}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

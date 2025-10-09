@@ -15,12 +15,14 @@
             etiqueta="Edad recuperar peso desde"
             modoedicion={true}
             bind:value={recuperarpesodesde}
+            escribir={cambiarFiltro}
         />
         <InputText
             idetiqueta="fhasta"
             etiqueta="Edad recuperar peso hasta"
             modoedicion={true}
             bind:value={recuperarpesohasta}
+            escribir={cambiarFiltro}
         />
     </div>
 </div>

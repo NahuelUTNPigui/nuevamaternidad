@@ -8,12 +8,21 @@
     peso21d = $bindable(""),
     peso28d = $bindable(""),
     peso36sem = $bindable(""),
+    
     tallarn = $bindable(""),
     talla7d = $bindable(""),
     talla14d = $bindable(""),
     talla21d = $bindable(""),
     talla28d = $bindable(""),
     talla36sem = $bindable(""),
+
+    perimetrorn = $bindable(""),
+    perimetro7d = $bindable(""),
+    perimetro14d = $bindable(""),
+    perimetro21d = $bindable(""),
+    perimetro28d = $bindable(""),
+    perimetro36sem = $bindable(""),
+
     scorezrn = $bindable(""),
     scorez7d = $bindable(""),
     scorez14d = $bindable(""),
@@ -76,7 +85,50 @@
         />
       </div>
     </div>
-
+    <!-- Sección: PC -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-blue-500">
+        Perimetro Céfalico (cm)
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputText
+          bind:value={perimetrorn}
+          etiqueta="Perímetro al nacer (RN)"
+          idetiqueta="perimetrorn"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={perimetro7d}
+          etiqueta="Perímetro 7 días"
+          idetiqueta="perimetro7d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={perimetro14d}
+          etiqueta="Perímetro 14 días"
+          idetiqueta="perimetro14d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={perimetro21d}
+          etiqueta="Perímetro 21 días"
+          idetiqueta="perimetro21d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={perimetro28d}
+          etiqueta="Perímetro 28 días"
+          idetiqueta="perimetro28d"
+          bind:modoedicion
+        />
+        <InputText
+          bind:value={perimetro36sem}
+          etiqueta="Perímetro 36 semanas"
+          idetiqueta="perimetro36sem"
+          bind:modoedicion
+        />
+      </div>
+    </div>
     <!-- Sección: Talla -->
     <div class="mb-8">
       <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-secondary">
@@ -166,7 +218,7 @@
         />
       </div>
     </div>
-    <!-- Sección: Score Z -->
+    <!-- Sección: Recuperar peso -->
     <div class="mb-8">
       <h3 class="text-xl font-semibold border-b pb-2 mb-4">
         Edad recuperar pesos

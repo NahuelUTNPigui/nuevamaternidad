@@ -11,6 +11,9 @@
     import StatCard from "$lib/componentes/StatCard.svelte";
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
     import opciones from "$lib/opciones";
+    import {calcularEdad} from "$lib/string/string"
+    
+
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -122,7 +125,9 @@
     let scorez_28 = $state("");
     let scorez_36 = $state("");
 
-    let recuperarpeso = $state("");
+    let recuperarpeso = $state("")
+    let recuperarpesodesde = $state("");
+    let recuperarpesohasta = $state("");
 
     //datos maternos
     let edad_materna = $state("");
@@ -142,6 +147,7 @@
     let itu = $state("");
 
     let desprendimiento = $state("");
+    let sufrimiento = $state("");
     let ht = $state("");
     let hie = $state("");
     let preeclampisa = $state("");
@@ -226,6 +232,7 @@
     let transfusion = $state("");
 
     //neurologia
+    let ecotf = $state("");
     let hiv = $state("");
     let convulsiones = $state("");
     let ehi = $state("");
@@ -355,6 +362,8 @@
         scorez_28: "",
         scorez_36: "",
         recuperarpeso: "",
+        recuperarpesodesde: "",
+        recuperarpesohasta: "",
         edad_materna: "",
         niveleducativo: "",
         paridad: "",
@@ -371,6 +380,7 @@
         congenita: "",
         itu: "",
         desprendimiento: "",
+        sufrimiento:"",
         ht: "",
         hie: "",
         preeclampisa: "",
@@ -435,6 +445,7 @@
         plasma: "",
         inmunoglobina: "",
         transfusion: "",
+        ecotf:"",
         hiv: "",
         convulsiones: "",
         ehi: "",
@@ -572,10 +583,18 @@
         return esSubconjunto(listavariable, listaestado);
     }
     function filtrarPorRango(variableestado, variable, rangos) {
+        
         if (variable.length == 0) {
             return true;
         } else {
+            if(variableestado == null){
+                return false
+            }
+            if(variableestado.length == 0){
+                return false
+            }
             let valor = Number(variableestado);
+
             let rangolista = rangos.filter((r) => r.id == variable);
             if (rangolista.length > 0) {
                 let rango = rangolista[0];
@@ -610,34 +629,48 @@
         let no_valido = estado_fin < desde || estado_inicio > hasta;
         return !no_valido;
     }
-    function validarEstadoVariable(variableestado, variable, rango) {
-        if (variable.length == 0) {
-            return true;
+    function filtrarEntreValores(variableestado,variabledesde,variablehasta){
+
+        if(variabledesde.length == 0 && variablehasta.length==0){
+            return true
+        }
+        else if(variabledesde.length == 0){
+            let hasta = Number(variablehasta)
+            if(isNaN(hasta)){
+                return true
+            }
+            let valor = Number(variableestado)
+            return valor < hasta
+        }
+        else if(variablehasta.length == 0){
+            let desde = Number(variabledesde)
+            if(isNaN(desde)){
+                return true
+            }
+            let valor = Number(variableestado)
+            return valor >= desde
+        }
+        else{
+            let desde = Number(variabledesde)
+            let hasta = Number(variablehasta)
+            let valor = Number(variableestado)
+            if(isNaN(desde) && isNaN(hasta)){
+                return true
+            }
+            else if(isNaN(desde)){
+                return valor < hasta
+            }
+            else if(isNaN(hasta)){
+                return valor >= desde
+            }
+            else{
+                return valor < hasta && valor >= desde
+            }
         }
     }
-    function calcularEdad(fechaNacimiento) {
-        // Asegurarse de que la fecha de nacimiento sea un objeto Date válido
-        const nacimiento = new Date(fechaNacimiento);
 
-        // Verificar si la fecha es válida
-        if (isNaN(nacimiento.getTime())) {
-            return -1;
-        }
-
-        const hoy = new Date();
-
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-        const mes = hoy.getMonth() - nacimiento.getMonth();
-
-        // Si el mes actual es menor que el mes de nacimiento,
-        // o si estamos en el mismo mes pero el día aún no ha llegado,
-        // restamos un año.
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-            edad--;
-        }
-
-        return edad;
-    }
+    
+    
     function validarEstado(estado) {
         //fecha
         if (!filtrarPorFechaEstado(estado, fechadesde, fechahasta)) {
@@ -748,6 +781,7 @@
         //Antropometria
         //peso
         if (!filtrarPorRango(estado.pesorn, peso_rn, opciones.PESO_RANGO.RN)) {
+            
             return false;
         }
         if (
@@ -791,7 +825,57 @@
         ) {
             return false;
         }
-
+        //cefalico
+        if (
+            !filtrarPorRango(estado.perimetrorn, cefalico_rn, opciones.CEFALICO_RANGO.RN)
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.perimetro7d,
+                cefalico_7,
+                opciones.CEFALICO_RANGO.DIAS_7,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.perimetro14d,
+                cefalico_14,
+                opciones.CEFALICO_RANGO.DIAS_14,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.perimetro21d,
+                cefalico_21,
+                opciones.CEFALICO_RANGO.DIAS_21,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.perimetro28d,
+                cefalico_28,
+                opciones.CEFALICO_RANGO.DIAS_28,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRango(
+                estado.perimetro36sem,
+                cefalico_36,
+                opciones.CEFALICO_RANGO.SEM_36,
+            )
+        ) {
+            return false;
+        }
         //talla
         if (
             !filtrarPorRango(estado.tallarn, talla_rn, opciones.TALLA_RANGO.RN)
@@ -878,17 +962,25 @@
         ) {
             return false;
         }
+        //edad recuperar peso
+        if(!filtrarEntreValores(estado.edadrecuperapeso,recuperarpesodesde,recuperarpesohasta)){
+            return false
+        }
         //Datos maternos
         if (
-            edad_materna.length>0 &&
             !filtrarPorRango(
                 calcularEdad(estado.fechanacimientomama),
                 edad_materna,
                 opciones.EDAD_MADRE,
             )
-        )
+        ){
+         
+            
+
             return false;
-        if (!filtrarPorIgualdad(estado.educacionmama, edad_materna)) {
+        }
+            
+        if (!filtrarPorIgualdad(estado.educacionmama, niveleducativo)) {
             return false;
         }
         if(!filtrarPorRango(estado.paridad,paridad,opciones.PARIDAD_MADRE)){
@@ -927,6 +1019,9 @@
             return false
         }
         if(!filtrarPorIgualdad(estado.desprendimientoplacenta,desprendimiento)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.sufrimientofetal,sufrimiento)){
             return false
         }
         if(!filtrarPorIgualdad(estado.htcronica,ht)){
@@ -1043,25 +1138,25 @@
         if(!filtrarPorIgualdad(estado.surfactante,surfactante)){
             return false
         }
-        if(!filtrarPorParecido(estado.ndosissurfactante,ndosissurfactante)){
+        if(!filtrarPorIgualdad(estado.ndosissurfactante,ndosissurfactante)){
             return false
         }
-        if(!filtrarPorParecido(estado.arm,arm)){
+        if(!filtrarPorIgualdad(estado.arm,arm)){
             return false
         }
-        if(!filtrarPorParecido(estado.intubadodesdeutpr,intubado)){
+        if(!filtrarPorIgualdad(estado.intubadodesdeutpr,intubado)){
             return false
         }
-        if(!filtrarPorParecido(estado.vafo,vafo)){
+        if(!filtrarPorIgualdad(estado.vafo,vafo)){
             return false
         }
-        if(!filtrarPorParecido(estado.cpap,cpap)){
+        if(!filtrarPorIgualdad(estado.cpap,cpap)){
             return false
         }
-        if(!filtrarPorParecido(estado.oaf,oaf)){
+        if(!filtrarPorIgualdad(estado.oaf,oaf)){
             return false
         }
-        if(!filtrarPorParecido(estado.cbf,cbf)){
+        if(!filtrarPorIgualdad(estado.cbf,cbf)){
             return false
         }
         if(!filtrarPorIgualdad(estado.cafeina,cafeina)){
@@ -1079,12 +1174,179 @@
         if(!filtrarPorIgualdad(estado.oxidonitrico,oxidonitrico)){
             return false
         }
+        //Cardiovascular  incompleto
+        // inotropicos  incompleto
+        //hematologicos  incompleto 
+        //oftamologia
+        if(!filtrarPorIgualdad(estado.fondoojo,fondoojo)){
+            return false
+        }
+        //rop
+        if(!filtrarPorIgualdad(estado.rop,rop)){
+            return false
+        }
+        //roptto
+        if(!filtrarPorIgualdad(estado.roptto,tratamientorop)){
+            return false
+        }
+        //digestivo les faltan algunos atributos
+        //necestadio
+        if(!filtrarPorIgualdad(estado.necestadio,nec)){
+            return false
+        }
+        //perforacionunica
+        if(!filtrarPorIgualdad(estado.perforacionunica,perforacion)){
+            return false
+        }
+        //onfalocele
+        if(!filtrarPorIgualdad(estado.onfalocele,onfalocele)){
+            return false
+        }
+        //gastroquisis
+        if(!filtrarPorIgualdad(estado.gastroquisis,gastrosquisis)){
+            return false
+        }
+        //hdc falta diagnostico y tratamiento
+        
+        //tqt
+        if(!filtrarPorIgualdad(estado.tqt,tqt)){
+            return false
+        }
+        //drenajepleural
+        if(!filtrarPorIgualdad(estado.drenajepleural,drenajepleural)){
+            return false
+        }
+        //drenajeventricular
+        if(!filtrarPorIgualdad(estado.drenajeventricular,drenajeventricular)){
+            return false
+        }
+        //antecedentes geneticos
+        //geneticat21
+        if(!filtrarPorIgualdad(estado.geneticat21,trisomia21)){
+            return false
+        }
+        //geneticat13
+        if(!filtrarPorIgualdad(estado.geneticat13,trisomia13)){
+            return false
+        }
+        //geneticat18
+        if(!filtrarPorIgualdad(estado.geneticat18,trisomia18)){
+            return false
+        }
+        //geneticavacterl
+        if(!filtrarPorIgualdad(estado.geneticavacterl,vacterl)){
+            return false
+        }
+        //geneticaturner
+        if(!filtrarPorIgualdad(estado.geneticaturner,turner)){
+            return false
+        }
+        //medicacion
+        //medprotectorgastricodias
+        if(!filtrarPorRango(estado.medprotectorgastricodias,protectorgastrico,opciones.PROTECTOR)){
+            return false
+        }
+        //medinhibidorbombahdias
+        if(!filtrarPorRango(estado.medinhibidorbombahdias,inhibidor,opciones.INHIBIDOR)){
+            return false
+        }
+        //medprobiodias
+        if(!filtrarPorRango(estado.medprobiodias,probiotico,opciones.PROBIOTICO)){
+            return false
+        }
+        //meleritromicinadias
+        if(!filtrarPorRango(estado.meleritromicinadias,eritromicina,opciones.ERITROMICINA)){
+            return false
+        }
+        //medfentanilodias
+        if(!filtrarPorRango(estado.medfentanilodias,fentanilo,opciones.FENTANILO)){
+            return false
+        }
+        //medmorfinadias
+        if(!filtrarPorRango(estado.medmorfinadias,morfina,opciones.MORFINA)){
+            return false
+        }
+        //medmidazolamdias
+        if(!filtrarPorRango(estado.medmorfinadias,morfina,opciones.MORFINA)){
+            return false
+        }
+        //medprecedexdias
+        if(!filtrarPorRango(estado.medprecedexdias,precedex,opciones.PRECEDEX)){
+            return false
+        }
+        //medmetadonadias
+        if(!filtrarPorRango(estado.medmetadonadias,metadona,opciones.METADONA)){
+            return false
+        }
+        //medvecuroniadias
+        if(!filtrarPorRango(estado.medvecuroniadias,vecuronio,opciones.VECURONIO)){
+            return false
+        }
+        //medprostagldias
+        if(!filtrarPorRango(estado.medprostagldias,prostaglandinas,opciones.PROSTAGLANDINA)){
+            return false
+        }
+        //inotropicos
+        //inotropicosdopamina
+        if(!filtrarPorIgualdad(estado.inotropicosdopamina,dopamina)){
+            return false
+        }
+        //inotropicosdobutamina
+        if(!filtrarPorIgualdad(estado.inotropicosdobutamina,dobutamina)){
+            return false
+        }
+        //inotropicosadrenalina
+        if(!filtrarPorIgualdad(estado.inotropicosadrenalina,adrenalina)){
+            return false
+        }
+        //inotropicosmilrinona
+        if(!filtrarPorIgualdad(estado.inotropicosmilrinona,milrinona)){
+            return false
+        }
+        //inotropicosvasopresina
+        if(!filtrarPorIgualdad(estado.inotropicosvasopresina,vasopresina)){
+            return false
+        }
+        
+        //diureticos
+        //diureticosespironolac
+        if(!filtrarPorIgualdad(estado.diureticosespironolac,espironolacta)){
+            return false
+        }
+        //diureticoshidroclotiaz
+        if(!filtrarPorIgualdad(estado.diureticoshidroclotiaz,hidrocloritiazida)){
+            return false
+        }
+        //diureticosfurosemida
+        if(!filtrarPorIgualdad(estado.diureticosfurosemida,furosemida)){
+            return false
+        }
+        // neurologicas
+        //hivgrado
+        if(!filtrarPorIgualdad(estado.ecotf,ecotf)){
+            return false
+        }
+        if(!filtrarPorIgualdad(estado.hivgrado,hiv)){
+            return false
+        }
+        //convulsiones
+        if(!filtrarPorIgualdad(estado.convulsiones,convulsiones)){
+            return false
+        }
+        //ehi
+        if(!filtrarPorIgualdad(estado.ehi,ehi)){
+            return false
+        }
+        //hipotermiatipo
+        if(!filtrarPorIgualdad(estado.hipotermiatipo,hipo)){
+            return false
+        }
 
-
-
+        
         return true
     }
     function filterUpdate() {
+        
         //historiasbebesrow = historiasbebes;
         historiasbebesrow = [];
 
@@ -1223,6 +1485,8 @@
         scorez_28 = proxyfiltros.scorez_28;
         scorez_36 = proxyfiltros.scorez_36;
         recuperarpeso = proxyfiltros.recuperarpeso;
+        recuperarpesodesde = proxyfiltros.recuperarpesodesde;
+        recuperarpesohasta = proxyfiltros.recuperarpesohasta;
         edad_materna = proxyfiltros.edad_materna;
         niveleducativo = proxyfiltros.niveleducativo;
         paridad = proxyfiltros.paridad;
@@ -1239,6 +1503,7 @@
         congenita = proxyfiltros.congenita;
         itu = proxyfiltros.itu;
         desprendimiento = proxyfiltros.desprendimiento;
+        sufrimiento = proxyfiltros.sufrimiento;
         ht = proxyfiltros.ht;
         hie = proxyfiltros.hie;
         preeclampisa = proxyfiltros.preeclampisa;
@@ -1304,13 +1569,14 @@
         inmunoglobina = proxyfiltros.inmunoglobina;
         transfusion = proxyfiltros.transfusion;
         hiv = proxyfiltros.hiv;
+        ecotf = proxyfiltros.ecotf;
         convulsiones = proxyfiltros.convulsiones;
         ehi = proxyfiltros.ehi;
         hipo = proxyfiltros.hipo;
         fondoojo = proxyfiltros.fondoojo;
         rop = proxyfiltros.rop;
         tratamientorop = proxyfiltros.tratamientorop;
-        nec = proxyfiltros.nec;
+        nec = proxyfiltros.nec; 
         perforacion = proxyfiltros.perforacion;
         onfalocele = proxyfiltros.onfalocele;
         gastrosquisis = proxyfiltros.gastrosquisis;
@@ -1396,6 +1662,8 @@
         proxyfiltros.scorez_28 = scorez_28;
         proxyfiltros.scorez_36 = scorez_36;
         proxyfiltros.recuperarpeso = recuperarpeso;
+        proxyfiltros.recuperarpesodesde = recuperarpesodesde;
+        proxyfiltros.recuperarpesohasta = recuperarpesohasta;
         proxyfiltros.edad_materna = edad_materna;
         proxyfiltros.niveleducativo = niveleducativo;
         proxyfiltros.paridad = paridad;
@@ -1411,7 +1679,7 @@
         proxyfiltros.colico = colico;
         proxyfiltros.congenita = congenita;
         proxyfiltros.itu = itu;
-        proxyfiltros.desprendimiento = desprendimiento;
+        proxyfiltros.sufrimiento = sufrimiento;
         proxyfiltros.ht = ht;
         proxyfiltros.hie = hie;
         proxyfiltros.preeclampisa = preeclampisa;
@@ -1477,6 +1745,7 @@
         proxyfiltros.inmunoglobina = inmunoglobina;
         proxyfiltros.transfusion = transfusion;
         proxyfiltros.hiv = hiv;
+        proxyfiltros.ecotf = ecotf;
         proxyfiltros.convulsiones = convulsiones;
         proxyfiltros.ehi = ehi;
         proxyfiltros.hipo = hipo;
@@ -1634,6 +1903,8 @@
         bind:scorez_28
         bind:scorez_36
         bind:recuperarpeso
+        bind:recuperarpesodesde
+        bind:recuperarpesohasta
         bind:edad_materna
         bind:niveleducativo
         bind:paridad
@@ -1650,6 +1921,7 @@
         bind:congenita
         bind:itu
         bind:desprendimiento
+        bind:sufrimiento
         bind:ht
         bind:hie
         bind:preeclampisa
@@ -1715,6 +1987,7 @@
         bind:inmunoglobina
         bind:transfusion
         bind:hiv
+        bind:ecotf
         bind:convulsiones
         bind:ehi
         bind:hipo
@@ -1750,5 +2023,28 @@
         bind:complicaciones
         bind:diagnostico
     />
-    <Listado bind:bebesrows={filas} />
+    <Listado 
+        bind:checked_identificacion
+        bind:checked_ingreso
+        bind:checked_antropometria
+        bind:checked_maternos
+        bind:checked_respiratorias
+        bind:checked_neurologicas
+        bind:checked_medicacion
+        bind:checked_avanzados
+        bind:checked_cateteres
+        bind:checked_alimentacion
+        bind:checked_infecciones
+        bind:checked_cardiovascular
+        bind:checked_inotropicos
+        bind:checked_sangre
+        bind:checked_oftalmologia
+        bind:checked_digestivo
+        bind:checked_genetica
+        bind:checked_alta
+        bind:checked_otros
+        bind:bebesrows={filas} 
+        bind:unidades
+        bind:areas
+    />
 </Navbar>

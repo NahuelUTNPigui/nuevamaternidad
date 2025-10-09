@@ -21,6 +21,7 @@
             modoedicion={true}
             bind:value={talla_rn}
             lista={opciones.TALLA_RANGO.RN}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="ftala7"
@@ -28,6 +29,7 @@
             modoedicion={true}
             bind:value={talla_7}
             lista={opciones.TALLA_RANGO.DIAS_7}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="ftalla14"
@@ -35,6 +37,7 @@
             modoedicion={true}
             bind:value={talla_14}
             lista={opciones.TALLA_RANGO.DIAS_14}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="ftalla21"
@@ -42,6 +45,7 @@
             modoedicion={true}
             bind:value={talla_21}
             lista={opciones.TALLA_RANGO.DIAS_21}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="ftalla28"
@@ -49,6 +53,7 @@
             modoedicion={true}
             bind:value={talla_28}
             lista={opciones.TALLA_RANGO.DIAS_28}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="ftallasem"
@@ -56,6 +61,7 @@
             modoedicion={true}
             bind:value={talla_36}
             lista={opciones.TALLA_RANGO.SEM_36}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

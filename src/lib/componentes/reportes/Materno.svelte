@@ -8,7 +8,7 @@
                 paridad = $bindable(""),
                 gemelos = $bindable(""),
                 controlparental = $bindable(""),
-                corticoideprenatal=$bindable(""),
+                corticoideprenatal = $bindable(""),
                 tabaquismo = $bindable(""),
                 adiccion = $bindable(""),
                 egb = $bindable(""),
@@ -20,6 +20,7 @@
                 congenita = $bindable(""),
                 itu = $bindable(""),
                 desprendimiento = $bindable(""),
+                sufrimiento = $bindable(""),
                 ht = $bindable(""),
                 hie = $bindable(""),
                 preeclampisa = $bindable(""),
@@ -137,7 +138,7 @@
                         etiqueta="EGB"
                         modoedicion={true}
                         bind:value={egb}
-                        lista={opciones.SINO}
+                        lista={opciones.EGB}
                         cambiar={cambiarFiltro}
                 />
                 <!-- Sulfato de Magnesio -->
@@ -200,6 +201,15 @@
                         etiqueta="Desprendimiento"
                         modoedicion={true}
                         bind:value={desprendimiento}
+                        lista={opciones.SINO}
+                        cambiar={cambiarFiltro}
+                />
+                <!--Sufrimiento-->
+                <InputSelect
+                        idetiqueta="fsufrimiento"
+                        etiqueta="Sufrimiento fetal"
+                        modoedicion={true}
+                        bind:value={sufrimiento}
                         lista={opciones.SINO}
                         cambiar={cambiarFiltro}
                 />

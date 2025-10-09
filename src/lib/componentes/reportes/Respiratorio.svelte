@@ -2,6 +2,7 @@
         import InputSelect from "../Formulario/InputSelect.svelte";
         import opciones from "$lib/opciones";
         import InputText from "../Formulario/InputText.svelte";
+        import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
         let {
                 cambiarFiltro,
                 emh = $bindable(""),
@@ -42,9 +43,9 @@
                         modoedicion={true}
                         bind:value={emh}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
-                
+
                 <!-- SALAM -->
                 <InputSelect
                         idetiqueta="fsalam"
@@ -52,7 +53,7 @@
                         modoedicion={true}
                         bind:value={salam}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Número de dosis de surfactante (condicional) -->
                 <!-- Apneas -->
@@ -62,7 +63,7 @@
                         modoedicion={true}
                         bind:value={apena}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Neumotórax -->
                 <InputSelect
@@ -71,7 +72,7 @@
                         modoedicion={true}
                         bind:value={neumotorax}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Taquipnea Transitoria -->
                 <InputSelect
@@ -80,7 +81,7 @@
                         modoedicion={true}
                         bind:value={taquipnea}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Hipertensión Pulmonar -->
                 <InputSelect
@@ -89,7 +90,7 @@
                         modoedicion={true}
                         bind:value={hipertension}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Enfermedad Intersticial -->
                 <InputSelect
@@ -98,7 +99,7 @@
                         modoedicion={true}
                         bind:value={interstecial}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 
@@ -113,7 +114,7 @@
                         modoedicion={true}
                         bind:value={dbp}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- O2 a las 36 semanas -->
                 <InputSelect
@@ -122,7 +123,7 @@
                         modoedicion={true}
                         bind:value={oxigeno}
                         lista={opciones.O2_36SEM}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- FiO2 ±30% -->
         </div>
@@ -132,12 +133,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Surfactante -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="Surfactante"
                         etiqueta="Surfactante"
                         modoedicion={true}
                         bind:value={surfactante}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Dosis surfactante -->
                 <InputText
@@ -145,16 +146,15 @@
                         etiqueta="Dosis surfactante "
                         modoedicion={true}
                         bind:value={ndosissurfactante}
-                        cambiar = {cambiarFiltro}
+                        escribir={cambiarFiltro}
                 />
                 <!-- ARM -->
-                <InputSelect
+                <InputOpcionalText
                         idetiqueta="ARM"
                         etiqueta="ARM"
                         modoedicion={true}
                         bind:value={arm}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Intubado desde UTPR -->
                 <InputSelect
@@ -163,43 +163,43 @@
                         modoedicion={true}
                         bind:value={intubado}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- VAFO -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="VAFO"
                         etiqueta="VAFO"
                         modoedicion={true}
                         bind:value={vafo}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- CPAP -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="CPAP"
                         etiqueta="CPAP"
                         modoedicion={true}
                         bind:value={cpap}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- OAF -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="OAF"
                         etiqueta="OAF"
                         modoedicion={true}
                         bind:value={oaf}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- CBF -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="CBF"
                         etiqueta="CBF"
                         modoedicion={true}
                         bind:value={cbf}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
         </div>
         <h3 class="font-medium mb-3 text-base-content">Medicamentos</h3>
@@ -211,7 +211,7 @@
                         modoedicion={true}
                         bind:value={cafeina}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Aminofilina -->
                 <InputSelect
@@ -220,7 +220,7 @@
                         modoedicion={true}
                         bind:value={aminofilina}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Corticoide Inhalado -->
                 <InputSelect
@@ -229,16 +229,16 @@
                         modoedicion={true}
                         bind:value={corticoidepostnatal}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Corticoide Postnatal -->
                 <InputSelect
+                        lista={opciones.SINO}
                         idetiqueta="Corticoide Postnatal"
                         etiqueta="Corticoide Postnatal"
                         modoedicion={true}
                         bind:value={corticoidepostnatal}
-                        lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
                 <!-- Óxido Nítrico -->
                 <InputSelect
@@ -247,7 +247,7 @@
                         modoedicion={true}
                         bind:value={oxidonitrico}
                         lista={opciones.SINO}
-                        cambiar = {cambiarFiltro}
+                        cambiar={cambiarFiltro}
                 />
         </div>
 </div>

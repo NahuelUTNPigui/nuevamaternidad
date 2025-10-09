@@ -28,6 +28,8 @@
     hcmama = $bindable(""),
   } = $props();
 
+
+  let fechanac = $derived(fechanacimientobebe?fechanacimientobebe.split("T")[0]:"")
 </script>
 
 <div
@@ -91,8 +93,9 @@
           bind:modoedicion
           bind:value={pesobebe}
         />
+        
         <InputDate
-        idetiqueta={"fechanac"}
+          idetiqueta={"fechanac"}
           etiqueta="Fecha nacimiento"
           bind:modoedicion
           bind:value={fechanacimientobebe}

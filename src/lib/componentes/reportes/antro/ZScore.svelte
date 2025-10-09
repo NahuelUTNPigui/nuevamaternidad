@@ -21,6 +21,7 @@
             modoedicion={true}
             bind:value={scorez_rn}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fscore7"
@@ -28,6 +29,7 @@
             modoedicion={true}
             bind:value={scorez_7}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fscore14"
@@ -35,6 +37,7 @@
             modoedicion={true}
             bind:value={scorez_14}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fscore21"
@@ -42,6 +45,7 @@
             modoedicion={true}
             bind:value={scorez_21}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fscore28"
@@ -49,6 +53,7 @@
             modoedicion={true}
             bind:value={scorez_28}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fscoresem"
@@ -56,6 +61,7 @@
             modoedicion={true}
             bind:value={scorez_36}
             lista={opciones.SCOREZ_RANGO}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

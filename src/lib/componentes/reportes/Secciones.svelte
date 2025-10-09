@@ -38,7 +38,7 @@
         <!-- Fila 2 -->
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_neurologicas} idlabel="chk-neurologicas" label="Patologías Neurológicas" />
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_medicacion} idlabel="chk-medicacion" label="Medicación" />
-        <FilterCheck cambiar={cambiarCheck} bind:value={checked_avanzados} idlabel="chk-avanzados" label="Filtros Avanzados" />
+        <!--<FilterCheck cambiar={cambiarCheck} bind:value={checked_avanzados} idlabel="chk-avanzados" label="Filtros Avanzados" />-->
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_cateteres} idlabel="chk-cateteres" label="Catéteres" />
         <FilterCheck cambiar={cambiarCheck} bind:value={checked_alimentacion} idlabel="chk-alimentacion" label="Alimentación" />
 

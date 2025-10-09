@@ -1,4 +1,16 @@
 <script>
+  import opciones from "$lib/opciones";
+  function getNombre(id, lista) {
+    let fila = { id: "", nombre: "" };
+    if(id==null){
+      return ""
+    }
+    let idx = lista.findIndex((o) => o.id == id);
+    if (idx != -1) {
+      fila = lista[idx];
+    }
+    return fila.nombre;
+  }
 
   let {
     nombre = $bindable(""),
@@ -18,19 +30,19 @@
 
 <!-- Etiquetas -->
 <div class="flex flex-wrap gap-2 mb-4 text-sm">
-  {#if clinicNumber.length>0}
-  <span
-    class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded-full"
-    >HC: {clinicNumber}</span
-  >
+  {#if clinicNumber.length > 0}
+    <span
+      class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded-full"
+      >HC: {clinicNumber}</span
+    >
   {/if}
-  {#if sexo.length>0}
-  <span
-    class="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full"
-    >{sexo}</span
-  >
+  {#if sexo.length > 0}
+    <span
+      class="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full"
+      >{getNombre(sexo,opciones.SEXO)}</span
+    >
   {/if}
-  {#if edad_gestacional.length>0}
+  {#if edad_gestacional.length > 0}
     <span
       class="bg-purple-100 dark:bg-purple-700 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full"
       >EG: {edad_gestacional} semanas</span
@@ -74,7 +86,7 @@
     class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
            bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100
            dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2
-           focus:ring-gray-400 dark:focus:ring-offset-gray-900 "
+           focus:ring-gray-400 dark:focus:ring-offset-gray-900"
     aria-label="Cancelar edición"
     onclick={closeEditar}
   >

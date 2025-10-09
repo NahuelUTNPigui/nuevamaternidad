@@ -4,6 +4,7 @@
     let {
         cambiarFiltro,
         hiv = $bindable(""),
+        ecotf = $bindable(""),
         convulsiones = $bindable(""),
         ehi = $bindable(""),
         hipo = $bindable(""),
@@ -11,6 +12,15 @@
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <!-- ECO TF -->
+    <InputSelect
+        idetiqueta="ECOTF"
+        etiqueta="ECO TF "
+        modoedicion={true}
+        bind:value={ecotf}
+        lista={opciones.SINO}
+        cambiar = {cambiarFiltro}
+    />
     <!-- HIV - Hemorragia Intraventricular -->
     <InputSelect
         idetiqueta="HIV - Hemorragia Intraventricular"

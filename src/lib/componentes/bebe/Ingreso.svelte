@@ -121,7 +121,14 @@
       idetiqueta="rem"
       bind:modoedicion
     />
-
+    <!-- RCIU -->
+    <InputSelect
+      bind:value={rciu}
+      lista={opciones.RCIU}
+      etiqueta="RCIU"
+      idetiqueta="RCIU"
+      bind:modoedicion
+    />
     <!-- Apgar 1 minuto -->
     <InputText
       bind:value={apgar_1}

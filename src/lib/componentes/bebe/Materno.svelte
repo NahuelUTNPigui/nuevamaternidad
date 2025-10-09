@@ -41,7 +41,6 @@
     
   `}
 >
-  
   <div class="grid md:grid-cols-1 gap-4">
     <!-- Sección: Información Básica -->
     <div class="mb-8">
@@ -60,7 +59,6 @@
           bind:value={fechanacimientomama}
           etiqueta="Fecha de Nacimiento"
           idetiqueta="fechanacimientomama"
-          
           bind:modoedicion
         />
 
@@ -99,25 +97,41 @@
 
     <!-- Sección: Antecedentes y Cuidados Prenatales -->
     <div class="mb-8">
-      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-secondary">
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-blue-500">
         Antecedentes y Cuidados Prenatales
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <InputOpcionalText
-          
+        <div class="hidden">
+          <InputOpcionalText
+            bind:value={controlprenatal}
+            etiqueta="Control Prenatal"
+            idetiqueta="controlprenatal"
+            bind:modoedicion
+          />
+        </div>
+        <InputSelect
+          lista={opciones.SINO}
           bind:value={controlprenatal}
           etiqueta="Control Prenatal"
           idetiqueta="controlprenatal"
           bind:modoedicion
         />
+        <div class="hidden">
+          <InputOpcionalText
+            bind:value={corticoideprenatal}
+            etiqueta="Corticoides Prenatales"
+            idetiqueta="corticoideprenatal"
+            bind:modoedicion
+          />
+        </div>
 
-        <InputOpcionalText
+        <InputSelect
+          lista={opciones.SINO}
           bind:value={corticoideprenatal}
           etiqueta="Corticoides Prenatales"
           idetiqueta="corticoideprenatal"
           bind:modoedicion
         />
-
         <InputSelect
           lista={opciones.SINO}
           bind:value={tabaquismo}
@@ -133,11 +147,11 @@
           idetiqueta="adiccion"
           bind:modoedicion
         />
-
-        <InputText
+        <InputSelect
+          lista={opciones.EGB}
           bind:value={egb}
-          etiqueta="Edad Gestacional al Nacer (EG en semanas)"
-          idetiqueta="egb"
+          etiqueta="EGB"
+          idetiqueta="EGB"
           bind:modoedicion
         />
       </div>
@@ -160,9 +174,16 @@
         <!-- Diabetes -->
         <InputSelect
           lista={opciones.SINO}
+          bind:value={diabetesprevia}
+          etiqueta="Diabetes previa"
+          idetiqueta="diabetesprevia"
+          bind:modoedicion
+        />
+        <InputSelect
+          lista={opciones.SINO}
           bind:value={diabetesgestacional}
-          etiqueta="Diabetes"
-          idetiqueta="diabetes"
+          etiqueta="Diabetes gestacional"
+          idetiqueta="diabetesgestacional"
           bind:modoedicion
         />
 

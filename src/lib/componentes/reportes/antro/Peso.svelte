@@ -21,6 +21,7 @@
             modoedicion={true}
             bind:value={peso_rn}
             lista={opciones.PESO_RANGO.RN}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpeso7"
@@ -28,6 +29,7 @@
             modoedicion={true}
             bind:value={peso_7}
             lista={opciones.PESO_RANGO.DIAS_7}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpeso14"
@@ -35,6 +37,7 @@
             modoedicion={true}
             bind:value={peso_14}
             lista={opciones.PESO_RANGO.DIAS_14}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpeso21"
@@ -42,6 +45,7 @@
             modoedicion={true}
             bind:value={peso_21}
             lista={opciones.PESO_RANGO.DIAS_21}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpeso28"
@@ -49,6 +53,7 @@
             modoedicion={true}
             bind:value={peso_28}
             lista={opciones.PESO_RANGO.DIAS_28}
+            cambiar={cambiarFiltro}
         />
         <InputSelect
             idetiqueta="fpesosem"
@@ -56,6 +61,7 @@
             modoedicion={true}
             bind:value={peso_36}
             lista={opciones.PESO_RANGO.SEM_36}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

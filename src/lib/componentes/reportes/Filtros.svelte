@@ -109,6 +109,7 @@
         scorez_21 = $bindable(""),
         scorez_28 = $bindable(""),
         scorez_36 = $bindable(""),
+        recuperarpeso = $bindable(""),
         recuperarpesodesde = $bindable(""),
         recuperarpesohasta = $bindable(""),
 
@@ -128,6 +129,7 @@
         congenita = $bindable(""),
         itu = $bindable(""),
         desprendimiento = $bindable(""),
+        sufrimiento = $bindable(""),
         ht = $bindable(""),
         hie = $bindable(""),
         preeclampisa = $bindable(""),
@@ -200,6 +202,7 @@
         transfusion = $bindable(""),
 
         hiv = $bindable(""),
+        ecotf = $bindable(""),
         convulsiones = $bindable(""),
         ehi = $bindable(""),
         hipo = $bindable(""),
@@ -331,6 +334,7 @@
             congenita.length > 0 ||
             itu.length > 0 ||
             desprendimiento.length > 0 ||
+            sufrimiento.length > 0 ||
             ht.length > 0 ||
             hie.length > 0 ||
             preeclampisa.length > 0 ||
@@ -416,6 +420,7 @@
     );
     //<!-- Neurologico -->
     let verdeNeurologico = $derived(
+        ecotf.length>0||
         hiv.length > 0 ||
             convulsiones.length > 0 ||
             ehi.length > 0 ||
@@ -633,6 +638,7 @@
             bind:congenita
             bind:itu
             bind:desprendimiento
+            bind:sufrimiento
             bind:ht
             bind:hie
             bind:preeclampisa
@@ -741,7 +747,7 @@
 
     <!-- Inotrópicos y Diuréticos -->
     <Collapse
-        titulo="Inotrópicos"
+        titulo="Inotrópicos y Diuréticos"
         bind:show={checked_inotropicos}
         bind:verde={verdeinotro}
     >
@@ -779,7 +785,7 @@
         bind:show={checked_neurologicas}
         bind:verde={verdeNeurologico}
     >
-        <Neuro {cambiarFiltro} bind:hiv bind:convulsiones bind:ehi bind:hipo />
+        <Neuro {cambiarFiltro} bind:hiv bind:convulsiones bind:ehi bind:hipo bind:ecotf/>
     </Collapse>
 
     <!-- Oftamología -->

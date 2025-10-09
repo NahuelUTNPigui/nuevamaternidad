@@ -220,10 +220,12 @@
 {/snippet}
 {#snippet childrencard()}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
         <Boton onclick={clickBebe} titulo="Nuevo bebé"></Boton>
         <Boton onclick={clickArea} titulo="Nueva area"></Boton>
         <Boton onclick={clickUnidad} titulo="Nueva Unidad"></Boton>
         <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
+        <Boton onclick={()=>goto("/reportes")} titulo="Ver reporte"></Boton>
     </div>
 {/snippet}
 

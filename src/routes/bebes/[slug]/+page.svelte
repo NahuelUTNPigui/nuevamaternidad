@@ -80,6 +80,12 @@
     let talla21d = $state("");
     let talla28d = $state("");
     let talla36sem = $state("");
+    let perimetrorn = $state("");
+    let perimetro7d = $state("");
+    let perimetro14d = $state("");
+    let perimetro21d = $state("");
+    let perimetro28d = $state("");
+    let perimetro36sem = $state("");
     let scorezrn = $state("");
     let scorez7d = $state("");
     let scorez14d = $state("");
@@ -273,6 +279,12 @@
     let talla21dviejo = $state("");
     let talla28dviejo = $state("");
     let talla36semviejo = $state("");
+    let perimetrornviejo = $state("");
+    let perimetro7dviejo = $state("");
+    let perimetro14dviejo = $state("");
+    let perimetro21dviejo = $state("");
+    let perimetro28dviejo = $state("");
+    let perimetro36semviejo = $state("");
     let scorezrnviejo = $state("");
     let scorez7dviejo = $state("");
     let scorez14dviejo = $state("");
@@ -472,6 +484,12 @@
         talla21dviejo = talla21d;
         talla28dviejo = talla28d;
         talla36semviejo = talla36sem;
+        perimetrornviejo = perimetrorn;
+        perimetro7dviejo = perimetro7d;
+        perimetro14dviejo = perimetro14d;
+        perimetro21dviejo = perimetro21d;
+        perimetro28dviejo = perimetro28d;
+        perimetro36semviejo = perimetro36sem;
         scorezrnviejo = scorezrn;
         scorez7dviejo = scorez7d;
         scorez14dviejo = scorez14d;
@@ -653,6 +671,12 @@
         talla21d = talla21dviejo;
         talla28d = talla28dviejo;
         talla36sem = talla36semviejo;
+        perimetrorn = perimetrornviejo;
+        perimetro7d = perimetro7dviejo;
+        perimetro14d = perimetro14dviejo;
+        perimetro21d = perimetro21dviejo;
+        perimetro28d = perimetro28dviejo;
+        perimetro36sem = perimetro36semviejo;
         edadrecuperapeso = edadrecuperapesoviejo
         scorezrn = scorezrnviejo;
         scorez7d = scorez7dviejo;
@@ -826,6 +850,7 @@
     async function guardar() {
         
         try {
+            console.log("corticoideprenatal: "+corticoideprenatal)
             let data = {
                 nombremama,
                 dnimama,
@@ -870,6 +895,12 @@
                 talla21d,
                 talla28d,
                 talla36sem,
+                perimetrorn,
+                perimetro7d,
+                perimetro14d,
+                perimetro21d,
+                perimetro28d,
+                perimetro36sem,
                 scorezrn,
                 scorez7d,
                 scorez14d,
@@ -883,6 +914,7 @@
                 gemelocantidad,
                 gemelonumero,
                 controlprenatal,
+                
                 corticoideprenatal,
                 tabaquismo,
                 adiccion,
@@ -1045,7 +1077,7 @@
             dnibebe = record.dnibebe;
             hcbebe = record.hcbebe;
             sexo = record.sexo
-            fechanacimientobebe = record.fechanacimientobebe;
+            fechanacimientobebe = record.fechanacimientobebe.split(' ')[0];
             fechaingresobebe = record.fechaingresobebe;
             tipoingreso = record.tipoingreso
             edad_gestacional = record.edad_gestacional
@@ -1080,6 +1112,12 @@
             talla21d = record.talla21d;
             talla28d = record.talla28d;
             talla36sem = record.talla36sem;
+            perimetrorn = record.perimetrorn;
+            perimetro7d = record.perimetro7d;
+            perimetro14d = record.perimetro14d;
+            perimetro21d = record.perimetro21d;
+            perimetro28d = record.perimetro28d;
+            perimetro36sem = record.perimetro36sem;
             scorezrn = record.scorezrn;
             scorez7d = record.scorez7d;
             scorez14d = record.scorez14d;
@@ -1330,6 +1368,12 @@
                 bind:talla21d
                 bind:talla28d
                 bind:talla36sem
+                bind:perimetrorn
+                bind:perimetro7d
+                bind:perimetro14d
+                bind:perimetro21d
+                bind:perimetro28d
+                bind:perimetro36sem
                 bind:scorezrn
                 bind:scorez7d
                 bind:scorez14d

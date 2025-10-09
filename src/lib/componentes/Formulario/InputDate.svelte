@@ -1,5 +1,6 @@
 <script>
     import Modoedicion from "../bebe/Modoedicion.svelte";
+    import { addDays } from "$lib/string/string";
     let {
         idetiqueta,
         etiqueta,
@@ -16,7 +17,7 @@
     </label>
     {#snippet childrenview()}
         <p class="bg-transparent font-medium m-1">
-            {new Date(value).toLocaleDateString()}
+            {value.length==0?"":addDays(new Date(value),1).toLocaleDateString()}
         </p>
     {/snippet}
     {#snippet childrenedit()}
@@ -30,4 +31,5 @@
         />
     {/snippet}
     <Modoedicion bind:modoedicion {childrenview} {childrenedit} />
+    
 </div>

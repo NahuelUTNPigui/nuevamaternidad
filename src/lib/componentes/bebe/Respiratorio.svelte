@@ -43,11 +43,13 @@
       etiqueta="EMH (Enfermedad de Membrana Hialina)"
       idetiqueta="emh"
       bind:modoedicion
+      bind:value={emh}
     />
-    <InputText
+    <InputSelect
       bind:value={salam}
       etiqueta="SALAM"
       idetiqueta="salam"
+      lista={opciones.SINO}
       bind:modoedicion
     />
 
@@ -123,7 +125,8 @@
     Tratamientos e Intervenciones Respiratorias
   </h3>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <InputOpcionalText
+    <InputSelect
+      lista = {opciones.SINO}
       bind:value={surfactante}
       etiqueta="Surfactante"
       idetiqueta="surfactante"
@@ -137,7 +140,8 @@
       bind:modoedicion
     />
 
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={arm}
       etiqueta="ARM (Asistencia Respiratoria Mecánica)"
       idetiqueta="arm"
@@ -152,28 +156,32 @@
       bind:modoedicion
     />
 
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={vafo}
       etiqueta="VAFO (Ventilación de Alta Frecuencia Oscilatoria)"
       idetiqueta="vafo"
       bind:modoedicion
     />
 
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={cpap}
       etiqueta="CPAP"
       idetiqueta="cpap"
       bind:modoedicion
     />
 
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={oaf}
       etiqueta="Oxigenoterapia de Alto Flujo (OAF)"
       idetiqueta="oaf"
       bind:modoedicion
     />
 
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={cbf}
       etiqueta="CBF (CPAP de Bajo Flujo)"
       idetiqueta="cbf"
