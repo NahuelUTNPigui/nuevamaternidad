@@ -20,18 +20,19 @@
   </h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Ecografía Transfontanela (ECOTF) -->
-    <InputText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={ecotf}
-      etiqueta="Ecografía Transfontanela (ECOTF)"
+      etiqueta="ECOTF"
       idetiqueta="ecotf"
       bind:modoedicion
-      placeholder="Normal, alterada, hemorragia"
     />
 
     <!-- Hemorragia Intraventricular (HIV) - Grado -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.HIV}
       bind:value={hivgrado}
-      etiqueta="Hemorragia Intraventricular (HIV) - Grado"
+      etiqueta="HIV - Grado"
       idetiqueta="hivgrado"
       bind:modoedicion
     />
@@ -46,17 +47,19 @@
     />
 
     <!-- Encefalopatía Hipóxico-Isquémica (EHI) -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={ehi}
-      etiqueta="Encefalopatía Hipóxico-Isquémica (EHI)"
+      etiqueta="EHI"
       idetiqueta="ehi"
       bind:modoedicion
     />
 
-    <!-- Hipotermia Terapéutica - Tipo -->
-    <InputOpcionalText
+    <!-- Hipotermia-->
+    <InputSelect
+      lista={opciones.HIPOTERMIA}
       bind:value={hipotermiatipo}
-      etiqueta="Hipotermia Terapéutica - Tipo"
+      etiqueta="Hipotermia "
       idetiqueta="hipotermiatipo"
       bind:modoedicion
     />

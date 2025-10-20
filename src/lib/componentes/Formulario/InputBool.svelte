@@ -9,6 +9,7 @@
         getNombre = (v) => {
             return v ? "Sí" : "No";
         },
+        cambiar = ()=>{}
     } = $props();
 </script>
 
@@ -30,7 +31,11 @@
             id={idetiqueta}
             class="select select-bordered w-full font-medium"
             bind:value
+            onchange={cambiar}
         >
+            <option value={""}>
+                {""}
+            </option>
             <option value={false}>
                 {"No"}
             </option>

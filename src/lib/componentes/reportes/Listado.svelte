@@ -3,6 +3,7 @@
     import { goto } from "$app/navigation";
     import { calcularEdad } from "$lib/string/string";
 
+    import Mas from "./Mas.svelte";
     let {
         checked_identificacion = $bindable(true),
         checked_ingreso = $bindable(true),
@@ -23,6 +24,7 @@
         checked_genetica = $bindable(true),
         checked_alta = $bindable(true),
         checked_otros = $bindable(true),
+        checked_diagnostico = $bindable(true),
         bebesrows = $bindable([]),
         unidades = $bindable([]),
         areas = $bindable([]),
@@ -206,7 +208,9 @@
                         <div class="table-cell px-4 py-3">DBP</div>
                         <div class="table-cell px-4 py-3">O2</div>
                         <div class="table-cell px-4 py-3">Surfactante</div>
-                        <div class="table-cell px-4 py-3">Dosis Surfactante</div>
+                        <div class="table-cell px-4 py-3">
+                            Dosis Surfactante
+                        </div>
                         <div class="table-cell px-4 py-3">ARM</div>
                         <div class="table-cell px-4 py-3">Intubado</div>
                         <div class="table-cell px-4 py-3">VAFO</div>
@@ -218,6 +222,132 @@
                         <div class="table-cell px-4 py-3">Cort Inhalado</div>
                         <div class="table-cell px-4 py-3">Cort Postnatal</div>
                         <div class="table-cell px-4 py-3">óxido nítrico</div>
+                    {/if}
+                    {#if checked_neurologicas}
+                        <div class="table-cell px-4 py-3">ECO TF</div>
+                        <div class="table-cell px-4 py-3">HIV</div>
+                        <div class="table-cell px-4 py-3">Convulsiones</div>
+                        <div class="table-cell px-4 py-3">EHI</div>
+                        <div class="table-cell px-4 py-3">Hipotermia</div>
+                    {/if}
+                    {#if checked_medicacion}
+                        <div class="table-cell px-4 py-3">Gástrico</div>
+                        <div class="table-cell px-4 py-3">Inhibidor</div>
+                        <div class="table-cell px-4 py-3">Probiotico</div>
+                        <div class="table-cell px-4 py-3">Eritromicina</div>
+                        <div class="table-cell px-4 py-3">Fentanilo</div>
+                        <div class="table-cell px-4 py-3">Morfina</div>
+                        <div class="table-cell px-4 py-3">Midazolam</div>
+                        <div class="table-cell px-4 py-3">Precedex</div>
+                        <div class="table-cell px-4 py-3">Medatona</div>
+                        <div class="table-cell px-4 py-3">Vecuronio</div>
+                        <div class="table-cell px-4 py-3">Prostaglandinas</div>
+                    {/if}
+                    {#if checked_cateteres}
+                        <div class="table-cell px-4 py-3">CUV</div>
+                        <div class="table-cell px-4 py-3">CUA</div>
+                        <div class="table-cell px-4 py-3">Percutáneo</div>
+                        <div class="table-cell px-4 py-3">Vía central</div>
+                    {/if}
+                    {#if checked_alimentacion}
+                        <div class="table-cell px-4 py-3">Enteral trófica</div>
+                        <div class="table-cell px-4 py-3">
+                            Edad alimentación completa
+                        </div>
+                        <div class="table-cell px-4 py-3">Calorías inicio</div>
+                        <div class="table-cell px-4 py-3">
+                            Tipo Alimentación
+                        </div>
+
+                        <div class="table-cell px-4 py-3">
+                            Nutrición parental
+                        </div>
+                        <div class="table-cell px-4 py-3">Edad inicio</div>
+                        <div class="table-cell px-4 py-3">Duración</div>
+
+                        <div class="table-cell px-4 py-3">Inicio AA</div>
+                        <div class="table-cell px-4 py-3">Aporte AA</div>
+                        <div class="table-cell px-4 py-3">Inicio lípido</div>
+                        <div class="table-cell px-4 py-3">Aporte lípido</div>
+                    {/if}
+                    {#if checked_infecciones}
+                        <div class="table-cell px-4 py-3">Sepsis temprana</div>
+                        <div class="table-cell px-4 py-3">Germen</div>
+                        <div class="table-cell px-4 py-3">Días antibiotico</div>
+
+                        <div class="table-cell px-4 py-3">Sepsis tardía</div>
+                        <div class="table-cell px-4 py-3">Germen</div>
+                        <div class="table-cell px-4 py-3">Días antibiotico</div>
+                    {/if}
+                    {#if checked_cardiovascular}
+                        <div class="table-cell px-4 py-3">Ductus</div>
+                        <div class="table-cell px-4 py-3">
+                            Cardiopatía congénita
+                        </div>
+                    {/if}
+                    {#if checked_inotropicos}
+                        <div class="table-cell px-4 py-3">Dopamina</div>
+                        <div class="table-cell px-4 py-3">Dobutamina</div>
+                        <div class="table-cell px-4 py-3">Adrenalina</div>
+                        <div class="table-cell px-4 py-3">Milrinona</div>
+                        <div class="table-cell px-4 py-3">Vasopresina</div>
+                        <div class="table-cell px-4 py-3">Furosemida</div>
+                        <div class="table-cell px-4 py-3">Espironolactona</div>
+                        <div class="table-cell px-4 py-3">
+                            HIdroclorotiazida
+                        </div>
+                    {/if}
+                    {#if checked_sangre}
+                        <div class="table-cell px-4 py-3">TGR</div>
+                        <div class="table-cell px-4 py-3">Plasma</div>
+                        <div class="table-cell px-4 py-3">Plaqueta</div>
+                        <div class="table-cell px-4 py-3">Gamma</div>
+                        <div class="table-cell px-4 py-3">
+                            Exanguineo transfusión
+                        </div>
+                    {/if}
+                    {#if checked_oftalmologia}
+                        <div class="table-cell px-4 py-3">Fondo de ojo</div>
+                        <div class="table-cell px-4 py-3">ROP</div>
+                        <div class="table-cell px-4 py-3">Tratamiento</div>
+                    {/if}
+                    {#if checked_digestivo}
+                        <div class="table-cell px-4 py-3">NEC</div>
+                        <div class="table-cell px-4 py-3">
+                            Perforación única
+                        </div>
+                        <div class="table-cell px-4 py-3">Onfalocele</div>
+                        <div class="table-cell px-4 py-3">Gastrosquisis</div>
+                        <div class="table-cell px-4 py-3">HDC</div>
+                        <div class="table-cell px-4 py-3">Diagnóstico HDC</div>
+                        <div class="table-cell px-4 py-3">Tratamiento HDC</div>
+                        <div class="table-cell px-4 py-3">TQT</div>
+                        <div class="table-cell px-4 py-3">Drenaje pleural</div>
+                        <div class="table-cell px-4 py-3">
+                            Drenaje ventricular
+                        </div>
+                    {/if}
+                    {#if checked_genetica}
+                        <div class="table-cell px-4 py-3">Trisomía 21</div>
+                        <div class="table-cell px-4 py-3">Trisomía 13</div>
+                        <div class="table-cell px-4 py-3">Trisomía 18</div>
+                        <div class="table-cell px-4 py-3">VACTERL</div>
+                        <div class="table-cell px-4 py-3">TURNER</div>
+                    {/if}
+                    {#if checked_otros}
+                        <div class="table-cell px-4 py-3">
+                            Malformacionaciones congénitas
+                        </div>
+                        <div class="table-cell px-4 py-3">Cirugías</div>
+                        <div class="table-cell px-4 py-3">Complicaciones</div>
+                        <div class="table-cell px-4 py-3">Observación</div>
+                    {/if}
+                    {#if checked_diagnostico}
+                        <div class="table-cell px-4 py-3">Diagnostico</div>
+                    {/if}
+                    {#if checked_alta}
+                        <div class="table-cell px-4 py-3">Fecha alta</div>
+                        
                     {/if}
                 </div>
             </div>
@@ -471,40 +601,406 @@
                             </div>
                         {/if}
                         {#if checked_respiratorias}
-                            <div class="table-cell px-4 py-3">  {getNombre(b.emh,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.salam,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.apneas,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.neumotorax,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.taquipneatransitoria,opciones.SINO)}</div>
                             <div class="table-cell px-4 py-3">
-                                {getNombre(b.hipertpulmonar,opciones.SINO)}
+                                {getNombre(b.emh, opciones.SINO)}
                             </div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.enfermedadintersticial,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.bql,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.dbp36sem,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.o236sem,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.surfactante,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{b.ndosissurfactante}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.arm,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.intubadodesdeutpr,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.vafo,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.cpap,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.oaf,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.cbf,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.cafeina,opciones.SINO)}</div>
-                            <div class="table-cell px-4 py-3">{getNombre(b.aminofilina,opciones.SINO)}</div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.salam, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.apneas, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.neumotorax, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.taquipneatransitoria,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.hipertpulmonar, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.enfermedadintersticial,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.bql, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.dbp36sem, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.o236sem, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.surfactante, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.ndosissurfactante}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.arm, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.intubadodesdeutpr, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.vafo, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.cpap, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.oaf, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.cbf, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.cafeina, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.aminofilina, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.corticoideinhalado, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.corticoidepostnatal,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.oxidonitrico, opciones.SINO)}
+                            </div>
+                        {/if}
+                        {#if checked_neurologicas}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.ecotf, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.hivgrado, opciones.HIV)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.convulsiones, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.ehi, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.ecotf, opciones.HIPOTERMIA)}
+                            </div>
+                        {/if}
+                        {#if checked_medicacion}
+                            <div class="table-cell px-4 py-3">
+                                {b.medprotectorgastricodias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medinhibidorbombahdias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medprobiodias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.meleritromicinadias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medfentanilodias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medmorfinadias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medmidazolamdias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medprecedexdias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medmetadonadias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medvecuroniadias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.medprostagldias}
+                            </div>
+                        {/if}
+                        {#if checked_cateteres}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.cateteresumbilicalvenoso,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.cateteresumbilicalarterial,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.percutanea, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.viacentral, opciones.SINO)}
+                            </div>
+                        {/if}
+                        {#if checked_alimentacion}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.alimentacionenteraltrofica,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.alimentacionenteralcompletoedad}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.alimentacionenteralcalorias}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.tipoalimentacionenteral,
+                                    opciones.ALIMENTACION_ENTERAL_TROFICA,
+                                )}
+                            </div>
+
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.nutricionparenteral,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.nptedadinicio}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.nptduraciondias}
+                            </div>
+
+                            <div class="table-cell px-4 py-3">
+                                {b.nptdiacomienzoaa}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.nptaportetotalaa}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.nptdiacomienzolipido}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.nptaportetotallipido}
+                            </div>
+                        {/if}
+                        {#if checked_infecciones}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.sepsistemprana,
+                                    opciones.SEPSIS_TEMPRANA,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.sepsistempranagermen}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.sepsistempranaatbdias}
+                            </div>
+
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.sepsistardia,
+                                    opciones.SEPSIS_TARDIA,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.sepsistardiagermen}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.sepsistardiaatbdias}
+                            </div>
+                        {/if}
+                        {#if checked_cardiovascular}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.ductus, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.cardiopatiacongenita,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        {/if}
+                        {#if checked_inotropicos}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.inotropicosdopamina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.inotropicosdobutamina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.inotropicosadrenalina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.inotropicosmilrinona,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.inotropicosvasopresina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.diureticosfurosemida,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.diureticosespironolac,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.diureticoshidroclotiaz,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        {/if}
+                        {#if checked_sangre}
+                            <div class="table-cell px-4 py-3">
+                                {b.hemoderivadostgrn}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.hemoderivadosplasman}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.hemoderivadosplaquetasn}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.hemoderivadosgamman}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.exanguineotransfusion,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        {/if}
+                        {#if checked_oftalmologia}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.fondoojo, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.rop, opciones.ROP)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.roptto, opciones.ROP_TTO)}
+                            </div>
+                        {/if}
+                        {#if checked_digestivo}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.necestadio, opciones.NEC)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.perforacionunica, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.onfalocele, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.gastroquisis, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.hdc, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.hdcdiagnostico,
+                                    opciones.HDC_DIAGNOSTICO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(
+                                    b.hdcttoquirurgico,
+                                    opciones.HDC_TTO_QUIRURGICO,
+                                )}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.tot, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.drenajepleural, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.drenajeventricular, opciones.SINO)}
+                            </div>
+                        {/if}
+                        {#if checked_genetica}
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.geneticat21, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.geneticat13, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.geneticat18, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.geneticavacterl, opciones.SINO)}
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.geneticaturner, opciones.SINO)}
+                            </div>
+                        {/if}
+                        {#if checked_otros}
+                            <div class="table-cell px-4 py-3">
+                                <Mas bind:value={b.malformacionescongenitas} />
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                <Mas bind:value={b.cirugias} />
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                <Mas bind:value={b.complicaciones} />
+                            </div>
+                            <div class="table-cell px-4 py-3">
+                                {b.observacion} 
+                            </div>
+                        {/if}
+                        {#if checked_diagnostico}
+                            <div class="table-cell px-4 py-3">
+                                <Mas bind:value={b.diagnostico} />
+                            </div>
+                        {/if}
+                        {#if checked_alta}
                             <div class="table-cell px-4 py-3">
                                 
-                                {getNombre(b.corticoideinhalado,opciones.SINO)}
+                                {b.altafecha.length > 0
+                                    ? new Date(
+                                          b.altafecha,
+                                      ).toLocaleDateString()
+                                    : ""}
                             </div>
-                            <div class="table-cell px-4 py-3">
-                                
-                                {getNombre(b.corticoidepostnatal,opciones.SINO)}
-                            </div>
-                            <div class="table-cell px-4 py-3">
-                                
-                                {getNombre(b.oxidonitrico,opciones.SINO)}
-                            </div>
+                           
                         {/if}
                     </div>
                 {/each}

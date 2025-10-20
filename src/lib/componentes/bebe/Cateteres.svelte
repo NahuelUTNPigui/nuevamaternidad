@@ -1,7 +1,9 @@
 <script>
     import InputText from "../Formulario/InputText.svelte";
+    import InputSelect from "../Formulario/InputSelect.svelte";
     import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
     import Modoedicion from "./Modoedicion.svelte";
+    import opciones from "$lib/opciones";
     let {
         modoedicion=$bindable(false),
         cateteresumbilicalvenoso = $bindable(""),
@@ -17,7 +19,8 @@
   </h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Catéter Umbilical Venoso (CUV) -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={cateteresumbilicalvenoso}
       etiqueta="Catéter Umbilical Venoso (CUV)"
       idetiqueta="cateteresumbilicalvenoso"
@@ -25,7 +28,8 @@
     />
 
     <!-- Catéter Umbilical Arterial (CUA) -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={cateteresumbilicalarterial}
       etiqueta="Catéter Umbilical Arterial (CUA)"
       idetiqueta="cateteresumbilicalarterial"
@@ -33,7 +37,8 @@
     />
 
     <!-- Acceso Percutáneo -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={percutanea}
       etiqueta="Acceso Percutáneo"
       idetiqueta="percutanea"
@@ -41,7 +46,8 @@
     />
 
     <!-- Vía Central  -->
-    <InputOpcionalText
+    <InputSelect
+      lista={opciones.SINO}
       bind:value={viacentral}
       etiqueta="Vía Central"
       idetiqueta="viacentral"

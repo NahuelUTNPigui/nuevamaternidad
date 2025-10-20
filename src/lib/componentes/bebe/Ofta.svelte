@@ -28,7 +28,8 @@
         />
 
         <!-- Retinopatía del Prematuro (ROP) -->
-        <InputOpcionalText
+        <InputSelect
+            lista= {opciones.ROP}
             bind:value={rop}
             etiqueta="Retinopatía del Prematuro (ROP)"
             idetiqueta="rop"

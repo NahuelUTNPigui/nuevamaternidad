@@ -18,6 +18,7 @@
     import Genetica from "./Genetica.svelte";
     import Medicacion from "./Medicacion.svelte";
     import Otros from "./Otros.svelte";
+    import Diagnostico from "./Diagnostico.svelte";
     import Secciones from "./Secciones.svelte";
     import { createStorageProxy } from "$lib/filtros/filtros";
     import { onMount } from "svelte";
@@ -52,6 +53,7 @@
         checked_genetica = $bindable(true),
         checked_alta = $bindable(true),
         checked_otros = $bindable(true),
+        checked_diagnostico = $bindable(true),
         unidad = $bindable(""),
         area = $bindable(""),
         fechadesde = $bindable(""),
@@ -198,6 +200,7 @@
 
         tgr = $bindable(""),
         plasma = $bindable(""),
+        plaqueta = $bindable(""),
         inmunoglobina = $bindable(""),
         transfusion = $bindable(""),
 
@@ -241,7 +244,11 @@
         malformacionescongenitas = $bindable(""),
         cirugias = $bindable(""),
         complicaciones = $bindable(""),
+
         diagnostico = $bindable(""),
+        conalta = $bindable(""),
+        altadesde = $bindable(""),
+        altahasta = $bindable(""),
     } = $props();
 
     let modedebug = import.meta.env.VITE_DEBUG == "si";
@@ -413,7 +420,8 @@
     );
     //<!-- Sangre -->
     let verdeSangre = $derived(
-        tgr.length > 0 ||
+            tgr.length > 0 ||
+            plaqueta.length > 0 ||
             plasma.length > 0 ||
             inmunoglobina.length > 0 ||
             transfusion.length > 0,
@@ -469,6 +477,10 @@
         cirugias.length>0||
         complicaciones.length>0
     );
+    //<!-- diagnostico -->
+    let verdediagnostico = $derived(
+        diagnostico.length>0
+    );
     //<!-- otros -->
     //let  = $derived(
     //    malformacionescongenitas.length>0||
@@ -505,6 +517,28 @@
             bind:checked_genetica
             bind:checked_alta
             bind:checked_otros
+            bind:checked_diagnostico
+
+bind:verdebasico
+bind:verdefilia
+bind:verdeingreso
+bind:verdeantro
+bind:verdematernos
+bind:verdecate
+bind:verdealimentacion
+bind:verdeInfecciones
+bind:verdeRespiratorio
+bind:verdeductus
+bind:verdeinotro
+bind:verdeSangre
+bind:verdeNeurologico
+bind:verdeofta
+bind:verdediges
+bind:verdegen
+bind:verdemedicacion
+bind:verdeotros
+bind:verdediagnostico
+            
         />
     </Collapse>
 
@@ -774,6 +808,7 @@
             {cambiarFiltro}
             bind:tgr
             bind:plasma
+            bind:plaqueta
             bind:inmunoglobina
             bind:transfusion
         />
@@ -872,12 +907,29 @@
             bind:complicaciones
         />
     </Collapse>
+    <!-- Diagnostico -->
+    <Collapse 
+        titulo="Diagnostico"
+        bind:show={checked_diagnostico}
+        bind:verde={verdediagnostico}
+    >
+        <Diagnostico
+            {cambiarFiltro}
+            bind:diagnostico
+        />
+    </Collapse>
     <!-- Alta -->
     <Collapse 
         titulo="Alta"
         bind:show={checked_alta}
         bind:verde={verdeotros}
+        
     >
-        <Alta/>
+        <Alta
+            {cambiarFiltro}
+            bind:conalta
+            bind:altadesde
+            bind:altahasta
+        />
     </Collapse>
 </div>

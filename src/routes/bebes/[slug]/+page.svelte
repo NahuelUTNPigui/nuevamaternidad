@@ -219,6 +219,7 @@
     let malformacionescongenitas = $state("");
     let cirugias = $state("");
     let complicaciones = $state("");
+    let observacion = $state("")
     let altafecha = $state("");
     let altadiagnosticos = $state("");
     let altacondiciones = $state("");
@@ -418,6 +419,7 @@
     let malformacionescongenitasviejo = $state("");
     let cirugiasviejo = $state("");
     let complicacionesviejo = $state("");
+    let observacionviejo = $state("")
     let altafechaviejo = $state("");
     let altadiagnosticosviejo = $state("");
     let altacondicionesviejo = $state("");
@@ -623,6 +625,7 @@
         malformacionescongenitasviejo = malformacionescongenitas;
         cirugiasviejo = cirugias;
         complicacionesviejo = complicaciones;
+        observacionviejo = observacion
         altafechaviejo = altafecha;
         altadiagnosticosviejo = altadiagnosticos;
         altacondicionesviejo = altacondiciones;
@@ -811,6 +814,7 @@
         malformacionescongenitas = malformacionescongenitasviejo;
         cirugias = cirugiasviejo;
         complicaciones = complicacionesviejo;
+        observacion = observacionviejo
         altafecha = altafechaviejo;
         altadiagnosticos = altadiagnosticosviejo;
         altacondiciones = altacondicionesviejo;
@@ -850,7 +854,7 @@
     async function guardar() {
         
         try {
-            console.log("corticoideprenatal: "+corticoideprenatal)
+            
             let data = {
                 nombremama,
                 dnimama,
@@ -1035,6 +1039,7 @@
                 malformacionescongenitas,
                 cirugias,
                 complicaciones,
+                observacion,
                 altafecha:altafecha+" 03:00:00",
                 altadiagnosticos,
                 altacondiciones,
@@ -1045,7 +1050,8 @@
             };
             setViejo()
             await pb.collection("bebes").update(slug,data);
-            await pb.collection("historialbebes").create(datahistorial)
+            let record = await pb.collection("historialbebes").create(datahistorial)
+            
             Swal.fire("Éxito editar", "Se pudo editar al bebe", "success");
         } catch (err) {
             console.error(err);
@@ -1078,7 +1084,7 @@
             hcbebe = record.hcbebe;
             sexo = record.sexo
             fechanacimientobebe = record.fechanacimientobebe.split(' ')[0];
-            fechaingresobebe = record.fechaingresobebe;
+            fechaingresobebe = record.fechaingresobebe.split(' ')[0];
             tipoingreso = record.tipoingreso
             edad_gestacional = record.edad_gestacional
             pesoingresobebe = record.pesoingresobebe;
@@ -1249,7 +1255,8 @@
             malformacionescongenitas = record.malformacionescongenitas;
             cirugias = record.cirugias;
             complicaciones = record.complicaciones;
-            altafecha = record.altafecha;
+            observacion = record.observacion;
+            altafecha = record.altafecha.split(' ')[0];
             altadiagnosticos = record.altadiagnosticos;
             altacondiciones = record.altacondiciones;
             setViejo();
@@ -1549,6 +1556,7 @@
                 bind:malformacionescongenitas
                 bind:cirugias
                 bind:complicaciones
+                bind:observacion
             />
             <!-- Alta -->
             <input
@@ -1562,6 +1570,7 @@
                 bind:altacondiciones
                 bind:altadiagnosticos
                 bind:altafecha
+                bind:conalta
             />
         </div>
     </div>

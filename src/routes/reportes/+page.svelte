@@ -11,9 +11,7 @@
     import StatCard from "$lib/componentes/StatCard.svelte";
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
     import opciones from "$lib/opciones";
-    import {calcularEdad} from "$lib/string/string"
-    
-
+    import { calcularEdad } from "$lib/string/string";
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -53,6 +51,7 @@
     let checked_genetica = $state(true);
     let checked_alta = $state(true);
     let checked_otros = $state(true);
+    let checked_diagnostico = $state(true);
     //filttros
     //basicos
     let unidad = $state("");
@@ -125,7 +124,7 @@
     let scorez_28 = $state("");
     let scorez_36 = $state("");
 
-    let recuperarpeso = $state("")
+    let recuperarpeso = $state("");
     let recuperarpesodesde = $state("");
     let recuperarpesohasta = $state("");
 
@@ -187,7 +186,7 @@
 
     //patologias respiratorios
     let emh = $state("");
-    let ndosissurfactante = $state("")
+    let ndosissurfactante = $state("");
     let salam = $state("");
     let apena = $state("");
     let neumotorax = $state("");
@@ -228,6 +227,7 @@
     //hematologia
     let tgr = $state("");
     let plasma = $state("");
+    let plaqueta = $state("");
     let inmunoglobina = $state("");
     let transfusion = $state("");
 
@@ -279,6 +279,13 @@
     let complicaciones = $state("");
     let diagnostico = $state("");
 
+    //alta
+    let conalta = $state("");
+    let altadesde = $state("");
+    let altahasta = $state("");
+    let altacomplicaciones = $state("");
+    let altadiagnostico = $state("");
+
     let defaultchecks = {
         checked_identificacion: true,
         checked_ingreso: true,
@@ -299,6 +306,7 @@
         checked_genetica: true,
         checked_alta: true,
         checked_otros: true,
+        checked_diagnostico: true,
     };
     let proxychecks = $state({
         ...defaultchecks,
@@ -369,7 +377,7 @@
         paridad: "",
         gemelos: "",
         controlparental: "",
-        corticoideprenatal:"",
+        corticoideprenatal: "",
         tabaquismo: "",
         adiccion: "",
         egb: "",
@@ -380,7 +388,7 @@
         congenita: "",
         itu: "",
         desprendimiento: "",
-        sufrimiento:"",
+        sufrimiento: "",
         ht: "",
         hie: "",
         preeclampisa: "",
@@ -410,8 +418,8 @@
         tardeantibiotico: "",
         tardeatb: "",
         emh: "",
-        ndosissurfactante:"",
-        salam:"",
+        ndosissurfactante: "",
+        salam: "",
         apena: "",
         neumotorax: "",
         taquipnea: "",
@@ -443,9 +451,10 @@
         hidrocloritiazida: "",
         tgr: "",
         plasma: "",
+        plaqueta: "",
         inmunoglobina: "",
         transfusion: "",
-        ecotf:"",
+        ecotf: "",
         hiv: "",
         convulsiones: "",
         ehi: "",
@@ -481,6 +490,9 @@
         cirugias: "",
         complicaciones: "",
         diagnostico: "",
+        conalta: "",
+        altadesde: "",
+        altahasta: "",
     };
     let proxyfiltros = $state({
         ...defaultfiltros,
@@ -534,25 +546,32 @@
         }
 
         // Convierte el conjunto grande en un Set para búsquedas eficientes
-        const conjuntoSet = new Set(conjunto);
-
+        //const conjuntoSet = new Set(conjunto.map(x=>x.trim()));
         // Verifica que todos los elementos del subconjunto estén en el conjunto
-        return subconjunto.every((elemento) => conjuntoSet.has(elemento));
+        //return subconjunto.every((elemento) => conjuntoSet.has(elemento.trim()));
+        // Normaliza el conjunto (minúsculas y sin espacios)
+        const conjuntoNormalizado = conjunto.map((x) => x.trim().toLowerCase());
+
+        // Verifica que cada elemento del subconjunto tenga alguna coincidencia parcial en el conjunto
+        return subconjunto.every((elemSub) => {
+            const elem = elemSub.trim().toLowerCase();
+            return conjuntoNormalizado.some((item) => item.includes(elem));
+        });
     }
+    // Convertir a objeto Date si son strings
+    const parseDate = (d) => {
+        if (!d) return null;
+        const date = new Date(d);
+        return isNaN(date.getTime()) ? null : date;
+    };
     function estaEnRango(fecha, fechaDesde, fechaHasta) {
         // Si la fecha principal es vacía, devolver false
         if (!fecha) return false;
 
-        // Convertir a objeto Date si son strings
-        const parseDate = (d) => {
-            if (!d) return null;
-            const date = new Date(d);
-            return isNaN(date.getTime()) ? null : date;
-        };
-
         const fechaObj = parseDate(fecha);
         const desdeObj = parseDate(fechaDesde);
         const hastaObj = parseDate(fechaHasta);
+
 
         // Si la fecha no es válida, devolver false
         if (!fechaObj) return false;
@@ -566,6 +585,13 @@
         // Si pasó todas las validaciones, está en rango
         return true;
     }
+    function filtrarBoolean(variableestado, variable) {
+        if (variable.length == 0) {
+            return true;
+        } else {
+            return variableestado == variable;
+        }
+    }
     function filtrarPorFecha(variableestado, variabledesde, variablehasta) {
         if (variabledesde.length == 0 && variablehasta.length == 0) {
             return true;
@@ -574,24 +600,28 @@
         }
     }
     function filtrarPorMas(variableestado, variable) {
-        let listaestado = variableestado
-            .split("+")
-            .map((s) => s.toLocaleLowerCase());
+        if (variable.length == 0) {
+            return true;
+        }
         let listavariable = variable
             .split("+")
             .map((s) => s.toLocaleLowerCase());
+
+        let listaestado = variableestado
+            .split("+")
+            .map((s) => s.toLocaleLowerCase());
+
         return esSubconjunto(listavariable, listaestado);
     }
     function filtrarPorRango(variableestado, variable, rangos) {
-        
         if (variable.length == 0) {
             return true;
         } else {
-            if(variableestado == null){
-                return false
+            if (variableestado == null) {
+                return false;
             }
-            if(variableestado.length == 0){
-                return false
+            if (variableestado.length == 0) {
+                return false;
             }
             let valor = Number(variableestado);
 
@@ -629,48 +659,39 @@
         let no_valido = estado_fin < desde || estado_inicio > hasta;
         return !no_valido;
     }
-    function filtrarEntreValores(variableestado,variabledesde,variablehasta){
-
-        if(variabledesde.length == 0 && variablehasta.length==0){
-            return true
-        }
-        else if(variabledesde.length == 0){
-            let hasta = Number(variablehasta)
-            if(isNaN(hasta)){
-                return true
+    function filtrarEntreValores(variableestado, variabledesde, variablehasta) {
+        if (variabledesde.length == 0 && variablehasta.length == 0) {
+            return true;
+        } else if (variabledesde.length == 0) {
+            let hasta = Number(variablehasta);
+            if (isNaN(hasta)) {
+                return true;
             }
-            let valor = Number(variableestado)
-            return valor < hasta
-        }
-        else if(variablehasta.length == 0){
-            let desde = Number(variabledesde)
-            if(isNaN(desde)){
-                return true
+            let valor = Number(variableestado);
+            return valor < hasta;
+        } else if (variablehasta.length == 0) {
+            let desde = Number(variabledesde);
+            if (isNaN(desde)) {
+                return true;
             }
-            let valor = Number(variableestado)
-            return valor >= desde
-        }
-        else{
-            let desde = Number(variabledesde)
-            let hasta = Number(variablehasta)
-            let valor = Number(variableestado)
-            if(isNaN(desde) && isNaN(hasta)){
-                return true
-            }
-            else if(isNaN(desde)){
-                return valor < hasta
-            }
-            else if(isNaN(hasta)){
-                return valor >= desde
-            }
-            else{
-                return valor < hasta && valor >= desde
+            let valor = Number(variableestado);
+            return valor >= desde;
+        } else {
+            let desde = Number(variabledesde);
+            let hasta = Number(variablehasta);
+            let valor = Number(variableestado);
+            if (isNaN(desde) && isNaN(hasta)) {
+                return true;
+            } else if (isNaN(desde)) {
+                return valor < hasta;
+            } else if (isNaN(hasta)) {
+                return valor >= desde;
+            } else {
+                return valor < hasta && valor >= desde;
             }
         }
     }
 
-    
-    
     function validarEstado(estado) {
         //fecha
         if (!filtrarPorFechaEstado(estado, fechadesde, fechahasta)) {
@@ -781,7 +802,6 @@
         //Antropometria
         //peso
         if (!filtrarPorRango(estado.pesorn, peso_rn, opciones.PESO_RANGO.RN)) {
-            
             return false;
         }
         if (
@@ -827,7 +847,11 @@
         }
         //cefalico
         if (
-            !filtrarPorRango(estado.perimetrorn, cefalico_rn, opciones.CEFALICO_RANGO.RN)
+            !filtrarPorRango(
+                estado.perimetrorn,
+                cefalico_rn,
+                opciones.CEFALICO_RANGO.RN,
+            )
         ) {
             return false;
         }
@@ -963,8 +987,14 @@
             return false;
         }
         //edad recuperar peso
-        if(!filtrarEntreValores(estado.edadrecuperapeso,recuperarpesodesde,recuperarpesohasta)){
-            return false
+        if (
+            !filtrarEntreValores(
+                estado.edadrecuperapeso,
+                recuperarpesodesde,
+                recuperarpesohasta,
+            )
+        ) {
+            return false;
         }
         //Datos maternos
         if (
@@ -973,380 +1003,589 @@
                 edad_materna,
                 opciones.EDAD_MADRE,
             )
-        ){
-         
-            
-
+        ) {
             return false;
         }
-            
+
         if (!filtrarPorIgualdad(estado.educacionmama, niveleducativo)) {
             return false;
         }
-        if(!filtrarPorRango(estado.paridad,paridad,opciones.PARIDAD_MADRE)){
-            return false
+        if (!filtrarPorRango(estado.paridad, paridad, opciones.PARIDAD_MADRE)) {
+            return false;
         }
         //Falta gemelos
         //igualdades
-        if(!filtrarPorIgualdad(estado.controlprenatal,controlparental,opciones.SINO)){
-            return false
+        if (
+            !filtrarPorIgualdad(
+                estado.controlprenatal,
+                controlparental,
+                opciones.SINO,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.tabaquismo,tabaquismo)){
-            return false
+        if (!filtrarPorIgualdad(estado.tabaquismo, tabaquismo)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.adiccion,adiccion)){
-            return false
+        if (!filtrarPorIgualdad(estado.adiccion, adiccion)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.corticoideprenatal,corticoideprenatal)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.corticoideprenatal, corticoideprenatal)
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.egb,egb)){
-            return false
+        if (!filtrarPorIgualdad(estado.egb, egb)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.sulfatomg,sulfato)){
-            return false
+        if (!filtrarPorIgualdad(estado.sulfatomg, sulfato)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.diabetesprevia,diabetes)){
-            return false
+        if (!filtrarPorIgualdad(estado.diabetesprevia, diabetes)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.crioaminitis,crioaminintis)){
-            return false
+        if (!filtrarPorIgualdad(estado.crioaminitis, crioaminintis)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.infeccioncongenita,congenita)){
-            return false
+        if (!filtrarPorIgualdad(estado.infeccioncongenita, congenita)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.itu,itu)){
-            return false
+        if (!filtrarPorIgualdad(estado.itu, itu)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.desprendimientoplacenta,desprendimiento)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.desprendimientoplacenta, desprendimiento)
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.sufrimientofetal,sufrimiento)){
-            return false
+        if (!filtrarPorIgualdad(estado.sufrimientofetal, sufrimiento)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.htcronica,ht)){
-            return false
+        if (!filtrarPorIgualdad(estado.htcronica, ht)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.hie,hie)){
-            return false
+        if (!filtrarPorIgualdad(estado.hie, hie)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.eclampsia,eclampsia)){
-            return false
+        if (!filtrarPorIgualdad(estado.eclampsia, eclampsia)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.preeclampisa,preeclampisa)){
-            return false
+        if (!filtrarPorIgualdad(estado.preeclampisa, preeclampisa)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.colestasis,colestasis)){
-            return false
+        if (!filtrarPorIgualdad(estado.colestasis, colestasis)) {
+            return false;
         }
         //cateteres
-        if(!filtrarPorIgualdad(estado.cateteresumbilicalvenoso,umbilicalvenoso)){
-            return false
+        if (
+            !filtrarPorIgualdad(
+                estado.cateteresumbilicalvenoso,
+                umbilicalvenoso,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.cateteresumbilicalarterial,umbilicalarterial)){
-            return false
+        if (
+            !filtrarPorIgualdad(
+                estado.cateteresumbilicalarterial,
+                umbilicalarterial,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.percutanea,percutaneo)){
-            return false
+        if (!filtrarPorIgualdad(estado.percutanea, percutaneo)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.viacentral,central)){
-            return false
+        if (!filtrarPorIgualdad(estado.viacentral, central)) {
+            return false;
         }
         //alimentacion
-        if(!filtrarPorIgualdad(estado.alimentacionenteraltrofica,trofica)){
-            return false
+        if (!filtrarPorIgualdad(estado.alimentacionenteraltrofica, trofica)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.tipoalimentacionenteral,tipoenteral)){
-            return false
+        if (!filtrarPorIgualdad(estado.tipoalimentacionenteral, tipoenteral)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.nutricionparental,nutricionparental)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.nutricionparenteral, nutricionparental)
+        ) {
+            return false;
         }
-        if(!filtrarPorRango(estado.nptedadinicio,edadnpt,opciones.EDAD_INICIO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptedadinicio,
+                edadnpt,
+                opciones.EDAD_INICIO,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorRango(estado.nptduraciondias,duracionnpt,opciones.DURACION)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptduraciondias,
+                duracionnpt,
+                opciones.DURACION,
+            )
+        ) {
+            return false;
         }
         //aminoacidos
-        if(!filtrarPorRango(estado.nptdiacomienzoaa,comienzoaa,opciones.INICIO_AA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptdiacomienzoaa,
+                comienzoaa,
+                opciones.INICIO_AA,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorRango(estado.nptaportetotalaa,aporteaa,opciones.APORTE_AA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptaportetotalaa,
+                aporteaa,
+                opciones.APORTE_AA,
+            )
+        ) {
+            return false;
         }
         //lipidos
-        if(!filtrarPorRango(estado.nptdiacomienzolipido,comienzolipido,opciones.COMIENZO_LIPIDO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptdiacomienzolipido,
+                comienzolipido,
+                opciones.COMIENZO_LIPIDO,
+            )
+        ) {
+            return false;
         }
-        if(!filtrarPorRango(estado.nptaportetotallipido,aportelipido,opciones.APORTE_LIPIDO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.nptaportetotallipido,
+                aportelipido,
+                opciones.APORTE_LIPIDO,
+            )
+        ) {
+            return false;
         }
         //infeccion
         //temprana
-        if(!filtrarPorIgualdad(estado.sepsistemprana,tempranoestado)){
-            return false
+        if (!filtrarPorIgualdad(estado.sepsistemprana, tempranoestado)) {
+            return false;
         }
-        if(!filtrarPorParecido(estado.sepsistempranagermen,tempranogermen)){
-            return false
+        if (!filtrarPorParecido(estado.sepsistempranagermen, tempranogermen)) {
+            return false;
         }
-        if(!filtrarPorRango(estado.sepsistempranaatbdias,tempranoatb,opciones.SEPSIS_TEMPRANA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.sepsistempranaatbdias,
+                tempranoatb,
+                opciones.DURACION_TEMPRANA,
+            )
+        ) {
+            return false;
         }
         //tardia
-        if(!filtrarPorIgualdad(estado.sepsistardia,tardeestado)){
-            return false
+        if (!filtrarPorIgualdad(estado.sepsistardia, tardeestado)) {
+            return false;
         }
-        if(!filtrarPorParecido(estado.sepsistardiagermen,tardegermen)){
-            return false
+        if (!filtrarPorParecido(estado.sepsistardiagermen, tardegermen)) {
+            return false;
         }
-        if(!filtrarPorRango(estado.sepsistardiaatbdias,tardeatb,opciones.SEPSIS_TARDIA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.sepsistardiaatbdias,
+                tardeatb,
+                opciones.DURACION_TARDIA,
+            )
+        ) {
+            return false;
         }
         //Respiatorio
-        if(!filtrarPorIgualdad(estado.emh,emh)){
-            return false
+        if (!filtrarPorIgualdad(estado.emh, emh)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.apneas,apena)){
-            return false
+        if (!filtrarPorIgualdad(estado.apneas, apena)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.salam,salam)){
-            return false
+        if (!filtrarPorIgualdad(estado.salam, salam)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.neumotorax,neumotorax)){
-            return false
+        if (!filtrarPorIgualdad(estado.neumotorax, neumotorax)) {
+            return false;
         }
         //taquipneatransitoria
-        if(!filtrarPorIgualdad(estado.taquipneatransitoria,taquipnea)){
-            return false
+        if (!filtrarPorIgualdad(estado.taquipneatransitoria, taquipnea)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.hipertpulmonar,hipertension)){
-            return false
+        if (!filtrarPorIgualdad(estado.hipertpulmonar, hipertension)) {
+            return false;
         }
         //enfermedadintersticial
-        if(!filtrarPorIgualdad(estado.enfermedadintersticial,interstecial)){
-            return false
+        if (!filtrarPorIgualdad(estado.enfermedadintersticial, interstecial)) {
+            return false;
         }
         //36 SEMANAS
-        if(!filtrarPorIgualdad(estado.dbp36sem,dbp)){
-            return false
+        if (!filtrarPorIgualdad(estado.dbp36sem, dbp)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.o236sem,oxigeno)){
-            return false
+        if (!filtrarPorIgualdad(estado.o236sem, oxigeno)) {
+            return false;
         }
         //Tratameintos
-        if(!filtrarPorIgualdad(estado.surfactante,surfactante)){
-            return false
+        if (!filtrarPorIgualdad(estado.surfactante, surfactante)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.ndosissurfactante,ndosissurfactante)){
-            return false
+        if (!filtrarPorIgualdad(estado.ndosissurfactante, ndosissurfactante)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.arm,arm)){
-            return false
+        if (!filtrarPorIgualdad(estado.arm, arm)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.intubadodesdeutpr,intubado)){
-            return false
+        if (!filtrarPorIgualdad(estado.intubadodesdeutpr, intubado)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.vafo,vafo)){
-            return false
+        if (!filtrarPorIgualdad(estado.vafo, vafo)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.cpap,cpap)){
-            return false
+        if (!filtrarPorIgualdad(estado.cpap, cpap)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.oaf,oaf)){
-            return false
+        if (!filtrarPorIgualdad(estado.oaf, oaf)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.cbf,cbf)){
-            return false
+        if (!filtrarPorIgualdad(estado.cbf, cbf)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.cafeina,cafeina)){
-            return false
+        if (!filtrarPorIgualdad(estado.cafeina, cafeina)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.aminofilina,aminofilina)){
-            return false
+        if (!filtrarPorIgualdad(estado.aminofilina, aminofilina)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.corticoideinhalado,corticoideinhalado)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.corticoideinhalado, corticoideinhalado)
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.corticoidepostnatal,corticoidepostnatal)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.corticoidepostnatal, corticoidepostnatal)
+        ) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.oxidonitrico,oxidonitrico)){
-            return false
+        if (!filtrarPorIgualdad(estado.oxidonitrico, oxidonitrico)) {
+            return false;
         }
-        //Cardiovascular  incompleto
-        // inotropicos  incompleto
-        //hematologicos  incompleto 
+        //Cardiovascular
+        if (!filtrarPorIgualdad(estado.ductus, ductus)) {
+            return false;
+        }
+        //congenita
+        if (!filtrarPorIgualdad(estado.cardiopatiacongenita, cardiocongenita)) {
+            return false;
+        }
+
+        //hematologicos
+        //TGR
+        if (!filtrarPorRango(estado.hemoderivadostgrn, tgr, opciones.TGR)) {
+            return false;
+        }
+        //Plasma
+        if (
+            !filtrarPorRango(
+                estado.hemoderivadosplasman,
+                plasma,
+                opciones.PLASMA,
+            )
+        ) {
+            return false;
+        }
+        //Plaqueta
+        if (
+            !filtrarPorRango(
+                estado.hemoderivadosplaquetasn,
+                plaqueta,
+                opciones.PLAQUETAS,
+            )
+        ) {
+            return false;
+        }
+        //Gamma
+        if (
+            !filtrarPorRango(
+                estado.hemoderivadosgamman,
+                inmunoglobina,
+                opciones.GAMMAGLOBULINA,
+            )
+        ) {
+            return false;
+        }
+        //exanguioneo
+        if (!filtrarPorIgualdad(estado.exanguineotransfusion, transfusion)) {
+            return false;
+        }
         //oftamologia
-        if(!filtrarPorIgualdad(estado.fondoojo,fondoojo)){
-            return false
+        if (!filtrarPorIgualdad(estado.fondoojo, fondoojo)) {
+            return false;
         }
         //rop
-        if(!filtrarPorIgualdad(estado.rop,rop)){
-            return false
+        if (!filtrarPorIgualdad(estado.rop, rop)) {
+            return false;
         }
         //roptto
-        if(!filtrarPorIgualdad(estado.roptto,tratamientorop)){
-            return false
+        if (!filtrarPorIgualdad(estado.roptto, tratamientorop)) {
+            return false;
         }
         //digestivo les faltan algunos atributos
         //necestadio
-        if(!filtrarPorIgualdad(estado.necestadio,nec)){
-            return false
+        if (!filtrarPorIgualdad(estado.necestadio, nec)) {
+            return false;
         }
         //perforacionunica
-        if(!filtrarPorIgualdad(estado.perforacionunica,perforacion)){
-            return false
+        if (!filtrarPorIgualdad(estado.perforacionunica, perforacion)) {
+            return false;
         }
         //onfalocele
-        if(!filtrarPorIgualdad(estado.onfalocele,onfalocele)){
-            return false
+        if (!filtrarPorIgualdad(estado.onfalocele, onfalocele)) {
+            return false;
         }
         //gastroquisis
-        if(!filtrarPorIgualdad(estado.gastroquisis,gastrosquisis)){
-            return false
+        if (!filtrarPorIgualdad(estado.gastroquisis, gastrosquisis)) {
+            return false;
         }
         //hdc falta diagnostico y tratamiento
-        
+
         //tqt
-        if(!filtrarPorIgualdad(estado.tqt,tqt)){
-            return false
+        if (!filtrarPorIgualdad(estado.tqt, tqt)) {
+            return false;
         }
         //drenajepleural
-        if(!filtrarPorIgualdad(estado.drenajepleural,drenajepleural)){
-            return false
+        if (!filtrarPorIgualdad(estado.drenajepleural, drenajepleural)) {
+            return false;
         }
         //drenajeventricular
-        if(!filtrarPorIgualdad(estado.drenajeventricular,drenajeventricular)){
-            return false
+        if (
+            !filtrarPorIgualdad(estado.drenajeventricular, drenajeventricular)
+        ) {
+            return false;
         }
         //antecedentes geneticos
         //geneticat21
-        if(!filtrarPorIgualdad(estado.geneticat21,trisomia21)){
-            return false
+        if (!filtrarPorIgualdad(estado.geneticat21, trisomia21)) {
+            return false;
         }
         //geneticat13
-        if(!filtrarPorIgualdad(estado.geneticat13,trisomia13)){
-            return false
+        if (!filtrarPorIgualdad(estado.geneticat13, trisomia13)) {
+            return false;
         }
         //geneticat18
-        if(!filtrarPorIgualdad(estado.geneticat18,trisomia18)){
-            return false
+        if (!filtrarPorIgualdad(estado.geneticat18, trisomia18)) {
+            return false;
         }
         //geneticavacterl
-        if(!filtrarPorIgualdad(estado.geneticavacterl,vacterl)){
-            return false
+        if (!filtrarPorIgualdad(estado.geneticavacterl, vacterl)) {
+            return false;
         }
         //geneticaturner
-        if(!filtrarPorIgualdad(estado.geneticaturner,turner)){
-            return false
+        if (!filtrarPorIgualdad(estado.geneticaturner, turner)) {
+            return false;
         }
         //medicacion
         //medprotectorgastricodias
-        if(!filtrarPorRango(estado.medprotectorgastricodias,protectorgastrico,opciones.PROTECTOR)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medprotectorgastricodias,
+                protectorgastrico,
+                opciones.PROTECTOR,
+            )
+        ) {
+            return false;
         }
         //medinhibidorbombahdias
-        if(!filtrarPorRango(estado.medinhibidorbombahdias,inhibidor,opciones.INHIBIDOR)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medinhibidorbombahdias,
+                inhibidor,
+                opciones.INHIBIDOR,
+            )
+        ) {
+            return false;
         }
         //medprobiodias
-        if(!filtrarPorRango(estado.medprobiodias,probiotico,opciones.PROBIOTICO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medprobiodias,
+                probiotico,
+                opciones.PROBIOTICO,
+            )
+        ) {
+            return false;
         }
         //meleritromicinadias
-        if(!filtrarPorRango(estado.meleritromicinadias,eritromicina,opciones.ERITROMICINA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.meleritromicinadias,
+                eritromicina,
+                opciones.ERITROMICINA,
+            )
+        ) {
+            return false;
         }
         //medfentanilodias
-        if(!filtrarPorRango(estado.medfentanilodias,fentanilo,opciones.FENTANILO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medfentanilodias,
+                fentanilo,
+                opciones.FENTANILO,
+            )
+        ) {
+            return false;
         }
         //medmorfinadias
-        if(!filtrarPorRango(estado.medmorfinadias,morfina,opciones.MORFINA)){
-            return false
+        if (
+            !filtrarPorRango(estado.medmorfinadias, morfina, opciones.MORFINA)
+        ) {
+            return false;
         }
         //medmidazolamdias
-        if(!filtrarPorRango(estado.medmorfinadias,morfina,opciones.MORFINA)){
-            return false
+        if (
+            !filtrarPorRango(estado.medmorfinadias, morfina, opciones.MORFINA)
+        ) {
+            return false;
         }
         //medprecedexdias
-        if(!filtrarPorRango(estado.medprecedexdias,precedex,opciones.PRECEDEX)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medprecedexdias,
+                precedex,
+                opciones.PRECEDEX,
+            )
+        ) {
+            return false;
         }
         //medmetadonadias
-        if(!filtrarPorRango(estado.medmetadonadias,metadona,opciones.METADONA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medmetadonadias,
+                metadona,
+                opciones.METADONA,
+            )
+        ) {
+            return false;
         }
         //medvecuroniadias
-        if(!filtrarPorRango(estado.medvecuroniadias,vecuronio,opciones.VECURONIO)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medvecuroniadias,
+                vecuronio,
+                opciones.VECURONIO,
+            )
+        ) {
+            return false;
         }
         //medprostagldias
-        if(!filtrarPorRango(estado.medprostagldias,prostaglandinas,opciones.PROSTAGLANDINA)){
-            return false
+        if (
+            !filtrarPorRango(
+                estado.medprostagldias,
+                prostaglandinas,
+                opciones.PROSTAGLANDINA,
+            )
+        ) {
+            return false;
         }
         //inotropicos
         //inotropicosdopamina
-        if(!filtrarPorIgualdad(estado.inotropicosdopamina,dopamina)){
-            return false
+        if (!filtrarPorIgualdad(estado.inotropicosdopamina, dopamina)) {
+            return false;
         }
         //inotropicosdobutamina
-        if(!filtrarPorIgualdad(estado.inotropicosdobutamina,dobutamina)){
-            return false
+        if (!filtrarPorIgualdad(estado.inotropicosdobutamina, dobutamina)) {
+            return false;
         }
         //inotropicosadrenalina
-        if(!filtrarPorIgualdad(estado.inotropicosadrenalina,adrenalina)){
-            return false
+        if (!filtrarPorIgualdad(estado.inotropicosadrenalina, adrenalina)) {
+            return false;
         }
         //inotropicosmilrinona
-        if(!filtrarPorIgualdad(estado.inotropicosmilrinona,milrinona)){
-            return false
+        if (!filtrarPorIgualdad(estado.inotropicosmilrinona, milrinona)) {
+            return false;
         }
         //inotropicosvasopresina
-        if(!filtrarPorIgualdad(estado.inotropicosvasopresina,vasopresina)){
-            return false
+        if (!filtrarPorIgualdad(estado.inotropicosvasopresina, vasopresina)) {
+            return false;
         }
-        
+
         //diureticos
         //diureticosespironolac
-        if(!filtrarPorIgualdad(estado.diureticosespironolac,espironolacta)){
-            return false
+        if (!filtrarPorIgualdad(estado.diureticosespironolac, espironolacta)) {
+            return false;
         }
         //diureticoshidroclotiaz
-        if(!filtrarPorIgualdad(estado.diureticoshidroclotiaz,hidrocloritiazida)){
-            return false
+        if (
+            !filtrarPorIgualdad(
+                estado.diureticoshidroclotiaz,
+                hidrocloritiazida,
+            )
+        ) {
+            return false;
         }
         //diureticosfurosemida
-        if(!filtrarPorIgualdad(estado.diureticosfurosemida,furosemida)){
-            return false
+        if (!filtrarPorIgualdad(estado.diureticosfurosemida, furosemida)) {
+            return false;
         }
         // neurologicas
         //hivgrado
-        if(!filtrarPorIgualdad(estado.ecotf,ecotf)){
-            return false
+        if (!filtrarPorIgualdad(estado.ecotf, ecotf)) {
+            return false;
         }
-        if(!filtrarPorIgualdad(estado.hivgrado,hiv)){
-            return false
+        if (!filtrarPorIgualdad(estado.hivgrado, hiv)) {
+            return false;
         }
         //convulsiones
-        if(!filtrarPorIgualdad(estado.convulsiones,convulsiones)){
-            return false
+        if (!filtrarPorIgualdad(estado.convulsiones, convulsiones)) {
+            return false;
         }
         //ehi
-        if(!filtrarPorIgualdad(estado.ehi,ehi)){
-            return false
+        if (!filtrarPorIgualdad(estado.ehi, ehi)) {
+            return false;
         }
         //hipotermiatipo
-        if(!filtrarPorIgualdad(estado.hipotermiatipo,hipo)){
-            return false
+        if (!filtrarPorIgualdad(estado.hipotermiatipo, hipo)) {
+            return false;
         }
-
+        //otros
+        if (
+            !filtrarPorMas(
+                estado.malformacionescongenitas,
+                malformacionescongenitas,
+            )
+        ) {
+            return false;
+        }
+        if (!filtrarPorMas(estado.cirugias, cirugias)) {
+            return false;
+        }
+        if (!filtrarPorMas(estado.complicaciones, complicaciones)) {
+            return false;
+        }
+        //diagnosticos
+        if (!filtrarPorMas(estado.diagnostico, diagnostico)) {
+            return false;
+        }
+        //alta
         
-        return true
+        
+
+        //boolean
+        if (!filtrarPorIgualdad(estado.conalta, conalta)) {
+            return false;
+        }
+        
+        if (!filtrarPorFecha(estado.altafecha, altadesde, altahasta)) {
+            return false;
+        }
+        return true;
     }
     function filterUpdate() {
-        
         //historiasbebesrow = historiasbebes;
         historiasbebesrow = [];
 
@@ -1406,6 +1645,7 @@
         checked_genetica = proxychecks.checked_genetica;
         checked_alta = proxychecks.checked_alta;
         checked_otros = proxychecks.checked_otros;
+        checked_diagnostico = proxychecks.checked_diagnostico;
     }
     function setProxyChecks() {
         proxychecks.checked_identificacion = checked_identificacion;
@@ -1427,6 +1667,7 @@
         proxychecks.checked_genetica = checked_genetica;
         proxychecks.checked_alta = checked_alta;
         proxychecks.checked_otros = checked_otros;
+        proxychecks.checked_diagnostico = checked_diagnostico;
     }
     function setFiltros() {
         sinhistorial = proxyfiltros.sinhistorial;
@@ -1492,7 +1733,7 @@
         paridad = proxyfiltros.paridad;
         gemelos = proxyfiltros.gemelos;
         controlparental = proxyfiltros.controlparental;
-        corticoideprenatal=proxyfiltros.corticoideprenatal;
+        corticoideprenatal = proxyfiltros.corticoideprenatal;
         tabaquismo = proxyfiltros.tabaquismo;
         adiccion = proxyfiltros.adiccion;
         egb = proxyfiltros.egb;
@@ -1566,6 +1807,7 @@
         hidrocloritiazida = proxyfiltros.hidrocloritiazida;
         tgr = proxyfiltros.tgr;
         plasma = proxyfiltros.plasma;
+        plaqueta = proxyfiltros.plaqueta;
         inmunoglobina = proxyfiltros.inmunoglobina;
         transfusion = proxyfiltros.transfusion;
         hiv = proxyfiltros.hiv;
@@ -1576,7 +1818,7 @@
         fondoojo = proxyfiltros.fondoojo;
         rop = proxyfiltros.rop;
         tratamientorop = proxyfiltros.tratamientorop;
-        nec = proxyfiltros.nec; 
+        nec = proxyfiltros.nec;
         perforacion = proxyfiltros.perforacion;
         onfalocele = proxyfiltros.onfalocele;
         gastrosquisis = proxyfiltros.gastrosquisis;
@@ -1604,6 +1846,9 @@
         cirugias = proxyfiltros.cirugias;
         complicaciones = proxyfiltros.complicaciones;
         diagnostico = proxyfiltros.diagnostico;
+        conalta = proxyfiltros.conalta;
+        altadesde = proxyfiltros.altadesde;
+        altahasta = proxyfiltros.altahasta;
     }
     function setProxy() {
         proxyfiltros.sinhistorial = sinhistorial;
@@ -1669,7 +1914,7 @@
         proxyfiltros.paridad = paridad;
         proxyfiltros.gemelos = gemelos;
         proxyfiltros.controlparental = controlparental;
-        proxyfiltros.corticoideprenatal=corticoideprenatal;
+        proxyfiltros.corticoideprenatal = corticoideprenatal;
         proxyfiltros.tabaquismo = tabaquismo;
         proxyfiltros.adiccion = adiccion;
         proxyfiltros.egb = egb;
@@ -1709,7 +1954,7 @@
         proxyfiltros.tardeantibiotico = tardeantibiotico;
         proxyfiltros.tardeatb = tardeatb;
         proxyfiltros.emh = emh;
-        proxyfiltros.ndosissurfactante=ndosissurfactante
+        proxyfiltros.ndosissurfactante = ndosissurfactante;
         proxyfiltros.salam = salam;
         proxyfiltros.apena = apena;
         proxyfiltros.neumotorax = neumotorax;
@@ -1742,6 +1987,7 @@
         proxyfiltros.hidrocloritiazida = hidrocloritiazida;
         proxyfiltros.tgr = tgr;
         proxyfiltros.plasma = plasma;
+        proxyfiltros.plaqueta = plaqueta;
         proxyfiltros.inmunoglobina = inmunoglobina;
         proxyfiltros.transfusion = transfusion;
         proxyfiltros.hiv = hiv;
@@ -1780,6 +2026,9 @@
         proxyfiltros.cirugias = cirugias;
         proxyfiltros.complicaciones = complicaciones;
         proxyfiltros.diagnostico = diagnostico;
+        proxyfiltros.conalta = conalta;
+        proxyfiltros.altadesde = altadesde;
+        proxyfiltros.altahasta = altahasta;
     }
 
     function cambiarFiltro() {
@@ -1848,6 +2097,7 @@
         bind:checked_genetica
         bind:checked_alta
         bind:checked_otros
+        bind:checked_diagnostico
         bind:unidad
         bind:area
         bind:fechadesde
@@ -1984,6 +2234,7 @@
         bind:hidrocloritiazida
         bind:tgr
         bind:plasma
+        bind:plaqueta
         bind:inmunoglobina
         bind:transfusion
         bind:hiv
@@ -2022,8 +2273,11 @@
         bind:cirugias
         bind:complicaciones
         bind:diagnostico
+        bind:conalta
+        bind:altadesde
+        bind:altahasta
     />
-    <Listado 
+    <Listado
         bind:checked_identificacion
         bind:checked_ingreso
         bind:checked_antropometria
@@ -2043,7 +2297,8 @@
         bind:checked_genetica
         bind:checked_alta
         bind:checked_otros
-        bind:bebesrows={filas} 
+        bind:checked_diagnostico
+        bind:bebesrows={filas}
         bind:unidades
         bind:areas
     />

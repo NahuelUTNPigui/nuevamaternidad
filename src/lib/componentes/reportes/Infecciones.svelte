@@ -50,7 +50,7 @@
                         idetiqueta="fantibioticotempano"
                         etiqueta="Duracion "
                         modoedicion={true}
-                        bind:value={tempranoantibiotico}
+                        bind:value={tempranoatb}
                         lista={opciones.DURACION_TEMPRANA}
                         cambiar={cambiarFiltro}
                 />
@@ -92,7 +92,7 @@
                         idetiqueta="fantibioticotarde"
                         etiqueta="Duracion "
                         modoedicion={true}
-                        bind:value={tardeantibiotico}
+                        bind:value={tardeatb}
                         lista={opciones.DURACION_TARDIA}
                         cambiar={cambiarFiltro}
                 />

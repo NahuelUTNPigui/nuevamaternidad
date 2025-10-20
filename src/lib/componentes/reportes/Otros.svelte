@@ -7,7 +7,7 @@
                 malformacionescongenitas = $bindable(""),
                 cirugias = $bindable(""),
                 complicaciones = $bindable(""),
-                diagnostico = $bindable(""),
+                
         } = $props();
 </script>
 
@@ -21,30 +21,20 @@
                 escribir = {cambiarFiltro}
         />
         <!-- Cirugías -->
-        <InputText
+        <InputMas
                 idetiqueta="Cirugías"
                 etiqueta="Cirugías"
                 modoedicion={true}
                 bind:value={cirugias}
-                cambiar = {cambiarFiltro}
                 escribir = {cambiarFiltro}
         />
         <!-- Complicaciones -->
-        <InputText
+        <InputMas
                 idetiqueta="Complicaciones"
                 etiqueta="Complicaciones"
                 modoedicion={true}
                 bind:value={complicaciones}
-                cambiar = {cambiarFiltro}
                 escribir = {cambiarFiltro}
         />
-        <!-- Diagnostico -->
-        <InputText
-                idetiqueta="Diagnostico"
-                etiqueta="Diagnostico"
-                modoedicion={true}
-                bind:value={diagnostico}
-                cambiar = {cambiarFiltro}
-                escribir = {cambiarFiltro}
-        />
+       
 </div>

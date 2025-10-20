@@ -13,7 +13,7 @@
         <!-- Fondo de Ojo -->
         <InputSelect
                 idetiqueta="fondoojo"
-                etiqueta="fondoojo"
+                etiqueta="Fondo Ojo"
                 modoedicion={true}
                 bind:value={fondoojo}
                 lista={opciones.SINO}
@@ -22,7 +22,7 @@
         <!-- ROP (Retinopatía del Prematuro) -->
         <InputSelect
                 idetiqueta="rop"
-                etiqueta="rop"
+                etiqueta="ROP"
                 modoedicion={true}
                 bind:value={rop}
                 lista={opciones.ROP}

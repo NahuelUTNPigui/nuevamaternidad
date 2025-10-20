@@ -36,7 +36,7 @@
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputSelect
-      lista={opciones.SINO}
+            lista={opciones.SINO}
             bind:value={ductus}
             etiqueta="Ductus Arterioso Persistente"
             idetiqueta="ductus"
@@ -44,7 +44,7 @@
         />
 
         <InputSelect
-      lista={opciones.DUCTUS_DIAGNOSTICO}
+            lista={opciones.DUCTUS_DIAGNOSTICO}
             bind:value={ductusdiagnostico}
             etiqueta="Diagnóstico del Ductus"
             idetiqueta="ductusdiagnostico"
@@ -66,7 +66,7 @@
         />
 
         <InputSelect
-      lista={opciones.SINO}
+            lista={opciones.SINO}
             bind:value={ductusttoquirurgico}
             etiqueta="Tratamiento Quirúrgico"
             idetiqueta="ductusttoquirurgico"
@@ -74,7 +74,7 @@
         />
 
         <InputSelect
-      lista={opciones.SINO}
+            lista={opciones.SINO}
             bind:value={cardiopatiacongenita}
             etiqueta="Cardiopatía Congénita"
             idetiqueta="cardiopatiacongenita"
@@ -82,7 +82,7 @@
         />
 
         <InputSelect
-      lista={opciones.DUCTUS_DIAGNOSTICO}
+            lista={opciones.DUCTUS_DIAGNOSTICO}
             bind:value={diagcc}
             etiqueta="Diagnóstico de Cardiopatía"
             idetiqueta="diagcc"
@@ -97,56 +97,64 @@
         Medicamentos Cardiovasculares
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <InputOpcionalText 
-        bind:value={inotropicosdopamina}
+        <InputSelect
+            lista={opciones.SINO}
+            bind:value={inotropicosdopamina}
             etiqueta="Dopamina"
             idetiqueta="inotropicosdopamina"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={inotropicosdobutamina}
             etiqueta="Dobutamina"
             idetiqueta="inotropicosdobutamina"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={inotropicosadrenalina}
             etiqueta="Adrenalina"
             idetiqueta="inotropicosadrenalina"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={inotropicosmilrinona}
             etiqueta="Milrinona"
             idetiqueta="inotropicosmilrinona"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={inotropicosvasopresina}
             etiqueta="Vasopresina"
             idetiqueta="inotropicosvasopresina"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={diureticosfurosemida}
             etiqueta="Furosemida"
             idetiqueta="diureticosfurosemida"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={diureticosespironolac}
             etiqueta="Espironolactona"
             idetiqueta="diureticosespironolac"
             bind:modoedicion
         />
 
-        <InputOpcionalText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={diureticoshidroclotiaz}
             etiqueta="Hidroclorotiazida"
             idetiqueta="diureticoshidroclotiaz"
@@ -163,7 +171,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <InputText
             bind:value={hemoderivadostgrn}
-            etiqueta="GR (Transfusiones)"
+            etiqueta="TGR (Transfusiones)"
             idetiqueta="hemoderivadostgrn"
             bind:modoedicion
         />
@@ -188,14 +196,14 @@
             idetiqueta="hemoderivadosgamman"
             bind:modoedicion
         />
-    </div>
-
-    <div class="form-control mt-6">
-        <InputText
+        <InputSelect
+            lista = {opciones.SINO}
             bind:value={exanguineotransfusion}
-            etiqueta="Exanguinotransfusión"
+            etiqueta="Exanguino Transfusión"
             idetiqueta="exanguineotransfusion"
             bind:modoedicion
         />
     </div>
+
+    
 </div>

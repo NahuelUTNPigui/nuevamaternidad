@@ -99,8 +99,9 @@ export default {
 
   ALIMENTACION_ENTERAL_TROFICA: [
     { id: "", nombre: "" },
-    { id: "si", nombre: "Si" },
-    { id: "no", nombre: "No" }
+    { id: "materna", nombre: "Materna" },
+    { id: "artificial", nombre: "Artificial" },
+    { id: "mixta", nombre: "Mixta" }
   ],
 
   // Enteral completa (100 ml/kg) y calorias se cargan como números/fechas fuera del selector
@@ -213,8 +214,12 @@ export default {
 
   HIV: [
     { id: "", nombre: "" },
-    { id: "si", nombre: "Si" }, // grado en campo aparte
-    { id: "no", nombre: "No" }
+    { id: "no", nombre: "No" }, // grado en campo aparte
+    { id: "grado 1", nombre: "Grado 1" },
+    { id: "grado 2", nombre: "Grado 2" }, // grado en campo aparte
+    { id: "grado 3", nombre: "Grado 3" },
+    { id: "grado 4", nombre: "Grado 4" }
+    
   ],
 
   CONVULSIONES: [
@@ -231,8 +236,11 @@ export default {
 
   HIPOTERMIA: [
     { id: "", nombre: "" },
-    { id: "si", nombre: "Si (CEF/CORPO)" }, // tipo en campo aparte
-    { id: "no", nombre: "No" }
+    { id: "no", nombre: "No" },
+    { id: "si", nombre: "Sí" },
+    { id: "cef", nombre: "CEF" }, // tipo en campo aparte
+    { id: "corpo", nombre: "CORPO" },
+    
   ],
 
   FONDO_DE_OJO: [
@@ -243,8 +251,12 @@ export default {
 
   ROP: [
     { id: "", nombre: "" },
-    { id: "si", nombre: "Si" }, // grado en campo aparte
-    { id: "no", nombre: "No" }
+    { id: "no", nombre: "No" }, 
+    { id: "grado 1", nombre: "Grado 1" },
+    { id: "grado 2", nombre: "Grado 2" }, // grado en campo aparte
+    { id: "grado 3", nombre: "Grado 3" },
+    { id: "grado 4", nombre: "Grado 4" },
+    { id: "grado 5", nombre: "Grado 5" }
   ],
 
   ROP_TTO: [
@@ -255,8 +267,12 @@ export default {
 
   NEC: [
     { id: "", nombre: "" },
-    { id: "si", nombre: "Si" }, // estadio en campo aparte
-    { id: "no", nombre: "No" }
+    { id: "no", nombre: "No" }, 
+    { id: "grado 1", nombre: "Grado 1" },
+    { id: "grado 2", nombre: "Grado 2" },
+    { id: "grado 3a", nombre: "Grado 3 A" },
+    { id: "grado 3b", nombre: "Grado 3 B" },
+    
   ],
 
   PERFORACION_UNICA: [
@@ -628,3 +644,4 @@ export default {
 
 
 };
+

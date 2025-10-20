@@ -51,7 +51,7 @@
         <!-- Síndrome de Turner -->
         <InputSelect
                 idetiqueta="Síndrome de Turner"
-                etiqueta="Síndrome de Turner"
+                etiqueta="Turner"
                 modoedicion={true}
                 bind:value={turner}
                 lista={opciones.SINO}

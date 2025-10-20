@@ -28,6 +28,7 @@
             modoedicion={true}
             bind:value={trofica}
             lista={opciones.SINO}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>
@@ -44,6 +45,7 @@
             modoedicion={true}
             bind:value={tipoenteral}
             lista={opciones.TIPO_ALIMENTACION_ENTERAL}
+            cambiar={cambiarFiltro}
         /> 
     </div>
 </div>
@@ -58,6 +60,7 @@
             modoedicion={true}
             bind:value={nutricionparental}
             lista={opciones.SINO}
+            cambiar={cambiarFiltro}
         />
         <!--Edad inicio dias-->
         <InputSelect
@@ -66,6 +69,7 @@
             modoedicion={true}
             bind:value={edadnpt}
             lista={opciones.EDAD_INICIO}
+            cambiar={cambiarFiltro}
         />
         <!--Duración dias-->
         <InputSelect
@@ -74,6 +78,7 @@
             modoedicion={true}
             bind:value={duracionnpt}
             lista={opciones.DURACION}
+            cambiar={cambiarFiltro}
         />
         <!--Dia inicio aminoacidos-->
         <InputSelect
@@ -82,6 +87,7 @@
             modoedicion={true}
             bind:value={comienzoaa}
             lista={opciones.INICIO_AA}
+            cambiar={cambiarFiltro}
         />
         <!--Aporte total AA-->
         <InputSelect
@@ -90,6 +96,7 @@
             modoedicion={true}
             bind:value={aporteaa}
             lista={opciones.APORTE_AA}
+            cambiar={cambiarFiltro}
         />
         <!--Dias inicio lípidos-->
         <InputSelect
@@ -98,6 +105,7 @@
             modoedicion={true}
             bind:value={comienzolipido}
             lista={opciones.COMIENZO_LIPIDO}
+            cambiar={cambiarFiltro}
         />
         <!--Aporte total lípidos-->
         <InputSelect
@@ -106,6 +114,7 @@
             modoedicion={true}
             bind:value={aportelipido}
             lista={opciones.APORTE_LIPIDO}
+            cambiar={cambiarFiltro}
         />
     </div>
 </div>

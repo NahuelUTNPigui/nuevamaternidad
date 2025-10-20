@@ -1,12 +1,15 @@
 <script>
   import InputText from "../Formulario/InputText.svelte";
   import InputMas from "../Formulario/InputMas.svelte";
+  import InputTextArea from "../Formulario/InputTextArea.svelte";
   import Modoedicion from "./Modoedicion.svelte";
+
   let {
     modoedicion = $bindable(false),
     malformacionescongenitas = $bindable(""),
     cirugias = $bindable(""),
     complicaciones = $bindable(""),
+    observacion = $bindable(""),
   } = $props();
 </script>
 
@@ -43,6 +46,13 @@
       bind:value={complicaciones}
       etiqueta="Complicaciones Generales"
       idetiqueta="complicaciones"
+      bind:modoedicion
+    />
+    <!-- Observacion -->
+    <InputTextArea
+      idetiqueta="observaciones"
+      etiqueta="Observación"
+      bind:value={observacion}
       bind:modoedicion
     />
   </div>

@@ -5,8 +5,10 @@
         cambiarFiltro,
         tgr = $bindable(""),
         plasma = $bindable(""),
+        plaqueta = $bindable(""),
         inmunoglobina = $bindable(""),
         transfusion = $bindable(""),
+
     } = $props();
 </script>
 
@@ -32,10 +34,19 @@
             lista={opciones.PLASMA}
             cambiar={cambiarFiltro}
         />
-        <!-- Inmunoglobulina (Gamma) -->
+        <!-- Plasma -->
         <InputSelect
-            idetiqueta="Inmunoglobulina (Gamma)"
-            etiqueta="Inmunoglobulina (Gamma)"
+            idetiqueta="Plasma"
+            etiqueta="Plasma"
+            modoedicion={true}
+            bind:value={plasma}
+            lista={opciones.PLASMA}
+            cambiar={cambiarFiltro}
+        />
+        <!-- Gamma -->
+        <InputSelect
+            idetiqueta="Gamma"
+            etiqueta="Gamma"
             modoedicion={true}
             bind:value={inmunoglobina}
             lista={opciones.GAMMAGLOBULINA}
@@ -44,9 +55,9 @@
         <!-- Exanguinotransfusión -->
         <InputSelect
             idetiqueta="Exanguinotransfusión"
-            etiqueta="Exanguinotransfusión"
+            etiqueta="Exanguino Transfusión"
             modoedicion={true}
-            bind:value={tgr}
+            bind:value={transfusion}
             lista={opciones.SINO}
             cambiar={cambiarFiltro}
         />

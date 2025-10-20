@@ -26,7 +26,8 @@
   </h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- NEC - Estadio -->
-    <InputOpcionalText
+    <InputSelect
+      lista ={opciones.NEC}
       bind:value={necestadio}
       etiqueta="NEC - Estadio"
       idetiqueta="necestadio"
@@ -64,7 +65,7 @@
     <InputSelect
       lista={opciones.SINO}
       bind:value={hdc}
-      etiqueta="Hernia Diafragmática Congénita (HDC)"
+      etiqueta="HDC"
       idetiqueta="hdc"
       bind:modoedicion
     />
@@ -86,11 +87,11 @@
       idetiqueta="hdcttoquirurgico"
       bind:modoedicion
     />
-    <!-- TOT -->
+    <!-- TQT -->
     <InputSelect
       lista={opciones.SINO}
       bind:value={tot}
-      etiqueta="TOT"
+      etiqueta="TQT"
       idetiqueta="tot"
       bind:modoedicion
     />

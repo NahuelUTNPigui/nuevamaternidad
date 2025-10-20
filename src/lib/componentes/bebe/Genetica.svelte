@@ -1,4 +1,6 @@
 <script>
+    import opciones from "$lib/opciones";
+    import InputSelect from "../Formulario/InputSelect.svelte";
     import InputText from "../Formulario/InputText.svelte";
     import Modoedicion from "./Modoedicion.svelte";
     let {
@@ -18,41 +20,46 @@
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Trisomía 21 (Síndrome de Down) -->
-        <InputText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={geneticat21}
-            etiqueta="Trisomía 21 (Síndrome de Down)"
+            etiqueta="Trisomía 21"
             idetiqueta="geneticat21"
             bind:modoedicion
         />
 
         <!-- Trisomía 13 (Síndrome de Patau) -->
-        <InputText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={geneticat13}
-            etiqueta="Trisomía 13 (Síndrome de Patau)"
+            etiqueta="Trisomía 13"
             idetiqueta="geneticat13"
             bind:modoedicion
         />
 
         <!-- Trisomía 18 (Síndrome de Edwards) -->
-        <InputText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={geneticat18}
-            etiqueta="Trisomía 18 (Síndrome de Edwards)"
+            etiqueta="Trisomía 18"
             idetiqueta="geneticat18"
             bind:modoedicion
         />
 
         <!-- Variante del Cromosoma X (X Frágil) -->
-        <InputText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={geneticavacterl}
-            etiqueta="Variante del Cromosoma X (Síndrome de X Frágil)"
+            etiqueta="VACTERL"
             idetiqueta="geneticavacterl"
             bind:modoedicion
         />
 
         <!-- Síndrome de Turner -->
-        <InputText
+        <InputSelect
+            lista={opciones.SINO}
             bind:value={geneticaturner}
-            etiqueta="Síndrome de Turner (Monosomía X)"
+            etiqueta="Turner"
             idetiqueta="geneticaturner"
             bind:modoedicion
         />

@@ -4,6 +4,7 @@
   import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
   import InputDate from "../Formulario/InputDate.svelte";
   import InputBool from "../Formulario/InputBool.svelte";
+  import InputMas from "../Formulario/InputMas.svelte";
   import opciones from "$lib/opciones";
   let {
     modoedicion = $bindable(false),
@@ -41,24 +42,6 @@
         etiqueta="Fecha de Alta"
         idetiqueta="altafecha"
         bind:modoedicion
-      />
-
-      <!-- Diagnósticos al Alta -->
-      <InputText
-        bind:value={altadiagnosticos}
-        etiqueta="Diagnósticos al Alta"
-        idetiqueta="altadiagnosticos"
-        bind:modoedicion
-        class="md:col-span-2"
-      />
-
-      <!-- Condiciones al Alta -->
-      <InputText
-        bind:value={altacondiciones}
-        etiqueta="Condiciones al Alta"
-        idetiqueta="altacondiciones"
-        bind:modoedicion
-        class="md:col-span-2"
       />
     </div>
   </div>
