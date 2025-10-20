@@ -347,7 +347,6 @@
                     {/if}
                     {#if checked_alta}
                         <div class="table-cell px-4 py-3">Fecha alta</div>
-                        
                     {/if}
                 </div>
             </div>
@@ -983,7 +982,7 @@
                                 <Mas bind:value={b.complicaciones} />
                             </div>
                             <div class="table-cell px-4 py-3">
-                                {b.observacion} 
+                                {b.observacion}
                             </div>
                         {/if}
                         {#if checked_diagnostico}
@@ -993,14 +992,10 @@
                         {/if}
                         {#if checked_alta}
                             <div class="table-cell px-4 py-3">
-                                
                                 {b.altafecha.length > 0
-                                    ? new Date(
-                                          b.altafecha,
-                                      ).toLocaleDateString()
+                                    ? new Date(b.altafecha).toLocaleDateString()
                                     : ""}
                             </div>
-                           
                         {/if}
                     </div>
                 {/each}
@@ -1016,56 +1011,905 @@
         `}
     >
         {#each bebesrows as b}
-            <div
-                role="button"
-                tabindex="0"
-                onclick={() => handleClick(b.id)}
-                onkeydown={(e) => {
-                    e.preventDefault();
-                }}
-            >
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2 font-semibold text-lg">
+            <div>
+                <!-- Cabecera de la tarjeta -->
+                <div
+                    class="flex justify-between items-center"
+                    role="button"
+                    tabindex="0"
+                    onclick={() => handleClick(b.id)}
+                    onkeydown={(e) => {
+                        e.preventDefault();
+                    }}
+                >
+                    <div class="font-semibold text-lg flex items-center gap-2">
                         <span
-                            class="h-2 w-2 bg-green-500 rounded-full inline-block"
-                        >
-                        </span>
-                        {b.name}
+                            class={`h-2 w-2 rounded-full ${
+                                b.conalta ? "bg-green-500" : "bg-gray-400"
+                            }`}
+                        ></span>
+                        {b.nombrebebe}
                     </div>
                     <span
-                        class={`
-                            dark:bg-green-700 dark:text-green-100
-                            bg-green-100 text-green-800
-                            
-                            
-                            text-xs px-2 py-0.5 rounded-full
-                        `}
+                        class={`text-xs px-2 py-0.5 rounded-full ${
+                            b.conalta
+                                ? "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
+                                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                        }`}
                     >
-                        {b.status}
+                        {b.conalta ? "Con alta" : "Sin alta"}
                     </span>
                 </div>
-
-                <div class="mt-2 text-sm space-y-1">
+                <!-- Info principal -->
+                <div class="mt-3 text-sm space-y-1">
                     <div>
-                        <span class="font-medium">Madre:</span>{b.motherName}
+                        <span class="font-medium">Peso:</span>
+                        {b.pesobebe}
                     </div>
                     <div>
-                        <span class="font-medium">HC:</span>
-                        {b.medicalRecordNumber}
+                        <span class="font-medium">Área:</span>
+                        {getNombre(b.area, areas)}
                     </div>
                     <div>
-                        <span class="hidden font-medium">Fecha Nac.:</span
-                        >{b.birthDate}
+                        <span class="font-medium">Unidad:</span>
+                        {getNombre(b.unidad, unidades)}
                     </div>
-                    <div>
-                        <span class="font-medium">EG:</span>
-                        <span
-                            class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full text-xs"
-                            >{b.gestationalAge}</span
-                        >
-                    </div>
-                    <div><span class="font-medium">Peso:</span>{b.weight}</div>
                 </div>
+                <!-- Identificación -->
+                {#if checked_identificacion}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Identificación</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Nacimiento:</b>
+                                {b.fechanacimientobebe.length > 0
+                                    ? new Date(
+                                          b.fechanacimientobebe,
+                                      ).toLocaleDateString()
+                                    : ""}
+                            </div>
+                            <div><b>HC:</b> {b.hcbebe}</div>
+                            <div><b>DNI bebé:</b> {b.dnibebe}</div>
+                            <div><b>DNI madre:</b> {b.dnimama}</div>
+                            <div><b>Madre:</b> {b.nombremama}</div>
+                            <div>
+                                <b>Sexo:</b>
+                                {getNombre(b.sexo, opciones.SEXO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                <!-- Ingreso -->
+                {#if checked_ingreso}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Ingreso</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Fecha ingreso:</b>
+                                {b.fechaingresobebe.length > 0
+                                    ? new Date(
+                                          b.fechaingresobebe,
+                                      ).toLocaleDateString()
+                                    : ""}
+                            </div>
+                            <div>
+                                <b>Tipo ingreso:</b>
+                                {getNombre(b.tipoingreso, opciones.INGRESOS)}
+                            </div>
+                            <div>
+                                <b>Tipo parto:</b>
+                                {getNombre(b.tipo_parto, opciones.TIPOPARTO)}
+                            </div>
+                            <div>
+                                <b>Domiciliario:</b>
+                                {getNombre(
+                                    b.parto_domiciliario,
+                                    opciones.DOMICILIARIO,
+                                )}
+                            </div>
+
+                            <div>
+                                <b>Edad gestacional:</b>
+                                {b.edad_gestacional}
+                            </div>
+                            <div><b>APGAR 1 MINUTO:</b> {b.apgar_1}</div>
+                            <div><b>APGAR 5 MINUTO:</b> {b.apgar_5}</div>
+                            <div><b>APGAR 10 MINUTO:</b> {b.apgar_10}</div>
+                            <div><b>Peso ingreso:</b> {b.pesoingresobebe}</div>
+                            <div>
+                                <b>Temperatura ingreso:</b>
+                                {b.temperatura_ingreso}
+                            </div>
+                            <div>
+                                <b>RCIU:</b>
+                                {getNombre(b.rciu, opciones.RCIU)}
+                            </div>
+                            <div>
+                                <b>REM:</b>
+                                {getNombre(b.rem, opciones.REM)}
+                            </div>
+                            <div>
+                                <b>Reanimacion:</b>
+                                {getNombre(b.reanimacion, opciones.REANIMACION)}
+                            </div>
+                            <div>
+                                <b>Líquido meconial:</b>
+                                {getNombre(
+                                    b.liquido_meconial,
+                                    opciones.LIQUIDO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Fallece:</b>
+                                {getNombre(b.fallece, opciones.FALLECE)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                <!-- Antropometría -->
+                {#if checked_antropometria}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Antropometría</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Edad recupera peso:</b>
+                                {b.edadrecuperapeso}
+                            </div>
+                        </div>
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div><b>Peso RN:</b> {b.pesorn}</div>
+                            <div><b>Peso 7d:</b> {b.peso7d}</div>
+                            <div><b>Peso 14d:</b> {b.peso14d}</div>
+                            <div><b>Peso 21d:</b> {b.peso21d}</div>
+                            <div><b>Peso 28d:</b> {b.peso28d}</div>
+                            <div><b>Peso 36sem:</b> {b.peso36sem}</div>
+                        </div>
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div><b>Perímetro RN:</b> {b.perimetrorn}</div>
+                            <div><b>Perímetro 7d:</b> {b.perimetro7d}</div>
+                            <div><b>Perímetro 14d:</b> {b.perimetro14d}</div>
+                            <div><b>Perímetro 21d:</b> {b.perimetro21d}</div>
+                            <div><b>Perímetro 28d:</b> {b.perimetro28d}</div>
+                            <div>
+                                <b>Perímetro 36sem:</b>
+                                {b.perimetro36sem}
+                            </div>
+                        </div>
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div><b>Talla RN:</b> {b.tallarn}</div>
+                            <div><b>Talla 7d:</b> {b.talla7d}</div>
+                            <div><b>Talla 14d:</b> {b.talla14d}</div>
+                            <div><b>Talla 21d:</b> {b.talla21d}</div>
+                            <div><b>Talla 28d:</b> {b.talla28d}</div>
+                            <div><b>Talla 36sem:</b> {b.talla36sem}</div>
+                        </div>
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div><b>Score z RN:</b> {b.scorezrn}</div>
+                            <div><b>Score z 7d:</b> {b.scorez7d}</div>
+                            <div><b>Score z 14d:</b> {b.scorez14d}</div>
+                            <div><b>Score z 21d:</b> {b.scorez21d}</div>
+                            <div><b>Score z 28d:</b> {b.scorez28d}</div>
+                            <div><b>Score z 36sem:</b> {b.scorez36sem}</div>
+                        </div>
+                    </details>
+                {/if}
+                <!-- Maternos -->
+                {#if checked_maternos}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Maternos</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div><b>Nombre mamá:</b> {b.nombremama}</div>
+                            <div>
+                                <b>Edad:</b>
+                                {b.fechanacimientomama
+                                    ? calcularEdad(b.fechanacimientomama)
+                                    : ""}
+                            </div>
+                            <div>
+                                <b>Educación:</b>
+                                {getNombre(
+                                    b.educacionmama,
+                                    opciones.NIVEL_EDUCACION,
+                                )}
+                            </div>
+                            <div><b>Paridad:</b> {b.paridad}</div>
+                            <div><b>Gemelos:</b> {b.gemelocantidad}</div>
+                            <div>
+                                <b>Control prenatal:</b>
+                                {getNombre(b.controlprenatal, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Corticoide prenatal:</b>
+                                {getNombre(b.corticoideprenatal, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Tabaquismo:</b>
+                                {getNombre(b.tabaquismo, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Adicción:</b>
+                                {getNombre(b.adiccion, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>EGB:</b>
+                                {getNombre(b.egb, opciones.EGB)}
+                            </div>
+                            <div>
+                                <b>Sulfato Mg:</b>
+                                {getNombre(b.sulfatomg, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Diabetes previa:</b>
+                                {getNombre(b.diabetesprevia, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Diabetes gestacional:</b>
+                                {getNombre(
+                                    b.diabetesgestacionala,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Crioaminitis:</b>
+                                {getNombre(b.crioaminitis, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Infección congénita:</b>
+                                {getNombre(b.infeccioncongenita, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>ITU:</b>
+                                {getNombre(b.itu, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Desprendimiento de placenta:</b>
+                                {getNombre(
+                                    b.desprendimientoplacenta,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Sufrimiento fetal:</b>
+                                {getNombre(b.sufrimientofetal, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>HT crónica:</b>
+                                {getNombre(b.htcronica, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>HIE:</b>
+                                {getNombre(b.hie, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Preeclampsia:</b>
+                                {getNombre(b.preeclampsia, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Eclampsia:</b>
+                                {getNombre(b.eclampsia, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Colestasis:</b>
+                                {getNombre(b.colestasis, opciones.SINO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+
+                <!-- Respiratorias -->
+                {#if checked_respiratorias}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Respiratorias</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>EMH:</b>
+                                {getNombre(b.emh, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>SALAM:</b>
+                                {getNombre(b.salam, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Apneas:</b>
+                                {getNombre(b.apneas, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Neumotórax:</b>
+                                {getNombre(b.neumotorax, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Taquipnea transitoria:</b>
+                                {getNombre(
+                                    b.taquipneatransitoria,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Hipertensión pulmonar:</b>
+                                {getNombre(b.hipertpulmonar, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Enfermedad intersticial:</b>
+                                {getNombre(
+                                    b.enfermedadintersticial,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>BQL:</b>
+                                {getNombre(b.bql, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>DBP 36 sem:</b>
+                                {getNombre(b.dbp36sem, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>O₂ 36 sem:</b>
+                                {getNombre(b.o236sem, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Surfactante:</b>
+                                {getNombre(b.surfactante, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>N° dosis de surfactante:</b>
+                                {b.ndosissurfactante}
+                            </div>
+                            <div>
+                                <b>ARM:</b>
+                                {getNombre(b.arm, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Intubado desde UTPR:</b>
+                                {getNombre(b.intubadodesdeutpr, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>VAFO:</b>
+                                {getNombre(b.vafo, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>CPAP:</b>
+                                {getNombre(b.cpap, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>OAF:</b>
+                                {getNombre(b.oaf, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>CBF:</b>
+                                {getNombre(b.cbf, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Cafeína:</b>
+                                {getNombre(b.cafeina, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Aminofilina:</b>
+                                {getNombre(b.aminofilina, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Corticoide inhalado:</b>
+                                {getNombre(b.corticoideinhalado, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Corticoide postnatal:</b>
+                                {getNombre(
+                                    b.corticoidepostnatal,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Óxido nítrico:</b>
+                                {getNombre(b.oxidonitrico, opciones.SINO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_neurologicas}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Neurológicas</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>ECO TF:</b>
+                                {getNombre(b.ecotf, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>HIV grado:</b>
+                                {getNombre(b.hivgrado, opciones.HIV)}
+                            </div>
+                            <div>
+                                <b>Convulsiones:</b>
+                                {getNombre(b.convulsiones, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>EHI:</b>
+                                {getNombre(b.ehi, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Hipotermia:</b>
+                                {getNombre(b.hipotermia, opciones.HIPOTERMIA)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_medicacion}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Medicación</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Protector gástrico (días):</b>
+                                {b.medprotectorgastricodias}
+                            </div>
+                            <div>
+                                <b>Inhibidor bomba H (días):</b>
+                                {b.medinhibidorbombahdias}
+                            </div>
+                            <div>
+                                <b>Probióticos (días):</b>
+                                {b.medprobiodias}
+                            </div>
+                            <div>
+                                <b>Eritromicina (días):</b>
+                                {b.meleritromicinadias}
+                            </div>
+                            <div>
+                                <b>Fentanilo (días):</b>
+                                {b.medfentanilodias}
+                            </div>
+                            <div><b>Morfina (días):</b> {b.medmorfinadias}</div>
+                            <div>
+                                <b>Midazolam (días):</b>
+                                {b.medmidazolamdias}
+                            </div>
+                            <div>
+                                <b>Precedex (días):</b>
+                                {b.medprecedexdias}
+                            </div>
+                            <div>
+                                <b>Metadona (días):</b>
+                                {b.medmetadonadias}
+                            </div>
+                            <div>
+                                <b>Vecuronio (días):</b>
+                                {b.medvecuroniadias}
+                            </div>
+                            <div>
+                                <b>Prostaglandinas (días):</b>
+                                {b.medprostagldias}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_cateteres}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Catéteres</summary
+                        >
+                        <div class="mt-1 pl-2 text-sm space-y-1">
+                            <div>
+                                <b>Umbilical venoso:</b>
+                                {getNombre(
+                                    b.cateteresumbilicalvenoso,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Umbilical arterial:</b>
+                                {getNombre(
+                                    b.cateteresumbilicalarterial,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Percutánea:</b>
+                                {getNombre(b.percutanea, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Vía central:</b>
+                                {getNombre(b.viacentral, opciones.SINO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_alimentacion}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Alimentación</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Alimentación enteral trófica:</b>
+                                {getNombre(
+                                    b.alimentacionenteraltrofica,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Edad alimentación enteral completa:</b>
+                                {b.alimentacionenteralcompletoedad}
+                            </div>
+                            <div>
+                                <b>Calorías alimentación enteral:</b>
+                                {b.alimentacionenteralcalorias}
+                            </div>
+                            <div>
+                                <b>Tipo alimentación enteral:</b>
+                                {getNombre(
+                                    b.tipoalimentacionenteral,
+                                    opciones.ALIMENTACION_ENTERAL_TROFICA,
+                                )}
+                            </div>
+
+                            <div
+                                class="pt-2 border-t border-gray-300 dark:border-gray-600"
+                            ></div>
+
+                            <div>
+                                <b>Nutrición parenteral:</b>
+                                {getNombre(
+                                    b.nutricionparenteral,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Edad inicio NPT:</b>
+                                {b.nptedadinicio}
+                            </div>
+                            <div>
+                                <b>Duración NPT (días):</b>
+                                {b.nptduraciondias}
+                            </div>
+                            <div>
+                                <b>Día comienzo AA:</b>
+                                {b.nptdiacomienzoaa}
+                            </div>
+                            <div>
+                                <b>Aporte total AA:</b>
+                                {b.nptaportetotalaa}
+                            </div>
+                            <div>
+                                <b>Día comienzo lípido:</b>
+                                {b.nptdiacomienzolipido}
+                            </div>
+                            <div>
+                                <b>Aporte total lípido:</b>
+                                {b.nptaportetotallipido}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_infecciones}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Infecciones</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Sepsis temprana:</b>
+                                {getNombre(
+                                    b.sepsistemprana,
+                                    opciones.SEPSIS_TEMPRANA,
+                                )}
+                            </div>
+                            <div>
+                                <b>Germen sepsis temprana:</b>
+                                {b.sepsistempranagermen}
+                            </div>
+                            <div>
+                                <b>Duración ATB (días) sepsis temprana:</b>
+                                {b.sepsistempranaatbdias}
+                            </div>
+
+                            <div
+                                class="pt-2 border-t border-gray-300 dark:border-gray-600"
+                            ></div>
+
+                            <div>
+                                <b>Sepsis tardía:</b>
+                                {getNombre(
+                                    b.sepsistardia,
+                                    opciones.SEPSIS_TARDIA,
+                                )}
+                            </div>
+                            <div>
+                                <b>Germen sepsis tardía:</b>
+                                {b.sepsistardiagermen}
+                            </div>
+                            <div>
+                                <b>Duración ATB (días) sepsis tardía:</b>
+                                {b.sepsistardiaatbdias}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_cardiovascular}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Cardiovascular</summary
+                        >
+                        <div class="mt-1 pl-2 text-sm space-y-1">
+                            <div>
+                                <b>Ductus:</b>
+                                {getNombre(b.ductus, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Cardiopatía congénita:</b>
+                                {getNombre(
+                                    b.cardiopatiacongenita,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_inotropicos}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Inotrópicos / Diuréticos</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Dopamina:</b>
+                                {getNombre(
+                                    b.inotropicosdopamina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Dobutamina:</b>
+                                {getNombre(
+                                    b.inotropicosdobutamina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Adrenalina:</b>
+                                {getNombre(
+                                    b.inotropicosadrenalina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Milrinona:</b>
+                                {getNombre(
+                                    b.inotropicosmilrinona,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Vasopresina:</b>
+                                {getNombre(
+                                    b.inotropicosvasopresina,
+                                    opciones.SINO,
+                                )}
+                            </div>
+
+                            <hr
+                                class="border-gray-300 dark:border-gray-700 my-2"
+                            />
+
+                            <div>
+                                <b>Furosemida:</b>
+                                {getNombre(
+                                    b.diureticosfurosemida,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Espironolactona:</b>
+                                {getNombre(
+                                    b.diureticosespironolac,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                            <div>
+                                <b>Hidroclotiazida:</b>
+                                {getNombre(
+                                    b.diureticoshidroclotiaz,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_sangre}
+                    <!-- 🧬 Hemoderivados -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Hemoderivados</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Concentrado de GR:</b>
+                                {b.hemoderivadostgrn}
+                            </div>
+                            <div><b>Plasma:</b> {b.hemoderivadosplasman}</div>
+                            <div>
+                                <b>Plaquetas:</b>
+                                {b.hemoderivadosplaquetasn}
+                            </div>
+                            <div><b>Gamma:</b> {b.hemoderivadosgamman}</div>
+                            <div>
+                                <b>Exanguinotransfusión:</b>
+                                {getNombre(
+                                    b.exanguineotransfusion,
+                                    opciones.SINO,
+                                )}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_oftalmologia}
+                    <!-- 👁️ Oftalmología -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Oftalmología</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Fondo de ojo:</b>
+                                {getNombre(b.fondoojo, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>ROP:</b>
+                                {getNombre(b.rop, opciones.ROP)}
+                            </div>
+                            <div>
+                                <b>Tratamiento ROP:</b>
+                                {getNombre(b.roptto, opciones.ROP_TTO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_digestivo}
+                    <!-- 🍽️ Digestivo / Quirúrgico -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Digestivo / Quirúrgico</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>NEC Estadio:</b>
+                                {getNombre(b.necestadio, opciones.NEC)}
+                            </div>
+                            <div>
+                                <b>Perforación única:</b>
+                                {getNombre(b.perforacionunica, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Onfalocele:</b>
+                                {getNombre(b.onfalocele, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Gastroquisis:</b>
+                                {getNombre(b.gastroquisis, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>HDC:</b>
+                                {getNombre(b.hdc, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>HDC Diagnóstico:</b>
+                                {getNombre(
+                                    b.hdcdiagnostico,
+                                    opciones.HDC_DIAGNOSTICO,
+                                )}
+                            </div>
+                            <div>
+                                <b>HDC Tratamiento Quirúrgico:</b>
+                                {getNombre(
+                                    b.hdcttoquirurgico,
+                                    opciones.HDC_TTO_QUIRURGICO,
+                                )}
+                            </div>
+                            <div>
+                                <b>TOT:</b>
+                                {getNombre(b.tot, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Drenaje Pleural:</b>
+                                {getNombre(b.drenajepleural, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Drenaje Ventricular:</b>
+                                {getNombre(b.drenajeventricular, opciones.SINO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_genetica}
+                    <!-- 🧬 Genética -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Genética</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>T21:</b>
+                                {getNombre(b.geneticat21, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>T13:</b>
+                                {getNombre(b.geneticat13, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>T18:</b>
+                                {getNombre(b.geneticat18, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>VACTERL:</b>
+                                {getNombre(b.geneticavacterl, opciones.SINO)}
+                            </div>
+                            <div>
+                                <b>Turner:</b>
+                                {getNombre(b.geneticaturner, opciones.SINO)}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_otros}
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Otros</summary
+                        >
+                        <div class="mt-1 pl-2 text-sm space-y-1">
+                            <div>
+                                <b>Malformaciones congénitas:</b>
+                                <Mas bind:value={b.malformacionescongenitas} />
+                            </div>
+                            <div>
+                                <b>Cirugías:</b>
+                                <Mas bind:value={b.cirugias} />
+                            </div>
+                            <div>
+                                <b>Complicaciones:</b>
+                                <Mas bind:value={b.complicaciones} />
+                            </div>
+                            <div><b>Observación:</b> {b.observacion}</div>
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_diagnostico}
+                    <!-- 🧾 Diagnóstico  -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium"
+                            >Diagnóstico
+                        </summary>
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <b>Diagnóstico:</b> <Mas bind:value={b.diagnostico} />
+                        </div>
+                    </details>
+                {/if}
+                {#if checked_alta}
+                    <!--  Alta -->
+                    <details class="mt-3">
+                        <summary class="cursor-pointer font-medium">
+                            Alta</summary
+                        >
+                        <div class="mt-1 pl-2 text-md space-y-1">
+                            <div>
+                                <b>Fecha alta:</b>
+                                {b.altafecha
+                                    ? new Date(b.altafecha).toLocaleDateString()
+                                    : ""}
+                            </div>
+                        </div>
+                    </details>
+                {/if}
             </div>
         {/each}
     </div>

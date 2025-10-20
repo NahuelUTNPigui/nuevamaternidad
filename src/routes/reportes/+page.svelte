@@ -2071,7 +2071,7 @@
 </script>
 
 <Navbar>
-    <Header bind:sinhistorial {limpiar} {limpiarFiltros} {limpiarChecks} />
+    <Header bind:sinhistorial {limpiar} {limpiarFiltros} {limpiarChecks} bind:bebesrows={filas}/>
     <Filtros
         {cambiarFiltro}
         {cambiarCheck}
