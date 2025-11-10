@@ -175,7 +175,7 @@
         });
     }
     async function getAreas() {
-        const records = await pb.collection("areacount").getFullList({});
+        const records = await pb.collection("areacount").getFullList({filter:"active=true"});
         areas = records.map((a) => ({
             id: a.id,
             nombre: a.area_nombre,

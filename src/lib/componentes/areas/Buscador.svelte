@@ -1,14 +1,13 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate);
+
     let { buscar = $bindable("") } = $props();
 </script>
 
 <div
     class={`
         rounded-md p-4 shadow-md mb-4
-        ${toDark(oscuro, "bg-slate-800", "bg-white")}
+        dark:bg-slate-800 bg-white
+        
         
     `}
 >
@@ -18,7 +17,10 @@
             class={`
             flex items-center flex-1 border
             rounded-md px-3 py-2
-            ${toDark(oscuro, "border-gray-600 bg-gray-900", "border-gray-300 bg-white")}
+            dark:border-gray-600 dark:bg-gray-900
+            border-gray-300 bg-white
+            
+
           `}
         >
             <svg
@@ -38,8 +40,11 @@
             <input
                 type="text"
                 placeholder="Buscar por nombre"
+
                 class={`
-                    ${toDark(oscuro, "placeholder-gray-500 text-gray-100", "placeholder-gray-400 text-gray-800")}
+                    dark:placeholder-gray-500 dark:text-gray-100
+                    placeholder-gray-400 text-gray-800
+                    
                     w-full bg-transparent focus:outline-none
                 `}
             />

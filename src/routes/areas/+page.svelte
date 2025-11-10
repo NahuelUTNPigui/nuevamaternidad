@@ -13,6 +13,7 @@
     let oscuro = $derived(darker.oscurostate);
     let areas = $state([]);
     let buscar = $state("");
+    let cantidades = $state([])
     let areasrows = $derived(
         areas.filter((a) =>
             a.nombre.toLowerCase().includes(buscar.toLowerCase()),
@@ -24,9 +25,9 @@
     let nombre = $state("");
 
     onMount(async () => {
-        const records = await pb.collection("areas").getFullList({
-            sort: "-nombre",
-            filter:"active=true"
+        const records = await pb.collection("areacount").getFullList({
+            
+            filter:"active=True"
         });
         areas = records;
     });
@@ -63,13 +64,23 @@
             if (result.value) {
                 try {
                     let data = { active: false };
+                    let unidades = await pb.collection("unidadesbebe").getFullList({
+                        filter:`area='${id}'`
+                    })
+                    for(let i = 0; i< unidades.length;i++){
+                        if(unidades[i].bebe.length>0){
+                            await pb.collection("bebes").update(unidades[i].bebe, {unidad:""});
+                        }
+                        await pb.collection("unidades").update(unidades[i].id, data);  
+                    }
                     await pb.collection("areas").update(id, data);
-
                     const records = await pb.collection("areas").getFullList({
                         sort: "-nombre",
                         filter:"active=true"
                     });
+
                     areas = records;
+
                     Swal.fire(
                         "Área eliminada!",
                         "Se eliminó el área correctamente.",
@@ -153,7 +164,7 @@
 </Navbar>
 
 <dialog id="areaModal" class="modal">
-    <div class="modal-box bg-transparent">
-        <Modal {cancelar} {guardar} {eliminar} bind:id bind:nombre />
+    <div class="modal-box bg-transparent max-w-2xl">
+        <Modal {cancelar} {guardar} {eliminar} bind:id bind:nombre/>
     </div>
 </dialog>

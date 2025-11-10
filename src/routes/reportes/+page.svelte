@@ -12,6 +12,8 @@
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
     import opciones from "$lib/opciones";
     import { calcularEdad } from "$lib/string/string";
+    import Estadisticas from "$lib/componentes/reportes/estadisticas/Estadisticas.svelte";
+    import Historico from "$lib/componentes/reportes/estadisticas/Historico.svelte";
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -23,6 +25,21 @@
     let filas = $state([]);
     let sinhistorial = $state(false);
 
+
+
+
+
+    //reportes
+    let totalcantidad = $state(0)
+
+    let unidades_estadisticas = $state([])
+    let areas_estadisticas = $state([])
+
+
+
+    let unidad_historico = $state([])
+    let area_historico = $state([])
+
     //listas
     let unidades = $state([]);
     let areas = $state([]);
@@ -31,7 +48,7 @@
             .filter((u) => u.area == area)
             .concat({ id: "", nombre: "Todas" }),
     );
-    //Chesk
+    //Check
     let checked_identificacion = $state(true);
     let checked_ingreso = $state(true);
     let checked_antropometria = $state(true);
@@ -499,6 +516,7 @@
     });
     let proxy = createStorageProxy("reportebebes", defaultfiltros);
     function procesarHistorial() {
+        //
         for (let i = 0; i < bebes.length; i++) {
             let b = bebes[i];
             let bebehistoria = {
@@ -530,14 +548,228 @@
             historiasbebes.push(bebehistoria);
         }
     }
+
+
+    function procesarEstadisticas(){
+        unidades_estadisticas = []
+        areas_estadisticas = []
+        let contador_unidades = {}
+        let contador_areas = {}
+        let unidades_movimientos_todos = []
+        let areas_movimentos_todos = []
+        for (let i = 0; i < historiasbebesrow.length; i++) {
+            let h =historiasbebesrow[i]; 
+            let primer_estado = h.estados[0];
+            let ultimo_estado = h.estados[h.estados.length - 1];
+        }
+
+    }
+    function getNombre(id, lista) {
+        let ops = lista.filter((o) => o.id == id);
+        if (ops.length == 0) {
+            return "";
+        }
+
+        return ops[0].nombre;
+    }
+    function calcularMovimientos(estados) {
+        let movimientos_unidades = []
+        let movimientos_areas = []
+        let primer_estado = estados[0];
+        if (estados.length == 1) {
+            let estado_inicio = estados[0];
+            let movimiento_unidad = {
+                grupo:estado_inicio.unidad,
+                fecha:estado_inicio.created,
+                unidad:estado_inicio.unidad,
+                cantidad:1
+            }
+            movimientos_unidades.push(movimiento_unidad)
+            let movimiento_area = {
+                grupo:estado_inicio.area,
+                fecha:estado_inicio.created,
+                area:estado_inicio.area,
+                cantidad:1
+            }
+            movimientos_areas.push(movimiento_area)
+        }
+        else{
+            let estado_inicio = estados[0];
+            let movimiento_unidad = {
+                grupo:estado_inicio.unidad,
+                fecha:estado_inicio.created,
+                unidad:estado_inicio.unidad,
+                cantidad:1
+            }
+            movimientos_unidades.push(movimiento_unidad)
+            let movimiento_area = {
+                grupo:estado_inicio.area,
+                fecha:estado_inicio.created,
+                area:estado_inicio.area,
+                cantidad:1
+            }
+            movimientos_areas.push(movimiento_area)
+            for (let i = 1; i < estados.length; i++) {
+                let estado = estados[i];
+                if(estado.unidad != estado_inicio.unidad){
+                    let movimiento_unidad = {
+                        grupo:estado.unidad,
+                        fecha: estado.created,
+                        unidad: estado.unidad,
+                        cantidad: 1,
+                    };
+                    let resta_movimiento_unidad = {
+                        grupo:estado_inicio.unidad,
+                        fecha: estado.created,
+                        unidad: estado_inicio.unidad,
+                        cantidad: -1,
+                    };
+                    movimientos_unidades.push(movimiento_unidad)
+                    movimientos_unidades.push(resta_movimiento_unidad)
+                }
+                if(estado.area != estado_inicio.area){
+                    let movimiento_area = {
+                        grupo:estado.area,
+                        fecha: estado.created,
+                        area: estado.area,
+                        cantidad: 1,
+                    };
+                    let resta_movimiento_area = {
+                        grupo:estado_inicio.area,
+                        fecha: estado.created,
+                        area: estado_inicio.area,
+                        cantidad: -1
+                    };
+                    movimientos_areas.push(movimiento_area)
+                    movimientos_areas.push(resta_movimiento_area)
+                }
+            }
+        }
+        return {
+            movimientos_areas,
+            movimientos_unidades
+        }
+    }
+    function acumularContador(contador, clave, lista) {
+        if (!contador[clave]) {
+            contador[clave] = {
+                clave,
+                nombre: getNombre(clave, lista),
+                cantidad: 0,
+                
+            };
+        }
+        contador[clave].cantidad += 1;
+    }
+    function procesarContador(contador, singrupo) {
+        return Object.entries(contador)
+                //.sort((a,b)=>a.nombre.toLocaleLowerCase>b.nombretoLocaleLowerCase?-1:1)
+                .map((fila) => {
+                    let vacio=fila[1].nombre.length == 0 ;
+                    let nombre =
+                        fila[1].nombre.length == 0 ? singrupo : fila[1].nombre;
+
+                    return {
+                        ...fila[1],
+                        vacio,
+                        nombre,
+                        grupo:fila[1].clave,
+                    };
+                })
+                .sort((a,b)=>
+                    a.vacio?
+                        -1:
+                    b.vacio?
+                        1:
+                        a.nombre.toLocaleLowerCase()>b.nombre.toLocaleLowerCase()?
+                            1:
+                            -1
+                )                
+        ;
+    }
+    function calcularStockHistorial(movimientos){
+        let historicomap = {}
+        let historico = []
+        
+        
+        for(let i = 0;i<movimientos.length;i++){
+            let movimiento = movimientos[i]
+            let fecha = movimiento.fecha.split(" ")[0]
+            if(!historicomap[movimiento.grupo]){
+                historicomap[movimiento.grupo] = {
+                    grupo:movimiento.grupo,
+                    nombre:"",
+                    historial:{}
+                }
+            }
+            if(!historicomap[movimiento.grupo].historial[fecha]){
+                historicomap[movimiento.grupo].historial[fecha] ={
+                    cantidad:0,
+                }
+
+            }
+            historicomap[movimiento.grupo].historial[fecha].cantidad += movimiento.cantidad
+            
+        }
+        let grupos_cantidad = {}
+        for (const [grupo, fila] of Object.entries(historicomap)) {
+            grupos_cantidad[grupo] = {cantidad:0}
+            for(const [fecha,historial] of Object.entries(fila.historial)){
+                
+                let item =  {
+                    fecha,
+                    grupo,
+                    cantidad:historial.cantidad
+                }   
+                historico.push(item)
+            }
+        }
+        
+        historico.sort((a,b)=>new Date(a.fecha)>new Date(b.fecha)?1:-1)
+        for(let i = 0;i<historico.length;i++){
+            let h = historico[i]
+            let grupo = h.grupo
+            let cantidad = grupos_cantidad[grupo].cantidad + h.cantidad
+            
+            grupos_cantidad[grupo].cantidad = cantidad
+            
+            historico[i].cantidad = cantidad
+
+
+        }
+        return historico
+    }
     function procesarFilas() {
         filas = [];
+
+        unidades_estadisticas = []
+        areas_estadisticas = []
+        let contador_unidades = {}
+        let contador_areas = {}
+        let unidades_movimientos_todos = []
+        let areas_movimentos_todos = []
         for (let i = 0; i < historiasbebesrow.length; i++) {
             let h = historiasbebesrow[i];
+            let primer_estado = h.estados[0];
             let ultimo_estado = h.estados[h.estados.length - 1];
             let fila = { ...ultimo_estado };
+            let movimientos = calcularMovimientos(h.estados)
             filas.push(fila);
+            acumularContador(contador_areas,ultimo_estado.area,areas)
+            acumularContador(contador_unidades,ultimo_estado.unidad,unidades)
+
+
+            
+            unidades_movimientos_todos = unidades_movimientos_todos.concat(movimientos.movimientos_unidades)
+            areas_movimentos_todos = areas_movimentos_todos.concat(movimientos.movimientos_areas)
         }
+        unidades_estadisticas = procesarContador(contador_unidades, "Sin unidad");
+        areas_estadisticas = procesarContador(contador_areas, "Sin área");
+        //historico
+        unidad_historico = calcularStockHistorial(unidades_movimientos_todos)
+        area_historico  = calcularStockHistorial(areas_movimentos_todos)
+
+        totalcantidad = filas.length
     }
     function esSubconjunto(subconjunto, conjunto) {
         // Verifica que ambos parámetros sean arrays
@@ -1619,6 +1851,7 @@
             filter: "bebe.active=true",
         });
     }
+    //que pasa si elimine un bebe pero quiero sus estados
     async function getBebes() {
         bebes = await pb.collection("bebes").getFullList({
             sort: "id",
@@ -2277,6 +2510,74 @@
         bind:altadesde
         bind:altahasta
     />
+    <div
+        class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-11/12  mb-2"
+    >
+        <Estadisticas titulo={"Cantidad"} bind:valor={totalcantidad} />
+    </div>
+    <div
+        class={`
+                p-2 rounded-md
+                tabs tabs-bordered 
+                dark:bg-gray-800  bg-white
+                mb-2 
+            `}
+    >
+
+
+        <input
+            type="radio"
+            name="grupos_tabs"
+            class="tab"
+            aria-label="Areas"
+            checked
+        />
+        <div
+            class={`
+                tab-content rounded-md p-2 space-y-4
+                dark:bg-gray-900 bg-white
+                
+            `}
+        >
+            <Historico
+                singrupo="Sin area"
+                estadisticas = {areas_estadisticas}
+                historico = {area_historico}
+                {fechadesde}
+                {fechahasta}
+                grupos = {areas}
+                
+            />
+        </div>
+
+        <input
+            type="radio"
+            name="grupos_tabs"
+            class="tab"
+            aria-label="Unidades"
+            checked
+        />
+        <div
+            class={`
+                tab-content rounded-md p-2 space-y-4
+                dark:bg-gray-900 bg-white
+                
+            `}
+        >
+            <Historico
+                singrupo="Sin unidad"
+                
+                estadisticas = {unidades_estadisticas}
+                historico = {unidad_historico}
+                {fechadesde}
+                {fechahasta}
+                grupos = {unidades}
+            />
+        </div>
+    </div>
+
+
+
     <Listado
         bind:checked_identificacion
         bind:checked_ingreso

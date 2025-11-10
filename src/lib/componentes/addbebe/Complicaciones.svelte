@@ -1,5 +1,6 @@
 <script>
     import opciones from "$lib/opciones";
+    import InputSelect from "../Formulario/InputSelect.svelte";
     let {
         reanimacion = $bindable(""),
         fallece = $bindable(0),
@@ -30,37 +31,25 @@
 
     <!-- Columna 2 -->
     <div class="space-y-3">
-        <div class="form-control">
-            <label class="label" for="fallece_sala_parto">
-                <span class="label-text font-semibold"
-                    >Fallece en Sala de Parto</span
-                >
-            </label>
-            <select
-                name="fallece_sala_parto"
-                class="select select-bordered w-full"
-                bind:value={fallece}
-            >
-                {#each opciones.FALLECE as fila}
-                    <option value={fila.id}>{fila.nombre}</option>
-                {/each}
-            </select>
-        </div>
+        <InputSelect
+        idetiqueta="fallece",
+        etiqueta="Fallece parto"
+        modoedicion = {true}
+        bind:value = {fallece}
+        lista={opciones.FALLECE}
+        
+    />
     </div>
 </div>
 
 <!-- RCIU -->
 <div class="form-control mt-4">
-    <label class="label" for="rciu_tipo">
-        <span class="label-text font-semibold">RCIU</span>
-    </label>
-    <div class="flex items-center gap-4">
-        <input
-            type="text"
-            name="rciu_tipo"
-            placeholder="Especificar tipo"
-            class="input input-bordered flex-1"
-            bind:value={rciu}
-        />
-    </div>
+    <InputSelect
+        idetiqueta="rciutipo",
+        etiqueta="RCIU"
+        modoedicion = {true}
+        bind:value = {rciu}
+        lista={opciones.RCIU}
+        
+    />
 </div>

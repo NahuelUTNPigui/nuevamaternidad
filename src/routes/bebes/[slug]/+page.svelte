@@ -11,7 +11,7 @@
     import Alta from "$lib/componentes/bebe/Alta.svelte";
     import Swal from "sweetalert2";
     import PocketBase from "pocketbase";
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
 
     import { page } from "$app/stores";
 
@@ -48,7 +48,7 @@
     let fechanacimientobebe = $state("");
     let fechaingresobebe = $state("");
     let tipoingreso = $state("");
-    let edad_gestacional = $state("")
+    let edad_gestacional = $state("");
     let pesoingresobebe = $state("");
     let active = $state("");
     let conalta = $state("");
@@ -92,7 +92,7 @@
     let scorez21d = $state("");
     let scorez28d = $state("");
     let scorez36sem = $state("");
-    let edadrecuperapeso = $state("")
+    let edadrecuperapeso = $state("");
     let fechanacimientomama = $state("");
     let educacionmama = $state("");
     let paridad = $state("");
@@ -219,7 +219,7 @@
     let malformacionescongenitas = $state("");
     let cirugias = $state("");
     let complicaciones = $state("");
-    let observacion = $state("")
+    let observacion = $state("");
     let altafecha = $state("");
     let altadiagnosticos = $state("");
     let altacondiciones = $state("");
@@ -247,8 +247,8 @@
     let hcbebeviejo = $state("");
     let fechanacimientobebeviejo = $state("");
     let fechaingresobebeviejo = $state("");
-    let tipoingresoviejo = $state("")
-    let edad_gestacionalviejo=$state("")
+    let tipoingresoviejo = $state("");
+    let edad_gestacionalviejo = $state("");
     let pesoingresobebeviejo = $state("");
     let activeviejo = $state("");
     let conaltaviejo = $state("");
@@ -419,7 +419,7 @@
     let malformacionescongenitasviejo = $state("");
     let cirugiasviejo = $state("");
     let complicacionesviejo = $state("");
-    let observacionviejo = $state("")
+    let observacionviejo = $state("");
     let altafechaviejo = $state("");
     let altadiagnosticosviejo = $state("");
     let altacondicionesviejo = $state("");
@@ -450,11 +450,11 @@
         dnibebeviejo = dnibebe;
         pesobebeviejo = pesobebe;
         hcbebeviejo = hcbebe;
-        sexoviejo = sexo
+        sexoviejo = sexo;
         fechanacimientobebeviejo = fechanacimientobebe;
         fechaingresobebeviejo = fechaingresobebe;
-        tipoingresoviejo = tipoingreso
-        edad_gestacionalviejo = edad_gestacional
+        tipoingresoviejo = tipoingreso;
+        edad_gestacionalviejo = edad_gestacional;
         pesoingresobebeviejo = pesoingresobebe;
         activeviejo = active;
         conaltaviejo = conalta;
@@ -498,7 +498,7 @@
         scorez21dviejo = scorez21d;
         scorez28dviejo = scorez28d;
         scorez36semviejo = scorez36sem;
-        edadrecuperapesoviejo = edadrecuperapeso
+        edadrecuperapesoviejo = edadrecuperapeso;
         fechanacimientomamaviejo = fechanacimientomama;
         educacionmamaviejo = educacionmama;
         paridadviejo = paridad;
@@ -535,8 +535,8 @@
         nptduraciondiasviejo = nptduraciondias;
         nptdiacomienzoviejo = nptdiacomienzo;
         nptaportetotalviejo = nptaportetotal;
-        nptdiacomienzoaaviejo = nptdiacomienzoaa
-        nptaportetotalaaviejo = nptaportetotalaa
+        nptdiacomienzoaaviejo = nptdiacomienzoaa;
+        nptaportetotalaaviejo = nptaportetotalaa;
         nptdiacomienzolipidoviejo = nptdiacomienzolipido;
         nptaportetotallipidoviejo = nptaportetotallipido;
         sepsistempranaviejo = sepsistemprana;
@@ -625,7 +625,7 @@
         malformacionescongenitasviejo = malformacionescongenitas;
         cirugiasviejo = cirugias;
         complicacionesviejo = complicaciones;
-        observacionviejo = observacion
+        observacionviejo = observacion;
         altafechaviejo = altafecha;
         altadiagnosticosviejo = altadiagnosticos;
         altacondicionesviejo = altacondiciones;
@@ -638,11 +638,11 @@
         dnibebe = dnibebeviejo;
         pesobebe = pesobebeviejo;
         hcbebe = hcbebeviejo;
-        sexo = sexoviejo
+        sexo = sexoviejo;
         fechanacimientobebe = fechanacimientobebeviejo;
         fechaingresobebe = fechaingresobebeviejo;
-        tipoingreso = tipoingresoviejo
-        edad_gestacional = edad_gestacionalviejo
+        tipoingreso = tipoingresoviejo;
+        edad_gestacional = edad_gestacionalviejo;
         pesoingresobebe = pesoingresobebeviejo;
         active = activeviejo;
         conalta = conaltaviejo;
@@ -680,7 +680,7 @@
         perimetro21d = perimetro21dviejo;
         perimetro28d = perimetro28dviejo;
         perimetro36sem = perimetro36semviejo;
-        edadrecuperapeso = edadrecuperapesoviejo
+        edadrecuperapeso = edadrecuperapesoviejo;
         scorezrn = scorezrnviejo;
         scorez7d = scorez7dviejo;
         scorez14d = scorez14dviejo;
@@ -723,8 +723,8 @@
         nptduraciondias = nptduraciondiasviejo;
         nptdiacomienzo = nptdiacomienzoviejo;
         nptaportetotal = nptaportetotalviejo;
-        nptdiacomienzoaa = nptdiacomienzoaaviejo
-        nptaportetotalaa = nptaportetotalaaviejo
+        nptdiacomienzoaa = nptdiacomienzoaaviejo;
+        nptaportetotalaa = nptaportetotalaaviejo;
 
         nptdiacomienzolipido = nptdiacomienzolipidoviejo;
         nptaportetotallipido = nptaportetotallipidoviejo;
@@ -814,21 +814,19 @@
         malformacionescongenitas = malformacionescongenitasviejo;
         cirugias = cirugiasviejo;
         complicaciones = complicacionesviejo;
-        observacion = observacionviejo
+        observacion = observacionviejo;
         altafecha = altafechaviejo;
         altadiagnosticos = altadiagnosticosviejo;
         altacondiciones = altacondicionesviejo;
     }
-    
+
     function openEditar() {
         modoedicion = true;
-        setViejo()
+        setViejo();
     }
     function closeEditar() {
         modoedicion = false;
-        recoverViejo()
-
-
+        recoverViejo();
     }
     function eliminar() {
         try {
@@ -852,9 +850,7 @@
         }
     }
     async function guardar() {
-        
         try {
-            
             let data = {
                 nombremama,
                 dnimama,
@@ -864,8 +860,8 @@
                 sexo,
                 pesobebe,
                 hcbebe,
-                fechanacimientobebe:fechanacimientobebe+" 03:00:00",
-                fechaingresobebe:fechaingresobebe+" 03:00:00",
+                fechanacimientobebe: fechanacimientobebe + " 03:00:00",
+                fechaingresobebe: fechaingresobebe + " 03:00:00",
                 pesoingresobebe,
                 tipoingreso,
                 edad_gestacional,
@@ -918,7 +914,7 @@
                 gemelocantidad,
                 gemelonumero,
                 controlprenatal,
-                
+
                 corticoideprenatal,
                 tabaquismo,
                 adiccion,
@@ -1040,7 +1036,7 @@
                 cirugias,
                 complicaciones,
                 observacion,
-                altafecha:altafecha+" 03:00:00",
+                altafecha: altafecha + " 03:00:00",
                 altadiagnosticos,
                 altacondiciones,
             };
@@ -1048,10 +1044,12 @@
                 ...data,
                 bebe: slug,
             };
-            setViejo()
-            await pb.collection("bebes").update(slug,data);
-            let record = await pb.collection("historialbebes").create(datahistorial)
-            
+            setViejo();
+            await pb.collection("bebes").update(slug, data);
+            let record = await pb
+                .collection("historialbebes")
+                .create(datahistorial);
+
             Swal.fire("Éxito editar", "Se pudo editar al bebe", "success");
         } catch (err) {
             console.error(err);
@@ -1070,6 +1068,7 @@
         unidades = records.filter((u) => u.bebe != "" || u.bebe == slug);
     }
     onMount(async () => {
+        
         slug = $page.params.slug;
         try {
             await getAreas();
@@ -1082,11 +1081,11 @@
             nombrebebe = record.nombrebebe;
             dnibebe = record.dnibebe;
             hcbebe = record.hcbebe;
-            sexo = record.sexo
-            fechanacimientobebe = record.fechanacimientobebe.split(' ')[0];
-            fechaingresobebe = record.fechaingresobebe.split(' ')[0];
-            tipoingreso = record.tipoingreso
-            edad_gestacional = record.edad_gestacional
+            sexo = record.sexo;
+            fechanacimientobebe = record.fechanacimientobebe.split(" ")[0];
+            fechaingresobebe = record.fechaingresobebe.split(" ")[0];
+            tipoingreso = record.tipoingreso;
+            edad_gestacional = record.edad_gestacional;
             pesoingresobebe = record.pesoingresobebe;
             active = record.active;
             conalta = record.conalta;
@@ -1158,7 +1157,8 @@
             percutanea = record.percutanea;
             viacentral = record.viacentral;
             alimentacionenteraltrofica = record.alimentacionenteraltrofica;
-            alimentacionenteralcompletoedad =record.alimentacionenteralcompletoedad;
+            alimentacionenteralcompletoedad =
+                record.alimentacionenteralcompletoedad;
             alimentacionenteralcalorias = record.alimentacionenteralcalorias;
             tipoalimentacionenteral = record.tipoalimentacionenteral;
             nutricionparenteral = record.nutricionparenteral;
@@ -1166,8 +1166,8 @@
             nptduraciondias = record.nptduraciondias;
             nptdiacomienzo = record.nptdiacomienzo;
             nptaportetotal = record.nptaportetotal;
-            nptdiacomienzoaa=record.nptdiacomienzoaa
-            nptaportetotalaa=record.nptaportetotalaa
+            nptdiacomienzoaa = record.nptdiacomienzoaa;
+            nptaportetotalaa = record.nptaportetotalaa;
             nptdiacomienzolipido = record.nptdiacomienzolipido;
             nptaportetotallipido = record.nptaportetotallipido;
             sepsistemprana = record.sepsistemprana;
@@ -1256,7 +1256,7 @@
             cirugias = record.cirugias;
             complicaciones = record.complicaciones;
             observacion = record.observacion;
-            altafecha = record.altafecha.split(' ')[0];
+            altafecha = record.altafecha.split(" ")[0];
             altadiagnosticos = record.altadiagnosticos;
             altacondiciones = record.altacondiciones;
             setViejo();
@@ -1284,7 +1284,6 @@
             bind:birthDate={fechanacimientobebe}
             bind:peso={pesobebe}
             bind:edad_gestacional
-
             bind:sexo
             bind:clinicNumber={hcbebe}
             {closeEditar}

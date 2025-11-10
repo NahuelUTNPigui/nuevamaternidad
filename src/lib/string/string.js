@@ -9,6 +9,9 @@ export function addDays(date, days) {
     result.setDate(result.getDate() + days);
     return result;
 }
+export function capitalize(s) {
+ return (s && String(s[0]).toUpperCase() + String(s).slice(1)) || ""
+}
 export function calcularEdad(fechaNacimiento) {
     // Asegurarse de que la fecha de nacimiento sea un objeto Date válido
     const nacimiento = new Date(fechaNacimiento);

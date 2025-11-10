@@ -8,9 +8,9 @@ const config = {
 			// these options are set automatically — see below
 			pages: 'build',
 			assets: 'build',
-			fallback: undefined,
 			precompress: false,
-			strict: true
+			strict: true,
+			fallback: 'index.html'
 		}),
 		prerender:{
 			entries:[
@@ -18,6 +18,7 @@ const config = {
 				"/bebes",
 				"/bebes/1",
 				"/bebes/nuevo",
+				"/bebes/avanzado",
 				"/inicio",
 				"/login",
 				"/medicos",
@@ -25,7 +26,10 @@ const config = {
 				"/reportes",
 				"/signup",
 				"/unidades",
+				"/newpass",
 				"/unidades/1",
+				"/areas",
+				"/areas/1",
 				"/user/config",
 				"/user/lista",
 				"/user/perfil/1",

@@ -1,18 +1,29 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
     import { goto } from "$app/navigation";
-    let { bebesrows = $bindable() } = $props();
-    let oscuro = $derived(darker.oscurostate);
+    let {
+        bebesrows = $bindable(),
+        unidades = $bindable([]),
+        areas = $bindable([]),
+    } = $props();
     function handleClick(id) {
         goto("/bebes/" + id);
+    }
+    function getNombre(id, lista) {
+        let fila = { id: "", nombre: "" };
+        let idx = lista.findIndex((o) => o.id == id);
+        if (idx != -1) {
+            fila = lista[idx];
+        }
+        return fila.nombre;
     }
 </script>
 
 <div
     class={`
         bg-transparent
-        ${toDark(oscuro, "text-gray-100", "text-gray-800")}
+        
+        dark:text-gray-100
+        text-gray-800
         min-h-screen p-4 
     `}
 >
@@ -23,7 +34,10 @@
             <span
                 class={`
                     text-sm 
-                    ${toDark(oscuro, "bg-blue-800 text-blue-200", "bg-blue-100 text-blue-800")}
+                    dark:bg-blue-800
+                    dark:text-blue-200
+                    bg-blue-100 text-blue-800
+                    
                     
                     rounded-full px-2 py-0.5`}
             >
@@ -34,7 +48,9 @@
     <!-- Tabla -->
     <div
         class={`
-            ${toDark(oscuro, "bg-gray-800", "bg-white")}
+            dark:bg-gray-800
+            bg-white
+            
             overflow-x-auto  shadow-md rounded-lg
         `}
     >
@@ -42,17 +58,17 @@
             <div
                 class={`
                     table-header-group
-                    ${toDark(oscuro, "bg-gray-700 text-gray-200", "bg-gray-100 text-gray-700 ")}
+                    dark:bg-gray-700 dark:text-gray-200
+                    bg-gray-100 text-gray-700
+                    
                 `}
             >
                 <div class="table-row">
-                    <div class="table-cell px-4 py-3">Nombre</div>
-                    <div class="table-cell px-4 py-3">Madre</div>
-                    <div class="table-cell px-4 py-3">HC</div>
-                    <div class="table-cell px-4 py-3">Fecha Nac.</div>
-                    <div class="table-cell px-4 py-3">EG</div>
-                    <div class="table-cell px-4 py-3">Peso</div>
                     <div class="table-cell px-4 py-3">Estado</div>
+                    <div class="table-cell px-4 py-3">Nombre</div>
+                    <div class="table-cell px-4 py-3">Peso</div>
+                    <div class="table-cell px-4 py-3">Area</div>
+                    <div class="table-cell px-4 py-3">Unidad</div>
                 </div>
             </div>
             <div class="table-row-group">
@@ -62,8 +78,10 @@
                         tabindex="0"
                         class={`
                             table-row border-b
-                            ${toDark(oscuro, "border-gray-700", "border-gray-200")}
-                            ${toDark(oscuro, "hover:bg-gray-700", "hover:bg-gray-100")}
+                            dark:border-gray-700
+                            border-gray-200
+                            dark:hover:bg-gray-700
+                            hover:bg-gray-100
                             cursor-pointer
                         `}
                         onclick={() => handleClick(b.id)}
@@ -71,37 +89,32 @@
                             e.preventDefault();
                         }}
                     >
+                        <div class="table-cell px-4 py-3">
+                            {#if b.conalta}
+                                <span
+                                    class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full"
+                                    >{"Con alta"}</span
+                                >
+                            {:else}
+                                <span
+                                    class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100 px-2 py-0.5 rounded-full"
+                                    >{"Sin alta"}</span
+                                >
+                            {/if}
+                        </div>
                         <div
                             class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
                         >
-                            <span
-                                class="h-2 w-2 bg-green-500 rounded-full inline-block"
-                            ></span>
                             {b.nombrebebe}
                         </div>
-                        <div class="table-cell px-4 py-3">{b.nombremama}</div>
-                        <div class="table-cell px-4 py-3">{b.hcbebe}</div>
                         <div class="table-cell px-4 py-3">
-                            {b.fechanacimientobebe
-                                ? new Date(
-                                      b.fechanacimientobebe,
-                                  ).toLocaleDateString()
-                                : ""}
+                            {b.pesobebe}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            <span
-                                class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full"
-                                >{20}</span
-                            >
+                            {getNombre(b.area, areas)}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {b.pesoingresobebe}
-                        </div>
-                        <div class="table-cell px-4 py-3">
-                            <span
-                                class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full"
-                                >{b.active ? "Activo" : ""}</span
-                            >
+                            {getNombre(b.unidad, unidades)}
                         </div>
                     </div>
                 {/each}
@@ -124,34 +137,40 @@
                 }}
                 class="
                     border-b
-                    dark:border-gray-700  border-gray-200
+                    dark:border-gray-700 border-gray-200
                 "
             >
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2 font-semibold text-lg">
-                        <span
-                            class="h-2 w-2 bg-green-500 rounded-full inline-block"
-                        >
-                        </span>
-                        {b.nombrebebe}
-                    </div>
-                    
+                <div class="font-semibold text-lg flex items-center gap-2">
+                    <span
+                        class={`h-2 w-2 rounded-full ${
+                            b.conalta ? "bg-green-500" : "bg-gray-400"
+                        }`}
+                    ></span>
+                    {b.nombrebebe}
                 </div>
-
-                <div class="mt-2 text-sm space-y-1">
+                <span
+                    class={`text-xs px-2 py-0.5 rounded-full ${
+                        b.conalta
+                            ? "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
+                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                    }`}
+                >
+                    {b.conalta ? "Con alta" : "Sin alta"}
+                </span>
+                <!-- Info principal -->
+                <div class="mt-3 text-sm space-y-1">
                     <div>
-                        <span class="font-medium">Madre:</span>{b.nombrebebe}
+                        <span class="font-medium">Peso:</span>
+                        {b.pesobebe}
                     </div>
                     <div>
-                        <span class="font-medium">HC:</span>
-                        {b.hcbebe}
+                        <span class="font-medium">Área:</span>
+                        {getNombre(b.area, areas)}
                     </div>
                     <div>
-                        <span class="font-medium">Fecha Nac.:</span
-                        >{b.fechanacimientobebe?new Date(b.fechanacimientobebe):""}
+                        <span class="font-medium">Unidad:</span>
+                        {getNombre(b.unidad, unidades)}
                     </div>
-                    
-                    <div><span class="font-medium">Peso:</span>{b.pesoingresobebe}</div>
                 </div>
             </div>
         {/each}

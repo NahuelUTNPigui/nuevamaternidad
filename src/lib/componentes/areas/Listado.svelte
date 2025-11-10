@@ -1,9 +1,7 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
+
     import Swal from "sweetalert2";
     import { roles, getNombre } from "$lib/roles";
-    let oscuro = $derived(darker.oscurostate);
     let { areasrows = $bindable([]), clickFila } = $props();
 
     function handleClick(id) {
@@ -15,7 +13,8 @@
 <div
     class={`
         bg-transparent
-        ${toDark(oscuro, " text-gray-100", "text-gray-800")}
+        dark:text-gray-100 text-gray-800
+        
         min-h-screen p-4 
     `}
 >
@@ -25,8 +24,10 @@
             Áreas
             <span
                 class={`
-                    text-sm 
-                    ${toDark(oscuro, "bg-blue-800 text-blue-200", "bg-blue-100 text-blue-800")}
+                    text-lg
+                    dark:bg-blue-800 dark:text-blue-200
+                    bg-blue-100 text-blue-800
+                    
                     
                     rounded-full px-2 py-0.5`}
             >
@@ -41,6 +42,10 @@
                 <thead>
                     <tr class="bg-base-200">
                         <th class="text-base-content font-bold">Área</th>
+                    
+                        <th class="text-base-content font-bold">Bebés</th>
+                    
+                        <th class="text-base-content font-bold">Unidades</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +56,12 @@
                         >
                             <td>
                                 {fila.nombre}
+                            </td>
+                            <td>
+                                {fila.total_bebes}
+                            </td>
+                            <td>
+                                {fila.total_unidades}
                             </td>
                         </tr>
                     {/each}
@@ -70,6 +81,18 @@
                             <h3 class="card-title text-lg">
                                 {fila.nombre}
                             </h3>
+                        </div>
+                        <div class="mt-3 text-sm space-y-1">
+                            <div>
+                                <span class="font-medium">Bebés:</span>
+                                {fila.total_bebes}
+                            </div>
+                        </div>
+                        <div class="mt-3 text-sm space-y-1">
+                            <div>
+                                <span class="font-medium">Unidades:</span>
+                                {fila.total_unidades}
+                            </div>
                         </div>
                     </div>
                 </button>

@@ -13,7 +13,7 @@
 <div class="space-y-4">
   <div>
     <label for="mnombre" class="label text-sm font-medium"
-      >Nombre de la Madre <span class="text-red-500">*</span></label
+      >Nombre de la Madre </label
     >
     <input
       id="mnombre"

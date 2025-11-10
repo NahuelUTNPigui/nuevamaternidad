@@ -25,10 +25,7 @@
     function togglePassVissibility() {
         showpass = !showpass;
     }
-    async function cambiarContra() {
-        goto("/newpass")
-    }
-    async function ingresar() {
+    async function nuevacontra() {
         if (email == "") {
             mensaje.tipo = 1;
             mensaje.texto = "El email esta vacio";
@@ -67,7 +64,7 @@
     }
     async function keyEvent(e) {
         if (e.code == "Enter") {
-            await ingresar();
+            await nuevacontra();
         }
     }
     //class={`min-h-screen transition-colors duration-300 ${oscuro ? "dark bg-slate-900" : "bg-gray-50"}`}
@@ -101,7 +98,7 @@
                             ${oscuro ? "text-white" : "text-gray-900"}
                         `}
                     >
-                        Iniciar Sesión
+                        Cambiar contraseña
                     </h2>
                     <p
                         class={`
@@ -109,7 +106,7 @@
                             ${oscuro ? "text-slate-400" : "text-gray-600"}
                         `}
                     >
-                        Ingresa tus credenciales para acceder
+                        Ingresa tu usuario y nueva contraseña
                     </p>
                 </div>
                 <!--Mensajes de error y exito-->
@@ -243,7 +240,7 @@
                     <!--Boton submit-->
                     <button
                         type="button"
-                        onclick={ingresar}
+                        onclick={nuevacontra}
                         class={`
                         cursor-pointer
                             w-full py-3 px-4 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
@@ -251,7 +248,7 @@
                             text-white shadow-lg
                         `}
                     >
-                        Iniciar Sesión
+                        Cambiar contraseña
                     </button>
                     <!--Boton crear cuenta-->
                     <button
@@ -265,19 +262,6 @@
                         `}
                     >
                         Crear cuenta
-                    </button>
-                    <button
-                        type="button"
-                        onclick={cambiarContra}
-                        class={`
-                            hidden
-                        cursor-pointer
-                            w-full py-3 px-4 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
-                            bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 active:scale-95
-                            text-white shadow-lg
-                        `}
-                    >
-                        Cambiar contraseña
                     </button>
                 </div>
             </div>

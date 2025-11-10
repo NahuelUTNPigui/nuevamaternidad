@@ -10,39 +10,83 @@
     let ruta = import.meta.env.VITE_RUTA
     const pb = new PocketBase(ruta);
     //Filtros
+    //listas
+    let unidades = $state([]);
+    let areas = $state([]);
+    let unidadesarea = $derived(
+        unidades
+            .filter((u) => u.area == area || u.id=="-1" ||u.id==""  )
+            
+    );
     let estado = $state("")
     let buscar = $state("")
-
+    let unidad = $state("-1")
+    let area = $state("-1")
+    
+    let defaultfiltros = {
+        estado:"",
+        buscar:"",
+        unidad:"",
+        area:""
+    }
+    
     function filtrarBebe(bebe){
+
         const matchesSearch =
             bebe.nombremama.toLowerCase().includes(buscar.toLowerCase()) ||
             bebe.nombrebebe.toLowerCase().includes(buscar.toLowerCase()) ||
             bebe.hcbebe.toLowerCase().includes(buscar.toLowerCase());
+        let result = matchesSearch
+        result &&= unidad == "-1" || bebe.unidad == unidad
+        result &&= area == "-1" || bebe.area == area
+        result &&= estado === "" || bebe.conalta == estado
+            //&&
+            //bebe.unidad == unidad &&
+            //bebe.area == area 
 
-        //const matchesStatus = estado ? baby.status === estado : true
-
-        return matchesSearch //&& matchesStatus
+        return result //&& matchesStatus
     }
     let bebes = $state([])
     let bebesrows = $derived(bebes.filter(bebe=>filtrarBebe(bebe)))
     const handleSort = (key) => {
         let direction = "asc"//"desc"
     }
-
-   function nuevo(){
-    goto("/bebes/nuevo")
-   }
+    
+    
+    
+    function nuevo(){
+     goto("/bebes/nuevo")
+    }
+   
     onMount(async ()=>{
         let records  = await pb.collection("bebes").getFullList({})
         bebes = records.map(b=>b)
+        areas = [{ id: "", nombre: "Sin área" },{ id: "-1", nombre: "Todas" }]
+        let resareas = await pb.collection("areas").getFullList({});
+        areas = areas.concat(resareas)
+        //areas = areas.concat({ id: "", nombre: "Todas" });
+        unidades = [{ id: "", nombre: "Sin unidad" },{ id: "-1", nombre: "Todas" }]
+
+        let resunidades = await pb.collection("Unidades").getFullList({});
+        unidades =unidades.concat(resunidades)
+
     })
 </script>
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <p>Hacer click en el boto para ver el ingreso del bebe</p>
         <Header/>
-        <Buscador bind:buscar bind:estado/>
-        <p>Hacer click en alguna fila para ver el perfil del bebe</p>
-        <Listado bind:bebesrows/>
+        <Buscador 
+            bind:buscar 
+            bind:estado 
+            bind:area 
+            bind:unidad 
+            bind:unidades = {unidadesarea}
+            bind:areas
+        />
+        <Listado 
+            bind:bebesrows 
+            bind:unidades 
+            bind:areas
+        />
     </div>
 </Navbar>
