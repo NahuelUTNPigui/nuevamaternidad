@@ -1,5 +1,6 @@
 <script>
   import opciones from "$lib/opciones";
+  import { addDays } from "$lib/string/string";
   function getNombre(id, lista) {
     let fila = { id: "", nombre: "" };
     if(id==null){
@@ -123,7 +124,7 @@
   <div class="flex items-center gap-2">
     <div>
       <p class="text-xs text-gray-500">Fecha de Nacimiento</p>
-      <p class="font-semibold">{new Date(birthDate).toLocaleDateString()}</p>
+      <p class="font-semibold">{birthDate.length>0?addDays(new Date(birthDate),1).toLocaleDateString():""}</p>
     </div>
   </div>
   <div class="flex items-center gap-2">

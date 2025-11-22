@@ -3,6 +3,7 @@
     import { onMount } from "svelte";   
     import { capitalize } from "$lib/string/string";
     import { darker } from '$lib/stores/oscuro.svelte';
+    import Peso from "../antro/Peso.svelte";
     let { historicorows, elegir,elegirnombre } = $props();
     let oscuro = $derived(darker.oscurostate)
     //chart js
@@ -21,9 +22,10 @@
         "#9966FF",
         "#FF9F40",
     ];
-    const labels = {
-        cantidad: "Cantidad",
-    };
+    const labels = [
+        {id:"cantidad",nombre:"Cantidad"},
+        {id:"peso",nombre:"Peso"}
+    ];
     function createChart() {
         ctx = canvasRef.getContext("2d");
         if (chart) {
@@ -110,8 +112,8 @@
         bind:value={metrica}
         onchange={createChart}
     >
-        {#each ["cantidad"] as opcion}
-            <option value={opcion} class="rounded">{capitalize(opcion)}</option>
+        {#each labels as opcion}
+            <option value={opcion.id} class="rounded">{capitalize(opcion.nombre)}</option>
         {/each}
     </select>
 </div>

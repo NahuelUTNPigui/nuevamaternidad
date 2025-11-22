@@ -9,16 +9,18 @@
     const pb = new PocketBase(ruta);
     let {
         cambiarFiltro,
-        areas=$bindable([]),
-        unidades=$bindable([]),
-        unidadesarea=$bindable([]),
+        areas = $bindable([]),
+        unidades = $bindable([]),
+        unidadesarea = $bindable([]),
         unidad = $bindable(""),
         area = $bindable(""),
         fechadesde = $bindable(""),
         fechahasta = $bindable(""),
     } = $props();
-
-    
+    function cambiarArea() {
+        unidad = "";
+        cambiarFiltro()
+    }
 
     onMount(async () => {
         areas = await pb.collection("areas").getFullList({});
@@ -36,7 +38,7 @@
             modoedicion={true}
             bind:value={area}
             bind:lista={areas}
-            cambiar={cambiarFiltro}
+            cambiar={cambiarArea}
         />
         <!-- Unidad -->
         <InputSelect

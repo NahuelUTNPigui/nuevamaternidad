@@ -5,8 +5,6 @@
     import { onMount } from "svelte";
     import Boton from "$lib/componentes/inicio/Boton.svelte";
     import Navbar from "$lib/componentes/navbar/Navbar.svelte";
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
     import Swal from "sweetalert2";
     import CardHeader from "$lib/componentes/CardHeader.svelte";
     import StatCard from "$lib/componentes/StatCard.svelte";
@@ -17,7 +15,7 @@
 
     let ruta = import.meta.env.VITE_RUTA;
     const pb = new PocketBase(ruta);
-    let oscuro = $derived(darker.oscurostate);
+    let isSaving = $state(false);
     let nombreuser = $state("");
     let header = $state("Areas");
     let title = $state("Acciones rápidas");
@@ -55,40 +53,74 @@
         unidadocupacion = "";
         ocuparInicioModal.showModal();
     }
+    async function soloGuardarArea(data) {
+        try {
+            await pb.collection("areas").create(data);
+            await getAreas();
+            Swal.fire(
+                "Éxito guardar",
+                "Se logró guardar el área con éxito",
+                "success",
+            );
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error guardar", "No se logró guardar el área ", "error");
+        } finally {
+            isSaving = false;
+        }
+    }
     async function guardarArea() {
+        if (isSaving) {
+            return;
+        }
         if (nombrearea != "") {
             let data = {
                 nombre: nombrearea,
                 active: true,
             };
-            try {
-                await pb.collection("areas").create(data);
-
-                await getAreas();
-                areaInicioModal.close();
-                Swal.fire(
-                    "Éxito guardar",
-                    "Se logró guardar el área con éxito",
-                    "success",
-                );
-            } catch (err) {
-                areaInicioModal.close();
-                Swal.fire(
-                    "Error guardar",
-                    "No se logró guardar el área ",
-                    "error",
-                );
+            let existearea = false;
+            let sareas = areas.filter(
+                (a) =>
+                    a.nombre.toLocaleLowerCase() ==
+                    nombrearea.toLocaleLowerCase(),
+            );
+            existearea = sareas.length > 0;
+            if (!existearea) {
+                isSaving = true;
+                await soloGuardarArea(data);
+            } else {
+                Swal.fire({
+                    title: "Ya existe un área con un nombre similar",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Guardar",
+                    denyButtonText: `No guardar`,
+                }).then(async (result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        isSaving = true;
+                        await soloGuardarArea(data);
+                    }
+                });
             }
+            areaInicioModal.close();
         } else {
             areaInicioModal.close();
         }
     }
     async function cambiarUnidad(_area, _unidad, _bebe) {
+        let historial = {
+            ..._bebe,
+            bebe: _bebe.id,
+        };
+        delete historial.id;
+        await pb.collection("historialbebes").create(historial);
         await pb
             .collection("bebes")
             .update(_bebe, { unidad: _unidad, area: _area });
     }
     async function guardarUnidad() {
+        if(isSaving){return}
         if (nombreunidad != "" && areaunidad != "") {
             let data = {
                 bebe: bebeunidad,
@@ -98,6 +130,7 @@
                 area: areaunidad,
             };
             try {
+                isSaving = true
                 let record = await pb.collection("Unidades").create(data);
                 if (bebeunidad != "") {
                     await cambiarUnidad(areaunidad, record.id, bebeunidad);
@@ -118,17 +151,22 @@
                     "error",
                 );
             }
+            finally{
+                isSaving = false
+            }
         } else {
             unidadInicioModal.close();
         }
     }
     async function guardarOcupar() {
+        if(isSaving){return}
         if (
             bebeocupacion != "" &&
             unidadocupacion != "" &&
             areaocupacion != ""
         ) {
             try {
+                isSaving = true
                 ocuparInicioModal.close();
                 await cambiarUnidad(
                     areaocupacion,
@@ -149,6 +187,9 @@
                     "error",
                 );
                 ocuparInicioModal.close();
+            }
+            finally{
+                isSaving = false
             }
         } else {
             ocuparInicioModal.close();
@@ -171,11 +212,13 @@
     }
     async function getUnidades() {
         unidades = await pb.collection("unidadesbebe").getFullList({
-            filter: "active = true",
+            filter: "active = true && eliminada = false",
         });
     }
     async function getAreas() {
-        const records = await pb.collection("areacount").getFullList({filter:"active=true"});
+        const records = await pb
+            .collection("areacount")
+            .getFullList({ filter: "active=true" });
         areas = records.map((a) => ({
             id: a.id,
             nombre: a.area_nombre,
@@ -220,12 +263,11 @@
 {/snippet}
 {#snippet childrencard()}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
         <Boton onclick={clickBebe} titulo="Nuevo bebé"></Boton>
         <Boton onclick={clickArea} titulo="Nueva area"></Boton>
         <Boton onclick={clickUnidad} titulo="Nueva Unidad"></Boton>
         <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
-        <Boton onclick={()=>goto("/reportes")} titulo="Ver reporte"></Boton>
+        <Boton onclick={() => goto("/reportes")} titulo="Ver reporte"></Boton>
     </div>
 {/snippet}
 

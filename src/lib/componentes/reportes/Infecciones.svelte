@@ -1,6 +1,7 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
         import InputText from "../Formulario/InputText.svelte";
+        import Rangos from "../Formulario/Rangos.svelte";
         import opciones from "$lib/opciones";
         let {
                 cambiarFiltro,
@@ -8,10 +9,12 @@
                 tempranogermen = $bindable(""),
                 tempranoantibiotico = $bindable(""),
                 tempranoatb = $bindable(""),
+                tempranoatbhasta = $bindable(""),
                 tardeestado = $bindable(""),
                 tardegermen = $bindable(""),
                 tardeantibiotico = $bindable(""),
                 tardeatb = $bindable(""),
+                tardeatbhasta = $bindable(""),
         } = $props();
 </script>
 
@@ -45,15 +48,19 @@
                                 escribir={cambiarFiltro}
                         />
                 </div>
-
-                <InputSelect
-                        idetiqueta="fantibioticotempano"
-                        etiqueta="Duracion "
-                        modoedicion={true}
-                        bind:value={tempranoatb}
-                        lista={opciones.DURACION_TEMPRANA}
-                        cambiar={cambiarFiltro}
-                />
+                <!-- Duración como rango -->
+                <div class="col-span-1 md:col-span-2">
+                        <Rangos
+                                idetiqueta="fantibioticotempano"
+                                etiquetadesde="Duración desde"
+                                idetiquetahasta="fantibioticotempano hasta"
+                                etiquetahasta="Duración hasta"
+                                escribirdesde={cambiarFiltro}
+                                escribirhasta={cambiarFiltro}
+                                bind:valuedesde={tempranoatb}
+                                bind:valuehasta={tempranoatbhasta}
+                        />
+                </div>
         </div>
 </div>
 
@@ -87,14 +94,18 @@
                                 escribir={cambiarFiltro}
                         />
                 </div>
-
-                <InputSelect
-                        idetiqueta="fantibioticotarde"
-                        etiqueta="Duracion "
-                        modoedicion={true}
-                        bind:value={tardeatb}
-                        lista={opciones.DURACION_TARDIA}
-                        cambiar={cambiarFiltro}
-                />
+                <!-- Duración como rango -->
+                <div class="col-span-1 md:col-span-2">
+                        <Rangos
+                                idetiqueta="fantibioticotarde"
+                                etiquetadesde="Duración desde"
+                                idetiquetahasta="fantibioticotardehasta"
+                                etiquetahasta="Duración hasta"
+                                escribirdesde={cambiarFiltro}
+                                escribirhasta={cambiarFiltro}
+                                bind:valuedesde={tardeatb}
+                                bind:valuehasta={tardeatbhasta}
+                        />
+                </div>
         </div>
 </div>

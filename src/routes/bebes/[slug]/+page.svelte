@@ -17,12 +17,19 @@
 
     import Antro from "$lib/componentes/bebe/Antro.svelte";
     import Otros from "$lib/componentes/bebe/Otros.svelte";
+    import { goto } from "$app/navigation";
+    import Movimientos from "$lib/componentes/bebe/Movimientos.svelte";
+    import Historial from "$lib/componentes/bebe/Historial.svelte";
+    import { diasEntreFechas } from "$lib/string/string";
     let ruta = import.meta.env.VITE_RUTA;
 
     const pb = new PocketBase(ruta);
 
     let slug = $state("");
     let bebe = $state({});
+    let bebeobjeto =  $state({})
+    let historial = $state([])
+    let movimientos = $state([])
 
     let bebeviejo = $state({});
     //pagina
@@ -52,6 +59,7 @@
     let pesoingresobebe = $state("");
     let active = $state("");
     let conalta = $state("");
+    let tipoalta = $state("");
     let identificacion = $state("");
     let codigo = $state("");
     let temperatura_ingreso = $state("");
@@ -227,7 +235,8 @@
     //Combos
     let unidades = $state([]);
     let areas = $state([]);
-    let unidadesarea = $derived(unidades.filter((u) => u.area == areabebe));
+    
+    let unidadesarea = $derived(unidades.filter((u) => u.area == areabebe && u.bebe == ""));
 
     //Datos viejos
     let nombreviejo = $state("");
@@ -238,6 +247,7 @@
     let sexoviejo = $state("");
     let clinicNumberviejo = $state("");
     //actualizado
+    let tipoaltaviejo = $state("")
     let nombremamaviejo = $state("");
     let dnimamaviejo = $state("");
     let hcmamaviejo = $state("");
@@ -451,6 +461,7 @@
         pesobebeviejo = pesobebe;
         hcbebeviejo = hcbebe;
         sexoviejo = sexo;
+        tipoaltaviejo = tipoalta
         fechanacimientobebeviejo = fechanacimientobebe;
         fechaingresobebeviejo = fechaingresobebe;
         tipoingresoviejo = tipoingreso;
@@ -474,6 +485,7 @@
         areaviejo = area;
         unidadviejo = unidad;
         diagnosticoviejo = diagnostico;
+        pesobebeviejo = pesobebe
         pesornviejo = pesorn;
         peso7dviejo = peso7d;
         peso14dviejo = peso14d;
@@ -639,6 +651,7 @@
         pesobebe = pesobebeviejo;
         hcbebe = hcbebeviejo;
         sexo = sexoviejo;
+        tipoalta = tipoaltaviejo
         fechanacimientobebe = fechanacimientobebeviejo;
         fechaingresobebe = fechaingresobebeviejo;
         tipoingreso = tipoingresoviejo;
@@ -662,6 +675,7 @@
         area = areaviejo;
         unidad = unidadviejo;
         diagnostico = diagnosticoviejo;
+        pesobebe = pesobebeviejo
         pesorn = pesornviejo;
         peso7d = peso7dviejo;
         peso14d = peso14dviejo;
@@ -828,7 +842,66 @@
         modoedicion = false;
         recoverViejo();
     }
-    function eliminar() {
+    function processHistorial(){
+        if(historial.length==0){
+            return
+        }
+        let estado_anterior = historial[0]
+        let movimiento = {
+            fecha: estado_anterior.created,
+            unidad:estado_anterior.unidad,
+            area :estado_anterior.area,
+            bebe:nombrebebe,
+            dias:0
+        }
+        movimientos = [...movimientos, movimiento];
+        for (let i = 1; i < historial.length; i++) {
+            let estado = historial[i]
+              if(estado_anterior.unidad != estado.unidad || estado_anterior.area != estado.area){
+                let movimiento = {
+                    fecha: estado.created,
+                    unidad:estado.unidad,
+                    area:estado.area,
+                    bebe:nombrebebe,
+                    dias:0
+                }
+                movimientos = [...movimientos, movimiento];
+                estado_anterior = estado
+            }
+        }
+        
+        let presente = new Date().toISOString().split("T")[0]
+        let pasado  = new Date()
+        
+        for(let i =0;i< movimientos.length  ;i++){
+            
+            let movimiento = movimientos[i]
+            pasado = movimiento.fecha
+            let dias = diasEntreFechas(pasado,presente)
+            
+            movimientos[i].dias = dias
+            
+            presente = pasado
+        }
+        
+    }
+    function getFechaHoyUCT(){
+        let d = new Date()
+        return d.toISOString().split("T")[0]
+    }
+    async function getHistorial(bebe) {
+        const records = await pb.collection('historialbebes').getFullList({
+            sort: '-created',
+            filter : `bebe='${slug}'`
+        });
+       
+        //historial = [bebe].concat(records)
+        historial = [].concat(records)
+        historial.sort((h1,h2)=>h1.created>h2.created?-1:1)
+        processHistorial()
+
+    }
+    async function eliminar() {
         try {
             Swal.fire({
                 title: "Seguro que deseas eliminar al bebe?",
@@ -839,10 +912,18 @@
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    Swal.fire("Saved!", "", "success");
-                } else if (result.isDenied) {
-                    Swal.fire("Changes are not saved", "", "info");
-                }
+                    let data = {active : false}
+                    await pb.collection("bebes").update(slug, data);
+                    if(unidadbebe!=""){
+                        let dataunidad = {bebe:""}
+                        await pb.collection("unidades").update(unidadbebe, dataunidad);
+                    }
+                    if(areabebe != ""){
+                        let dataarea = {bebe:""}
+                        await pb.collection("areas").update(areabebe, dataarea);
+                    }
+                    goto("/bebes")
+                } 
             });
         } catch (err) {
             console.error(err);
@@ -867,6 +948,7 @@
                 edad_gestacional,
                 active,
                 conalta,
+                tipoalta,
                 identificacion,
                 codigo,
                 temperatura_ingreso,
@@ -880,8 +962,8 @@
                 reanimacion,
                 fallece,
                 rciu,
-                area,
-                unidad,
+                area:areabebe,
+                unidad:unidadbebe,
                 diagnostico,
                 pesorn,
                 peso7d,
@@ -914,7 +996,6 @@
                 gemelocantidad,
                 gemelonumero,
                 controlprenatal,
-
                 corticoideprenatal,
                 tabaquismo,
                 adiccion,
@@ -1049,7 +1130,11 @@
             let record = await pb
                 .collection("historialbebes")
                 .create(datahistorial);
-
+            bebeobjeto = {
+                ...bebeobjeto,
+                ...data
+            };
+            await getHistorial(bebeobjeto)
             Swal.fire("Éxito editar", "Se pudo editar al bebe", "success");
         } catch (err) {
             console.error(err);
@@ -1058,14 +1143,17 @@
         closeEditar();
     }
     async function getAreas() {
-        const records = await pb.collection("areas").getFullList({});
+        const records = await pb.collection("areas").getFullList({
+            
+        });
         areas = records;
+        
     }
     async function getUnidades() {
         const records = await pb.collection("unidadesbebe").getFullList({
-            filter: "active = true",
         });
-        unidades = records.filter((u) => u.bebe != "" || u.bebe == slug);
+        unidades = records.filter((u) => u.bebe == "" || u.bebe == slug);
+        
     }
     onMount(async () => {
         
@@ -1073,13 +1161,17 @@
         try {
             await getAreas();
             await getUnidades();
+            
             let record = await pb.collection("bebes").getOne(slug, {});
-
+            bebeobjeto = {...record}
+            await getHistorial(bebeobjeto)
             nombremama = record.nombremama;
             dnimama = record.dnimama;
             hcmama = record.hcmama;
             nombrebebe = record.nombrebebe;
             dnibebe = record.dnibebe;
+            areabebe = record.area
+            unidadbebe = record.unidad
             hcbebe = record.hcbebe;
             sexo = record.sexo;
             fechanacimientobebe = record.fechanacimientobebe.split(" ")[0];
@@ -1089,6 +1181,7 @@
             pesoingresobebe = record.pesoingresobebe;
             active = record.active;
             conalta = record.conalta;
+            tipoalta = record.tipoalta;
             identificacion = record.identificacion;
             codigo = record.codigo;
             temperatura_ingreso = record.temperatura_ingreso;
@@ -1102,9 +1195,8 @@
             reanimacion = record.reanimacion;
             fallece = record.fallece;
             rciu = record.rciu;
-            area = record.area;
-            unidad = record.unidad;
             diagnostico = record.diagnostico;
+            pesobebe = record.pesobebe
             pesorn = record.pesorn;
             peso7d = record.peso7d;
             peso14d = record.peso14d;
@@ -1570,6 +1662,31 @@
                 bind:altadiagnosticos
                 bind:altafecha
                 bind:conalta
+                bind:tipoalta
+            />
+            <!-- Movimiento -->
+            <input
+                type="radio"
+                name="perfil_tabs"
+                class="tab"
+                aria-label="Movimientos"
+            />
+            <Movimientos
+                {areas}
+                {unidades}
+                {movimientos}
+            />
+            <!-- Historial -->
+            <input
+                type="radio"
+                name="perfil_tabs"
+                class="tab"
+                aria-label="Historial"
+            />
+            <Historial
+                {areas}
+                {unidades}
+                {historial}
             />
         </div>
     </div>

@@ -53,14 +53,14 @@
           etiqueta="Area"
           bind:modoedicion
           bind:value={areabebe}
-          bind:lista={areas}
+          lista={areas.filter(a=>a.active).concat({id:"",nombre:"Ninguna"})}
         />
         <InputSelect
           idetiqueta={"unidadbebe"}
           etiqueta="Unidad"
           bind:modoedicion
           bind:value={unidadbebe}
-          bind:lista={unidadesarea}
+          lista={unidadesarea.filter(u=>!u.eliminada ).concat({id:"",nombre:"Ninguna"})}
         />
         <InputSelect
           idetiqueta={"sexobebe"}

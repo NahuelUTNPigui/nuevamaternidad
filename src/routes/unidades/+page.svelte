@@ -16,6 +16,7 @@
 
     let areas = $state([]);
     let bebes = $state([]);
+    let bebeobjeto = $state({})
     let unidades = $state([]);
     let unidadesrows = $derived(unidades.filter((u) => filtrarUnidad(u)));
     //filtros
@@ -72,9 +73,15 @@
     }
     onMount(async () => {
         areas = await pb.collection("areas").getFullList({
-            sort: "-nombre",
+            sort: "nombre",
+            filter:"active = True"
         });
-        bebes = await pb.collection("bebes").getFullList({});
+        bebes = await pb.collection("bebes").getFullList({
+            sort:"nombrebebe",
+            filter:"active=True"
+
+        });
+        bebes.sort((b1,b2)=>b1.nombrebebe.toLocaleLowerCase()<b2.nombrebebe.toLocaleLowerCase()?-1:1)
         await readUnidades();
     });
     function clickFila(_id) {
@@ -93,6 +100,7 @@
                 bebeviejo = u.bebe;
                 bebe = u.bebe;
                 activa = u.active;
+                
             }
         }
         unidadModal.showModal();
@@ -105,9 +113,26 @@
         unidadModal.close();
     }
     async function cambiarUnidad(_area, _unidad, _bebe) {
+        if(_bebe != ""){
+            let idx_bebe = bebes.findIndex(b=>b.id==_bebe)
+            if(idx_bebe != -1){
+                bebeobjeto = bebes[idx_bebe]
+                let datahistorial = {
+                    ...bebeobjeto,
+                    bebe: _bebe,
+                    ...{ unidad: _unidad, area: _area }
+                };
+                delete datahistorial.id
+                await pb
+                    .collection("historialbebes")
+                    .create({...datahistorial});
+            }
+        }
+        
         await pb
             .collection("bebes")
             .update(_bebe, { unidad: _unidad, area: _area });
+        
     }
     async function eliminar() {
         unidadModal.close();
@@ -157,6 +182,7 @@
 
                 let record = await pb.collection("Unidades").create(data);
                 if (bebe != "") {
+                    
                     await cambiarUnidad(area, record.id, bebe);
                 }
 

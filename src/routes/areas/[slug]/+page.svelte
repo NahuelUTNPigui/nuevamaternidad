@@ -15,8 +15,8 @@
     }
     async function getUnidades() {
         unidades = await pb.collection("unidadesbebe").getFullList({
-            filter:`area='${slug}'`,
-            expand:"bebe"
+            filter:`area='${slug}' && eliminada = False`,
+            expand:"bebe" 
         })
     }
     async function getArea() {

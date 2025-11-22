@@ -1,11 +1,14 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
+        import Rangos from "../Formulario/Rangos.svelte";
         import opciones from "$lib/opciones";
         let {
                 cambiarFiltro,
                 edad_materna = $bindable(""),
+                edad_maternahasta = $bindable(""),
                 niveleducativo = $bindable(""),
                 paridad = $bindable(""),
+                paridadhasta = $bindable(""),
                 gemelos = $bindable(""),
                 controlparental = $bindable(""),
                 corticoideprenatal = $bindable(""),
@@ -34,6 +37,18 @@
                 Información Demográfica
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="col-span-1 md:col-span-2">
+                        <Rangos
+                                idetiqueta="fmedaddesde"
+                                etiquetadesde="Edad desde"
+                                idetiquetahasta="fmedadhasta"
+                                etiquetahasta="Edad hasta"
+                                escribirdesde={cambiarFiltro}
+                                escribirhasta={cambiarFiltro}
+                                bind:valuedesde={edad_materna}
+                                bind:valuehasta={edad_maternahasta}
+                        />
+                </div>
                 <InputSelect
                         idetiqueta="fedadm"
                         etiqueta="Edad materna"
@@ -57,26 +72,24 @@
 <div>
         <h3 class="font-medium mb-3 text-base-content">Embarazo y Parto</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Paridad -->
-                <InputSelect
-                        idetiqueta="fparidad"
-                        etiqueta="Paridad"
-                        modoedicion={true}
-                        bind:value={paridad}
-                        lista={opciones.PARIDAD_MADRE}
-                        cambiar={cambiarFiltro}
-                />
-
+                <div class="col-span-1 md:col-span-2">
+                        <!-- Paridad -->
+                        <Rangos
+                                idetiqueta="fparidad"
+                                etiquetadesde="Paridad desde"
+                                idetiquetahasta="fparidad hasta"
+                                etiquetahasta="Paridad hasta"
+                                escribirdesde={cambiarFiltro}
+                                escribirhasta={cambiarFiltro}
+                                bind:valuedesde={paridad}
+                                bind:valuehasta={paridadhasta}
+                        />
+                </div>
+                
+                
                 <!-- Gemelos -->
                 <div class="hidden">
-                        <InputSelect
-                                idetiqueta="fGEMELO"
-                                etiqueta="Gemelos"
-                                modoedicion={true}
-                                bind:value={gemelos}
-                                lista={opciones.GEMELO}
-                                cambiar={cambiarFiltro}
-                        />
+                        
                 </div>
         </div>
 </div>

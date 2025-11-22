@@ -1,7 +1,8 @@
 <script>
         import InputSelect from "../Formulario/InputSelect.svelte";
+        import Rangos from "../Formulario/Rangos.svelte";
         import opciones from "$lib/opciones";
-        
+
         let {
                 cambiarFiltro,
                 protectorgastrico = $bindable(""),
@@ -15,107 +16,173 @@
                 metadona = $bindable(""),
                 vecuronio = $bindable(""),
                 prostaglandinas = $bindable(""),
+                protectorgastricohasta = $bindable(""),
+                inhibidorhasta = $bindable(""),
+                probioticohasta = $bindable(""),
+                eritromicinahasta = $bindable(""),
+                fentanilohasta = $bindable(""),
+                morfinahasta = $bindable(""),
+                midozolamhasta = $bindable(""),
+                precedexhasta = $bindable(""),
+                metadonahasta = $bindable(""),
+                vecuroniohasta = $bindable(""),
+                prostaglandinashasta = $bindable(""),
         } = $props();
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Protector Gástrico -->
-        <InputSelect
-                idetiqueta="Protector Gástrico"
-                etiqueta="Protector Gástrico"
-                modoedicion={true}
-                bind:value={protectorgastrico}
-                lista={opciones.PROTECTOR}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Protector Gástrico"
+                        etiquetadesde="Protector Gástrico desde"
+                        idetiquetahasta="Protector Gástricohasta"
+                        etiquetahasta="Protector Gástrico hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={protectorgastrico}
+                        bind:valuehasta={protectorgastricohasta}
+                />
+        </div>
+
         <!-- Inhibidor de la Bomba de Protones -->
-        <InputSelect
-                idetiqueta="Inhibidor de la Bomba de Protones"
-                etiqueta="Inhibidor de la Bomba de Protones"
-                modoedicion={true}
-                bind:value={inhibidor}
-                lista={opciones.INHIBIDOR}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Inhibidor de la Bomba de Protones"
+                        etiquetadesde="Inhibidor de la Bomba de Protones desde"
+                        idetiquetahasta="Inhibidor de la Bomba de Protoneshasta"
+                        etiquetahasta="Inhibidor de la Bomba de Protones hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={inhibidor}
+                        bind:valuehasta={inhibidorhasta}
+                />
+        </div>
+
         <!-- Probiótico -->
-        <InputSelect
-                idetiqueta="Probiótico"
-                etiqueta="Probiótico"
-                modoedicion={true}
-                bind:value={probiotico}
-                lista={opciones.PROBIOTICO}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Probiótico"
+                        etiquetadesde="Probiótico desde"
+                        idetiquetahasta="Probióticohasta"
+                        etiquetahasta="Probiótico hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={probiotico}
+                        bind:valuehasta={probioticohasta}
+                />
+        </div>
+
         <!-- Eritromicina -->
-        <InputSelect
-                idetiqueta="Eritromicina"
-                etiqueta="Eritromicina"
-                modoedicion={true}
-                bind:value={eritromicina}
-                lista={opciones.ERITROMICINA}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Eritromicina"
+                        etiquetadesde="Eritromicina desde"
+                        idetiquetahasta="Eritromicinhasta"
+                        etiquetahasta="Eritromicina hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={eritromicina}
+                        bind:valuehasta={eritromicinahasta}
+                />
+        </div>
+
         <!-- Fentanilo -->
-        <InputSelect
-                idetiqueta="Fentanilo"
-                etiqueta="Fentanilo"
-                modoedicion={true}
-                bind:value={fentanilo}
-                lista={opciones.FENTANILO}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Fentanilo"
+                        etiquetadesde="Fentanilo desde"
+                        idetiquetahasta="Fentanilohasta"
+                        etiquetahasta="Fentanilo hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={fentanilo}
+                        bind:valuehasta={fentanilohasta}
+                />
+        </div>
+
         <!-- Morfina -->
-        <InputSelect
-                idetiqueta="Morfina"
-                etiqueta="Morfina"
-                modoedicion={true}
-                bind:value={morfina}
-                lista={opciones.MORFINA}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Morfina"
+                        etiquetadesde="Morfina desde"
+                        idetiquetahasta="Morfinhasta"
+                        etiquetahasta="Morfina hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={morfina}
+                        bind:valuehasta={morfinahasta}
+                />
+        </div>
+
         <!-- Midazolam -->
-        <InputSelect
-                idetiqueta="Midazolam"
-                etiqueta="Midazolam"
-                modoedicion={true}
-                bind:value={midozolam}
-                lista={opciones.MIDAZOLAM}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Midazolam"
+                        etiquetadesde="Midazolam desde"
+                        idetiquetahasta="Midazolamhasta"
+                        etiquetahasta="Midazolam hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={midozolam}
+                        bind:valuehasta={midozolamhasta}
+                />
+        </div>
+
         <!-- Precedex (Dexmedetomidina) -->
-        <InputSelect
-                idetiqueta="Precedex"
-                etiqueta="Precedex"
-                modoedicion={true}
-                bind:value={precedex}
-                lista={opciones.PRECEDEX}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Precedex"
+                        etiquetadesde="Precedex desde"
+                        idetiquetahasta="Precedexhasta"
+                        etiquetahasta="Precedex hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={precedex}
+                        bind:valuehasta={precedexhasta}
+                />
+        </div>
+
         <!-- Metadona -->
-        <InputSelect
-                idetiqueta="Metadona"
-                etiqueta="Metadona"
-                modoedicion={true}
-                bind:value={metadona}
-                lista={opciones.METADONA}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Metadona"
+                        etiquetadesde="Metadona desde"
+                        idetiquetahasta="Metadonahasta"
+                        etiquetahasta="Metadona hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={metadona}
+                        bind:valuehasta={metadonahasta}
+                />
+        </div>
+
         <!-- Vecuronio -->
-        <InputSelect
-                idetiqueta="Vecuronio"
-                etiqueta="Vecuronio"
-                modoedicion={true}
-                bind:value={vecuronio}
-                lista={opciones.VECURONIO}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Vecuronio"
+                        etiquetadesde="Vecuronio desde"
+                        idetiquetahasta="Vecuroniohasta"
+                        etiquetahasta="Vecuronio hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={vecuronio}
+                        bind:valuehasta={vecuroniohasta}
+                />
+        </div>
+
         <!-- Prostaglandinas (PGE1) -->
-        <InputSelect
-                idetiqueta="Prostaglandinas"
-                etiqueta="Prostaglandinas"
-                modoedicion={true}
-                bind:value={prostaglandinas}
-                lista={opciones.PROSTAGLANDINA}
-                cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+                <Rangos
+                        idetiqueta="Prostaglandinas"
+                        etiquetadesde="Prostaglandinas desde"
+                        idetiquetahasta="Prostaglandinashasta"
+                        etiquetahasta="Prostaglandinas hasta"
+                        escribirdesde={cambiarFiltro}
+                        escribirhasta={cambiarFiltro}
+                        bind:valuedesde={prostaglandinas}
+                        bind:valuehasta={prostaglandinashasta}
+                />
+        </div>
+        
 </div>

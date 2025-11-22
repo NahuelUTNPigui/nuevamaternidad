@@ -77,16 +77,21 @@
         apgar_1 = $bindable(""),
         apgar_5 = $bindable(""),
         apgar_10 = $bindable(""),
+        apgar_1hasta = $bindable(""),
+        apgar_5hasta = $bindable(""),
+        apgar_10hasta = $bindable(""),
         gestacion=$bindable(""),
         gestaciondesde = $bindable(""),
         gestacionhasta = $bindable(""),
         rciu = $bindable(""),
         temperatura_ingreso = $bindable(""),
+        temperatura_ingresohasta = $bindable(""),        
         rem = $bindable(""),
         reanimacion = $bindable(""),
         liquido = $bindable(""),
         fallece = $bindable(""),
 
+        peso_actual = $bindable(""),
         peso_rn = $bindable(""),
         peso_7 = $bindable(""),
         peso_14 = $bindable(""),
@@ -111,13 +116,41 @@
         scorez_21 = $bindable(""),
         scorez_28 = $bindable(""),
         scorez_36 = $bindable(""),
+        peso_actualhasta = $bindable(""),
+        peso_rnhasta = $bindable(""),
+        peso_7hasta = $bindable(""),
+        peso_14hasta = $bindable(""),
+        peso_21hasta = $bindable(""),
+        peso_28hasta = $bindable(""),
+        peso_36hasta = $bindable(""),
+        cefalico_rnhasta = $bindable(""),
+        cefalico_7hasta = $bindable(""),
+        cefalico_14hasta = $bindable(""),
+        cefalico_21hasta = $bindable(""),
+        cefalico_28hasta = $bindable(""),
+        cefalico_36hasta = $bindable(""),
+        talla_rnhasta = $bindable(""),
+        talla_7hasta = $bindable(""),
+        talla_14hasta = $bindable(""),
+        talla_21hasta = $bindable(""),
+        talla_28hasta = $bindable(""),
+        talla_36hasta = $bindable(""),
+        scorez_rnhasta = $bindable(""),
+        scorez_7hasta = $bindable(""),
+        scorez_14hasta = $bindable(""),
+        scorez_21hasta = $bindable(""),
+        scorez_28hasta = $bindable(""),
+        scorez_36hasta = $bindable(""),
+        
         recuperarpeso = $bindable(""),
         recuperarpesodesde = $bindable(""),
         recuperarpesohasta = $bindable(""),
 
         edad_materna = $bindable(""),
+        edad_maternahasta = $bindable(""),
         niveleducativo = $bindable(""),
         paridad = $bindable(""),
+        paridadhasta = $bindable(""),
         gemelos = $bindable(""),
         controlparental = $bindable(""),
         corticoideprenatal=$bindable(""),
@@ -154,15 +187,23 @@
         aporteaa = $bindable(""),
         comienzolipido = $bindable(""),
         aportelipido = $bindable(""),
+        edadnpthasta = $bindable(""),
+        duracionnpthasta = $bindable(""),
+        comienzoaahasta = $bindable(""),
+        aporteaahasta = $bindable(""),
+        comienzolipidohasta = $bindable(""),
+        aportelipidohasta = $bindable(""),
 
         tempranoestado = $bindable(""),
         tempranogermen = $bindable(""),
         tempranoantibiotico = $bindable(""),
         tempranoatb = $bindable(""),
+        tempranoatbhasta = $bindable(""),
         tardeestado = $bindable(""),
         tardegermen = $bindable(""),
         tardeantibiotico = $bindable(""),
         tardeatb = $bindable(""),
+        tardeatbhasta = $bindable(""),
         salam=$bindable(""),
         emh = $bindable(""),
         ndosissurfactante = $bindable(""),
@@ -202,6 +243,10 @@
         plasma = $bindable(""),
         plaqueta = $bindable(""),
         inmunoglobina = $bindable(""),
+        tgrhasta = $bindable(""),
+        plasmahasta = $bindable(""),
+        plaquetahasta = $bindable(""),
+        inmunoglobinahasta = $bindable(""),
         transfusion = $bindable(""),
 
         hiv = $bindable(""),
@@ -240,6 +285,18 @@
         metadona = $bindable(""),
         vecuronio = $bindable(""),
         prostaglandinas = $bindable(""),
+        protectorgastricohasta = $bindable(""),
+        inhibidorhasta = $bindable(""),
+        probioticohasta = $bindable(""),
+        eritromicinahasta = $bindable(""),
+        fentanilohasta = $bindable(""),
+        morfinahasta = $bindable(""),
+        midozolamhasta = $bindable(""),
+        precedexhasta = $bindable(""),
+        metadonahasta = $bindable(""),
+        vecuroniohasta = $bindable(""),
+        prostaglandinashasta = $bindable(""),
+
 
         malformacionescongenitas = $bindable(""),
         cirugias = $bindable(""),
@@ -247,6 +304,7 @@
 
         diagnostico = $bindable(""),
         conalta = $bindable(""),
+        tipoalta = $bindable(""),
         altadesde = $bindable(""),
         altahasta = $bindable(""),
     } = $props();
@@ -284,11 +342,15 @@
             apgar_1.length > 0 ||
             apgar_5.length > 0 ||
             apgar_10.length > 0 ||
+            apgar_1hasta.length > 0 ||
+            apgar_5hasta.length > 0 ||
+            apgar_10hasta.length > 0 ||
             gestacion.length > 0  ||
             gestaciondesde.length > 0 ||
             gestacionhasta.length > 0 ||
             rciu.length > 0 ||
             temperatura_ingreso.length > 0 ||
+            temperatura_ingresohasta.length > 0 ||
             rem.length > 0 ||
             reanimacion.length > 0 ||
             liquido.length > 0 ||
@@ -296,7 +358,8 @@
     );
     //<!-- Antropometria -->
     let verdeantro = $derived(
-        peso_rn.length > 0 ||
+            peso_actual.length > 0||
+            peso_rn.length > 0 ||
             peso_7.length > 0 ||
             peso_14.length > 0 ||
             peso_21.length > 0 ||
@@ -320,14 +383,41 @@
             scorez_21.length > 0 ||
             scorez_28.length > 0 ||
             scorez_36.length > 0 ||
+            peso_actualhasta.length > 0||
+            peso_rnhasta.length > 0 ||
+            peso_7hasta.length > 0 ||
+            peso_14hasta.length > 0 ||
+            peso_21hasta.length > 0 ||
+            peso_28hasta.length > 0 ||
+            peso_36hasta.length > 0 ||
+            cefalico_rnhasta.length > 0 ||
+            cefalico_7hasta.length > 0 ||
+            cefalico_14hasta.length > 0 ||
+            cefalico_21hasta.length > 0 ||
+            cefalico_28hasta.length > 0 ||
+            cefalico_36hasta.length > 0 ||
+            talla_rnhasta.length > 0 ||
+            talla_7hasta.length > 0 ||
+            talla_14hasta.length > 0 ||
+            talla_21hasta.length > 0 ||
+            talla_28hasta.length > 0 ||
+            talla_36hasta.length > 0 ||
+            scorez_rnhasta.length > 0 ||
+            scorez_7hasta.length > 0 ||
+            scorez_14hasta.length > 0 ||
+            scorez_21hasta.length > 0 ||
+            scorez_28hasta.length > 0 ||
+            scorez_36hasta.length > 0 ||
             recuperarpesodesde.length > 0 ||
             recuperarpesohasta.length > 0,
     );
     //<!-- Datos maternos -->
     let verdematernos = $derived(
-        edad_materna.length > 0 ||
+            edad_materna.length > 0 ||
+            edad_maternahasta.length > 0 ||
             niveleducativo.length > 0 ||
             paridad.length > 0 ||
+            paridadhasta.length > 0 ||
             gemelos.length > 0 ||
             controlparental.length > 0 ||
             corticoideprenatal.length > 0 ||
@@ -367,7 +457,13 @@
             comienzoaa.length > 0 ||
             aporteaa.length > 0 ||
             comienzolipido.length > 0 ||
-            aportelipido.length > 0,
+            aportelipido.length > 0||
+            edadnpthasta.length > 0 ||
+            duracionnpthasta.length > 0 ||
+            comienzoaahasta.length > 0 ||
+            aporteaahasta.length > 0 ||
+            comienzolipidohasta.length > 0 ||
+            aportelipidohasta.length > 0,
     );
     //<!-- Infecciones -->
     let verdeInfecciones = $derived(
@@ -375,48 +471,50 @@
             tempranogermen.length > 0 ||
             tempranoantibiotico.length > 0 ||
             tempranoatb.length > 0 ||
+            tempranoatbhasta.length > 0 ||
             tardeestado.length > 0 ||
             tardegermen.length > 0 ||
             tardeantibiotico.length > 0 ||
-            tardeatb.length > 0,
+            tardeatb.length > 0||
+            tardeatbhasta.length > 0,
     );
     //<!-- Respiratorio -->
     let verdeRespiratorio = $derived(
         emh.length > 0 ||
         ndosissurfactante.length>0||
         salam.length>0||
-            apena.length > 0 ||
-            neumotorax.length > 0 ||
-            taquipnea.length > 0 ||
-            hipertension.length > 0 ||
-            interstecial.length > 0 ||
-            dbp.length > 0 ||
-            oxigeno.length > 0 ||
-            surfactante.length > 0 ||
-            arm.length > 0 ||
-            intubado.length > 0 ||
-            vafo.length > 0 ||
-            cpap.length > 0 ||
-            oaf.length > 0 ||
-            cbf.length > 0 ||
-            cafeina.length > 0 ||
-            aminofilina.length > 0 ||
-            corticoideinhalado.length > 0 ||
-            corticoidepostnatal.length > 0 ||
-            oxidonitrico.length > 0,
+        apena.length > 0 ||
+        neumotorax.length > 0 ||
+        taquipnea.length > 0 ||
+        hipertension.length > 0 ||
+        interstecial.length > 0 ||
+        dbp.length > 0 ||
+        oxigeno.length > 0 ||
+        surfactante.length > 0 ||
+        arm.length > 0 ||
+        intubado.length > 0 ||
+        vafo.length > 0 ||
+        cpap.length > 0 ||
+        oaf.length > 0 ||
+        cbf.length > 0 ||
+        cafeina.length > 0 ||
+        aminofilina.length > 0 ||
+        corticoideinhalado.length > 0 ||
+        corticoidepostnatal.length > 0 ||
+        oxidonitrico.length > 0,
     );
     //<!-- Cardiovascular y ductus -->
     let verdeductus = $derived(ductus.length > 0 || cardiocongenita.length > 0);
     //<!-- Inotrópicos y Diuréticos -->
     let verdeinotro = $derived(
         dopamina.length > 0 ||
-            dobutamina.length > 0 ||
-            adrenalina.length > 0 ||
-            milrinona.length > 0 ||
-            vasopresina.length > 0 ||
-            furosemida.length > 0 ||
-            espironolacta.length > 0 ||
-            hidrocloritiazida.length > 0,
+        dobutamina.length > 0 ||
+        adrenalina.length > 0 ||
+        milrinona.length > 0 ||
+        vasopresina.length > 0 ||
+        furosemida.length > 0 ||
+        espironolacta.length > 0 ||
+        hidrocloritiazida.length > 0,
     );
     //<!-- Sangre -->
     let verdeSangre = $derived(
@@ -424,6 +522,10 @@
             plaqueta.length > 0 ||
             plasma.length > 0 ||
             inmunoglobina.length > 0 ||
+            tgrhasta.length > 0 ||
+            plaquetahasta.length > 0 ||
+            plasmahasta.length > 0 ||
+            inmunoglobinahasta.length > 0 ||
             transfusion.length > 0,
     );
     //<!-- Neurologico -->
@@ -441,13 +543,13 @@
     //<!-- Digestivo y Quirúrgico -->
     let verdediges = $derived(
         nec.length > 0 ||
-            perforacion.length > 0 ||
-            onfalocele.length > 0 ||
-            gastrosquisis.length > 0 ||
-            atresia.length > 0 ||
-            tqt.length > 0 ||
-            drenajepleural.length > 0 ||
-            drenajeventricular.length > 0,
+        perforacion.length > 0 ||
+        onfalocele.length > 0 ||
+        gastrosquisis.length > 0 ||
+        atresia.length > 0 ||
+        tqt.length > 0 ||
+        drenajepleural.length > 0 ||
+        drenajeventricular.length > 0,
     );
     //<!-- Genética -->
     let verdegen = $derived(
@@ -469,7 +571,18 @@
         precedex.length>0||
         metadona.length>0||
         vecuronio.length>0||
-        prostaglandinas.length>0
+        prostaglandinas.length>0||
+        protectorgastricohasta.length>0||
+        inhibidorhasta.length>0||
+        probioticohasta.length>0||
+        eritromicinahasta.length>0||
+        fentanilohasta.length>0||
+        morfinahasta.length>0||
+        midozolamhasta.length>0||
+        precedexhasta.length>0||
+        metadonahasta.length>0||
+        vecuroniohasta.length>0||
+        prostaglandinashasta.length>0
     );
     //<!-- otros -->
     let verdeotros = $derived(
@@ -600,11 +713,15 @@ bind:verdediagnostico
             bind:apgar_1
             bind:apgar_5
             bind:apgar_10
+            bind:apgar_1hasta
+            bind:apgar_5hasta
+            bind:apgar_10hasta
             bind:gestaciondesde
             bind:gestacion
             bind:gestacionhasta
             bind:rciu
             bind:temperatura_ingreso
+            bind:temperatura_ingresohasta
             bind:rem
             bind:reanimacion
             bind:liquido
@@ -620,6 +737,7 @@ bind:verdediagnostico
     >
         <Antropometria
             {cambiarFiltro}
+            bind:peso_actual
             bind:peso_rn
             bind:peso_7
             bind:peso_14
@@ -644,6 +762,31 @@ bind:verdediagnostico
             bind:scorez_21
             bind:scorez_28
             bind:scorez_36
+            bind:peso_actualhasta
+            bind:peso_rnhasta
+            bind:peso_7hasta
+            bind:peso_14hasta
+            bind:peso_21hasta
+            bind:peso_28hasta
+            bind:peso_36hasta
+            bind:cefalico_rnhasta
+            bind:cefalico_7hasta
+            bind:cefalico_14hasta
+            bind:cefalico_21hasta
+            bind:cefalico_28hasta
+            bind:cefalico_36hasta
+            bind:talla_rnhasta
+            bind:talla_7hasta
+            bind:talla_14hasta
+            bind:talla_21hasta
+            bind:talla_28hasta
+            bind:talla_36hasta
+            bind:scorez_rnhasta
+            bind:scorez_7hasta
+            bind:scorez_14hasta
+            bind:scorez_21hasta
+            bind:scorez_28hasta
+            bind:scorez_36hasta
             bind:recuperarpesodesde
             bind:recuperarpesohasta
         />
@@ -658,8 +801,10 @@ bind:verdediagnostico
         <Materno
             {cambiarFiltro}
             bind:edad_materna
+            bind:edad_maternahasta
             bind:niveleducativo
             bind:paridad
+            bind:paridadhasta
             bind:gemelos
             bind:controlparental
             bind:tabaquismo
@@ -715,6 +860,12 @@ bind:verdediagnostico
             bind:aporteaa
             bind:comienzolipido
             bind:aportelipido
+            bind:edadnpthasta
+            bind:duracionnpthasta
+            bind:comienzoaahasta
+            bind:aporteaahasta
+            bind:comienzolipidohasta
+            bind:aportelipidohasta
         />
     </Collapse>
 
@@ -730,10 +881,12 @@ bind:verdediagnostico
             bind:tempranogermen
             bind:tempranoantibiotico
             bind:tempranoatb
+            bind:tempranoatbhasta
             bind:tardeestado
             bind:tardegermen
             bind:tardeantibiotico
             bind:tardeatb
+            bind:tardeatbhasta
         />
     </Collapse>
 
@@ -810,6 +963,10 @@ bind:verdediagnostico
             bind:plasma
             bind:plaqueta
             bind:inmunoglobina
+            bind:tgrhasta
+            bind:plasmahasta
+            bind:plaquetahasta
+            bind:inmunoglobinahasta
             bind:transfusion
         />
     </Collapse>
@@ -891,6 +1048,17 @@ bind:verdediagnostico
             bind:metadona
             bind:vecuronio
             bind:prostaglandinas
+            bind:protectorgastricohasta
+            bind:inhibidorhasta
+            bind:probioticohasta
+            bind:eritromicinahasta
+            bind:fentanilohasta
+            bind:morfinahasta
+            bind:midozolamhasta
+            bind:precedexhasta
+            bind:metadonahasta
+            bind:vecuroniohasta
+            bind:prostaglandinashasta
         />
     </Collapse>
 
@@ -928,8 +1096,10 @@ bind:verdediagnostico
         <Alta
             {cambiarFiltro}
             bind:conalta
+            bind:tipoalta
             bind:altadesde
             bind:altahasta
         />
     </Collapse>
 </div>
+

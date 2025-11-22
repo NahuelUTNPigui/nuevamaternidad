@@ -2,6 +2,7 @@
   import Modoedicion from "./Modoedicion.svelte";
   import InputText from "../Formulario/InputText.svelte";
   import InputOpcionalText from "../Formulario/InputOpcionalText.svelte";
+  import InputSelect from "../Formulario/InputSelect.svelte";
   import InputDate from "../Formulario/InputDate.svelte";
   import InputBool from "../Formulario/InputBool.svelte";
   import InputMas from "../Formulario/InputMas.svelte";
@@ -9,6 +10,7 @@
   let {
     modoedicion = $bindable(false),
     conalta = $bindable(""),
+    tipoalta = $bindable(""),
     altafecha = $bindable(""),
     altadiagnosticos = $bindable(""),
     altacondiciones = $bindable(""),
@@ -35,7 +37,13 @@
         idetiqueta="conalta"
         bind:modoedicion
       />
-
+      <InputSelect
+        bind:value  = {tipoalta}
+        idetiqueta={"tipoalta"}
+        etiqueta = {"Tipo alta"}
+        lista = {opciones.TIPO_ALTA}
+        bind:modoedicion
+      />
       <!-- Fecha de Alta -->
       <InputDate
         bind:value={altafecha}

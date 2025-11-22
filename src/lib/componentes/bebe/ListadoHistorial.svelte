@@ -1,13 +1,11 @@
 <script>
-    import { goto } from "$app/navigation";
+    
     let {
         bebesrows = $bindable(),
         unidades = $bindable([]),
         areas = $bindable([]),
     } = $props();
-    function handleClick(id) {
-        goto("/bebes/" + id);
-    }
+    
     function getNombre(id, lista) {
         let fila = { id: "", nombre: "" };
         let idx = lista.findIndex((o) => o.id == id);
@@ -30,7 +28,7 @@
     <!-- Título -->
     <div class="mb-4">
         <h2 class="text-xl font-bold flex items-center gap-2">
-            Bebés
+            Historial bebé
             <span
                 class={`
                     text-sm 
@@ -65,6 +63,7 @@
             >
                 <div class="table-row">
                     <div class="table-cell px-4 py-3">Estado</div>
+                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Nombre</div>
                     <div class="table-cell px-4 py-3">Peso</div>
                     <div class="table-cell px-4 py-3">Area</div>
@@ -84,7 +83,7 @@
                             hover:bg-gray-100
                             cursor-pointer
                         `}
-                        onclick={() => handleClick(b.id)}
+                        
                         onkeydown={(e) => {
                             e.preventDefault();
                         }}
@@ -105,7 +104,11 @@
                         <div
                             class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
                         >
-                            
+                            {new Date(b.fecha).toLocaleDateString()}
+                        </div>
+                        <div
+                            class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
+                        >
                             {b.nombrebebe}
                         </div>
                         <div class="table-cell px-4 py-3">
@@ -132,7 +135,7 @@
             <div
                 role="button"
                 tabindex="0"
-                onclick={() => handleClick(b.id)}
+                
                 onkeydown={(e) => {
                     e.preventDefault();
                 }}
@@ -160,6 +163,10 @@
                 </span>
                 <!-- Info principal -->
                 <div class="mt-3 text-sm space-y-1">
+                    <div>
+                        <span class="font-medium">Fecha:</span>
+                        {new Date(b.fecha).toLocaleDateString()}
+                    </div>
                     <div>
                         <span class="font-medium">Peso:</span>
                         {b.pesobebe}

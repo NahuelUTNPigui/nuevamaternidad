@@ -32,11 +32,13 @@
     function handleClick(id) {
         goto("/bebes/" + id);
     }
+    
     function getNombre(id, lista) {
         let fila = { id: "", nombre: "" };
-        let idx = lista.findIndex((o) => o.id == id);
+        let listasintodas = lista.filter(a=>a.id != "")
+        let idx = listasintodas.findIndex((o) => o.id == id);
         if (idx != -1) {
-            fila = lista[idx];
+            fila = listasintodas[idx];
         }
         return fila.nombre;
     }
@@ -347,6 +349,7 @@
                     {/if}
                     {#if checked_alta}
                         <div class="table-cell px-4 py-3">Fecha alta</div>
+                        <div class="table-cell px-4 py-3">Tipo alta</div>
                     {/if}
                 </div>
             </div>
@@ -361,7 +364,7 @@
                             border-gray-200 hover:bg-gray-100
                             cursor-pointer overflow-x-auto
                         `}
-                        onclick={() => handleClick(b.id)}
+                        onclick={() => handleClick(b.bebe)}
                         onkeydown={(e) => {
                             e.preventDefault();
                         }}
@@ -388,10 +391,12 @@
                             {b.pesobebe}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {getNombre(b.area, areas)}
+                            
+                            {getNombre(b.area, areas)||"Sin área"}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {getNombre(b.unidad, unidades)}
+                            
+                            {getNombre(b.unidad, unidades)||"Sin unidad"}
                         </div>
                         {#if checked_identificacion}
                             <div class="table-cell px-4 py-3">{b.hcbebe}</div>
@@ -453,9 +458,10 @@
                                 {getNombre(b.reanimacion, opciones.REANIMACION)}
                             </div>
                             <div class="table-cell px-4 py-3">
+                                
                                 {getNombre(
                                     b.liquido_meconial,
-                                    opciones.LIQUIDO,
+                                    opciones.SINO,
                                 )}
                             </div>
                             <div class="table-cell px-4 py-3">
@@ -996,6 +1002,9 @@
                                     ? new Date(b.altafecha).toLocaleDateString()
                                     : ""}
                             </div>
+                            <div class="table-cell px-4 py-3">
+                                {getNombre(b.tipoalta, opciones.TIPO_ALTA)}
+                            </div>
                         {/if}
                     </div>
                 {/each}
@@ -1011,18 +1020,18 @@
         `}
     >
         {#each bebesrows as b}
-            <div>
+            <div class="border-b-1 mb-2">
                 <!-- Cabecera de la tarjeta -->
                 <div
-                    class="flex justify-between items-center"
+                    class="flex justify-between items-center "
                     role="button"
                     tabindex="0"
-                    onclick={() => handleClick(b.id)}
+                    onclick={() => handleClick(b.bebe)}
                     onkeydown={(e) => {
                         e.preventDefault();
                     }}
                 >
-                    <div class="font-semibold text-lg flex items-center gap-2">
+                    <div class="font-semibold text-lg flex items-center gap-2 ">
                         <span
                             class={`h-2 w-2 rounded-full ${
                                 b.conalta ? "bg-green-500" : "bg-gray-400"
@@ -1052,7 +1061,7 @@
                     </div>
                     <div>
                         <span class="font-medium">Unidad:</span>
-                        {getNombre(b.unidad, unidades)}
+                        {getNombre(b.unidad, unidades)||"Sin unidad"}
                     </div>
                 </div>
                 <!-- Identificación -->
@@ -1907,6 +1916,10 @@
                                     ? new Date(b.altafecha).toLocaleDateString()
                                     : ""}
                             </div>
+                        </div>
+                        <div>
+                            <b>Tipo alta:</b>
+                            {getNombre(b.tipoalta, opciones.TIPO_ALTA)}
                         </div>
                     </details>
                 {/if}

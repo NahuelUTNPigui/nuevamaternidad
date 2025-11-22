@@ -14,13 +14,15 @@
         area = $bindable(""),
         unidades = $bindable(""),
         areas = $bindable(""),
+        cambioArea =()=>{}
     } = $props();
 </script>
 
 <div
     class={`
         rounded-md p-4 shadow-sm mb-4
-        ${toDark(oscuro, "bg-slate-900", "bg-white")}
+        dark:bg-slate-900 bg-white
+        
         
     `}
 >
@@ -32,13 +34,12 @@
                 flex items-center flex-1 border 
                 dark:border-gray-600 dark:bg-gray-900
                 border-gray-300 bg-white
-                
-                
+                mt-3        
             `}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class={`w-5 h-5 ${toDark(oscuro, "text-gray-500", "text-gray-400")} mr-2`}
+                class={`w-5 h-5 dark:text-gray-500 text-gray-400 mr-2`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -55,7 +56,8 @@
                 placeholder="Buscar por nombre..."
                 bind:value={buscar}
                 class={`
-                    ${toDark(oscuro, "placeholder-gray-500 text-gray-100", "placeholder-gray-400 text-gray-800")}
+                    dark:placeholder-gray-500 dark:text-gray-100
+                    placeholder-gray-400 text-gray-800
                     w-full bg-transparent focus:outline-none
                 `}
             />
@@ -67,14 +69,14 @@
             <label class="input-group">
                 <select
                     class={`
-                                        select select-bordered w-full
-                                        rounded-md
-                                        focus:outline-none focus:ring-2 
-                                        focus:ring-green-500 
-                                        focus:border-green-500
-                                        
-                                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
-                                    `}
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
                     bind:value={estado}
                 >
                     {#each estados as s}
@@ -90,15 +92,16 @@
             <label class="input-group">
                 <select
                     class={`
-                                        select select-bordered w-full
-                                        rounded-md
-                                        focus:outline-none focus:ring-2 
-                                        focus:ring-green-500 
-                                        focus:border-green-500
-                                        
-                                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
-                                    `}
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
                     bind:value={area}
+                    onchange={cambioArea}
                 >
                     {#each areas as s}
                         <option value={s.id} class="rounded">{s.nombre}</option>
@@ -113,14 +116,14 @@
             <label class="input-group">
                 <select
                     class={`
-                                        select select-bordered w-full
-                                        rounded-md
-                                        focus:outline-none focus:ring-2 
-                                        focus:ring-green-500 
-                                        focus:border-green-500
-                                        
-                                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
-                                    `}
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
                     bind:value={unidad}
                 >
                     {#each unidades as s}

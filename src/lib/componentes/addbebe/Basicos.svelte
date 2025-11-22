@@ -17,7 +17,9 @@
         sexo = $bindable(""),
         pesoingresobebe = $bindable(""),
         temperaturaingreso = $bindable(""),
-        edad_gestacional=$bindable("")
+        edad_gestacional=$bindable(""),
+        cambioFechasIngresoNacimiento=()=>{},
+        cambiarArea=()=>{}
     } = $props();
 </script>
 
@@ -27,7 +29,7 @@
         <div class="form-control">
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Area</legend>
-                <select class="select" bind:value={area}>
+                <select class="select" bind:value={area} onchange={cambiarArea}>
                     <option value="">Ninguna</option>
                     {#each areas as a}
                         <option value={a.id}>{a.nombre}</option>
@@ -124,6 +126,7 @@
                 name="fecha_nacimiento"
                 class="input input-bordered w-full"
                 bind:value={fechanacimientobebe}
+                onchange={cambioFechasIngresoNacimiento}
             />
         </div>
     </div>
@@ -138,6 +141,7 @@
                 name="fecha_ingreso"
                 class="input input-bordered w-full"
                 bind:value={fechaingresobebe}
+                onchange={cambioFechasIngresoNacimiento}
             />
         </div>
 
@@ -158,10 +162,9 @@
                 <span class="label-text font-semibold">Peso Ingreso (g)</span>
             </label>
             <input
-                type="number"
+                type="text"
                 name="peso_ingreso"
                 placeholder="Gramos"
-                min="0"
                 class="input input-bordered w-full"
                 bind:value={pesoingresobebe}
             />

@@ -70,10 +70,15 @@
                 text-gray-900 bg-white border-gray-300
             `}
             bind:value={unidad}
-        >
+        >   
+            {#if unidades.length>0}
             {#each unidades as r}
                 <option value={r.id}>{r.nombre}</option>
             {/each}
+            {:else}
+                <option value="">No hay unidades disponibles</option>
+            {/if}
+            
         </select>
     </div>
     <div class="space-y-2">
@@ -95,8 +100,8 @@
             bind:value={bebe}
         >
             <option value="">Vacia</option>
-            {#each bebes.filter((b) => b.id == bebe || b.unidad == "") as r}
-                <option value={r.id}>{r.nombrebebe}</option>
+            {#each bebes.filter((b) => b.id == bebe || (b.unidad == "" && b.area == "") ) as b}
+                <option value={b.id}>{b.nombrebebe}</option>
             {/each}
         </select>
     </div>

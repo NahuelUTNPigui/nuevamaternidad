@@ -1,5 +1,6 @@
 <script>
     import InputSelect from "../Formulario/InputSelect.svelte";
+    import Rangos from "../Formulario/Rangos.svelte";
     import opciones from "$lib/opciones";
     let{
         cambiarFiltro,
@@ -14,6 +15,12 @@
         aporteaa = $bindable(""),
         comienzolipido = $bindable(""),
         aportelipido = $bindable(""),
+        edadnpthasta = $bindable(""),
+        duracionnpthasta = $bindable(""),
+        comienzoaahasta = $bindable(""),
+        aporteaahasta = $bindable(""),
+        comienzolipidohasta = $bindable(""),
+        aportelipidohasta = $bindable(""),
     }=$props()
 </script>
 <!-- Alimentación Enteral Trófica -->
@@ -62,60 +69,88 @@
             lista={opciones.SINO}
             cambiar={cambiarFiltro}
         />
-        <!--Edad inicio dias-->
-        <InputSelect
-            idetiqueta="fedadpt"
-            etiqueta="Edad inicio dias"
-            modoedicion={true}
-            bind:value={edadnpt}
-            lista={opciones.EDAD_INICIO}
-            cambiar={cambiarFiltro}
-        />
+<!--Edad inicio dias-->
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fedadpt"
+                etiquetadesde="Edad inicio días desde"
+                idetiquetahasta="fedadpthasta"
+                etiquetahasta="Edad inicio días hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={edadnpt}
+                bind:valuehasta={edadnpthasta}
+            />
+        </div>
         <!--Duración dias-->
-        <InputSelect
-            idetiqueta="fDURACION"
-            etiqueta="Duración dias"
-            modoedicion={true}
-            bind:value={duracionnpt}
-            lista={opciones.DURACION}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fDURACION"
+                etiquetadesde="Duración días desde"
+                idetiquetahasta="fDURACIONhasta"
+                etiquetahasta="Duración días hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={duracionnpt}
+                bind:valuehasta={duracionnpthasta}
+            />
+        </div>
         <!--Dia inicio aminoacidos-->
-        <InputSelect
-            idetiqueta="fdiainicioaa"
-            etiqueta="Dias inicio aminoacidos"
-            modoedicion={true}
-            bind:value={comienzoaa}
-            lista={opciones.INICIO_AA}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fdiainicioaa"
+                etiquetadesde="Días inicio aminoácidos desde"
+                idetiquetahasta="fdiainicioaahasta"
+                etiquetahasta="Días inicio aminoácidos hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={comienzoaa}
+                bind:valuehasta={comienzoaahasta}
+            />
+        </div>
         <!--Aporte total AA-->
-        <InputSelect
-            idetiqueta="faporteaa"
-            etiqueta="Aporte total AA"
-            modoedicion={true}
-            bind:value={aporteaa}
-            lista={opciones.APORTE_AA}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="faporteaa"
+                etiquetadesde="Aporte total AA desde"
+                idetiquetahasta="faporteaahasta"
+                etiquetahasta="Aporte total AA hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={aporteaa}
+                bind:valuehasta={aporteaahasta}
+            />
+        </div>
         <!--Dias inicio lípidos-->
-        <InputSelect
-            idetiqueta="fdiainiciolipido"
-            etiqueta="Dias inicio lípidos"
-            modoedicion={true}
-            bind:value={comienzolipido}
-            lista={opciones.COMIENZO_LIPIDO}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fdiainiciolipido"
+                etiquetadesde="Días inicio lípidos desde"
+                idetiquetahasta="fdiainiciolipidohasta"
+                etiquetahasta="Días inicio lípidos hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={comienzolipido}
+                bind:valuehasta={comienzolipidohasta}
+            />
+        </div>
+        
         <!--Aporte total lípidos-->
-        <InputSelect
-            idetiqueta="faportelipido"
-            etiqueta="Aporte lípido"
-            modoedicion={true}
-            bind:value={aportelipido}
-            lista={opciones.APORTE_LIPIDO}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="faportelipido"
+                etiquetadesde="Aporte lípido desde"
+                idetiquetahasta="faportelipidohasta"
+                etiquetahasta="Aporte lípido hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={aportelipido}
+                bind:valuehasta={aportelipidohasta}
+            />
+        </div>
+        
+        
+        
     </div>
 </div>
 

@@ -14,9 +14,10 @@
     import { goto } from "$app/navigation";
     import Collapse from "$lib/componentes/addbebe/Collapse.svelte";
     import Basicos from "$lib/componentes/addbebe/Basicos.svelte";
+    import { calcularEdadShow } from "$lib/string/string";
     let areas = $state([]);
     let unidades = $state([]);
-    let unidadesrows = $derived(unidades.filter((u) => u.area == area));
+    let unidadesrows = $derived(unidades.filter((u) => u.area == area && u.bebe == ""));
     let ruta = import.meta.env.VITE_RUTA;
     let oscuro = $derived(darker.oscurostate);
     const pb = new PocketBase(ruta);
@@ -56,6 +57,17 @@
     let fallece = $state(0);
     let rciu = $state("");
 
+    function cambioFechasIngresoNacimiento(){
+
+        if(fechaingresobebe.length>0 && fechanacimientobebe.length>0){
+            
+            edadingreso = calcularEdadShow(fechanacimientobebe,fechaingresobebe)
+
+        }
+    }
+    function cambiarArea(){
+        unidad = ""
+    }
     async function guardar() {
         let ingresobebe = {
             //ubicacion
@@ -98,6 +110,13 @@
         };
         try {
             let record = await pb.collection("bebes").create(ingresobebe);
+            let datahistorial = {
+                ...ingresobebe,
+                bebe: record.id,
+            };
+            await pb
+                .collection("historialbebes")
+                .create(datahistorial);
             Swal.fire("Éxito guardar", "Se pudo guardar el bebe", "success");
             goto("/bebes");
         } catch (err) {
@@ -106,7 +125,7 @@
     }
     onMount(async () => {
         const recordsareas = await pb.collection("areas").getFullList({
-            sort: "-nombre",
+            sort: "nombre",
             filter: "active=true",
         });
         areas = recordsareas;
@@ -115,6 +134,7 @@
             .getFullList({
                 expand: "area",
                 filter: "eliminada = false",
+                sort:"nombre"
             });
         unidades = recordsunidades;
     });
@@ -133,6 +153,7 @@
         <div class="max-w-4xl mx-auto space-y-2">
             <Collapse titulo="Datos básicos e ingreso">
                 <Basicos
+                    {cambiarArea}
                     bind:areas
                     bind:area
                     bind:unidadesrows
@@ -150,6 +171,7 @@
                     bind:pesoingresobebe
                     bind:temperaturaingreso
                     bind:edad_gestacional
+                    {cambioFechasIngresoNacimiento}
                 />
             </Collapse>
             <Collapse titulo="Datos madre">

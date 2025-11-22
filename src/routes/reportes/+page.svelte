@@ -11,9 +11,11 @@
     import StatCard from "$lib/componentes/StatCard.svelte";
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
     import opciones from "$lib/opciones";
-    import { calcularEdad } from "$lib/string/string";
+    import { calcularEdad, diasEntreFechas } from "$lib/string/string";
     import Estadisticas from "$lib/componentes/reportes/estadisticas/Estadisticas.svelte";
     import Historico from "$lib/componentes/reportes/estadisticas/Historico.svelte";
+    import Analisis from "$lib/componentes/reportes/Analisis.svelte";
+    import ListadoMovimientos from "$lib/componentes/reportes/ListadoMovimientos.svelte";
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -25,28 +27,33 @@
     let filas = $state([]);
     let sinhistorial = $state(false);
 
-
-
-
-
     //reportes
-    let totalcantidad = $state(0)
+    let unidades_movimientos_todos = $state([]);
+    let areas_movimentos_todos = $state([]);
 
-    let unidades_estadisticas = $state([])
-    let areas_estadisticas = $state([])
+    let totalcantidad = $state(0);
+    let totalpeso = $state(0);
+    let diaspromedio = $state(0);
 
+    let unidades_estadisticas = $state([]);
+    let areas_estadisticas = $state([]);
 
+    let unidad_historico = $state([]);
+    let area_historico = $state([]);
 
-    let unidad_historico = $state([])
-    let area_historico = $state([])
+    let vergraficounidad = $state(false);
+    let verhistoricounidad = $state(false);
+    let vergraficoarea = $state(false);
+    let verhistoricoarea = $state(false);
 
     //listas
     let unidades = $state([]);
     let areas = $state([]);
+    let area = $state("");
     let unidadesarea = $derived(
-        unidades
-            .filter((u) => u.area == area)
-            .concat({ id: "", nombre: "Todas" }),
+        area == ""
+            ? unidades
+            : unidades.filter((u) => u.area == area || u.id == ""),
     );
     //Check
     let checked_identificacion = $state(true);
@@ -72,7 +79,7 @@
     //filttros
     //basicos
     let unidad = $state("");
-    let area = $state("");
+
     let fechadesde = $state("");
     let fechahasta = $state("");
     //identifiacion
@@ -99,6 +106,9 @@
     let apgar_1 = $state("");
     let apgar_5 = $state("");
     let apgar_10 = $state("");
+    let apgar_1hasta = $state("");
+    let apgar_5hasta = $state("");
+    let apgar_10hasta = $state("");
 
     let gestacion = $state("");
     let gestaciondesde = $state("");
@@ -106,6 +116,7 @@
 
     let rciu = $state("");
     let temperatura_ingreso = $state("");
+    let temperatura_ingresohasta = $state("");
 
     let rem = $state("");
     let reanimacion = $state("");
@@ -113,6 +124,9 @@
     let fallece = $state("");
 
     //antropometria
+    let peso_actual = $state("");
+    let peso_actualhasta = $state("");
+
     let peso_rn = $state("");
     let peso_7 = $state("");
     let peso_14 = $state("");
@@ -120,12 +134,25 @@
     let peso_28 = $state("");
     let peso_36 = $state("");
 
+    let peso_rnhasta = $state("");
+    let peso_7hasta = $state("");
+    let peso_14hasta = $state("");
+    let peso_21hasta = $state("");
+    let peso_28hasta = $state("");
+    let peso_36hasta = $state("");
+
     let cefalico_rn = $state("");
     let cefalico_7 = $state("");
     let cefalico_14 = $state("");
     let cefalico_21 = $state("");
     let cefalico_28 = $state("");
     let cefalico_36 = $state("");
+    let cefalico_rnhasta = $state("");
+    let cefalico_7hasta = $state("");
+    let cefalico_14hasta = $state("");
+    let cefalico_21hasta = $state("");
+    let cefalico_28hasta = $state("");
+    let cefalico_36hasta = $state("");
 
     let talla_rn = $state("");
     let talla_7 = $state("");
@@ -133,6 +160,12 @@
     let talla_21 = $state("");
     let talla_28 = $state("");
     let talla_36 = $state("");
+    let talla_rnhasta = $state("");
+    let talla_7hasta = $state("");
+    let talla_14hasta = $state("");
+    let talla_21hasta = $state("");
+    let talla_28hasta = $state("");
+    let talla_36hasta = $state("");
 
     let scorez_rn = $state("");
     let scorez_7 = $state("");
@@ -140,6 +173,12 @@
     let scorez_21 = $state("");
     let scorez_28 = $state("");
     let scorez_36 = $state("");
+    let scorez_rnhasta = $state("");
+    let scorez_7hasta = $state("");
+    let scorez_14hasta = $state("");
+    let scorez_21hasta = $state("");
+    let scorez_28hasta = $state("");
+    let scorez_36hasta = $state("");
 
     let recuperarpeso = $state("");
     let recuperarpesodesde = $state("");
@@ -147,8 +186,10 @@
 
     //datos maternos
     let edad_materna = $state("");
+    let edad_maternahasta = $state("");
     let niveleducativo = $state("");
     let paridad = $state("");
+    let paridadhasta = $state("");
     let gemelos = $state("");
     let controlparental = $state("");
     let corticoideprenatal = $state("");
@@ -189,17 +230,25 @@
     let aporteaa = $state("");
     let comienzolipido = $state("");
     let aportelipido = $state("");
+    let edadnpthasta = $state("");
+    let duracionnpthasta = $state("");
+    let comienzoaahasta = $state("");
+    let aporteaahasta = $state("");
+    let comienzolipidohasta = $state("");
+    let aportelipidohasta = $state("");
 
     //infecciones
     let tempranoestado = $state("");
     let tempranogermen = $state("");
     let tempranoantibiotico = $state("");
     let tempranoatb = $state("");
+    let tempranoatbhasta = $state("");
 
     let tardeestado = $state("");
     let tardegermen = $state("");
     let tardeantibiotico = $state("");
     let tardeatb = $state("");
+    let tardeatbhasta = $state("");
 
     //patologias respiratorios
     let emh = $state("");
@@ -247,6 +296,10 @@
     let plaqueta = $state("");
     let inmunoglobina = $state("");
     let transfusion = $state("");
+    let tgrhasta = $state("");
+    let plasmahasta = $state("");
+    let plaquetahasta = $state("");
+    let inmunoglobinahasta = $state("");
 
     //neurologia
     let ecotf = $state("");
@@ -289,6 +342,17 @@
     let metadona = $state("");
     let vecuronio = $state("");
     let prostaglandinas = $state("");
+    let protectorgastricohasta = $state("");
+    let inhibidorhasta = $state("");
+    let probioticohasta = $state("");
+    let eritromicinahasta = $state("");
+    let fentanilohasta = $state("");
+    let morfinahasta = $state("");
+    let midozolamhasta = $state("");
+    let precedexhasta = $state("");
+    let metadonahasta = $state("");
+    let vecuroniohasta = $state("");
+    let prostaglandinashasta = $state("");
 
     //otros
     let malformacionescongenitas = $state("");
@@ -298,6 +362,7 @@
 
     //alta
     let conalta = $state("");
+    let tipoalta = $state("");
     let altadesde = $state("");
     let altahasta = $state("");
     let altacomplicaciones = $state("");
@@ -353,15 +418,21 @@
         apgar_1: "",
         apgar_5: "",
         apgar_10: "",
+        apgar_1hasta: "",
+        apgar_5hasta: "",
+        apgar_10hasta: "",
         gestacion: "",
         gestaciondesde: "",
         gestacionhasta: "",
         rciu: "",
         temperatura_ingreso: "",
+        temperatura_ingresohasta: "",
         rem: "",
         reanimacion: "",
         liquido: "",
         fallece: "",
+        peso_actual: "",
+        peso_actualhasta: "",
         peso_rn: "",
         peso_7: "",
         peso_14: "",
@@ -386,12 +457,38 @@
         scorez_21: "",
         scorez_28: "",
         scorez_36: "",
+        peso_rnhasta: "",
+        peso_7hasta: "",
+        peso_14hasta: "",
+        peso_21hasta: "",
+        peso_28hasta: "",
+        peso_36hasta: "",
+        cefalico_rnhasta: "",
+        cefalico_7hasta: "",
+        cefalico_14hasta: "",
+        cefalico_21hasta: "",
+        cefalico_28hasta: "",
+        cefalico_36hasta: "",
+        talla_rnhasta: "",
+        talla_7hasta: "",
+        talla_14hasta: "",
+        talla_21hasta: "",
+        talla_28hasta: "",
+        talla_36hasta: "",
+        scorez_rnhasta: "",
+        scorez_7hasta: "",
+        scorez_14hasta: "",
+        scorez_21hasta: "",
+        scorez_28hasta: "",
+        scorez_36hasta: "",
         recuperarpeso: "",
         recuperarpesodesde: "",
         recuperarpesohasta: "",
         edad_materna: "",
+        edad_maternahasta: "",
         niveleducativo: "",
         paridad: "",
+        paridadhasta: "",
         gemelos: "",
         controlparental: "",
         corticoideprenatal: "",
@@ -426,14 +523,22 @@
         aporteaa: "",
         comienzolipido: "",
         aportelipido: "",
+        edadnpthasta: "",
+        duracionnpthasta: "",
+        comienzoaahasta: "",
+        aporteaahasta: "",
+        comienzolipidohasta: "",
+        aportelipidohasta: "",
         tempranoestado: "",
         tempranogermen: "",
         tempranoantibiotico: "",
         tempranoatb: "",
+        tempranoatbhasta: "",
         tardeestado: "",
         tardegermen: "",
         tardeantibiotico: "",
         tardeatb: "",
+        tardeatbhasta: "",
         emh: "",
         ndosissurfactante: "",
         salam: "",
@@ -470,6 +575,10 @@
         plasma: "",
         plaqueta: "",
         inmunoglobina: "",
+        tgrhasta: "",
+        plasmahasta: "",
+        plaquetahasta: "",
+        inmunoglobinahasta: "",
         transfusion: "",
         ecotf: "",
         hiv: "",
@@ -503,11 +612,23 @@
         metadona: "",
         vecuronio: "",
         prostaglandinas: "",
+        protectorgastricohasta: "",
+        inhibidorhasta: "",
+        probioticohasta: "",
+        eritromicinahasta: "",
+        fentanilohasta: "",
+        morfinahasta: "",
+        midozolamhasta: "",
+        precedexhasta: "",
+        metadonahasta: "",
+        vecuroniohasta: "",
+        prostaglandinashasta: "",
         malformacionescongenitas: "",
         cirugias: "",
         complicaciones: "",
         diagnostico: "",
         conalta: "",
+        tipoalta: "",
         altadesde: "",
         altahasta: "",
     };
@@ -524,7 +645,7 @@
                 estados: [],
             };
             let fecha_inicio = b.created;
-            let fecha_fin = "";
+            let fecha_fin = new Date().toISOString().split("T")[0];
             let hs_bebe = historial.filter((h) => h.bebe == b.id);
             for (let j = 0; j < hs_bebe.length; j++) {
                 let h = hs_bebe[j];
@@ -540,7 +661,7 @@
             }
             fecha_fin = new Date().toUTCString().split("T")[0] + " 00:00:00";
             let estado = {
-                fecha_inicio,
+                fecha_inicio: b.updated,
                 fecha_fin,
                 ...b,
             };
@@ -549,227 +670,345 @@
         }
     }
 
+    function procesarEstadisticas() {
+        unidades_estadisticas = [];
+        areas_estadisticas = [];
+        let contador_unidades = {};
+        let contador_areas = {};
 
-    function procesarEstadisticas(){
-        unidades_estadisticas = []
-        areas_estadisticas = []
-        let contador_unidades = {}
-        let contador_areas = {}
-        let unidades_movimientos_todos = []
-        let areas_movimentos_todos = []
         for (let i = 0; i < historiasbebesrow.length; i++) {
-            let h =historiasbebesrow[i]; 
+            let h = historiasbebesrow[i];
             let primer_estado = h.estados[0];
             let ultimo_estado = h.estados[h.estados.length - 1];
         }
-
     }
-    function getNombre(id, lista) {
-        let ops = lista.filter((o) => o.id == id);
+    function getNombre(id, lista, singrupo) {
+        let listafiltrada = lista.filter((o) => o.id != "" && o.id != "-1");
+        let ops = listafiltrada.filter((o) => o.id == id);
         if (ops.length == 0) {
-            return "";
+            return singrupo;
         }
 
         return ops[0].nombre;
     }
+
     function calcularMovimientos(estados) {
-        let movimientos_unidades = []
-        let movimientos_areas = []
+        let movimientos_unidades = [];
+        let movimientos_areas = [];
         let primer_estado = estados[0];
         if (estados.length == 1) {
             let estado_inicio = estados[0];
             let movimiento_unidad = {
-                grupo:estado_inicio.unidad,
-                fecha:estado_inicio.created,
-                unidad:estado_inicio.unidad,
-                cantidad:1
-            }
-            movimientos_unidades.push(movimiento_unidad)
+                grupo: estado_inicio.unidad,
+                fecha: estado_inicio.created,
+                unidad: estado_inicio.unidad,
+                area: estado_inicio.area,
+                cantidad: 1,
+                peso: estado_inicio.pesobebe,
+                dias: 0,
+                cambio: true,
+                bebe: estado_inicio.bebe,
+            };
+            movimientos_unidades.push(movimiento_unidad);
             let movimiento_area = {
-                grupo:estado_inicio.area,
-                fecha:estado_inicio.created,
-                area:estado_inicio.area,
-                cantidad:1
-            }
-            movimientos_areas.push(movimiento_area)
-        }
-        else{
+                grupo: estado_inicio.area,
+                fecha: estado_inicio.created,
+                unidad: estado_inicio.unidad,
+                area: estado_inicio.area,
+                cantidad: 1,
+                peso: estado_inicio.pesobebe,
+                dias: 0,
+                cambio: true,
+                bebe: estado_inicio.bebe,
+            };
+            movimientos_areas.push(movimiento_area);
+        } else {
             let estado_inicio = estados[0];
             let movimiento_unidad = {
-                grupo:estado_inicio.unidad,
-                fecha:estado_inicio.created,
-                unidad:estado_inicio.unidad,
-                cantidad:1
-            }
-            movimientos_unidades.push(movimiento_unidad)
+                grupo: estado_inicio.unidad,
+                fecha: estado_inicio.created,
+                unidad: estado_inicio.unidad,
+                area: estado_inicio.area,
+                cantidad: 1,
+                peso: estado_inicio.pesobebe,
+                dias: 0,
+                cambio: true,
+                bebe: estado_inicio.bebe,
+            };
+            movimientos_unidades.push(movimiento_unidad);
             let movimiento_area = {
-                grupo:estado_inicio.area,
-                fecha:estado_inicio.created,
-                area:estado_inicio.area,
-                cantidad:1
-            }
-            movimientos_areas.push(movimiento_area)
+                grupo: estado_inicio.area,
+                fecha: estado_inicio.created,
+                area: estado_inicio.area,
+                unidad: estado_inicio.unidad,
+                cantidad: 1,
+                peso: estado_inicio.pesobebe,
+                dias: 0,
+                cambio: true,
+                bebe: estado_inicio.bebe,
+            };
+            movimientos_areas.push(movimiento_area);
             for (let i = 1; i < estados.length; i++) {
                 let estado = estados[i];
-                if(estado.unidad != estado_inicio.unidad){
+                if (estado.unidad != estado_inicio.unidad) {
                     let movimiento_unidad = {
-                        grupo:estado.unidad,
+                        grupo: estado.unidad,
                         fecha: estado.created,
                         unidad: estado.unidad,
-                        cantidad: 1,
-                    };
-                    let resta_movimiento_unidad = {
-                        grupo:estado_inicio.unidad,
-                        fecha: estado.created,
-                        unidad: estado_inicio.unidad,
-                        cantidad: -1,
-                    };
-                    movimientos_unidades.push(movimiento_unidad)
-                    movimientos_unidades.push(resta_movimiento_unidad)
-                }
-                if(estado.area != estado_inicio.area){
-                    let movimiento_area = {
-                        grupo:estado.area,
-                        fecha: estado.created,
                         area: estado.area,
                         cantidad: 1,
+                        peso: estado.pesobebe,
+                        dias: 0,
+                        cambio: true,
+                        bebe: estado.bebe,
+                    };
+                    let resta_movimiento_unidad = {
+                        grupo: estado_inicio.unidad,
+                        fecha: estado.created,
+                        unidad: estado_inicio.unidad,
+                        area: estado_inicio.area,
+                        cantidad: -1,
+                        peso: -estado_inicio.pesobebe,
+                        dias: 0,
+                        cambio: false,
+                        bebe: estado.bebe,
+                    };
+                    movimientos_unidades.push(movimiento_unidad);
+                    movimientos_unidades.push(resta_movimiento_unidad);
+                }
+                if (estado.area != estado_inicio.area) {
+                    let movimiento_area = {
+                        grupo: estado.area,
+                        fecha: estado.created,
+                        area: estado.area,
+                        unidad: estado.unidad,
+                        cantidad: 1,
+                        peso: estado.pesobebe,
+                        dias: 0,
+                        cambio: true,
+                        bebe: estado.bebe,
                     };
                     let resta_movimiento_area = {
-                        grupo:estado_inicio.area,
+                        grupo: estado_inicio.area,
                         fecha: estado.created,
                         area: estado_inicio.area,
-                        cantidad: -1
+                        unidad: estado_inicio.unidad,
+                        cantidad: -1,
+                        peso: -estado_inicio.pesobebe,
+                        dias: 0,
+                        cambio: false,
+                        bebe: estado.bebe,
                     };
-                    movimientos_areas.push(movimiento_area)
-                    movimientos_areas.push(resta_movimiento_area)
+                    movimientos_areas.push(movimiento_area);
+                    movimientos_areas.push(resta_movimiento_area);
                 }
+            }
+        }
+        movimientos_areas = movimientos_areas.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        movimientos_unidades = movimientos_unidades.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        console.log("movimientos_areas")
+        console.log(movimientos_areas)
+        console.log("movimientos_unidades")
+        console.log(movimientos_unidades)
+        let presente = new Date().toISOString().split("T")[0];
+        let pasado = new Date();
+        for (let i = 0; i < movimientos_areas.length; i++) {
+            let movimiento = movimientos_areas[i];
+            if (movimiento.cambio) {
+                pasado = movimiento.fecha;
+                let dias = diasEntreFechas(pasado, presente);
+
+                movimientos_areas[i].dias = dias;
+
+                presente = pasado;
+            }
+        }
+
+        presente = new Date().toISOString().split("T")[0];
+        pasado = new Date();
+        for (let i = 0; i < movimientos_unidades.length; i++) {
+            let movimiento = movimientos_unidades[i];
+            if (movimiento.cambio) {
+                pasado = movimiento.fecha;
+                let dias = diasEntreFechas(pasado, presente);
+
+                movimientos_unidades[i].dias = dias;
+
+                presente = pasado;
             }
         }
         return {
             movimientos_areas,
-            movimientos_unidades
-        }
+            movimientos_unidades,
+        };
     }
-    function acumularContador(contador, clave, lista) {
+    function acumularContador(
+        contador,
+        clave,
+        peso,
+        lista,
+        singrupo,
+        area = "",
+    ) {
         if (!contador[clave]) {
             contador[clave] = {
                 clave,
-                nombre: getNombre(clave, lista),
+                nombre: getNombre(clave, lista, singrupo),
                 cantidad: 0,
-                
+                peso: 0,
+                area,
             };
         }
         contador[clave].cantidad += 1;
+        contador[clave].peso += Number(peso);
     }
     function procesarContador(contador, singrupo) {
-        return Object.entries(contador)
+        return (
+            Object.entries(contador)
                 //.sort((a,b)=>a.nombre.toLocaleLowerCase>b.nombretoLocaleLowerCase?-1:1)
                 .map((fila) => {
-                    let vacio=fila[1].nombre.length == 0 ;
+                    let vacio = fila[1].nombre.length == 0;
                     let nombre =
                         fila[1].nombre.length == 0 ? singrupo : fila[1].nombre;
-
+                    let peso = calcularPromedio(fila[1].peso, fila[1].cantidad);
                     return {
                         ...fila[1],
+                        peso,
                         vacio,
                         nombre,
-                        grupo:fila[1].clave,
+                        grupo: fila[1].clave,
                     };
                 })
-                .sort((a,b)=>
-                    a.vacio?
-                        -1:
-                    b.vacio?
-                        1:
-                        a.nombre.toLocaleLowerCase()>b.nombre.toLocaleLowerCase()?
-                            1:
-                            -1
-                )                
-        ;
+                .sort((a, b) =>
+                    a.vacio
+                        ? -1
+                        : b.vacio
+                          ? 1
+                          : a.nombre.toLocaleLowerCase() >
+                              b.nombre.toLocaleLowerCase()
+                            ? 1
+                            : -1,
+                )
+        );
     }
-    function calcularStockHistorial(movimientos){
-        let historicomap = {}
-        let historico = []
-        
-        
-        for(let i = 0;i<movimientos.length;i++){
-            let movimiento = movimientos[i]
-            let fecha = movimiento.fecha.split(" ")[0]
-            if(!historicomap[movimiento.grupo]){
-                historicomap[movimiento.grupo] = {
-                    grupo:movimiento.grupo,
-                    nombre:"",
-                    historial:{}
-                }
-            }
-            if(!historicomap[movimiento.grupo].historial[fecha]){
-                historicomap[movimiento.grupo].historial[fecha] ={
-                    cantidad:0,
-                }
-
-            }
-            historicomap[movimiento.grupo].historial[fecha].cantidad += movimiento.cantidad
-            
+    function calcularPromedio(numerador, denominador) {
+        if (denominador == 0) {
+            return 0;
+        } else {
+            return Math.round((100 * numerador) / denominador) / 100;
         }
-        let grupos_cantidad = {}
+    }
+    function calcularStockHistorial(movimientos) {
+        let historicomap = {};
+        let historico = [];
+
+        for (let i = 0; i < movimientos.length; i++) {
+            let movimiento = movimientos[i];
+            let fecha = movimiento.fecha.split(" ")[0];
+            if (!historicomap[movimiento.grupo]) {
+                historicomap[movimiento.grupo] = {
+                    grupo: movimiento.grupo,
+                    nombre: "",
+                    historial: {},
+                };
+            }
+            if (!historicomap[movimiento.grupo].historial[fecha]) {
+                historicomap[movimiento.grupo].historial[fecha] = {
+                    cantidad: 0,
+                    peso: 0,
+                };
+            }
+            historicomap[movimiento.grupo].historial[fecha].cantidad +=
+                movimiento.cantidad;
+            historicomap[movimiento.grupo].historial[fecha].peso +=
+                movimiento.peso;
+        }
+        let grupos_cantidad = {};
         for (const [grupo, fila] of Object.entries(historicomap)) {
-            grupos_cantidad[grupo] = {cantidad:0}
-            for(const [fecha,historial] of Object.entries(fila.historial)){
-                
-                let item =  {
+            grupos_cantidad[grupo] = { cantidad: 0 };
+            for (const [fecha, historial] of Object.entries(fila.historial)) {
+                let item = {
                     fecha,
                     grupo,
-                    cantidad:historial.cantidad
-                }   
-                historico.push(item)
+                    cantidad: historial.cantidad,
+                    peso: calcularPromedio(historial.peso, historial.cantidad),
+                };
+                historico.push(item);
             }
         }
-        
-        historico.sort((a,b)=>new Date(a.fecha)>new Date(b.fecha)?1:-1)
-        for(let i = 0;i<historico.length;i++){
-            let h = historico[i]
-            let grupo = h.grupo
-            let cantidad = grupos_cantidad[grupo].cantidad + h.cantidad
-            
-            grupos_cantidad[grupo].cantidad = cantidad
-            
-            historico[i].cantidad = cantidad
 
+        historico.sort((a, b) =>
+            new Date(a.fecha) > new Date(b.fecha) ? 1 : -1,
+        );
+        for (let i = 0; i < historico.length; i++) {
+            let h = historico[i];
+            let grupo = h.grupo;
+            let cantidad = grupos_cantidad[grupo].cantidad + h.cantidad;
 
+            grupos_cantidad[grupo].cantidad = cantidad;
+
+            historico[i].cantidad = cantidad;
         }
-        return historico
+        return historico;
     }
     function procesarFilas() {
         filas = [];
 
-        unidades_estadisticas = []
-        areas_estadisticas = []
-        let contador_unidades = {}
-        let contador_areas = {}
-        let unidades_movimientos_todos = []
-        let areas_movimentos_todos = []
+        unidades_estadisticas = [];
+        areas_estadisticas = [];
+        let contador_unidades = {};
+        let contador_areas = {};
+        unidades_movimientos_todos = [];
+        areas_movimentos_todos = [];
         for (let i = 0; i < historiasbebesrow.length; i++) {
             let h = historiasbebesrow[i];
             let primer_estado = h.estados[0];
             let ultimo_estado = h.estados[h.estados.length - 1];
             let fila = { ...ultimo_estado };
-            let movimientos = calcularMovimientos(h.estados)
+            let movimientos = calcularMovimientos(h.estados);
+
             filas.push(fila);
-            acumularContador(contador_areas,ultimo_estado.area,areas)
-            acumularContador(contador_unidades,ultimo_estado.unidad,unidades)
+            acumularContador(
+                contador_areas,
+                ultimo_estado.area,
+                ultimo_estado.pesobebe,
+                areas,
+                "Sin área",
+            );
+            acumularContador(
+                contador_unidades,
+                ultimo_estado.unidad,
+                ultimo_estado.pesobebe,
+                unidades,
+                "Sin unidad",
+                ultimo_estado.area,
+            );
 
-
-            
-            unidades_movimientos_todos = unidades_movimientos_todos.concat(movimientos.movimientos_unidades)
-            areas_movimentos_todos = areas_movimentos_todos.concat(movimientos.movimientos_areas)
+            unidades_movimientos_todos = unidades_movimientos_todos.concat(
+                movimientos.movimientos_unidades,
+            );
+            areas_movimentos_todos = areas_movimentos_todos.concat(
+                movimientos.movimientos_areas,
+            );
         }
-        unidades_estadisticas = procesarContador(contador_unidades, "Sin unidad");
+        unidades_estadisticas = procesarContador(
+            contador_unidades,
+            "Sin unidad",
+        );
         areas_estadisticas = procesarContador(contador_areas, "Sin área");
-        //historico
-        unidad_historico = calcularStockHistorial(unidades_movimientos_todos)
-        area_historico  = calcularStockHistorial(areas_movimentos_todos)
 
-        totalcantidad = filas.length
+        //historico
+
+        unidad_historico = calcularStockHistorial(unidades_movimientos_todos);
+        area_historico = calcularStockHistorial(areas_movimentos_todos);
+        areas_movimentos_todos = areas_movimentos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        unidades_movimientos_todos = unidades_movimientos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        totalpeso = filas.reduce((peso, fila) => {
+            return peso + Number(fila.pesobebe) || 0;
+        }, 0);
+        totalpeso = calcularPromedio(totalpeso, filas.length);
+
+        totalcantidad = filas.length;
     }
     function esSubconjunto(subconjunto, conjunto) {
         // Verifica que ambos parámetros sean arrays
@@ -804,7 +1043,6 @@
         const desdeObj = parseDate(fechaDesde);
         const hastaObj = parseDate(fechaHasta);
 
-
         // Si la fecha no es válida, devolver false
         if (!fechaObj) return false;
 
@@ -822,6 +1060,49 @@
             return true;
         } else {
             return variableestado == variable;
+        }
+    }
+
+    function estaEnRangoNumerico(valor, desde, hasta) {
+        let nvalor = parseFloat(valor || 0);
+        if (desde.length > 0 && hasta.length > 0) {
+            let ndesde = parseFloat(desde || 0);
+
+            let nhasta = parseFloat(hasta || 0);
+            if (!isNaN(ndesde) && !isNaN(nhasta)) {
+                return nvalor >= ndesde && nvalor < nhasta;
+            } else {
+                return true;
+            }
+        } else if (desde.length > 0) {
+            let ndesde = parseFloat(desde || 0);
+            if (!isNaN(ndesde)) {
+                return nvalor >= ndesde;
+            } else {
+                return true;
+            }
+        } else {
+            let nhasta = parseFloat(hasta || 0);
+            if (!isNaN(nhasta)) {
+                return nvalor < nhasta;
+            } else {
+                return true;
+            }
+        }
+    }
+    function filtrarPorRangoNumerico(
+        variableestado,
+        variabledesde,
+        variablehasta,
+    ) {
+        if (variabledesde.length == 0 && variablehasta.length == 0) {
+            return true;
+        } else {
+            return estaEnRangoNumerico(
+                variableestado,
+                variabledesde,
+                variablehasta,
+            );
         }
     }
     function filtrarPorFecha(variableestado, variabledesde, variablehasta) {
@@ -934,9 +1215,14 @@
             return false;
         }
         //Area
-        if (!filtrarPorIgualdad(estado.area, area)) {
-            return false;
+        if (area == "-1") {
+            return estado.area == "";
+        } else {
+            if (!filtrarPorIgualdad(estado.area, area)) {
+                return false;
+            }
         }
+
         //dniBebe
         if (!filtrarPorParecido(estado.dnibebe, dnirn)) {
             return false;
@@ -987,31 +1273,33 @@
             return false;
         }
         //apgar
-        if (!filtrarPorRango(estado.apgar_1, apgar_1, opciones.APGAR_RANGO)) {
+        if (!filtrarPorRangoNumerico(estado.apgar_1, apgar_1, apgar_1hasta)) {
             return false;
         }
-        if (!filtrarPorRango(estado.apgar_5, apgar_5, opciones.APGAR_RANGO)) {
+        if (!filtrarPorRangoNumerico(estado.apgar_5, apgar_5, apgar_5hasta)) {
             return false;
         }
-        if (!filtrarPorRango(estado.apgar_10, apgar_10, opciones.APGAR_RANGO)) {
+        if (
+            !filtrarPorRangoNumerico(estado.apgar_10, apgar_10, apgar_10hasta)
+        ) {
             return false;
         }
         //edad gestacional
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.edad_gestacional,
-                gestacion,
-                opciones.EDAD_GESTACIONAL,
+                gestaciondesde,
+                gestacionhasta,
             )
         ) {
             return false;
         }
-
+        //temperatura
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.temperatura_ingreso,
                 temperatura_ingreso,
-                opciones.TEMPERATURA_RANGO,
+                temperatura_ingresohasta,
             )
         ) {
             return false;
@@ -1033,191 +1321,168 @@
         }
         //Antropometria
         //peso
-        if (!filtrarPorRango(estado.pesorn, peso_rn, opciones.PESO_RANGO.RN)) {
-            return false;
-        }
+
         if (
-            !filtrarPorRango(estado.peso7d, peso_7, opciones.PESO_RANGO.DIAS_7)
-        ) {
-            return false;
-        }
-        if (
-            !filtrarPorRango(
-                estado.peso14d,
-                peso_14,
-                opciones.PESO_RANGO.DIAS_14,
+            !filtrarPorRangoNumerico(
+                estado.pesobebe,
+                peso_actual,
+                peso_actualhasta,
             )
         ) {
             return false;
         }
-        if (
-            !filtrarPorRango(
-                estado.peso21d,
-                peso_21,
-                opciones.PESO_RANGO.DIAS_21,
-            )
-        ) {
+        if (!filtrarPorRangoNumerico(estado.pesorn, peso_rn, peso_rnhasta)) {
             return false;
         }
-        if (
-            !filtrarPorRango(
-                estado.peso28d,
-                peso_28,
-                opciones.PESO_RANGO.DIAS_28,
-            )
-        ) {
+
+        if (!filtrarPorRangoNumerico(estado.peso7d, peso_7, peso_7hasta)) {
             return false;
         }
-        if (
-            !filtrarPorRango(
-                estado.peso36sem,
-                peso_36,
-                opciones.PESO_RANGO.SEM_36,
-            )
-        ) {
+        if (!filtrarPorRangoNumerico(estado.peso14d, peso_14, peso_14hasta)) {
             return false;
         }
+        if (!filtrarPorRangoNumerico(estado.peso21d, peso_21, peso_21hasta)) {
+            return false;
+        }
+        if (!filtrarPorRangoNumerico(estado.peso28d, peso_28, peso_28hasta)) {
+            return false;
+        }
+        if (!filtrarPorRangoNumerico(estado.peso36sem, peso_36, peso_36hasta)) {
+            return false;
+        }
+
         //cefalico
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetrorn,
                 cefalico_rn,
-                opciones.CEFALICO_RANGO.RN,
+                cefalico_rnhasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetro7d,
                 cefalico_7,
-                opciones.CEFALICO_RANGO.DIAS_7,
+                cefalico_7hasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetro14d,
                 cefalico_14,
-                opciones.CEFALICO_RANGO.DIAS_14,
+                cefalico_14hasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetro21d,
                 cefalico_21,
-                opciones.CEFALICO_RANGO.DIAS_21,
+                cefalico_21hasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetro28d,
                 cefalico_28,
-                opciones.CEFALICO_RANGO.DIAS_28,
+                cefalico_28hasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.perimetro36sem,
                 cefalico_36,
-                opciones.CEFALICO_RANGO.SEM_36,
+                cefalico_36hasta,
             )
         ) {
             return false;
         }
+
         //talla
+        if (!filtrarPorRangoNumerico(estado.tallarn, talla_rn, talla_rnhasta)) {
+            return false;
+        }
+        if (!filtrarPorRangoNumerico(estado.talla7d, talla_7, talla_7hasta)) {
+            return false;
+        }
         if (
-            !filtrarPorRango(estado.tallarn, talla_rn, opciones.TALLA_RANGO.RN)
+            !filtrarPorRangoNumerico(estado.talla14d, talla_14, talla_14hasta)
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
-                estado.talla7d,
-                talla_7,
-                opciones.TALLA_RANGO.DIAS_7,
-            )
+            !filtrarPorRangoNumerico(estado.talla21d, talla_21, talla_21hasta)
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
-                estado.talla14d,
-                talla_14,
-                opciones.TALLA_RANGO.DIAS_14,
-            )
+            !filtrarPorRangoNumerico(estado.talla28d, talla_28, talla_28hasta)
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
-                estado.talla21d,
-                talla_21,
-                opciones.TALLA_RANGO.DIAS_21,
-            )
+            !filtrarPorRangoNumerico(estado.talla36sem, talla_36, talla_36hasta)
         ) {
             return false;
         }
-        if (
-            !filtrarPorRango(
-                estado.talla28d,
-                talla_28,
-                opciones.TALLA_RANGO.DIAS_28,
-            )
-        ) {
-            return false;
-        }
-        if (
-            !filtrarPorRango(
-                estado.talla36sem,
-                talla_36,
-                opciones.TALLA_RANGO.SEM_36,
-            )
-        ) {
-            return false;
-        }
+
         //score
         if (
-            !filtrarPorRango(estado.scorezrn, scorez_rn, opciones.SCOREZ_RANGO)
+            !filtrarPorRangoNumerico(estado.scorezrn, scorez_rn, scorez_rnhasta)
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(estado.scorez7d, scorez_7, opciones.SCOREZ_RANGO)
+            !filtrarPorRangoNumerico(estado.scorez7d, scorez_7, scorez_7hasta)
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(estado.scorez14d, scorez_14, opciones.SCOREZ_RANGO)
-        ) {
-            return false;
-        }
-        if (
-            !filtrarPorRango(estado.scorez21d, scorez_21, opciones.SCOREZ_RANGO)
-        ) {
-            return false;
-        }
-        if (
-            !filtrarPorRango(estado.scorez28d, scorez_28, opciones.SCOREZ_RANGO)
-        ) {
-            return false;
-        }
-        if (
-            !filtrarPorRango(
-                estado.scorez36sem,
-                scorez_36,
-                opciones.SCOREZ_RANGO,
+            !filtrarPorRangoNumerico(
+                estado.scorez14d,
+                scorez_14,
+                scorez_14hasta,
             )
         ) {
             return false;
         }
+        if (
+            !filtrarPorRangoNumerico(
+                estado.scorez21d,
+                scorez_21,
+                scorez_21hasta,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRangoNumerico(
+                estado.scorez28d,
+                scorez_28,
+                scorez_28hasta,
+            )
+        ) {
+            return false;
+        }
+        if (
+            !filtrarPorRangoNumerico(
+                estado.scorez36sem,
+                scorez_36,
+                scorez_36hasta,
+            )
+        ) {
+            return false;
+        }
+
         //edad recuperar peso
         if (
             !filtrarEntreValores(
@@ -1230,10 +1495,10 @@
         }
         //Datos maternos
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 calcularEdad(estado.fechanacimientomama),
                 edad_materna,
-                opciones.EDAD_MADRE,
+                edad_maternahasta,
             )
         ) {
             return false;
@@ -1242,7 +1507,7 @@
         if (!filtrarPorIgualdad(estado.educacionmama, niveleducativo)) {
             return false;
         }
-        if (!filtrarPorRango(estado.paridad, paridad, opciones.PARIDAD_MADRE)) {
+        if (!filtrarPorRangoNumerico(estado.paridad, paridad, paridadhasta)) {
             return false;
         }
         //Falta gemelos
@@ -1344,57 +1609,58 @@
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptedadinicio,
                 edadnpt,
-                opciones.EDAD_INICIO,
+                edadnpthasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptduraciondias,
                 duracionnpt,
-                opciones.DURACION,
+                duracionnpthasta,
             )
         ) {
             return false;
         }
         //aminoacidos
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptdiacomienzoaa,
                 comienzoaa,
-                opciones.INICIO_AA,
+                comienzoaahasta,
             )
         ) {
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptaportetotalaa,
                 aporteaa,
-                opciones.APORTE_AA,
+                aporteaahasta,
             )
         ) {
             return false;
         }
         //lipidos
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptdiacomienzolipido,
                 comienzolipido,
-                opciones.COMIENZO_LIPIDO,
+                comienzolipidohasta,
             )
         ) {
             return false;
         }
+
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.nptaportetotallipido,
                 aportelipido,
-                opciones.APORTE_LIPIDO,
+                aportelipidohasta,
             )
         ) {
             return false;
@@ -1408,10 +1674,10 @@
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.sepsistempranaatbdias,
                 tempranoatb,
-                opciones.DURACION_TEMPRANA,
+                tempranoatbhasta,
             )
         ) {
             return false;
@@ -1424,10 +1690,10 @@
             return false;
         }
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.sepsistardiaatbdias,
                 tardeatb,
-                opciones.DURACION_TARDIA,
+                tardeatbhasta,
             )
         ) {
             return false;
@@ -1518,35 +1784,36 @@
 
         //hematologicos
         //TGR
-        if (!filtrarPorRango(estado.hemoderivadostgrn, tgr, opciones.TGR)) {
+
+        if (!filtrarPorRangoNumerico(estado.hemoderivadostgrn, tgr, tgrhasta)) {
             return false;
         }
         //Plasma
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.hemoderivadosplasman,
                 plasma,
-                opciones.PLASMA,
+                plasmahasta,
             )
         ) {
             return false;
         }
         //Plaqueta
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.hemoderivadosplaquetasn,
                 plaqueta,
-                opciones.PLAQUETAS,
+                plaquetahasta,
             )
         ) {
             return false;
         }
         //Gamma
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.hemoderivadosgamman,
                 inmunoglobina,
-                opciones.GAMMAGLOBULINA,
+                inmunoglobinahasta,
             )
         ) {
             return false;
@@ -1624,102 +1891,112 @@
         //medicacion
         //medprotectorgastricodias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medprotectorgastricodias,
                 protectorgastrico,
-                opciones.PROTECTOR,
+                protectorgastricohasta,
             )
         ) {
             return false;
         }
+
         //medinhibidorbombahdias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medinhibidorbombahdias,
                 inhibidor,
-                opciones.INHIBIDOR,
+                inhibidorhasta,
             )
         ) {
             return false;
         }
         //medprobiodias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medprobiodias,
                 probiotico,
-                opciones.PROBIOTICO,
+                probioticohasta,
             )
         ) {
             return false;
         }
         //meleritromicinadias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.meleritromicinadias,
                 eritromicina,
-                opciones.ERITROMICINA,
+                eritromicinahasta,
             )
         ) {
             return false;
         }
         //medfentanilodias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medfentanilodias,
                 fentanilo,
-                opciones.FENTANILO,
+                fentanilohasta,
             )
         ) {
             return false;
         }
         //medmorfinadias
         if (
-            !filtrarPorRango(estado.medmorfinadias, morfina, opciones.MORFINA)
+            !filtrarPorRangoNumerico(
+                estado.medmorfinadias,
+                morfina,
+                morfinahasta,
+            )
         ) {
             return false;
         }
         //medmidazolamdias
         if (
-            !filtrarPorRango(estado.medmorfinadias, morfina, opciones.MORFINA)
+            !filtrarPorRangoNumerico(
+                estado.medmidazolamdias,
+                midozolam,
+                midozolamhasta,
+            )
         ) {
             return false;
         }
+
         //medprecedexdias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medprecedexdias,
                 precedex,
-                opciones.PRECEDEX,
+                precedexhasta,
             )
         ) {
             return false;
         }
         //medmetadonadias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medmetadonadias,
                 metadona,
-                opciones.METADONA,
+                metadonahasta,
             )
         ) {
             return false;
         }
         //medvecuroniadias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medvecuroniadias,
                 vecuronio,
-                opciones.VECURONIO,
+                vecuroniohasta,
             )
         ) {
             return false;
         }
         //medprostagldias
         if (
-            !filtrarPorRango(
+            !filtrarPorRangoNumerico(
                 estado.medprostagldias,
                 prostaglandinas,
-                opciones.PROSTAGLANDINA,
+                prostaglandinashasta,
             )
         ) {
             return false;
@@ -1804,14 +2081,15 @@
             return false;
         }
         //alta
-        
-        
 
         //boolean
         if (!filtrarPorIgualdad(estado.conalta, conalta)) {
             return false;
         }
-        
+        if (!filtrarPorIgualdad(estado.tipoalta, tipoalta)) {
+            return false;
+        }
+
         if (!filtrarPorFecha(estado.altafecha, altadesde, altahasta)) {
             return false;
         }
@@ -1820,7 +2098,10 @@
     function filterUpdate() {
         //historiasbebesrow = historiasbebes;
         historiasbebesrow = [];
-
+        vergraficounidad = false;
+        verhistoricounidad = false;
+        vergraficoarea = false;
+        verhistoricoarea = false;
         for (let i = 0; i < historiasbebes.length; i++) {
             let hb = historiasbebes[i];
             let id = hb.id;
@@ -1857,6 +2138,11 @@
             sort: "id",
             filter: "active=true",
         });
+        bebes = bebes.map((b) => ({
+            ...b,
+            bebe: b.id,
+            expand: { bebe: { ...b } },
+        }));
     }
     function setFiltrosChecks() {
         checked_identificacion = proxychecks.checked_identificacion;
@@ -1925,15 +2211,21 @@
         apgar_1 = proxyfiltros.apgar_1;
         apgar_5 = proxyfiltros.apgar_5;
         apgar_10 = proxyfiltros.apgar_10;
+        apgar_1hasta = proxyfiltros.apgar_1hasta;
+        apgar_5hasta = proxyfiltros.apgar_5hasta;
+        apgar_10hasta = proxyfiltros.apgar_10hasta;
         gestacion = proxyfiltros.gestacion;
         gestaciondesde = proxyfiltros.gestaciondesde;
         gestacionhasta = proxyfiltros.gestacionhasta;
         rciu = proxyfiltros.rciu;
         temperatura_ingreso = proxyfiltros.temperatura_ingreso;
+        temperatura_ingresohasta = proxyfiltros.temperatura_ingresohasta;
         rem = proxyfiltros.rem;
         reanimacion = proxyfiltros.reanimacion;
         liquido = proxyfiltros.liquido;
         fallece = proxyfiltros.fallece;
+        peso_actual = proxyfiltros.peso_actual;
+        peso_actualhasta = proxyfiltros.peso_actualhasta;
         peso_rn = proxyfiltros.peso_rn;
         peso_7 = proxyfiltros.peso_7;
         peso_14 = proxyfiltros.peso_14;
@@ -1958,12 +2250,38 @@
         scorez_21 = proxyfiltros.scorez_21;
         scorez_28 = proxyfiltros.scorez_28;
         scorez_36 = proxyfiltros.scorez_36;
+        peso_rnhasta = proxyfiltros.peso_rnhasta;
+        peso_7hasta = proxyfiltros.peso_7hasta;
+        peso_14hasta = proxyfiltros.peso_14hasta;
+        peso_21hasta = proxyfiltros.peso_21hasta;
+        peso_28hasta = proxyfiltros.peso_28hasta;
+        peso_36hasta = proxyfiltros.peso_36hasta;
+        cefalico_rnhasta = proxyfiltros.cefalico_rnhasta;
+        cefalico_7hasta = proxyfiltros.cefalico_7hasta;
+        cefalico_14hasta = proxyfiltros.cefalico_14hasta;
+        cefalico_21hasta = proxyfiltros.cefalico_21hasta;
+        cefalico_28hasta = proxyfiltros.cefalico_28hasta;
+        cefalico_36hasta = proxyfiltros.cefalico_36hasta;
+        talla_rnhasta = proxyfiltros.talla_rnhasta;
+        talla_7hasta = proxyfiltros.talla_7hasta;
+        talla_14hasta = proxyfiltros.talla_14hasta;
+        talla_21hasta = proxyfiltros.talla_21hasta;
+        talla_28hasta = proxyfiltros.talla_28hasta;
+        talla_36hasta = proxyfiltros.talla_36hasta;
+        scorez_rnhasta = proxyfiltros.scorez_rnhasta;
+        scorez_7hasta = proxyfiltros.scorez_7hasta;
+        scorez_14hasta = proxyfiltros.scorez_14hasta;
+        scorez_21hasta = proxyfiltros.scorez_21hasta;
+        scorez_28hasta = proxyfiltros.scorez_28hasta;
+        scorez_36hasta = proxyfiltros.scorez_36hasta;
         recuperarpeso = proxyfiltros.recuperarpeso;
         recuperarpesodesde = proxyfiltros.recuperarpesodesde;
         recuperarpesohasta = proxyfiltros.recuperarpesohasta;
         edad_materna = proxyfiltros.edad_materna;
+        edad_maternahasta = proxyfiltros.edad_maternahasta;
         niveleducativo = proxyfiltros.niveleducativo;
         paridad = proxyfiltros.paridad;
+        paridadhasta = proxyfiltros.paridadhasta;
         gemelos = proxyfiltros.gemelos;
         controlparental = proxyfiltros.controlparental;
         corticoideprenatal = proxyfiltros.corticoideprenatal;
@@ -1998,14 +2316,22 @@
         aporteaa = proxyfiltros.aporteaa;
         comienzolipido = proxyfiltros.comienzolipido;
         aportelipido = proxyfiltros.aportelipido;
+        edadnpthasta = proxyfiltros.edadnpthasta;
+        duracionnpthasta = proxyfiltros.duracionnpthasta;
+        comienzoaahasta = proxyfiltros.comienzoaahasta;
+        aporteaahasta = proxyfiltros.aporteaahasta;
+        comienzolipidohasta = proxyfiltros.comienzolipidohasta;
+        aportelipidohasta = proxyfiltros.aportelipidohasta;
         tempranoestado = proxyfiltros.tempranoestado;
         tempranogermen = proxyfiltros.tempranogermen;
         tempranoantibiotico = proxyfiltros.tempranoantibiotico;
         tempranoatb = proxyfiltros.tempranoatb;
+        tempranoatbhasta = proxyfiltros.tempranoatbhasta;
         tardeestado = proxyfiltros.tardeestado;
         tardegermen = proxyfiltros.tardegermen;
         tardeantibiotico = proxyfiltros.tardeantibiotico;
         tardeatb = proxyfiltros.tardeatb;
+        tardeatbhasta = proxyfiltros.tardeatbhasta;
         emh = proxyfiltros.emh;
         ndosissurfactante = proxyfiltros.ndosissurfactante;
         salam = proxyfiltros.salam;
@@ -2042,6 +2368,10 @@
         plasma = proxyfiltros.plasma;
         plaqueta = proxyfiltros.plaqueta;
         inmunoglobina = proxyfiltros.inmunoglobina;
+        tgrhasta = proxyfiltros.tgrhasta;
+        plasmahasta = proxyfiltros.plasmahasta;
+        plaquetahasta = proxyfiltros.plaquetahasta;
+        inmunoglobinahasta = proxyfiltros.inmunoglobinahasta;
         transfusion = proxyfiltros.transfusion;
         hiv = proxyfiltros.hiv;
         ecotf = proxyfiltros.ecotf;
@@ -2075,11 +2405,23 @@
         metadona = proxyfiltros.metadona;
         vecuronio = proxyfiltros.vecuronio;
         prostaglandinas = proxyfiltros.prostaglandinas;
+        protectorgastricohasta = proxyfiltros.protectorgastricohasta;
+        inhibidorhasta = proxyfiltros.inhibidorhasta;
+        probioticohasta = proxyfiltros.probioticohasta;
+        eritromicinahasta = proxyfiltros.eritromicinahasta;
+        fentanilohasta = proxyfiltros.fentanilohasta;
+        morfinahasta = proxyfiltros.morfinahasta;
+        midozolamhasta = proxyfiltros.midozolamhasta;
+        precedexhasta = proxyfiltros.precedexhasta;
+        metadonahasta = proxyfiltros.metadonahasta;
+        vecuroniohasta = proxyfiltros.vecuroniohasta;
+        prostaglandinashasta = proxyfiltros.prostaglandinashasta;
         malformacionescongenitas = proxyfiltros.malformacionescongenitas;
         cirugias = proxyfiltros.cirugias;
         complicaciones = proxyfiltros.complicaciones;
         diagnostico = proxyfiltros.diagnostico;
         conalta = proxyfiltros.conalta;
+        tipoalta = proxyfiltros.tipoalta;
         altadesde = proxyfiltros.altadesde;
         altahasta = proxyfiltros.altahasta;
     }
@@ -2106,15 +2448,20 @@
         proxyfiltros.apgar_1 = apgar_1;
         proxyfiltros.apgar_5 = apgar_5;
         proxyfiltros.apgar_10 = apgar_10;
+        proxyfiltros.apgar_1hasta = apgar_1hasta;
+        proxyfiltros.apgar_5hasta = apgar_5hasta;
+        proxyfiltros.apgar_10hasta = apgar_10hasta;
         proxyfiltros.gestacion = gestacion;
         proxyfiltros.gestaciondesde = gestaciondesde;
         proxyfiltros.gestacionhasta = gestacionhasta;
         proxyfiltros.rciu = rciu;
-        proxyfiltros.temperatura_ingreso = temperatura_ingreso;
+        proxyfiltros.temperatura_ingresohasta = temperatura_ingresohasta;
         proxyfiltros.rem = rem;
         proxyfiltros.reanimacion = reanimacion;
         proxyfiltros.liquido = liquido;
         proxyfiltros.fallece = fallece;
+        proxyfiltros.peso_actual = peso_actual;
+        proxyfiltros.peso_actualhasta = peso_actualhasta;
         proxyfiltros.peso_rn = peso_rn;
         proxyfiltros.peso_7 = peso_7;
         proxyfiltros.peso_14 = peso_14;
@@ -2139,12 +2486,38 @@
         proxyfiltros.scorez_21 = scorez_21;
         proxyfiltros.scorez_28 = scorez_28;
         proxyfiltros.scorez_36 = scorez_36;
+        proxyfiltros.peso_rnhasta = peso_rnhasta;
+        proxyfiltros.peso_7hasta = peso_7hasta;
+        proxyfiltros.peso_14hasta = peso_14hasta;
+        proxyfiltros.peso_21hasta = peso_21hasta;
+        proxyfiltros.peso_28hasta = peso_28hasta;
+        proxyfiltros.peso_36hasta = peso_36hasta;
+        proxyfiltros.cefalico_rnhasta = cefalico_rnhasta;
+        proxyfiltros.cefalico_7hasta = cefalico_7hasta;
+        proxyfiltros.cefalico_14hasta = cefalico_14hasta;
+        proxyfiltros.cefalico_21hasta = cefalico_21hasta;
+        proxyfiltros.cefalico_28hasta = cefalico_28hasta;
+        proxyfiltros.cefalico_36hasta = cefalico_36hasta;
+        proxyfiltros.talla_rnhasta = talla_rnhasta;
+        proxyfiltros.talla_7hasta = talla_7hasta;
+        proxyfiltros.talla_14hasta = talla_14hasta;
+        proxyfiltros.talla_21hasta = talla_21hasta;
+        proxyfiltros.talla_28hasta = talla_28hasta;
+        proxyfiltros.talla_36hasta = talla_36hasta;
+        proxyfiltros.scorez_rnhasta = scorez_rnhasta;
+        proxyfiltros.scorez_7hasta = scorez_7hasta;
+        proxyfiltros.scorez_14hasta = scorez_14hasta;
+        proxyfiltros.scorez_21hasta = scorez_21hasta;
+        proxyfiltros.scorez_28hasta = scorez_28hasta;
+        proxyfiltros.scorez_36hasta = scorez_36hasta;
         proxyfiltros.recuperarpeso = recuperarpeso;
         proxyfiltros.recuperarpesodesde = recuperarpesodesde;
         proxyfiltros.recuperarpesohasta = recuperarpesohasta;
         proxyfiltros.edad_materna = edad_materna;
+        proxyfiltros.edad_maternahasta = edad_maternahasta;
         proxyfiltros.niveleducativo = niveleducativo;
         proxyfiltros.paridad = paridad;
+        proxyfiltros.paridadhasta = paridadhasta;
         proxyfiltros.gemelos = gemelos;
         proxyfiltros.controlparental = controlparental;
         proxyfiltros.corticoideprenatal = corticoideprenatal;
@@ -2178,14 +2551,22 @@
         proxyfiltros.aporteaa = aporteaa;
         proxyfiltros.comienzolipido = comienzolipido;
         proxyfiltros.aportelipido = aportelipido;
+        proxyfiltros.edadnpthasta = edadnpthasta;
+        proxyfiltros.duracionnpthasta = duracionnpthasta;
+        proxyfiltros.comienzoaahasta = comienzoaahasta;
+        proxyfiltros.aporteaahasta = aporteaahasta;
+        proxyfiltros.comienzolipidohasta = comienzolipidohasta;
+        proxyfiltros.aportelipidohasta = aportelipidohasta;
         proxyfiltros.tempranoestado = tempranoestado;
         proxyfiltros.tempranogermen = tempranogermen;
         proxyfiltros.tempranoantibiotico = tempranoantibiotico;
         proxyfiltros.tempranoatb = tempranoatb;
+        proxyfiltros.tempranoatbhasta = tempranoatbhasta;
         proxyfiltros.tardeestado = tardeestado;
         proxyfiltros.tardegermen = tardegermen;
         proxyfiltros.tardeantibiotico = tardeantibiotico;
         proxyfiltros.tardeatb = tardeatb;
+        proxyfiltros.tardeatbhasta = tardeatbhasta;
         proxyfiltros.emh = emh;
         proxyfiltros.ndosissurfactante = ndosissurfactante;
         proxyfiltros.salam = salam;
@@ -2222,6 +2603,10 @@
         proxyfiltros.plasma = plasma;
         proxyfiltros.plaqueta = plaqueta;
         proxyfiltros.inmunoglobina = inmunoglobina;
+        proxyfiltros.tgrhasta = tgrhasta;
+        proxyfiltros.plasmahasta = plasmahasta;
+        proxyfiltros.plaquetahasta = plaquetahasta;
+        proxyfiltros.inmunoglobinahasta = inmunoglobinahasta;
         proxyfiltros.transfusion = transfusion;
         proxyfiltros.hiv = hiv;
         proxyfiltros.ecotf = ecotf;
@@ -2255,11 +2640,23 @@
         proxyfiltros.metadona = metadona;
         proxyfiltros.vecuronio = vecuronio;
         proxyfiltros.prostaglandinas = prostaglandinas;
+        proxyfiltros.protectorgastricohasta = protectorgastricohasta;
+        proxyfiltros.inhibidorhasta = inhibidorhasta;
+        proxyfiltros.probioticohasta = probioticohasta;
+        proxyfiltros.eritromicinahasta = eritromicinahasta;
+        proxyfiltros.fentanilohasta = fentanilohasta;
+        proxyfiltros.morfinahasta = morfinahasta;
+        proxyfiltros.midozolamhasta = midozolamhasta;
+        proxyfiltros.precedexhasta = precedexhasta;
+        proxyfiltros.metadonahasta = metadonahasta;
+        proxyfiltros.vecuroniohasta = vecuroniohasta;
+        proxyfiltros.prostaglandinashasta = prostaglandinashasta;
         proxyfiltros.malformacionescongenitas = malformacionescongenitas;
         proxyfiltros.cirugias = cirugias;
         proxyfiltros.complicaciones = complicaciones;
         proxyfiltros.diagnostico = diagnostico;
         proxyfiltros.conalta = conalta;
+        proxyfiltros.tipoalta = tipoalta;
         proxyfiltros.altadesde = altadesde;
         proxyfiltros.altahasta = altahasta;
     }
@@ -2277,6 +2674,7 @@
         proxyfiltros = defaultfiltros;
         setFiltros();
         proxy.save(proxyfiltros);
+        filterUpdate();
     }
     function limpiarChecks() {
         proxychecks = defaultchecks;
@@ -2286,8 +2684,8 @@
     function limpiar() {
         limpiarFiltros();
         limpiarChecks();
-        filterUpdate();
     }
+
     onMount(async () => {
         proxychecks = checksproxy.load();
         proxyfiltros = proxy.load();
@@ -2297,14 +2695,40 @@
         setFiltrosChecks();
         setFiltros();
         filterUpdate();
-        areas = await pb.collection("areas").getFullList({});
-        areas = areas.concat({ id: "", nombre: "Todas" });
-        unidades = await pb.collection("Unidades").getFullList({});
+        areas = await pb.collection("areas").getFullList({
+            filter: "active = True",
+        });
+        areas = areas.concat([
+            { id: "", nombre: "Todas" },
+            { id: "-1", nombre: "Ninguna" },
+        ]);
+        areas.sort((a, b) => {});
+        unidades = await pb.collection("Unidades").getFullList({
+            filter: "eliminada = False",
+        });
+        unidades = unidades.concat({ id: "", nombre: "Todas" });
+        unidades.sort((a, b) => {
+            if (a.id == "") {
+                return -1;
+            }
+            if (a.id == "-1") {
+                return -2;
+            }
+            return a.nombre.toLocaleLowerCase() < b.nombre.toLocaleLowerCase()
+                ? -1
+                : 1;
+        });
     });
 </script>
 
 <Navbar>
-    <Header bind:sinhistorial {limpiar} {limpiarFiltros} {limpiarChecks} bind:bebesrows={filas}/>
+    <Header
+        bind:sinhistorial
+        {limpiar}
+        {limpiarFiltros}
+        {limpiarChecks}
+        bind:bebesrows={filas}
+    />
     <Filtros
         {cambiarFiltro}
         {cambiarCheck}
@@ -2352,15 +2776,20 @@
         bind:apgar_1
         bind:apgar_5
         bind:apgar_10
+        bind:apgar_1hasta
+        bind:apgar_5hasta
+        bind:apgar_10hasta
         bind:gestacion
         bind:gestaciondesde
         bind:gestacionhasta
         bind:rciu
         bind:temperatura_ingreso
+        bind:temperatura_ingresohasta
         bind:rem
         bind:reanimacion
         bind:liquido
         bind:fallece
+        bind:peso_actual
         bind:peso_rn
         bind:peso_7
         bind:peso_14
@@ -2385,12 +2814,39 @@
         bind:scorez_21
         bind:scorez_28
         bind:scorez_36
+        bind:peso_actualhasta
+        bind:peso_rnhasta
+        bind:peso_7hasta
+        bind:peso_14hasta
+        bind:peso_21hasta
+        bind:peso_28hasta
+        bind:peso_36hasta
+        bind:cefalico_rnhasta
+        bind:cefalico_7hasta
+        bind:cefalico_14hasta
+        bind:cefalico_21hasta
+        bind:cefalico_28hasta
+        bind:cefalico_36hasta
+        bind:talla_rnhasta
+        bind:talla_7hasta
+        bind:talla_14hasta
+        bind:talla_21hasta
+        bind:talla_28hasta
+        bind:talla_36hasta
+        bind:scorez_rnhasta
+        bind:scorez_7hasta
+        bind:scorez_14hasta
+        bind:scorez_21hasta
+        bind:scorez_28hasta
+        bind:scorez_36hasta
         bind:recuperarpeso
         bind:recuperarpesodesde
         bind:recuperarpesohasta
         bind:edad_materna
+        bind:edad_maternahasta
         bind:niveleducativo
         bind:paridad
+        bind:paridadhasta
         bind:gemelos
         bind:controlparental
         bind:corticoideprenatal
@@ -2425,14 +2881,22 @@
         bind:aporteaa
         bind:comienzolipido
         bind:aportelipido
+        bind:edadnpthasta
+        bind:duracionnpthasta
+        bind:comienzoaahasta
+        bind:aporteaahasta
+        bind:comienzolipidohasta
+        bind:aportelipidohasta
         bind:tempranoestado
         bind:tempranogermen
         bind:tempranoantibiotico
         bind:tempranoatb
+        bind:tempranoatbhasta
         bind:tardeestado
         bind:tardegermen
         bind:tardeantibiotico
         bind:tardeatb
+        bind:tardeatbhasta
         bind:emh
         bind:ndosissurfactante
         bind:salam
@@ -2469,6 +2933,10 @@
         bind:plasma
         bind:plaqueta
         bind:inmunoglobina
+        bind:tgrhasta
+        bind:plasmahasta
+        bind:plaquetahasta
+        bind:inmunoglobinahasta
         bind:transfusion
         bind:hiv
         bind:ecotf
@@ -2507,100 +2975,135 @@
         bind:complicaciones
         bind:diagnostico
         bind:conalta
+        bind:tipoalta
         bind:altadesde
         bind:altahasta
     />
-    <div
-        class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-11/12  mb-2"
-    >
-        <Estadisticas titulo={"Cantidad"} bind:valor={totalcantidad} />
-    </div>
+
     <div
         class={`
-                p-2 rounded-md
-                tabs tabs-bordered 
-                dark:bg-gray-800  bg-white
-                mb-2 
-            `}
+            p-0 m-0 rounded-md
+            tabs tabs-bordered 
+            dark:bg-gray-800  bg-white
+            
+        `}
     >
-
-
         <input
             type="radio"
-            name="grupos_tabs"
+            name="historial_tabs"
             class="tab"
-            aria-label="Areas"
+            aria-label="Estadisticas"
             checked
         />
         <div
             class={`
-                tab-content rounded-md p-2 space-y-4
-                dark:bg-gray-900 bg-white
-                
-            `}
+            tab-content rounded-md p-2 space-y-4
+            dark:bg-gray-900 bg-white
+
+          `}
         >
-            <Historico
-                singrupo="Sin area"
-                estadisticas = {areas_estadisticas}
-                historico = {area_historico}
-                {fechadesde}
-                {fechahasta}
-                grupos = {areas}
-                
+            <!--Estadisticas-->
+            <Analisis
+                bind:totalcantidad
+                bind:totalpeso
+                bind:areas_estadisticas
+                bind:area_historico
+                bind:fechadesde
+                bind:fechahasta
+                bind:areas
+                bind:unidades_estadisticas
+                bind:unidad_historico
+                bind:unidades
+                bind:vergraficounidad
+                bind:verhistoricounidad
+                bind:vergraficoarea
+                bind:verhistoricoarea
             />
         </div>
-
         <input
             type="radio"
-            name="grupos_tabs"
+            name="historial_tabs"
             class="tab"
-            aria-label="Unidades"
-            checked
+            aria-label="Historial"
+            
         />
         <div
             class={`
-                tab-content rounded-md p-2 space-y-4
-                dark:bg-gray-900 bg-white
-                
-            `}
+            tab-content rounded-md p-2 space-y-4
+            dark:bg-gray-900 bg-white
+
+          `}
         >
-            <Historico
-                singrupo="Sin unidad"
-                
-                estadisticas = {unidades_estadisticas}
-                historico = {unidad_historico}
-                {fechadesde}
-                {fechahasta}
-                grupos = {unidades}
+            <!--Listado-->
+            <Listado
+                bind:checked_identificacion
+                bind:checked_ingreso
+                bind:checked_antropometria
+                bind:checked_maternos
+                bind:checked_respiratorias
+                bind:checked_neurologicas
+                bind:checked_medicacion
+                bind:checked_avanzados
+                bind:checked_cateteres
+                bind:checked_alimentacion
+                bind:checked_infecciones
+                bind:checked_cardiovascular
+                bind:checked_inotropicos
+                bind:checked_sangre
+                bind:checked_oftalmologia
+                bind:checked_digestivo
+                bind:checked_genetica
+                bind:checked_alta
+                bind:checked_otros
+                bind:checked_diagnostico
+                bind:bebesrows={filas}
+                bind:unidades
+                bind:areas
+            />
+        </div>
+        <input
+            type="radio"
+            name="historial_tabs"
+            class="tab"
+            aria-label="Movimientos área"
+            
+        />
+        <div
+            class={`
+            tab-content rounded-md p-2 space-y-4
+            dark:bg-gray-900 bg-white
+
+          `}
+        >
+            <ListadoMovimientos
+                todosmovimientos={areas_movimentos_todos}
+                titulo="de área"
+                {areas}
+                {unidades}
+                {bebes}
+            />
+        </div>
+        <input
+            type="radio"
+            name="historial_tabs"
+            class="tab"
+            aria-label="Movimientos unidad"
+            
+        />
+        <div
+            class={`
+            tab-content rounded-md p-2 space-y-4
+            dark:bg-gray-900 bg-white
+
+          `}
+        >
+            <ListadoMovimientos
+                todosmovimientos={unidades_movimientos_todos}
+                titulo="de unidad"
+                {areas}
+                {unidades}
+                {bebes}
             />
         </div>
     </div>
-
-
-
-    <Listado
-        bind:checked_identificacion
-        bind:checked_ingreso
-        bind:checked_antropometria
-        bind:checked_maternos
-        bind:checked_respiratorias
-        bind:checked_neurologicas
-        bind:checked_medicacion
-        bind:checked_avanzados
-        bind:checked_cateteres
-        bind:checked_alimentacion
-        bind:checked_infecciones
-        bind:checked_cardiovascular
-        bind:checked_inotropicos
-        bind:checked_sangre
-        bind:checked_oftalmologia
-        bind:checked_digestivo
-        bind:checked_genetica
-        bind:checked_alta
-        bind:checked_otros
-        bind:checked_diagnostico
-        bind:bebesrows={filas}
-        bind:unidades
-        bind:areas
-    />
 </Navbar>

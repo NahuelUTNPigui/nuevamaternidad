@@ -2,6 +2,7 @@
     import InputDate from "../Formulario/InputDate.svelte";
     import InputSelect from "../Formulario/InputSelect.svelte";
     import InputText from "../Formulario/InputText.svelte";
+    import Rangos from "../Formulario/Rangos.svelte";
     import opciones from "$lib/opciones";
     let {
         cambiarFiltro,
@@ -13,11 +14,15 @@
         apgar_1 = $bindable(""),
         apgar_5 = $bindable(""),
         apgar_10 = $bindable(""),
+        apgar_1hasta = $bindable(""),
+        apgar_5hasta = $bindable(""),
+        apgar_10hasta = $bindable(""),
         gestacion = $bindable(""),
         gestaciondesde = $bindable(""),
         gestacionhasta = $bindable(""),
         rciu = $bindable(""),
         temperatura_ingreso = $bindable(""),
+        temperatura_ingresohasta = $bindable(""),
         rem = $bindable(""),
         reanimacion = $bindable(""),
         liquido = $bindable(""),
@@ -91,57 +96,54 @@
     <h3 class="font-medium mb-3 text-base-content">Evaluación Neonatal</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
         <!-- APGAR -->
-        <InputSelect
-            idetiqueta="fapgar1"
-            etiqueta="APGAR 1 MIN"
-            modoedicion={true}
-            bind:value={apgar_1}
-            lista={opciones.APGAR_RANGO}
-            cambiar={cambiarFiltro}
-        />
-        <InputSelect
-            idetiqueta="fapgar5"
-            etiqueta="APGAR 5 MIN"
-            modoedicion={true}
-            bind:value={apgar_5}
-            lista={opciones.APGAR_RANGO}
-            cambiar={cambiarFiltro}
-        />
-        <InputSelect
-            idetiqueta="fapgar10"
-            etiqueta="APGAR 10 MIN"
-            modoedicion={true}
-            bind:value={apgar_10}
-            lista={opciones.APGAR_RANGO}
-            cambiar={cambiarFiltro}
-        />
-        <!-- Edad gestacional -->
-        <InputSelect
-            idetiqueta="gestacion"
-            etiqueta="Edad gestacional"
-            modoedicion={true}
-            bind:value={gestacion}
-            lista={opciones.EDAD_GESTACIONAL}
-            cambiar={cambiarFiltro}
-        />
-    </div>
-    <div class="hidden grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div class="hidden">
-            <InputText
-                idetiqueta="gestacionaledaddesde"
-                etiqueta="Gestacional desde"
-                modoedicion={true}
-                bind:value={gestaciondesde}
-                cambiar={cambiarFiltro}
-                escribir={cambiarFiltro}
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fapgar1"
+                etiquetadesde="APGAR 1 MIN desde"
+                idetiquetahasta="fapgar1hasta"
+                etiquetahasta="APGAR 1 MIN hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={apgar_1}
+                bind:valuehasta={apgar_1hasta}
             />
-            <InputText
-                idetiqueta="gestacionaledadhasta"
-                etiqueta="Gestacional hasta"
-                modoedicion={true}
-                bind:value={gestacionhasta}
-                cambiar={cambiarFiltro}
-                escribir={cambiarFiltro}
+        </div>
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fapgar5"
+                etiquetadesde="APGAR 5 MIN desde"
+                idetiquetahasta="fapgar5hasta"
+                etiquetahasta="APGAR 5 MIN hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={apgar_5}
+                bind:valuehasta={apgar_5hasta}
+            />
+        </div>
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="fapgar10"
+                etiquetadesde="APGAR 10 MIN desde"
+                idetiquetahasta="fapgar10hasta"
+                etiquetahasta="APGAR 10 MIN hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={apgar_10}
+                bind:valuehasta={apgar_10hasta}
+            />
+        </div>
+
+        <!-- Edad gestacional -->
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="gestaciondesde"
+                etiquetadesde="Edad gestacional desde"
+                idetiquetahasta="gestacionhasta"
+                etiquetahasta="Edad gestacional hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={gestaciondesde}
+                bind:valuehasta={gestacionhasta}
             />
         </div>
     </div>
@@ -152,14 +154,21 @@
     <h3 class="font-medium mb-3 text-base-content">Detalles Clínicos</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- T Ingreso -->
-        <InputSelect
-            idetiqueta="ftingreso"
-            etiqueta="Temperatura"
-            modoedicion={true}
-            bind:value={temperatura_ingreso}
-            lista={opciones.TEMPERATURA_RANGO}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiquetadesde="ftingreso desde"
+                etiquetadesde="Temperatura desde"
+                idetiquetahasta="ftingreso hasta"
+                etiquetahasta="Temperatura hasta"
+                bind:valuedesde = {temperatura_ingreso}
+                bind:valuehasta = {temperatura_ingresohasta}
+                
+                escribirdesde = {cambiarFiltro}
+                escribirhasta = {cambiarFiltro}
+            />
+        </div>
+        
+        
         <!-- RCIU -->
         <InputSelect
             idetiqueta="frciu"

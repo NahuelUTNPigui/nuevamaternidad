@@ -56,7 +56,12 @@ export default {
     { id: 1, nombre: "Si" },
     { id: 0, nombre: "No" }
   ],
-
+  TIPO_ALTA: [
+    { id: "", nombre: "" },
+    { id: "egreso", nombre: "Egreso" },
+    { id: "derivacion", nombre: "Derivación" },
+    { id: "obito", nombre: "Óbito" }
+  ],
   // ========================
   // NUEVAS OPCIONES
   // ========================

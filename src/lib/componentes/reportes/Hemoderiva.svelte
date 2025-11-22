@@ -1,5 +1,6 @@
 <script>
     import InputSelect from "../Formulario/InputSelect.svelte";
+    import Rangos from "../Formulario/Rangos.svelte";
     import opciones from "$lib/opciones";
     let {
         cambiarFiltro,
@@ -7,8 +8,11 @@
         plasma = $bindable(""),
         plaqueta = $bindable(""),
         inmunoglobina = $bindable(""),
+        tgrhasta = $bindable(""),
+        plasmahasta = $bindable(""),
+        plaquetahasta = $bindable(""),
+        inmunoglobinahasta = $bindable(""),
         transfusion = $bindable(""),
-
     } = $props();
 </script>
 
@@ -17,41 +21,62 @@
     <h3 class="font-medium mb-3 text-base-content">Hemoderivados</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- TGR (Concentrado de Glóbulos Rojos) -->
-        <InputSelect
-            idetiqueta="TGR"
-            etiqueta="TGR"
-            modoedicion={true}
-            bind:value={tgr}
-            lista={opciones.TGR}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="TGR"
+                etiquetadesde="TGR desde"
+                idetiquetahasta="TGRhasta"
+                etiquetahasta="TGR hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={tgr}
+                bind:valuehasta={tgrhasta}
+            />
+        </div>
+
         <!-- Plasma -->
-        <InputSelect
-            idetiqueta="Plasma"
-            etiqueta="Plasma"
-            modoedicion={true}
-            bind:value={plasma}
-            lista={opciones.PLASMA}
-            cambiar={cambiarFiltro}
-        />
-        <!-- Plasma -->
-        <InputSelect
-            idetiqueta="Plasma"
-            etiqueta="Plasma"
-            modoedicion={true}
-            bind:value={plasma}
-            lista={opciones.PLASMA}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="Plasma"
+                etiquetadesde="Plasma desde"
+                idetiquetahasta="Plasmahasta"
+                etiquetahasta="Plasma hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={plasma}
+                bind:valuehasta={plasmahasta}
+            />
+        </div>
+
+        <!-- Plaqueta -->
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="Plaqueta"
+                etiquetadesde="Plaqueta desde"
+                idetiquetahasta="Plaquetahasta"
+                etiquetahasta="Plaqueta hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={plaqueta}
+                bind:valuehasta={plaquetahasta}
+            />
+        </div>
+
         <!-- Gamma -->
-        <InputSelect
-            idetiqueta="Gamma"
-            etiqueta="Gamma"
-            modoedicion={true}
-            bind:value={inmunoglobina}
-            lista={opciones.GAMMAGLOBULINA}
-            cambiar={cambiarFiltro}
-        />
+        <div class="col-span-1 md:col-span-2">
+            <Rangos
+                idetiqueta="Gamma"
+                etiquetadesde="Gamma desde"
+                idetiquetahasta="Gammahasta"
+                etiquetahasta="Gamma hasta"
+                escribirdesde={cambiarFiltro}
+                escribirhasta={cambiarFiltro}
+                bind:valuedesde={inmunoglobina}
+                bind:valuehasta={inmunoglobinahasta}
+            />
+        </div>
+        
+       
         <!-- Exanguinotransfusión -->
         <InputSelect
             idetiqueta="Exanguinotransfusión"

@@ -1,18 +1,34 @@
 <script>
-    import { goto } from "$app/navigation";
     let {
-        bebesrows = $bindable(),
-        unidades = $bindable([]),
-        areas = $bindable([]),
+        todosmovimientos = [],
+        titulo = "",
+        bebes = [],
+        areas,
+        unidades,
     } = $props();
-    function handleClick(id) {
-        goto("/bebes/" + id);
-    }
-    function getNombre(id, lista) {
-        let fila = { id: "", nombre: "" };
+
+    let movimientos = $derived(
+        todosmovimientos
+            .filter((m) => m.cambio)
+            .sort((m1, m2) =>
+                new Date(m1.fecha) < new Date(m2.fecha) ? -1 : 1,
+            ),
+    );
+    function getNombreBebe(id,lista){
+        let fila = { id: "", nombrebebe: "" };
+        
         let idx = lista.findIndex((o) => o.id == id);
         if (idx != -1) {
             fila = lista[idx];
+        }
+        return fila.nombrebebe;
+    }
+    function getNombre(id, lista) {
+        let fila = { id: "", nombre: "" };
+        let listafiltrada = lista.filter((o) => o.id != "" && o.id != "-1");
+        let idx = listafiltrada.findIndex((o) => o.id == id);
+        if (idx != -1) {
+            fila = listafiltrada[idx];
         }
         return fila.nombre;
     }
@@ -30,7 +46,7 @@
     <!-- Título -->
     <div class="mb-4">
         <h2 class="text-xl font-bold flex items-center gap-2">
-            Bebés
+            Movimiento {titulo}
             <span
                 class={`
                     text-sm 
@@ -41,7 +57,7 @@
                     
                     rounded-full px-2 py-0.5`}
             >
-                {bebesrows.length}
+                {movimientos.length}
             </span>
         </h2>
     </div>
@@ -64,18 +80,16 @@
                 `}
             >
                 <div class="table-row">
-                    <div class="table-cell px-4 py-3">Estado</div>
-                    <div class="table-cell px-4 py-3">Nombre</div>
-                    <div class="table-cell px-4 py-3">Peso</div>
+                    <div class="table-cell px-4 py-3">Bebé</div>
+                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Area</div>
                     <div class="table-cell px-4 py-3">Unidad</div>
+                    <div class="table-cell px-4 py-3">Días</div>
                 </div>
             </div>
             <div class="table-row-group">
-                {#each bebesrows as b, i}
+                {#each movimientos as b, i}
                     <div
-                        role="button"
-                        tabindex="0"
                         class={`
                             table-row border-b
                             dark:border-gray-700
@@ -84,38 +98,23 @@
                             hover:bg-gray-100
                             cursor-pointer
                         `}
-                        onclick={() => handleClick(b.id)}
-                        onkeydown={(e) => {
-                            e.preventDefault();
-                        }}
                     >
                         <div class="table-cell px-4 py-3">
-                            {#if b.conalta}
-                                <span
-                                    class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full"
-                                    >{"Con alta"}</span
-                                >
-                            {:else}
-                                <span
-                                    class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100 px-2 py-0.5 rounded-full"
-                                    >{"Sin alta"}</span
-                                >
-                            {/if}
-                        </div>
-                        <div
-                            class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
-                        >
                             
-                            {b.nombrebebe}
+                            {getNombreBebe(b.bebe, bebes)}
+                            
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {b.pesobebe}
+                            {new Date(b.fecha).toLocaleDateString()}
                         </div>
                         <div class="table-cell px-4 py-3">
                             {getNombre(b.area, areas)}
                         </div>
                         <div class="table-cell px-4 py-3">
                             {getNombre(b.unidad, unidades)}
+                        </div>
+                        <div class="table-cell px-4 py-3">
+                            {b.dias}
                         </div>
                     </div>
                 {/each}
@@ -128,41 +127,23 @@
             sm:hidden p-4 
         `}
     >
-        {#each bebesrows as b}
+        {#each movimientos as b}
             <div
-                role="button"
-                tabindex="0"
-                onclick={() => handleClick(b.id)}
-                onkeydown={(e) => {
-                    e.preventDefault();
-                }}
                 class="
                     border-b
                     dark:border-gray-700 border-gray-200
                 "
             >
-                <div class="font-semibold text-lg flex items-center gap-2">
-                    <span
-                        class={`h-2 w-2 rounded-full ${
-                            b.conalta ? "bg-green-500" : "bg-gray-400"
-                        }`}
-                    ></span>
-                    {b.nombrebebe}
-                </div>
-                <span
-                    class={`text-xs px-2 py-0.5 rounded-full ${
-                        b.conalta
-                            ? "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
-                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    }`}
-                >
-                    {b.conalta ? "Con alta" : "Sin alta"}
-                </span>
                 <!-- Info principal -->
                 <div class="mt-3 text-sm space-y-1">
                     <div>
-                        <span class="font-medium">Peso:</span>
-                        {b.pesobebe}
+                        <span class="font-medium">Bebé:</span>
+                        {getNombreBebe(b.bebe, bebes)}
+                        
+                    </div>
+                    <div>
+                        <span class="font-medium">Fecha:</span>
+                        {new Date(b.fecha).toLocaleDateString()}
                     </div>
                     <div>
                         <span class="font-medium">Área:</span>
@@ -171,6 +152,10 @@
                     <div>
                         <span class="font-medium">Unidad:</span>
                         {getNombre(b.unidad, unidades)}
+                    </div>
+                    <div>
+                        <span class="font-medium">Días:</span>
+                        {b.dias}
                     </div>
                 </div>
             </div>

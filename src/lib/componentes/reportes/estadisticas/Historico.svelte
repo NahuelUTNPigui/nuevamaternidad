@@ -3,15 +3,29 @@
     let {
         estadisticas = $bindable([]),
         historico = $bindable([]),
+        vergrafico = $bindable(false),
+        verhistorico = $bindable(false),
         fechadesde,
         fechahasta,
         grupos,
         singrupo,
-    } = $props()
+        areas = [],
+        conarea = false
+    } = $props();
     let elegir = $state("");
 
     let historicorows = $derived(historico.filter((h) => h.grupo == elegir));
+    function getNombreArea(area){
 
+        
+        let areasfiltradas = areas.filter(a=>a.id != "" && a.id != "-1")
+        let ops = areasfiltradas.filter((o) => o.id == area);
+        if (ops.length == 0) {
+            return "Sin área";
+        }
+
+        return ops[0].nombre;
+    }
     function getNombre(id) {
         let ops = grupos.filter((o) => o.id == id);
         if (ops.length == 0) {
@@ -27,27 +41,23 @@
             return "";
         }
     }
-     //ver grafico
-    let vergrafico = $state(false);
-    let verhistorico = $state(false);
+    //ver grafico
+
     function mostrarHistorico(p_elegir) {
-        vergrafico = false
+        vergrafico = false;
         verhistorico = true;
         elegir = p_elegir;
-        const element = document.getElementById('Grafico');
+        const element = document.getElementById("Grafico");
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+            element.scrollIntoView({ behavior: "smooth" });
         }
     }
-    function recalcularHistorico(){
-        mostrarHistorico(elegir)
+    function recalcularHistorico() {
+        mostrarHistorico(elegir);
     }
     function cerrarHistorico() {
         verhistorico = false;
     }
-    
-
-
 </script>
 
 <div
@@ -71,7 +81,14 @@
                 >
                     <div class="flex flex-row justify-between">Cantidad</div>
                 </th>
-                
+                <th
+                    class={`
+                            text-base p-3 border-b dark:border-gray-600 
+                        `}
+                >
+                    <div class="flex flex-row justify-between">Peso</div>
+                </th>
+
                 <th
                     class={`
                             text-base p-3 border-b dark:border-gray-600 
@@ -84,9 +101,12 @@
         <tbody>
             {#each estadisticas as e}
                 <tr>
+
+                    
                     <td class="text-base p-3"> {e.nombre}</td>
                     <td class="text-base p-3"> {e.cantidad}</td>
-                    
+                    <td class="text-base p-3"> {e.peso}</td>
+
                     <td>
                         <button
                             onclick={() => mostrarHistorico(e.grupo)}
@@ -124,7 +144,7 @@
                             {e.cantidad}
                         </span>
                     </div>
-                    
+
                     <div class="col-span-2 flex items-start gap-2">
                         <button
                             onclick={() => mostrarHistorico(e.grupo)}
@@ -202,7 +222,15 @@
                             Cantidad
                         </div>
                     </th>
-                    
+                    <th
+                        class={`
+                            text-base p-3 border-b dark:border-gray-600 
+                        `}
+                    >
+                        <div class="flex flex-row justify-between">
+                            Peso
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -213,7 +241,7 @@
                         >
                         <td class="text-base p-3"> {getNombre(h.grupo)}</td>
                         <td class="text-base p-3"> {h.cantidad}</td>
-                        
+                        <td class="text-base p-3"> {h.peso}</td>
                     </tr>
                 {/each}
             </tbody>
@@ -240,6 +268,12 @@
                         <span>Cantidad:</span>
                         <span class="font-semibold">
                             {h.cantidad}
+                        </span>
+                    </div>
+                    <div class="flex items-start">
+                        <span>Cantidad:</span>
+                        <span class="font-semibold">
+                            {h.peso}
                         </span>
                     </div>
                 </div>

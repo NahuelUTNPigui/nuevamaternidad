@@ -57,12 +57,18 @@
     function nuevo(){
      goto("/bebes/nuevo")
     }
-   
+    function cambioArea(){
+        unidad = "-1"
+    }
     onMount(async ()=>{
-        let records  = await pb.collection("bebes").getFullList({})
+        let records  = await pb.collection("bebes").getFullList({
+            filter:"active=True"
+        })
         bebes = records.map(b=>b)
         areas = [{ id: "", nombre: "Sin área" },{ id: "-1", nombre: "Todas" }]
-        let resareas = await pb.collection("areas").getFullList({});
+        let resareas = await pb.collection("areas").getFullList({
+            filter:"active = True"
+        });
         areas = areas.concat(resareas)
         //areas = areas.concat({ id: "", nombre: "Todas" });
         unidades = [{ id: "", nombre: "Sin unidad" },{ id: "-1", nombre: "Todas" }]
@@ -82,6 +88,7 @@
             bind:unidad 
             bind:unidades = {unidadesarea}
             bind:areas
+            {cambioArea}
         />
         <Listado 
             bind:bebesrows 

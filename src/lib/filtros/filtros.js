@@ -8,9 +8,12 @@ export function createStorageProxy(storageKey, defaultObj) {
             if (data) {
                 try {
 
-                    let obj =  JSON.parse(data);
-
-                    return obj
+                   const parsedData = JSON.parse(data);
+                    // Combinar con valores por defecto para asegurar que tenga todos los atributos
+                    const mergedData = { ...defaultObj, ...parsedData };
+                    // Guardar la versión combinada para futuras cargas
+                    localStorage.setItem(storageKey, JSON.stringify(mergedData));
+                    return mergedData;
                 } catch (e) {
                     console.error("Error parseando", storageKey, e);
                     localStorage.setItem(storageKey, JSON.stringify(defaultObj));

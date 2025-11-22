@@ -1,6 +1,6 @@
 <script>
 
-    let { buscar = $bindable("") } = $props();
+    let { buscar = $bindable(""),filterUpdate } = $props();
 </script>
 
 <div
@@ -40,7 +40,8 @@
             <input
                 type="text"
                 placeholder="Buscar por nombre"
-
+                oninput={filterUpdate}
+                bind:value={buscar}
                 class={`
                     dark:placeholder-gray-500 dark:text-gray-100
                     placeholder-gray-400 text-gray-800
