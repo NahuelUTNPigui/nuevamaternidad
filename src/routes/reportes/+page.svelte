@@ -806,10 +806,7 @@
         }
         movimientos_areas = movimientos_areas.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
         movimientos_unidades = movimientos_unidades.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
-        console.log("movimientos_areas")
-        console.log(movimientos_areas)
-        console.log("movimientos_unidades")
-        console.log(movimientos_unidades)
+        
         let presente = new Date().toISOString().split("T")[0];
         let pasado = new Date();
         for (let i = 0; i < movimientos_areas.length; i++) {
@@ -1006,7 +1003,11 @@
         totalpeso = filas.reduce((peso, fila) => {
             return peso + Number(fila.pesobebe) || 0;
         }, 0);
+        diaspromedio = areas_movimentos_todos.reduce((dias, fila) => {
+            return dias + Number(fila.dias) || 0;
+        }, 0);
         totalpeso = calcularPromedio(totalpeso, filas.length);
+        diaspromedio = calcularPromedio(diaspromedio, areas_movimentos_todos.length);
 
         totalcantidad = filas.length;
     }
@@ -3006,6 +3007,7 @@
             <Analisis
                 bind:totalcantidad
                 bind:totalpeso
+                bind:diaspromedio
                 bind:areas_estadisticas
                 bind:area_historico
                 bind:fechadesde

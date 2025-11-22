@@ -7,6 +7,7 @@
     let {
         totalcantidad = $bindable(""),
         totalpeso = $bindable(""),
+        diaspromedio = $bindable(""),
         areas_estadisticas = $bindable([]),
         area_historico =  $bindable([]),
         fechadesde = $bindable(""),
@@ -25,7 +26,7 @@
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-11/12 mb-2">
     <Estadisticas titulo={"Cantidad"} bind:valor={totalcantidad} />
     <Estadisticas titulo={"Peso promedio"} bind:valor={totalpeso} />
-    <Estadisticas titulo={"Dias promedio"} bind:valor={totalpeso} />
+    <Estadisticas titulo={"Dias promedio"} bind:valor={diaspromedio} />
 </div>
 <div
     class={`
