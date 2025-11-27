@@ -1,23 +1,10 @@
 <script>
-    let {
-        todosmovimientos = [],
-        titulo = "",
-        bebes = [],
-        areas,
-        unidades,
-    } = $props();
+    let { movimientos_agrupados = [], titulo = "", areas } = $props();
 
-    let movimientos = $derived(
-        todosmovimientos
-            .filter((m) => m.cambio)
-            .sort((m1, m2) =>
-                new Date(m1.fecha) < new Date(m2.fecha) ? 1 : -1,
-            ),
-    );
-    
-    function getNombreBebe(id,lista){
+
+    function getNombreBebe(id, lista) {
         let fila = { id: "", nombrebebe: "" };
-        
+
         let idx = lista.findIndex((o) => o.id == id);
         if (idx != -1) {
             fila = lista[idx];
@@ -58,7 +45,7 @@
                     
                     rounded-full px-2 py-0.5`}
             >
-                {movimientos.length}
+                {movimientos_agrupados.length}
             </span>
         </h2>
     </div>
@@ -81,15 +68,14 @@
                 `}
             >
                 <div class="table-row">
-                    <div class="table-cell px-4 py-3">Bebé</div>
-                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Area</div>
-                    <div class="table-cell px-4 py-3">Unidad</div>
+                    <div class="table-cell px-4 py-3">Bebés</div>
+                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Días</div>
                 </div>
             </div>
             <div class="table-row-group">
-                {#each movimientos as b}
+                {#each movimientos_agrupados as b}
                     <div
                         class={`
                             table-row border-b
@@ -101,18 +87,13 @@
                         `}
                     >
                         <div class="table-cell px-4 py-3">
-                            
-                            {getNombreBebe(b.bebe, bebes)}
-                            
-                        </div>
-                        <div class="table-cell px-4 py-3">
-                            {new Date(b.fecha).toLocaleDateString()}
-                        </div>
-                        <div class="table-cell px-4 py-3">
                             {getNombre(b.area, areas)}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {getNombre(b.unidad, unidades)}
+                            {b.cantidad}
+                        </div>
+                        <div class="table-cell px-4 py-3">
+                            {new Date(b.fecha).toLocaleDateString()}
                         </div>
                         <div class="table-cell px-4 py-3">
                             {b.dias}
@@ -128,7 +109,7 @@
             sm:hidden p-4 
         `}
     >
-        {#each movimientos as b}
+        {#each movimientos_agrupados as b}
             <div
                 class="
                     border-b
@@ -138,22 +119,18 @@
                 <!-- Info principal -->
                 <div class="mt-3 text-sm space-y-1">
                     <div>
-                        <span class="font-medium">Bebé:</span>
-                        {getNombreBebe(b.bebe, bebes)}
-                        
+                        <span class="font-medium">Área:</span>
+                        {getNombre(b.area, areas)}
+                    </div>
+                    <div>
+                        <span class="font-medium">Bebés:</span>
+                        {b.cantidad}
                     </div>
                     <div>
                         <span class="font-medium">Fecha:</span>
                         {new Date(b.fecha).toLocaleDateString()}
                     </div>
-                    <div>
-                        <span class="font-medium">Área:</span>
-                        {getNombre(b.area, areas)}
-                    </div>
-                    <div>
-                        <span class="font-medium">Unidad:</span>
-                        {getNombre(b.unidad, unidades)}
-                    </div>
+
                     <div>
                         <span class="font-medium">Días:</span>
                         {b.dias}

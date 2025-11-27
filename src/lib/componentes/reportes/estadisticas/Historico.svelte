@@ -9,7 +9,7 @@
         fechahasta,
         grupos,
         singrupo,
-        areas = [],
+        areas = $bindable([]),
         conarea = false
     } = $props();
     let elegir = $state("");
@@ -66,7 +66,15 @@
     <table class="table table-lg w-full">
         <thead>
             <tr>
-
+                {#if conarea}
+                <th
+                    class={`
+                            text-base p-3 border-b dark:border-gray-600 
+                        `}
+                >
+                    <div class="flex flex-row justify-between">Area</div>
+                </th>
+                {/if}
                 <th
                     class={`
                             text-base p-3 border-b dark:border-gray-600 
@@ -101,8 +109,9 @@
         <tbody>
             {#each estadisticas as e}
                 <tr>
-
-                    
+                    {#if conarea}
+                    <td class="text-base p-3"> {getNombreArea(e.area)}</td>
+                    {/if}
                     <td class="text-base p-3"> {e.nombre}</td>
                     <td class="text-base p-3"> {e.cantidad}</td>
                     <td class="text-base p-3"> {e.peso}</td>
@@ -138,6 +147,14 @@
                     </h3>
                 </div>
                 <div class="grid grid-cols-2 gap-y-2">
+                    {#if conarea}
+                    <div class="flex items-start">
+                        <span>Area:</span>
+                        <span class="font-semibold">
+                            {getNombreArea(e.area)}
+                        </span>
+                    </div>
+                    {/if}
                     <div class="flex items-start">
                         <span>Cantidad:</span>
                         <span class="font-semibold">

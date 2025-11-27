@@ -8,7 +8,7 @@
   let {
     modoedicion = $bindable(false),
     areas = $bindable([]),
-    unidadesarea=$bindable([]),
+    unidadesarea = $bindable([]),
 
     //bebe
     sexo = $bindable(""),
@@ -28,8 +28,9 @@
     hcmama = $bindable(""),
   } = $props();
 
-
-  let fechanac = $derived(fechanacimientobebe?fechanacimientobebe.split("T")[0]:"")
+  let fechanac = $derived(
+    fechanacimientobebe ? fechanacimientobebe.split("T")[0] : "",
+  );
 </script>
 
 <div
@@ -46,21 +47,27 @@
           rounded-md p-1 shadow
         `}
     >
-      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">Información del Bebé</h3>
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+        Información del Bebé
+      </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputSelect
           idetiqueta={"areabebe"}
           etiqueta="Area"
           bind:modoedicion
           bind:value={areabebe}
-          lista={areas.filter(a=>a.active).concat({id:"",nombre:"Ninguna"})}
+          lista={areas
+            .filter((a) => a.active)
+            .concat({ id: "", nombre: "Ninguna" })}
         />
         <InputSelect
           idetiqueta={"unidadbebe"}
           etiqueta="Unidad"
           bind:modoedicion
           bind:value={unidadbebe}
-          lista={unidadesarea.filter(u=>!u.eliminada ).concat({id:"",nombre:"Ninguna"})}
+          lista={unidadesarea
+            .filter((u) => !u.eliminada)
+            .concat({ id: "", nombre: "Ninguna" })}
         />
         <InputSelect
           idetiqueta={"sexobebe"}
@@ -70,30 +77,30 @@
           lista={opciones.SEXO}
         />
         <InputText
-        idetiqueta={"nombrebebe"}
+          idetiqueta={"nombrebebe"}
           etiqueta="Nombre"
           bind:modoedicion
           bind:value={nombrebebe}
         />
         <InputText
-        idetiqueta={"dnibebe"}
+          idetiqueta={"dnibebe"}
           etiqueta="DNI"
           bind:modoedicion
           bind:value={dnibebe}
         />
         <InputText
-        idetiqueta={"hc"}
+          idetiqueta={"hc"}
           etiqueta="Historia Clínica"
           bind:modoedicion
           bind:value={hcbebe}
         />
         <InputText
-        idetiqueta={"Peso (g)"}
+          idetiqueta={"Peso (g)"}
           etiqueta="Peso (g)"
           bind:modoedicion
           bind:value={pesobebe}
         />
-        
+
         <InputDate
           idetiqueta={"fechanac"}
           etiqueta="Fecha nacimiento"
@@ -108,16 +115,18 @@
           rounded-md p-4 shadow
         `}
     >
-      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">Identificación del Registro</h3>
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+        Identificación del Registro
+      </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputText
-        idetiqueta={"Identificación unico"}
+          idetiqueta={"Identificación unico"}
           etiqueta="Identificación unico"
           bind:modoedicion
           bind:value={identificacion}
         />
         <InputText
-        idetiqueta={"Código"}
+          idetiqueta={"Código"}
           etiqueta="Código"
           bind:modoedicion
           bind:value={codigo}
@@ -130,7 +139,9 @@
           rounded-md p-4 shadow
         `}
     >
-      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">Información de la Madre</h3>
+      <h3 class="text-xl font-semibold border-b pb-2 mb-4 text-primary">
+        Información de la Madre
+      </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputText
           idetiqueta={"Nombremadre"}

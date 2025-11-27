@@ -16,6 +16,7 @@
     import Historico from "$lib/componentes/reportes/estadisticas/Historico.svelte";
     import Analisis from "$lib/componentes/reportes/Analisis.svelte";
     import ListadoMovimientos from "$lib/componentes/reportes/ListadoMovimientos.svelte";
+    import ListadoMovimientosAgrupado from "$lib/componentes/reportes/ListadoMovimientosAgrupado.svelte";
 
     let ruta = import.meta.env.VITE_RUTA;
 
@@ -28,6 +29,7 @@
     let sinhistorial = $state(false);
 
     //reportes
+    let movimientos_agrupados = $state([])
     let unidades_movimientos_todos = $state([]);
     let areas_movimentos_todos = $state([]);
 
@@ -804,15 +806,16 @@
                 }
             }
         }
-        movimientos_areas = movimientos_areas.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
-        movimientos_unidades = movimientos_unidades.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        
         
         let presente = new Date().toISOString().split("T")[0];
         let pasado = new Date();
         for (let i = 0; i < movimientos_areas.length; i++) {
             let movimiento = movimientos_areas[i];
+            
             if (movimiento.cambio) {
                 pasado = movimiento.fecha;
+                
                 let dias = diasEntreFechas(pasado, presente);
 
                 movimientos_areas[i].dias = dias;
@@ -825,12 +828,13 @@
         pasado = new Date();
         for (let i = 0; i < movimientos_unidades.length; i++) {
             let movimiento = movimientos_unidades[i];
+            
             if (movimiento.cambio) {
+                
                 pasado = movimiento.fecha;
                 let dias = diasEntreFechas(pasado, presente);
 
                 movimientos_unidades[i].dias = dias;
-
                 presente = pasado;
             }
         }
@@ -998,16 +1002,80 @@
 
         unidad_historico = calcularStockHistorial(unidades_movimientos_todos);
         area_historico = calcularStockHistorial(areas_movimentos_todos);
-        areas_movimentos_todos = areas_movimentos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        areas_movimentos_todos = areas_movimentos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?-1:1)
         unidades_movimientos_todos = unidades_movimientos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+
+
+        
+        
+        //movimeintos agrupados
+        let movimientos_area_con_cambios = areas_movimentos_todos.filter(m=>m.area != "")
+        
+
+        movimientos_agrupados = []
+        const agrupado = {};
+        
+        movimientos_area_con_cambios.forEach((m) => {
+            const fechaISO = m.fecha;
+            // Extraer solo la parte de la fecha: YYYY-MM-DD
+            const fechaCorta = fechaISO.split(" ")[0];
+            const clave_area = `${m.area}`;
+
+            const clave_fecha = `${fechaCorta}`
+            if(!agrupado[clave_area]){
+                agrupado[clave_area]={
+                    area : m.area,
+                    cantidad:0,
+                    fecha:"",
+                    fechas:{}
+                }
+                agrupado[clave_area].fechas[clave_fecha]={
+                    fecha:fechaCorta,
+                    cantidad:0,
+                    dias:m.dias
+                }
+                
+                
+            }
+            else{
+                if(!agrupado[clave_area].fechas[clave_fecha]){
+                    agrupado[clave_area].fechas[clave_fecha]={
+                        fecha:fechaCorta,
+                        dias:m.dias,
+                        cantidad:0
+                    }   
+                }
+            }
+
+            agrupado[clave_area].cantidad += m.cantidad
+            agrupado[clave_area].fechas[clave_fecha].cantidad = agrupado[clave_area].cantidad
+            
+        });
+        console.log(agrupado)
+        
+        movimientos_agrupados = []
+        Object.values(agrupado).forEach(area_agg=>{
+            Object.values(area_agg.fechas).forEach(fecha_agg=>{
+                movimientos_agrupados.push({
+                    area:area_agg.area,
+                    cantidad:fecha_agg.cantidad,
+                    fecha:fecha_agg.fecha,
+                    dias:fecha_agg.dias
+                })
+            })
+        })
+         
+        movimientos_agrupados = movimientos_agrupados.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+        //fin
+
         totalpeso = filas.reduce((peso, fila) => {
             return peso + Number(fila.pesobebe) || 0;
         }, 0);
-        diaspromedio = areas_movimentos_todos.reduce((dias, fila) => {
+        diaspromedio = movimientos_agrupados.reduce((dias, fila) => {
             return dias + Number(fila.dias) || 0;
         }, 0);
         totalpeso = calcularPromedio(totalpeso, filas.length);
-        diaspromedio = calcularPromedio(diaspromedio, areas_movimentos_todos.length);
+        diaspromedio = calcularPromedio(diaspromedio, movimientos_agrupados.length);
 
         totalcantidad = filas.length;
     }
@@ -3077,11 +3145,10 @@
 
           `}
         >
-            <ListadoMovimientos
-                todosmovimientos={areas_movimentos_todos}
+            <ListadoMovimientosAgrupado
+                {movimientos_agrupados}
                 titulo="de área"
                 {areas}
-                {unidades}
                 {bebes}
             />
         </div>

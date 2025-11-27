@@ -1,7 +1,6 @@
 <script>
     import { beforeNavigate } from "$app/navigation";
 
-    
     import Estadisticas from "./estadisticas/Estadisticas.svelte";
     import Historico from "./estadisticas/Historico.svelte";
     let {
@@ -9,7 +8,7 @@
         totalpeso = $bindable(""),
         diaspromedio = $bindable(""),
         areas_estadisticas = $bindable([]),
-        area_historico =  $bindable([]),
+        area_historico = $bindable([]),
         fechadesde = $bindable(""),
         fechahasta = $bindable(""),
         areas = $bindable([]),
@@ -19,14 +18,17 @@
         vergraficounidad = $bindable(false),
         verhistoricounidad = $bindable(false),
         vergraficoarea = $bindable(false),
-        verhistoricoarea = $bindable(false)
-    } = $props()
-
+        verhistoricoarea = $bindable(false),
+    } = $props();
 </script>
+
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-11/12 mb-2">
     <Estadisticas titulo={"Cantidad"} bind:valor={totalcantidad} />
     <Estadisticas titulo={"Peso promedio"} bind:valor={totalpeso} />
-    <Estadisticas titulo={"Dias promedio"} bind:valor={diaspromedio} />
+    <div class="hidden">
+        <Estadisticas titulo={"Dias promedio"} bind:valor={diaspromedio} />
+    </div>
+    
 </div>
 <div
     class={`
@@ -56,9 +58,9 @@
             historico={area_historico}
             {fechadesde}
             {fechahasta}
-            grupos={areas.filter(a=>a.id != "")}
-            bind:vergrafico = {vergraficoarea}
-            bind:verhistorico = {verhistoricoarea}
+            grupos={areas.filter((a) => a.id != "")}
+            bind:vergrafico={vergraficoarea}
+            bind:verhistorico={verhistoricoarea}
         />
     </div>
 
@@ -82,11 +84,20 @@
             historico={unidad_historico}
             {fechadesde}
             {fechahasta}
-            grupos={unidades.filter(u=>u.id != "")}
-            conarea = {true}
-            areas
-            bind:vergrafico = {vergraficounidad}
-            bind:verhistorico = {verhistoricounidad}
+            grupos={unidades
+                .filter((u) => u.id !== "")
+                .sort((u1, u2) => {
+                    const areaCompare = u1.area.localeCompare(u2.area);
+                    if (areaCompare !== 0) {
+                        return areaCompare;
+                    }
+                    // Si las áreas son iguales, ordenar por nombre
+                    return u1.nombre.localeCompare(u2.nombre);
+                })}
+            conarea={true}
+            bind:areas
+            bind:vergrafico={vergraficounidad}
+            bind:verhistorico={verhistoricounidad}
         />
     </div>
 </div>

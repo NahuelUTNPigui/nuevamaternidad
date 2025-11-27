@@ -236,7 +236,7 @@
     let unidades = $state([]);
     let areas = $state([]);
     
-    let unidadesarea = $derived(unidades.filter((u) => u.area == areabebe && u.bebe == ""));
+    let unidadesarea = $derived(unidades.filter((u) => u.area == areabebe));
 
     //Datos viejos
     let nombreviejo = $state("");

@@ -12,6 +12,7 @@
     import FormArea from "$lib/componentes/inicio/FormArea.svelte";
     import FormUnidad from "$lib/componentes/inicio/FormUnidad.svelte";
     import UbicarBebe from "$lib/componentes/inicio/UbicarBebe.svelte";
+    import DesubicarBebe from "$lib/componentes/inicio/DesubicarBebe.svelte";
 
     let ruta = import.meta.env.VITE_RUTA;
     const pb = new PocketBase(ruta);
@@ -25,6 +26,9 @@
     let unidadesocupacion = $derived(
         unidades.filter((u) => u.area == areaocupacion && u.bebe == ""),
     );
+    let unidadesdesocupacion = $derived(
+        unidades.filter((u) => u.area == areadesocupacion && u.bebe != ""),
+    );
 
     //Area
     let nombrearea = $state("");
@@ -33,6 +37,10 @@
     let areaunidad = $state("");
     let activa = $state(true);
     let bebeunidad = $state("");
+    //desocupacion
+    let bebedesocupacion = $state("");
+    let unidaddesocupacion = $state("");
+    let areadesocupacion = $state("");
     //ocupacion
     let bebeocupacion = $state("");
     let unidadocupacion = $state("");
@@ -47,6 +55,11 @@
         areaunidad = "";
         bebeunidad = "";
         unidadInicioModal.showModal();
+    }
+    function openModalDesocupar() {
+        bebedesocupacion = "";
+        unidaddesocupacion = "";
+        desocuparInicioModal.showModal();
     }
     function openModalOcupar() {
         bebeocupacion = "";
@@ -111,16 +124,22 @@
     async function cambiarUnidad(_area, _unidad, _bebe) {
         let historial = {
             ..._bebe,
-            bebe: _bebe.id,
+            bebe: _bebe,
         };
         delete historial.id;
         await pb.collection("historialbebes").create(historial);
         await pb
             .collection("bebes")
             .update(_bebe, { unidad: _unidad, area: _area });
+        await getUnidades();
+        bebes = await pb.collection("bebes").getFullList({
+            filter: "active=true",
+        });
     }
     async function guardarUnidad() {
-        if(isSaving){return}
+        if (isSaving) {
+            return;
+        }
         if (nombreunidad != "" && areaunidad != "") {
             let data = {
                 bebe: bebeunidad,
@@ -130,7 +149,7 @@
                 area: areaunidad,
             };
             try {
-                isSaving = true
+                isSaving = true;
                 let record = await pb.collection("Unidades").create(data);
                 if (bebeunidad != "") {
                     await cambiarUnidad(areaunidad, record.id, bebeunidad);
@@ -150,46 +169,86 @@
                     "No se logró guardar la unidad",
                     "error",
                 );
-            }
-            finally{
-                isSaving = false
+            } finally {
+                isSaving = false;
             }
         } else {
             unidadInicioModal.close();
         }
     }
-    async function guardarOcupar() {
-        if(isSaving){return}
+    async function guardarDesocupar() {
+        if (isSaving) {
+            return;
+        }
         if (
-            bebeocupacion != "" &&
-            unidadocupacion != "" &&
-            areaocupacion != ""
+            bebedesocupacion != "" &&
+            unidaddesocupacion != "" &&
+            areadesocupacion != ""
         ) {
+            isSaving = true;
             try {
-                isSaving = true
-                ocuparInicioModal.close();
+                isSaving = true;
+
                 await cambiarUnidad(
-                    areaocupacion,
-                    unidadocupacion,
-                    bebeocupacion,
+                    "",
+                    "",
+                    bebedesocupacion,
                 );
                 await getAreas();
-
+                desocuparInicioModal.close();
                 Swal.fire(
                     "Éxito ocupar",
                     "Se logró ocupar la unidad",
                     "success",
                 );
             } catch (err) {
+                desocuparInicioModal.close();
                 Swal.fire(
                     "Error ocupar",
                     "No se logró ocupar la unidad",
                     "error",
                 );
-                ocuparInicioModal.close();
+            } finally {
+                isSaving = false;
             }
-            finally{
-                isSaving = false
+        }
+        else{
+            desocuparInicioModal.close();
+        }
+    }
+    async function guardarOcupar() {
+        if (isSaving) {
+            return;
+        }
+        if (
+            bebeocupacion != "" &&
+            unidadocupacion != "" &&
+            areaocupacion != ""
+        ) {
+            try {
+                isSaving = true;
+
+                await cambiarUnidad(
+                    areaocupacion,
+                    unidadocupacion,
+                    bebeocupacion,
+                );
+                await getAreas();
+                ocuparInicioModal.close();
+                Swal.fire(
+                    "Éxito ocupar",
+                    "Se logró ocupar la unidad",
+                    "success",
+                );
+            } catch (err) {
+                ocuparInicioModal.close();
+                Swal.fire(
+                    "Error ocupar",
+                    "No se logró ocupar la unidad",
+                    "error",
+                );
+            } finally {
+                isSaving = false;
             }
         } else {
             ocuparInicioModal.close();
@@ -203,6 +262,12 @@
     }
     function closeOcupar() {
         ocuparInicioModal.close();
+    }
+    function closeDesocupar() {
+        areadesocupacion = ""
+        unidaddesocupacion = ""
+        bebedesocupacion = ""
+        desocuparInicioModal.close();
     }
     function salir() {
         setLocalStorageDefault();
@@ -250,6 +315,10 @@
         areaocupacion = _area;
         openModalOcupar();
     }
+    function clickDesocuparUnidad(_area) {
+        areadesocupacion = _area;
+        openModalDesocupar();
+    }
 </script>
 
 {#snippet childrenheader()}
@@ -267,6 +336,7 @@
         <Boton onclick={clickArea} titulo="Nueva area"></Boton>
         <Boton onclick={clickUnidad} titulo="Nueva Unidad"></Boton>
         <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
+        <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"></Boton>
         <Boton onclick={() => goto("/reportes")} titulo="Ver reporte"></Boton>
     </div>
 {/snippet}
@@ -311,6 +381,20 @@
             bind:unidades={unidadesocupacion}
             guardar={guardarOcupar}
             cancelar={closeOcupar}
+        />
+    </div>
+</dialog>
+<dialog id="desocuparInicioModal" class="modal">
+    <div class="modal-box bg-transparent">
+        <DesubicarBebe
+            bind:area={areadesocupacion}
+            bind:unidad={unidaddesocupacion}
+            bind:bebe={bebedesocupacion}
+            bind:bebes
+            bind:areas
+            bind:unidades={unidadesdesocupacion}
+            guardar={guardarDesocupar}
+            cancelar={closeDesocupar}
         />
     </div>
 </dialog>
