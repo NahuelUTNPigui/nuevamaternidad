@@ -1,4 +1,5 @@
 <script>
+    import Exportar from "../Exportar.svelte";
     import { goto } from "$app/navigation";
     let {
         movimientos = $bindable(),
@@ -12,6 +13,14 @@
             fila = lista[idx];
         }
         return fila.nombre;
+    }
+    function prepararData(item) {
+        return {
+            AREA: getNombre(item.area, areas),
+            UNIDAD: getNombre(item.unidad, unidades),
+            "FECHA:": new Date(item.fecha).toLocaleDateString(),
+            DIAS: item.dias,
+        };
     }
 </script>
 
@@ -42,6 +51,14 @@
             </span>
         </h2>
     </div>
+    <div class="my-2">
+        <Exportar
+            titulo = "Movimientos unidades"
+            data= {movimientos}
+            {prepararData}
+        />
+
+    </div>
     <!-- Tabla -->
     <div
         class={`
@@ -61,11 +78,10 @@
                 `}
             >
                 <div class="table-row">
-                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Area</div>
                     <div class="table-cell px-4 py-3">Unidad</div>
+                    <div class="table-cell px-4 py-3">Fecha</div>
                     <div class="table-cell px-4 py-3">Días</div>
-
                 </div>
             </div>
             <div class="table-row-group">
@@ -80,15 +96,14 @@
                             cursor-pointer
                         `}
                     >
-                        
-                        <div class="table-cell px-4 py-3">
-                            {new Date(b.fecha).toLocaleDateString()}
-                        </div>
                         <div class="table-cell px-4 py-3">
                             {getNombre(b.area, areas)}
                         </div>
                         <div class="table-cell px-4 py-3">
                             {getNombre(b.unidad, unidades)}
+                        </div>
+                        <div class="table-cell px-4 py-3">
+                            {new Date(b.fecha).toLocaleDateString()}
                         </div>
                         <div class="table-cell px-4 py-3">
                             {b.dias}
@@ -106,19 +121,13 @@
     >
         {#each movimientos as b}
             <div
-                
                 class="
                     border-b
                     dark:border-gray-700 border-gray-200
                 "
             >
-                
                 <!-- Info principal -->
                 <div class="mt-3 text-sm space-y-1">
-                    <div>
-                        <span class="font-medium">Fecha:</span>
-                        {new Date(b.fecha).toLocaleDateString()}
-                    </div>
                     <div>
                         <span class="font-medium">Área:</span>
                         {getNombre(b.area, areas)}
@@ -126,6 +135,10 @@
                     <div>
                         <span class="font-medium">Unidad:</span>
                         {getNombre(b.unidad, unidades)}
+                    </div>
+                    <div>
+                        <span class="font-medium">Fecha:</span>
+                        {new Date(b.fecha).toLocaleDateString()}
                     </div>
                     <div>
                         <span class="font-medium">Días:</span>

@@ -1,4 +1,5 @@
 <script>
+    import Exportar from "../Exportar.svelte";
     let { movimientos_agrupados = [], titulo = "", areas } = $props();
 
 
@@ -19,6 +20,16 @@
             fila = listafiltrada[idx];
         }
         return fila.nombre;
+    }
+    function prepararData(item){
+        
+        return{
+            "AREA":getNombre(item.area,areas),
+            "BEBES":item.cantidad,
+            "FECHA":new Date(item.fecha).toLocaleDateString(),
+            "DIAS":item.dias
+
+        }
     }
 </script>
 
@@ -48,6 +59,14 @@
                 {movimientos_agrupados.length}
             </span>
         </h2>
+    </div>
+    <div class="my-2">
+        <Exportar
+            titulo = "Movimientos areas"
+            data= {movimientos_agrupados}
+            {prepararData}
+        />
+
     </div>
     <!-- Tabla -->
     <div

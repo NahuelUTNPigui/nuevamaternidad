@@ -1,8 +1,10 @@
 <script>
     import { beforeNavigate } from "$app/navigation";
+    import Exportar from "../Exportar.svelte";
 
     import Estadisticas from "./estadisticas/Estadisticas.svelte";
     import Historico from "./estadisticas/Historico.svelte";
+    
     let {
         totalcantidad = $bindable(""),
         totalpeso = $bindable(""),
@@ -20,6 +22,31 @@
         vergraficoarea = $bindable(false),
         verhistoricoarea = $bindable(false),
     } = $props();
+   
+    function getNombreArea(area){
+        let idx_area  =areas.findIndex(a=>a.id==area)
+        if(idx_area!=-1){
+            return areas[idx_area].nombre
+        }
+        else{
+            return ""
+        }
+    }
+    function prepararDataArea(item){
+        return {
+            "NOMBRE":item.nombre,
+            "CANTIDAD":item.cantidad,
+            "PESO PROMEDIO":item.peso
+        };
+    }
+    function prepararDataUnidad(item){
+        return {
+            "NOMBRE":item.nombre,
+            "AREA":getNombreArea(item.area),
+            "CANTIDAD":item.cantidad,
+            "PESO PROMEDIO":item.peso
+        };
+    }
 </script>
 
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-11/12 mb-2">
@@ -52,6 +79,12 @@
                 
             `}
     >
+        <Exportar
+            data = {areas_estadisticas}
+            titulo = "Estadisticas areas"
+
+            prepararData={prepararDataArea}
+        />
         <Historico
             singrupo="Sin area"
             estadisticas={areas_estadisticas}
@@ -78,6 +111,12 @@
                 
             `}
     >
+        <Exportar
+            data = {unidades_estadisticas}
+            titulo = "Estadisticas unidades"
+            
+            prepararData={prepararDataUnidad}
+        />
         <Historico
             singrupo="Sin unidad"
             estadisticas={unidades_estadisticas}

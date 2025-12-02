@@ -7,7 +7,7 @@
     import PocketBase from "pocketbase";
     import Swal from "sweetalert2";
     import { createStorageProxy } from "$lib/filtros/filtros";
-    import { onMount } from "svelte";
+    import { hasContext, onMount } from "svelte";
     import StatCard from "$lib/componentes/StatCard.svelte";
     import Sangre from "$lib/componentes/bebe/Sangre.svelte";
     import opciones from "$lib/opciones";
@@ -29,6 +29,7 @@
     let sinhistorial = $state(false);
 
     //reportes
+    //historial no es lo mismo que movimientos
     let movimientos_agrupados = $state([])
     let unidades_movimientos_todos = $state([]);
     let areas_movimentos_todos = $state([]);
@@ -646,28 +647,23 @@
                 id: b.id,
                 estados: [],
             };
-            let fecha_inicio = b.created;
+            
             let fecha_fin = new Date().toISOString().split("T")[0];
             let hs_bebe = historial.filter((h) => h.bebe == b.id);
-            for (let j = 0; j < hs_bebe.length; j++) {
-                let h = hs_bebe[j];
-                fecha_fin = h.fecha;
 
+            //va de atras para adelnte
+            for (let j = hs_bebe.length - 1; j >=0 ; j--) {
+                let h = hs_bebe[j];
+                let fecha_inicio = h.created;
                 let estado = {
                     fecha_inicio,
                     fecha_fin,
                     ...h,
                 };
+                
                 bebehistoria.estados.push(estado);
-                fecha_inicio = fecha_fin;
+                fecha_fin = fecha_inicio;
             }
-            fecha_fin = new Date().toUTCString().split("T")[0] + " 00:00:00";
-            let estado = {
-                fecha_inicio: b.updated,
-                fecha_fin,
-                ...b,
-            };
-            bebehistoria.estados.push(estado);
             historiasbebes.push(bebehistoria);
         }
     }
@@ -693,13 +689,12 @@
 
         return ops[0].nombre;
     }
-
     function calcularMovimientos(estados) {
         let movimientos_unidades = [];
         let movimientos_areas = [];
         let primer_estado = estados[0];
         if (estados.length == 1) {
-            let estado_inicio = estados[0];
+            let estado_inicio = primer_estado;
             let movimiento_unidad = {
                 grupo: estado_inicio.unidad,
                 fecha: estado_inicio.created,
@@ -710,6 +705,7 @@
                 dias: 0,
                 cambio: true,
                 bebe: estado_inicio.bebe,
+                nombre:estado_inicio.nombrebebe
             };
             movimientos_unidades.push(movimiento_unidad);
             let movimiento_area = {
@@ -722,10 +718,13 @@
                 dias: 0,
                 cambio: true,
                 bebe: estado_inicio.bebe,
+                nombre:estado_inicio.nombrebebe
             };
             movimientos_areas.push(movimiento_area);
         } else {
-            let estado_inicio = estados[0];
+            let estado_inicio = primer_estado;
+            let estado_inicio_area = primer_estado;
+            let estado_inicio_unidad = primer_estado;
             let movimiento_unidad = {
                 grupo: estado_inicio.unidad,
                 fecha: estado_inicio.created,
@@ -736,6 +735,7 @@
                 dias: 0,
                 cambio: true,
                 bebe: estado_inicio.bebe,
+                nombre:estado_inicio.nombrebebe
             };
             movimientos_unidades.push(movimiento_unidad);
             let movimiento_area = {
@@ -748,11 +748,14 @@
                 dias: 0,
                 cambio: true,
                 bebe: estado_inicio.bebe,
+                nombre:estado_inicio.nombrebebe
             };
             movimientos_areas.push(movimiento_area);
+            
             for (let i = 1; i < estados.length; i++) {
                 let estado = estados[i];
-                if (estado.unidad != estado_inicio.unidad) {
+
+                if (estado.unidad != estado_inicio_unidad.unidad) {
                     let movimiento_unidad = {
                         grupo: estado.unidad,
                         fecha: estado.created,
@@ -763,22 +766,25 @@
                         dias: 0,
                         cambio: true,
                         bebe: estado.bebe,
+                        nombre:estado.nombrebebe
                     };
                     let resta_movimiento_unidad = {
-                        grupo: estado_inicio.unidad,
+                        grupo: estado_inicio_unidad.unidad,
                         fecha: estado.created,
-                        unidad: estado_inicio.unidad,
-                        area: estado_inicio.area,
+                        unidad: estado_inicio_unidad.unidad,
+                        area: estado_inicio_unidad.area,
                         cantidad: -1,
-                        peso: -estado_inicio.pesobebe,
+                        peso: -estado_inicio_unidad.pesobebe,
                         dias: 0,
                         cambio: false,
                         bebe: estado.bebe,
+                        nombre:estado.nombrebebe
                     };
+                    estado_inicio_unidad = estado
                     movimientos_unidades.push(movimiento_unidad);
                     movimientos_unidades.push(resta_movimiento_unidad);
                 }
-                if (estado.area != estado_inicio.area) {
+                if (estado.area != estado_inicio_area.area) {
                     let movimiento_area = {
                         grupo: estado.area,
                         fecha: estado.created,
@@ -789,46 +795,30 @@
                         dias: 0,
                         cambio: true,
                         bebe: estado.bebe,
+                        nombre:estado.nombrebebe
                     };
                     let resta_movimiento_area = {
-                        grupo: estado_inicio.area,
+                        grupo: estado_inicio_area.area,
                         fecha: estado.created,
-                        area: estado_inicio.area,
-                        unidad: estado_inicio.unidad,
+                        area: estado_inicio_area.area,
+                        unidad: estado_inicio_area.unidad,
                         cantidad: -1,
-                        peso: -estado_inicio.pesobebe,
+                        peso: -estado_inicio_area.pesobebe,
                         dias: 0,
                         cambio: false,
                         bebe: estado.bebe,
+                        nombre:estado.nombrebebe
                     };
+                    estado_inicio_area = estado
                     movimientos_areas.push(movimiento_area);
                     movimientos_areas.push(resta_movimiento_area);
                 }
             }
         }
-        
-        
         let presente = new Date().toISOString().split("T")[0];
-        let pasado = new Date();
-        for (let i = 0; i < movimientos_areas.length; i++) {
-            let movimiento = movimientos_areas[i];
-            
-            if (movimiento.cambio) {
-                pasado = movimiento.fecha;
-                
-                let dias = diasEntreFechas(pasado, presente);
-
-                movimientos_areas[i].dias = dias;
-
-                presente = pasado;
-            }
-        }
-
-        presente = new Date().toISOString().split("T")[0];
-        pasado = new Date();
-        for (let i = 0; i < movimientos_unidades.length; i++) {
+        for (let i = movimientos_unidades.length - 1; i >=0; i--) {
             let movimiento = movimientos_unidades[i];
-            
+            let pasado = movimiento.fecha;    
             if (movimiento.cambio) {
                 
                 pasado = movimiento.fecha;
@@ -838,6 +828,7 @@
                 presente = pasado;
             }
         }
+
         return {
             movimientos_areas,
             movimientos_unidades,
@@ -1003,14 +994,10 @@
         unidad_historico = calcularStockHistorial(unidades_movimientos_todos);
         area_historico = calcularStockHistorial(areas_movimentos_todos);
         areas_movimentos_todos = areas_movimentos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?-1:1)
+        
         unidades_movimientos_todos = unidades_movimientos_todos.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
-
-
-        
-        
         //movimeintos agrupados
         let movimientos_area_con_cambios = areas_movimentos_todos.filter(m=>m.area != "")
-        
 
         movimientos_agrupados = []
         const agrupado = {};
@@ -1020,7 +1007,7 @@
             // Extraer solo la parte de la fecha: YYYY-MM-DD
             const fechaCorta = fechaISO.split(" ")[0];
             const clave_area = `${m.area}`;
-
+            
             const clave_fecha = `${fechaCorta}`
             if(!agrupado[clave_area]){
                 agrupado[clave_area]={
@@ -1032,7 +1019,7 @@
                 agrupado[clave_area].fechas[clave_fecha]={
                     fecha:fechaCorta,
                     cantidad:0,
-                    dias:m.dias
+                    dias:0
                 }
                 
                 
@@ -1041,7 +1028,7 @@
                 if(!agrupado[clave_area].fechas[clave_fecha]){
                     agrupado[clave_area].fechas[clave_fecha]={
                         fecha:fechaCorta,
-                        dias:m.dias,
+                        dias:0,
                         cantidad:0
                     }   
                 }
@@ -1051,21 +1038,32 @@
             agrupado[clave_area].fechas[clave_fecha].cantidad = agrupado[clave_area].cantidad
             
         });
-        console.log(agrupado)
+        
         
         movimientos_agrupados = []
         Object.values(agrupado).forEach(area_agg=>{
             Object.values(area_agg.fechas).forEach(fecha_agg=>{
+
                 movimientos_agrupados.push({
                     area:area_agg.area,
                     cantidad:fecha_agg.cantidad,
-                    fecha:fecha_agg.fecha,
-                    dias:fecha_agg.dias
+                    fecha:fecha_agg.fecha+" 03:00:00",
+                    dias:0
                 })
             })
         })
          
         movimientos_agrupados = movimientos_agrupados.sort((m1,m2)=>new Date(m1.fecha)< new Date(m2.fecha)?1:-1)
+
+        let hoy = new Date()
+        let fechafin = hoy
+        for(let i = 0;i<movimientos_agrupados.length;i++){
+            let m = movimientos_agrupados[i]
+
+            let dias = diasEntreFechas(m.fecha,fechafin)
+            movimientos_agrupados[i].dias = dias
+            fechafin = m.fecha
+        }
         //fin
 
         totalpeso = filas.reduce((peso, fila) => {
@@ -2200,6 +2198,8 @@
             sort: "bebe,fecha",
             filter: "bebe.active=true",
         });
+        historial.sort((h1,h2)=>h1.created>h2.created?-1:1)
+        
     }
     //que pasa si elimine un bebe pero quiero sus estados
     async function getBebes() {

@@ -28,6 +28,7 @@
             "SEXO": formatOpcion(item.sexo,opciones.SEXO) ,
             "TIPO INGRESO": item.tipoingreso || "",
             "EDAD GESTACIONAL": item.edad_gestacional || "",
+            "PESO": item.pesobebe || "",
             "PESO RN": item.pesorn || "",
             "PESO 7D": item.peso7d || "",
             "PESO 14D": item.peso14d || "",
@@ -188,7 +189,9 @@
             "MALFORMACIONES CONGÉNITAS": item.malformacionescongenitas || "",
             "CIRUGÍAS": formatMas(item.cirugias) || "",
             "COMPLICACIONES": formatMas(item.complicaciones) || "",
+            "CON ALTA": item.conalta?"Sí":"No",
             "FECHA ALTA": formatDate(item.altafecha),
+            "TIPO ALTA": formatOpcion(item.tipoalta,opciones.TIPO_ALTA),
             "OBSERVACIÓN": item.observacion ,
         };
     }

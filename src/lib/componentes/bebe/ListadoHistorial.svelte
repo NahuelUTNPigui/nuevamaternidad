@@ -1,5 +1,6 @@
 <script>
-    
+    import Exportar from "../Exportar.svelte";    
+    import opciones from "$lib/opciones";
     let {
         bebesrows = $bindable(),
         unidades = $bindable([]),
@@ -14,6 +15,8 @@
         }
         return fila.nombre;
     }
+    
+  
 </script>
 
 <div
@@ -44,6 +47,7 @@
         </h2>
     </div>
     <!-- Tabla -->
+     
     <div
         class={`
             dark:bg-gray-800

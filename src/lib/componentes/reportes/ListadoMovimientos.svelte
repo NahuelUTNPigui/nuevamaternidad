@@ -1,4 +1,5 @@
 <script>
+    import Exportar from "../Exportar.svelte";
     let {
         todosmovimientos = [],
         titulo = "",
@@ -14,10 +15,10 @@
                 new Date(m1.fecha) < new Date(m2.fecha) ? 1 : -1,
             ),
     );
-    
-    function getNombreBebe(id,lista){
+
+    function getNombreBebe(id, lista) {
         let fila = { id: "", nombrebebe: "" };
-        
+
         let idx = lista.findIndex((o) => o.id == id);
         if (idx != -1) {
             fila = lista[idx];
@@ -32,6 +33,14 @@
             fila = listafiltrada[idx];
         }
         return fila.nombre;
+    }
+    function prepararData(item) {
+        return {
+            AREA: getNombre(item.area, areas),
+            UNIDAD: getNombre(item.unidad, unidades),
+            "FECHA:": new Date(item.fecha).toLocaleDateString(),
+            DIAS: item.dias,
+        };
     }
 </script>
 
@@ -61,6 +70,13 @@
                 {movimientos.length}
             </span>
         </h2>
+    </div>
+    <div class="my-2">
+        <Exportar
+            titulo="Movimientos unidades"
+            data={movimientos}
+            {prepararData}
+        />
     </div>
     <!-- Tabla -->
     <div
@@ -101,9 +117,7 @@
                         `}
                     >
                         <div class="table-cell px-4 py-3">
-                            
                             {getNombreBebe(b.bebe, bebes)}
-                            
                         </div>
                         <div class="table-cell px-4 py-3">
                             {new Date(b.fecha).toLocaleDateString()}
@@ -140,7 +154,6 @@
                     <div>
                         <span class="font-medium">Bebé:</span>
                         {getNombreBebe(b.bebe, bebes)}
-                        
                     </div>
                     <div>
                         <span class="font-medium">Fecha:</span>

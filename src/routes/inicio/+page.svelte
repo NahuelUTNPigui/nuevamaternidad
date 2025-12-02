@@ -150,18 +150,59 @@
             };
             try {
                 isSaving = true;
-                let record = await pb.collection("Unidades").create(data);
-                if (bebeunidad != "") {
-                    await cambiarUnidad(areaunidad, record.id, bebeunidad);
-                }
-                await getUnidades();
-                await getAreas();
-                unidadInicioModal.close();
-                Swal.fire(
-                    "Éxito guardar",
-                    "Se logró guardar la unidad",
-                    "success",
+                let repetido = unidades.findIndex(
+                    (u) =>
+                        u.nombre.toLocaleLowerCase() == nombreunidad &&
+                        u.area == areaunidad,
                 );
+                if (repetido != -1) {
+                    unidadInicioModal.close();
+                    Swal.fire({
+                        title: "Ya existe una unidad con un nombre similar en el área",
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: "Guardar",
+                        denyButtonText: `No guardar`,
+                    }).then(async (result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            isSaving = true;
+                            let record = await pb
+                                .collection("Unidades")
+                                .create(data);
+                            if (bebeunidad != "") {
+                                await cambiarUnidad(
+                                    areaunidad,
+                                    record.id,
+                                    bebeunidad,
+                                );
+                            }
+                            await getUnidades();
+                            await getAreas();
+                            
+                            Swal.fire(
+                                "Éxito guardar",
+                                "Se logró guardar la unidad",
+                                "success",
+                            );
+                        }else{
+                            unidadInicioModal.showModal();
+                        }
+                    });
+                } else {
+                    let record = await pb.collection("Unidades").create(data);
+                    if (bebeunidad != "") {
+                        await cambiarUnidad(areaunidad, record.id, bebeunidad);
+                    }
+                    await getUnidades();
+                    await getAreas();
+                    unidadInicioModal.close();
+                    Swal.fire(
+                        "Éxito guardar",
+                        "Se logró guardar la unidad",
+                        "success",
+                    );
+                }
             } catch (err) {
                 unidadInicioModal.close();
                 Swal.fire(
@@ -189,11 +230,7 @@
             try {
                 isSaving = true;
 
-                await cambiarUnidad(
-                    "",
-                    "",
-                    bebedesocupacion,
-                );
+                await cambiarUnidad("", "", bebedesocupacion);
                 await getAreas();
                 desocuparInicioModal.close();
                 Swal.fire(
@@ -211,8 +248,7 @@
             } finally {
                 isSaving = false;
             }
-        }
-        else{
+        } else {
             desocuparInicioModal.close();
         }
     }
@@ -264,9 +300,9 @@
         ocuparInicioModal.close();
     }
     function closeDesocupar() {
-        areadesocupacion = ""
-        unidaddesocupacion = ""
-        bebedesocupacion = ""
+        areadesocupacion = "";
+        unidaddesocupacion = "";
+        bebedesocupacion = "";
         desocuparInicioModal.close();
     }
     function salir() {
@@ -338,6 +374,7 @@
         <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
         <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"></Boton>
         <Boton onclick={() => goto("/reportes")} titulo="Ver reporte"></Boton>
+        <Boton onclick={() => goto("/bebes")} titulo="Listado bebés"></Boton>
     </div>
 {/snippet}
 

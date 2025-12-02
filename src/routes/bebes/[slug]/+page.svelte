@@ -857,7 +857,7 @@
         movimientos = [...movimientos, movimiento];
         for (let i = 1; i < historial.length; i++) {
             let estado = historial[i]
-              if(estado_anterior.unidad != estado.unidad || estado_anterior.area != estado.area){
+            if(estado_anterior.unidad != estado.unidad || estado_anterior.area != estado.area){
                 let movimiento = {
                     fecha: estado.created,
                     unidad:estado.unidad,
@@ -912,7 +912,7 @@
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    let data = {active : false}
+                    let data = {active : false,area:"",unidad:""}
                     await pb.collection("bebes").update(slug, data);
                     if(unidadbebe!=""){
                         let dataunidad = {bebe:""}
