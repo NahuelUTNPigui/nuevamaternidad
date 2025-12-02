@@ -80,7 +80,11 @@
 </script>
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header/>
+        <Header
+            bind:bebesrows 
+            bind:unidades 
+            bind:areas
+        />
         <Buscador 
             bind:buscar 
             bind:estado 

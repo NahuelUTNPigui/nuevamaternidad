@@ -5,6 +5,7 @@
         reanimacion = $bindable(""),
         fallece = $bindable(0),
         rciu = $bindable(""),
+        fechacomplicacion = $bindable(""),
     } = $props();
 </script>
 
@@ -32,24 +33,35 @@
     <!-- Columna 2 -->
     <div class="space-y-3">
         <InputSelect
-        idetiqueta="fallece",
-        etiqueta="Fallece parto"
-        modoedicion = {true}
-        bind:value = {fallece}
-        lista={opciones.FALLECE}
-        
-    />
+            idetiqueta="fallece"
+            ,
+            etiqueta="Fallece parto"
+            modoedicion={true}
+            bind:value={fallece}
+            lista={opciones.FALLECE}
+        />
+    </div>
+    <div class="space-y-3">
+        <label class="label" for="fecha_nacimiento">
+            <span class="label-text font-semibold">Fecha óbito</span>
+        </label>
+        <input
+            type="date"
+            name="fecha_nacimiento"
+            class="input input-bordered w-full"
+            bind:value={fechacomplicacion}
+        />
     </div>
 </div>
 
 <!-- RCIU -->
 <div class="form-control mt-4">
     <InputSelect
-        idetiqueta="rciutipo",
+        idetiqueta="rciutipo"
+        ,
         etiqueta="RCIU"
-        modoedicion = {true}
-        bind:value = {rciu}
+        modoedicion={true}
+        bind:value={rciu}
         lista={opciones.RCIU}
-        
     />
 </div>

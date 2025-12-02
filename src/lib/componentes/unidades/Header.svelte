@@ -6,10 +6,18 @@
     import Exportar from "../Exportar.svelte";
     let oscuro = $derived(darker.oscurostate)
     let {
-        clickFila
+        clickFila,
+        unidadesrows=[]
     } = $props()
     function nuevo(id){
         clickFila(id)
+    }
+    function prepararData(item){
+        return {
+            "UNIDAD":item.nombre,
+            "AREA":item.expand.area.nombre,
+            "BEBE":item.nombrebebe
+        }
     }
 </script>
 <!-- Título -->
@@ -34,7 +42,9 @@
                 cursor-pointer text-center items-center gap-2 px-4 py-2 
                 transition-colors rounded-md
                 text-white
-                ${toDark(oscuro,"bg-blue-500 hover:bg-blue-600 ","bg-blue-600 hover:bg-blue-700")}
+                dark:bg-blue-500 dark:hover:bg-blue-600
+                bg-blue-600 hover:bg-blue-700
+                
                   
             `}
             onclick={()=>nuevo("")}
@@ -42,11 +52,11 @@
             <span class="text-xl font-medium">Nueva unidad</span>
         </button>
         <Exportar
-            data={[]}
-            titulo={""}
+            data={unidadesrows}
+            titulo={"Unidades"}
             confiltro={false}
             filtros={[]}
-            prepararData={[]}
+            prepararData={prepararData}
             sheetname={""}
         />
     </div>

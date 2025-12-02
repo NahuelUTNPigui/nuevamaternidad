@@ -16,7 +16,7 @@
 
     let areas = $state([]);
     let bebes = $state([]);
-    let bebeobjeto = $state({})
+    let bebeobjeto = $state({});
     let unidades = $state([]);
     let unidadesrows = $derived(unidades.filter((u) => filtrarUnidad(u)));
     //filtros
@@ -74,14 +74,18 @@
     onMount(async () => {
         areas = await pb.collection("areas").getFullList({
             sort: "nombre",
-            filter:"active = True"
+            filter: "active = True",
         });
         bebes = await pb.collection("bebes").getFullList({
-            sort:"nombrebebe",
-            filter:"active=True"
-
+            sort: "nombrebebe",
+            filter: "active=True",
         });
-        bebes.sort((b1,b2)=>b1.nombrebebe.toLocaleLowerCase()<b2.nombrebebe.toLocaleLowerCase()?-1:1)
+        bebes.sort((b1, b2) =>
+            b1.nombrebebe.toLocaleLowerCase() <
+            b2.nombrebebe.toLocaleLowerCase()
+                ? -1
+                : 1,
+        );
         await readUnidades();
     });
     function clickFila(_id) {
@@ -100,7 +104,6 @@
                 bebeviejo = u.bebe;
                 bebe = u.bebe;
                 activa = u.active;
-                
             }
         }
         unidadModal.showModal();
@@ -113,26 +116,28 @@
         unidadModal.close();
     }
     async function cambiarUnidad(_area, _unidad, _bebe) {
-        if(_bebe != ""){
-            let idx_bebe = bebes.findIndex(b=>b.id==_bebe)
-            if(idx_bebe != -1){
-                bebeobjeto = bebes[idx_bebe]
+        if (_bebe != "") {
+            let idx_bebe = bebes.findIndex((b) => b.id == _bebe);
+            if (idx_bebe != -1) {
+                bebeobjeto = bebes[idx_bebe];
                 let datahistorial = {
                     ...bebeobjeto,
                     bebe: _bebe,
-                    ...{ unidad: _unidad, area: _area }
+                    ...{ unidad: _unidad, area: _area },
                 };
-                delete datahistorial.id
+                delete datahistorial.id;
                 await pb
                     .collection("historialbebes")
-                    .create({...datahistorial});
+                    .create({ ...datahistorial });
+                console.log(datahistorial)
+                console.log(_bebe)
+                console.log({ unidad: _unidad, area: _area })
             }
+            
+            
+            await pb.collection("bebes").update(_bebe, { unidad: _unidad, area: _area });
+
         }
-        
-        await pb
-            .collection("bebes")
-            .update(_bebe, { unidad: _unidad, area: _area });
-        
     }
     async function eliminar() {
         unidadModal.close();
@@ -175,14 +180,13 @@
                 let data = {
                     bebe,
                     nombre,
-                    active:activa,
+                    active: activa,
                     eliminada: false,
                     area,
                 };
 
                 let record = await pb.collection("Unidades").create(data);
                 if (bebe != "") {
-                    
                     await cambiarUnidad(area, record.id, bebe);
                 }
 
@@ -205,19 +209,19 @@
                 let data = {
                     bebe,
                     nombre,
-                    active:activa,
+                    active: activa,
                     area,
                 };
-                await pb.collection("Unidades").update(id, data);
+                
                 if (bebe != bebeviejo) {
                     if (bebeviejo != "") {
                         await cambiarUnidad("", "", bebeviejo);
                     }
                 }
                 if (bebe != "") {
-                    await cambiarUnidad(area, id, bebeviejo);
+                    await cambiarUnidad(area, id, bebe);
                 }
-
+                await pb.collection("Unidades").update(id, data);
                 await readUnidades();
                 Swal.fire(
                     "Éxito editar",
@@ -242,7 +246,7 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} />
+        <Header {clickFila}  bind:unidadesrows />
         <Buscador
             bind:buscar
             bind:todos

@@ -6,10 +6,18 @@
     import Exportar from "../Exportar.svelte";
     let oscuro = $derived(darker.oscurostate)
     let {
-        clickFila
+        clickFila,
+        areasrows=[]
     } = $props()
     function nuevo(){
         clickFila("")
+    }
+    function prepararData(item){
+        return {
+            "NOMBRE":item.nombre,
+            "BEBES":item.total_bebes,
+            "UNIDADES":item.total_unidades
+        }
     }
 </script>
 <!-- Título -->
@@ -43,11 +51,11 @@
             <span class="text-xl font-medium text-center">Nueva área</span>
         </button>
         <Exportar
-            data={[]}
-            titulo={""}
+            data={areasrows}
+            titulo={"Areas"}
             confiltro={false}
             filtros={[]}
-            prepararData={[]}
+            prepararData={prepararData}
             sheetname={""}
         />
     </div>

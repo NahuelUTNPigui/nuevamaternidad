@@ -53,6 +53,7 @@
     let apgar_5 = $state("");
     let apgar_10 = $state("");
     //reanimacion
+    let fechacomplicacion=$state("")
     let reanimacion = $state("");
     let fallece = $state(0);
     let rciu = $state("");
@@ -106,7 +107,9 @@
             dnimama,
             hcmama,
             active: true,
-            conalta: false,
+            altafecha:fallece==1 && fechacomplicacion.length>0?fechacomplicacion + " 03:00:00":"",
+            tipoalta:fallece==1?"obito":"",
+            conalta: fallece==1?true:false,
         };
         try {
             let record = await pb.collection("bebes").create(ingresobebe);
@@ -193,7 +196,7 @@
                 />
             </Collapse>
             <Collapse titulo="Complicaciones">
-                <Complicaciones bind:reanimacion bind:fallece bind:rciu />
+                <Complicaciones bind:fechacomplicacion bind:reanimacion bind:fallece bind:rciu />
             </Collapse>
         </div>
 

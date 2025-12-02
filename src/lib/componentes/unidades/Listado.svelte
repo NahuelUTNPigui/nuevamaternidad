@@ -13,7 +13,8 @@
 <div
     class={`
         bg-transparent
-        ${toDark(oscuro, " text-gray-100", "text-gray-800")}
+        dark:text-gray-100 text-gray-800
+        
         min-h-screen p-4 
     `}
 >
@@ -24,8 +25,8 @@
             <span
                 class={`
                     text-sm 
-                    ${toDark(oscuro, "bg-blue-800 text-blue-200", "bg-blue-100 text-blue-800")}
-                    
+                    dark:bg-blue-800 dark:text-blue-200
+                    bg-blue-100 text-blue-800
                     rounded-full px-2 py-0.5`}
             >
                 {unidadesrows.length}

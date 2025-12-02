@@ -194,7 +194,7 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} />
+        <Header {clickFila} bind:areasrows/>
         <Buscador bind:buscar {filterUpdate} />
         <Listado bind:areasrows {clickFila} />
     </div>
