@@ -1,12 +1,11 @@
 <script>
-    
     import { toDark } from "$lib/string/string";
     import { goto } from "$app/navigation";
     import opciones from "$lib/opciones";
     import Exportar from "../Exportar.svelte";
     import CONSTANTES from "$lib/constantes";
 
-    let { bebesrows = [], unidades = [], areas = [] } = $props();
+    let { bebesrows = [], unidades = [], areas = [], rol = "admin" } = $props();
     function nuevo() {
         goto("/bebes/nuevo");
     }
@@ -285,8 +284,9 @@
         >
             <span class="text-xl font-medium">Nuevo Ingreso</span>
         </button>
-        <button
-            class={`
+        {#if rol == "admin"}
+            <button
+                class={`
                 cursor-pointer  text-center gap-2 px-4 py-2 
                 transition-colors rounded-md
                 text-white
@@ -294,17 +294,19 @@
                 bg-blue-600 hover:bg-blue-700
                   
             `}
-            onclick={reportes}
-        >
-            <span class="text-xl font-medium">Reportes</span>
-        </button>
-        <Exportar
-            data={bebesrows}
-            titulo={"Bebes"}
-            confiltro={false}
-            filtros={[]}
-            {prepararData}
-            sheetname={""}
-        />
+                onclick={reportes}
+            >
+                <span class="text-xl font-medium">Reportes</span>
+            </button>
+
+            <Exportar
+                data={bebesrows}
+                titulo={"Bebes"}
+                confiltro={false}
+                filtros={[]}
+                {prepararData}
+                sheetname={""}
+            />
+        {/if}
     </div>
 </header>

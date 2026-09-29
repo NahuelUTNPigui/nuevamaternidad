@@ -1,15 +1,15 @@
 <script>
   import { goto } from "$app/navigation";
 
-
   let {
     id = $bindable(""),
     nombre = $bindable(""),
-    cancelar,
-    guardar,
-    eliminar,
+    cancelar = () => {},
+    guardar = () => {},
+    eliminar = () => {},
+    edit = true,
+    rol = "esc",
   } = $props();
-  
 </script>
 
 <!-- Modal Formulario Agregar Area - Dark Mode & Mobile Responsive -->
@@ -31,7 +31,7 @@
       >
         Agregar Nueva Area
       </h2>
-    {:else}
+    {:else if edit}
       <h2
         class={`
           dark:text-gray-100 text-gray-800
@@ -40,6 +40,16 @@
             `}
       >
         Modificar Area
+      </h2>
+    {:else}
+      <h2
+        class={`
+          dark:text-gray-100 text-gray-800
+              
+              text-lg font-semibold 
+            `}
+      >
+        Ver Area
       </h2>
     {/if}
   </div>
@@ -67,10 +77,9 @@
     />
   </div>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-    
-    {#if id != ""}
+    {#if id != "" && rol == "admin"}
       <button
-        onclick={()=>goto("/areas/" + id)}
+        onclick={() => goto("/areas/" + id)}
         class={`
         cursor-pointer
         px-4 py-2 rounded-md 
@@ -99,18 +108,32 @@
         dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600
         bg-gray-100 text-gray-800 hover:bg-gray-200
         
-      `}>Cancelar</button
+      `}>Cerrar</button
     >
-    <button
-      onclick={guardar}
-      class={`
+    {#if rol == "admin"}
+      {#if id == ""}
+        <button
+          onclick={guardar}
+          class={`
         cursor-pointer
         px-4 py-2 rounded-md 
 
         bg-green-600 text-white 
         hover:bg-green-700 transition-colors
       `}>Guardar</button
-    >
-    
+        >
+      {:else}
+        <button
+          onclick={guardar}
+          class={`
+            cursor-pointer
+            px-4 py-2 rounded-md 
+
+            bg-green-600 text-white 
+            hover:bg-green-700 transition-colors
+          `}>Guardar Cambios</button
+        >
+      {/if}
+    {/if}
   </div>
 </div>

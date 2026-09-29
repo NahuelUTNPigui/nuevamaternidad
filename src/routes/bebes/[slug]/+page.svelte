@@ -21,9 +21,19 @@
     import Movimientos from "$lib/componentes/bebe/Movimientos.svelte";
     import Historial from "$lib/componentes/bebe/Historial.svelte";
     import { diasEntreFechas } from "$lib/string/string";
+
+    import { user } from "$lib/stores/user.svelte";
+    import {
+        getLocalStorage,
+        setLocalStorage,
+        setLocalStorageDefault,
+    } from "$lib/localstore";
+
     let ruta = import.meta.env.VITE_RUTA;
 
     const pb = new PocketBase(ruta);
+
+    let rol = $state("esc")
 
     let slug = $state("");
     let bebe = $state({});
@@ -1156,7 +1166,9 @@
         
     }
     onMount(async () => {
-        
+        let localuser = getLocalStorage();
+        rol = localuser.rol
+
         slug = $page.params.slug;
         try {
             await getAreas();
@@ -1383,6 +1395,7 @@
             {guardar}
             {eliminar}
             bind:modoedicion
+            {rol}
         />
         <!--Tabs 2-->
         <div

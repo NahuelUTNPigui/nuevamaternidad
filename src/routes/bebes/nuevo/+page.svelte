@@ -70,6 +70,11 @@
         unidad = ""
     }
     async function guardar() {
+        if(nombrebebe.length==0){
+            Swal.fire("Error bebe","Debe escribir el nombre del bebe","error")
+            return
+        }
+
         let ingresobebe = {
             //ubicacion
             area,

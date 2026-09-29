@@ -31,6 +31,7 @@
         </div>
         <button
             class={`
+                hidden
                 cursor-pointer flex items-center gap-2 px-4 py-2 
                 transition-colors rounded-md
                 text-white

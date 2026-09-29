@@ -1,21 +1,22 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
     import Swal from "sweetalert2";
+    import estilo from "$lib/estilo";
     import { roles, getNombre } from "$lib/roles";
-    let oscuro = $derived(darker.oscurostate);
+
     let { usuariosrows = $bindable([{ name: "xxx" }]), clickFila } = $props();
 
     function handleClick(id) {
         clickFila(id);
         //Swal.fire("Modificar usuario","En desarrollo","info")
     }
+    let pyfila = "py-2";
 </script>
 
 <div
     class={`
         bg-transparent
-        ${toDark(oscuro, " text-gray-100", "text-gray-800")}
+        dark:text-gray-100
+        text-gray-800
         min-h-screen p-4 
     `}
 >
@@ -25,8 +26,11 @@
             Usuarios
             <span
                 class={`
+                    hidden
                     text-sm 
-                    ${toDark(oscuro, "bg-blue-800 text-blue-200", "bg-blue-100 text-blue-800")}
+                    dark:bg-blue-800 dark:text-blue-200
+                    bg-blue-100 text-blue-800
+                    
                     
                     rounded-full px-2 py-0.5`}
             >
@@ -34,19 +38,23 @@
             </span>
         </h2>
     </div>
-    <!-- Tabla en Escritorio y Tarjetas en Mobile -->
-    <div class="hidden sm:table text-sm text-left">
-        <div
-            class={`
-            ${toDark(oscuro, "bg-gray-800", "bg-white")}
-            overflow-x-auto  shadow-md rounded-lg
-        `}
-        >
+    <!--Tabla-->
+    <div
+        class={`
+                    dark:bg-gray-800
+                    bg-white
+                    
+                    overflow-x-auto  shadow-md rounded-lg
+                `}
+    >
+        <div class="hidden sm:table w-full text-sm text-left">
             <div
                 class={`
-                table-header-group
-                ${toDark(oscuro, "bg-gray-700 text-gray-200", "bg-gray-100 text-gray-700 ")}
-            `}
+                    table-header-group
+                    dark:bg-gray-700 dark:text-gray-200
+                    bg-gray-100 text-gray-700
+                    
+                `}
             >
                 <div class="table-row">
                     <div class="table-cell px-4 py-3">Correo</div>
@@ -62,9 +70,10 @@
                         tabindex="0"
                         class={`
                             table-row border-b
-                            ${toDark(oscuro, "border-gray-700", "border-gray-200")}
-                            ${toDark(oscuro, "hover:bg-gray-700", "hover:bg-gray-100")}
+                            dark:border-gray-700 border-gray-200
+                            dark:hover:bg-gray-700 hover:bg-gray-100
                             cursor-pointer
+                            w-full
                         `}
                         onclick={() => handleClick(u.id)}
                         onkeydown={(e) => {
@@ -90,11 +99,12 @@
         </div>
     </div>
 
-    <!-- Cards Mobile -->
+    <!--Celu-->
     <div
         class={`
-            sm:hidden p-4 border-b
-            ${toDark(oscuro, "border-gray-700", "border-gray-200")}
+            md:hidden
+            w-full grid grid-cols-1
+            mx-auto py-3 px-4 max-w-7xl
         `}
     >
         {#each usuariosrows as u, i}
@@ -119,4 +129,5 @@
             </div>
         {/each}
     </div>
+    <!--Fin-->
 </div>

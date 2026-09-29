@@ -48,8 +48,8 @@
                 .authWithPassword(email, pass);
             if (pb.authStore.isValid) {
                 if (pb.authStore.model.active) {
-                    user.setUserstate(authData.record.id, email, "general");
-                    setLocalStorage(authData.record.id, email, "general");
+                    user.setUserstate(authData.record.id, email, authData.record.rol);
+                    setLocalStorage(authData.record.id, email, authData.record.rol);
                     goto("/");
                 }
             } else {
@@ -258,7 +258,8 @@
                         type="button"
                         onclick={crearCuenta}
                         class={`
-                        cursor-pointer
+                            hidden
+                            cursor-pointer
                             w-full py-3 px-4 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
                             bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 active:scale-95
                             text-white shadow-lg

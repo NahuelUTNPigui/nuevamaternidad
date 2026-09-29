@@ -3,16 +3,22 @@
     import Buscador from "$lib/componentes/unidades/Buscador.svelte";
     import Listado from "$lib/componentes/unidades/Listado.svelte";
     import Navbar from "$lib/componentes/navbar/Navbar.svelte";
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
+
     import Formulario from "$lib/componentes/unidades/Formulario.svelte";
     import { onMount } from "svelte";
     import Swal from "sweetalert2";
     import PocketBase from "pocketbase";
-    import { applyAction } from "$app/forms";
+    import { user } from "$lib/stores/user.svelte";
+    import {
+        getLocalStorage,
+        setLocalStorage,
+        setLocalStorageDefault,
+    } from "$lib/localstore";
+
     let ruta = import.meta.env.VITE_RUTA;
     const pb = new PocketBase(ruta);
-    let oscuro = $derived(darker.oscurostate);
+
+    let rol = $state("esc");
 
     let areas = $state([]);
     let bebes = $state([]);
@@ -72,6 +78,8 @@
         unidades = records;
     }
     onMount(async () => {
+        let localuser = getLocalStorage();
+        rol = localuser.rol
         areas = await pb.collection("areas").getFullList({
             sort: "nombre",
             filter: "active = True",
@@ -129,14 +137,11 @@
                 await pb
                     .collection("historialbebes")
                     .create({ ...datahistorial });
-                console.log(datahistorial)
-                console.log(_bebe)
-                console.log({ unidad: _unidad, area: _area })
             }
-            
-            
-            await pb.collection("bebes").update(_bebe, { unidad: _unidad, area: _area });
 
+            await pb
+                .collection("bebes")
+                .update(_bebe, { unidad: _unidad, area: _area });
         }
     }
     async function eliminar() {
@@ -208,11 +213,17 @@
             try {
                 let data = {
                     bebe,
-                    nombre,
                     active: activa,
-                    area,
                 };
-                
+                if (rol == "admin") {
+                    data = {
+                        bebe,
+                        nombre,
+                        active: activa,
+                        area,
+                    };
+                }
+
                 if (bebe != bebeviejo) {
                     if (bebeviejo != "") {
                         await cambiarUnidad("", "", bebeviejo);
@@ -246,7 +257,7 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila}  bind:unidadesrows />
+        <Header {clickFila} bind:unidadesrows {rol} />
         <Buscador
             bind:buscar
             bind:todos
@@ -254,7 +265,7 @@
             bind:area={buscararea}
             bind:areas
         />
-        <Listado bind:unidadesrows {clickFila} />
+        <Listado bind:unidadesrows {clickFila} {rol} />
     </div>
 </Navbar>
 
@@ -265,6 +276,7 @@
             {guardar}
             {eliminar}
             {bebes}
+            {rol}
             bind:id
             bind:nombre
             bind:area

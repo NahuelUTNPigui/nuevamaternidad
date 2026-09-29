@@ -6,12 +6,12 @@ export function getLocalStorage(){
             return JSON.parse(json_user)
         }
         else{
-            return {id:"",nombre:"",rol:""}
+            return {id:"",nombre:"",rol:"",token:""}
         }
         
     }
     else{
-        return {id:"",nombre:"",rol:""}
+        return {id:"",nombre:"",rol:"",token:""}
     }
 }
 export function setLocalStorage(id,nombre,rol){
@@ -21,7 +21,7 @@ export function setLocalStorage(id,nombre,rol){
     }
 }
 export function setLocalStorageDefault(){
-    let json_user = JSON.stringify({id:"",nombre:"",rol:""})
+    let json_user = JSON.stringify({id:"",nombre:"",rol:"",token:""})
     if(browser){
         localStorage.setItem("usuario",json_user)
     }

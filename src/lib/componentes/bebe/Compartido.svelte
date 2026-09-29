@@ -3,8 +3,8 @@
   import { addDays } from "$lib/string/string";
   function getNombre(id, lista) {
     let fila = { id: "", nombre: "" };
-    if(id==null){
-      return ""
+    if (id == null) {
+      return "";
     }
     let idx = lista.findIndex((o) => o.id == id);
     if (idx != -1) {
@@ -22,10 +22,11 @@
     sexo = $bindable(""),
     clinicNumber = $bindable(""),
     modoedicion = $bindable(false),
-    guardar,
-    eliminar,
-    closeEditar,
-    openEditar,
+    guardar = () => {},
+    eliminar = () => {},
+    closeEditar = () => {},
+    openEditar = () => {},
+    rol = "esc",
   } = $props();
 </script>
 
@@ -40,7 +41,7 @@
   {#if sexo.length > 0}
     <span
       class="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full"
-      >{getNombre(sexo,opciones.SEXO)}</span
+      >{getNombre(sexo, opciones.SEXO)}</span
     >
   {/if}
   {#if edad_gestacional.length > 0}
@@ -79,32 +80,33 @@
     >
       Guardar cambios
     </button>
-  {/if}
-
-  <button
-    id="btnCancelar"
-    type="button"
-    class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
+    <button
+      id="btnCancelar"
+      type="button"
+      class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
            bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100
            dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2
            focus:ring-gray-400 dark:focus:ring-offset-gray-900"
-    aria-label="Cancelar edición"
-    onclick={closeEditar}
-  >
-    Cancelar
-  </button>
-  <button
-    id="btnEliminar"
-    type="button"
-    class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
+      aria-label="Cancelar edición"
+      onclick={closeEditar}
+    >
+      Cancelar cambios
+    </button>
+  {/if}
+  {#if rol == "admin"}
+    <button
+      id="btnEliminar"
+      type="button"
+      class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium
          bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800
          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
          dark:focus:ring-offset-gray-900"
-    aria-label="Cancelar edición"
-    onclick={eliminar}
-  >
-    Eliminar
-  </button>
+      aria-label="Cancelar edición"
+      onclick={eliminar}
+    >
+      Eliminar
+    </button>
+  {/if}
 </div>
 <!-- Resumen superior -->
 <div
@@ -124,7 +126,11 @@
   <div class="flex items-center gap-2">
     <div>
       <p class="text-xs text-gray-500">Fecha de Nacimiento</p>
-      <p class="font-semibold">{birthDate.length>0?addDays(new Date(birthDate),1).toLocaleDateString():""}</p>
+      <p class="font-semibold">
+        {birthDate.length > 0
+          ? addDays(new Date(birthDate), 1).toLocaleDateString()
+          : ""}
+      </p>
     </div>
   </div>
   <div class="flex items-center gap-2">

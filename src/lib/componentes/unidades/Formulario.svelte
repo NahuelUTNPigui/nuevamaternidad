@@ -1,7 +1,4 @@
 <script>
-  import { darker } from "$lib/stores/oscuro.svelte";
-  import { toDark } from "$lib/string/string";
-  let oscuro = $derived(darker.oscurostate);
   let {
     id = $bindable(""),
     nombre = $bindable(""),
@@ -9,14 +6,12 @@
     activa = $bindable(true),
     areas = $bindable([]),
     bebe = $bindable(""),
-    bebes,
-    cancelar,
-    guardar,
-    eliminar,
+    bebes = [],
+    cancelar = () => {},
+    guardar = (_id) => {},
+    eliminar = (_id) => {},
+    rol = "esc",
   } = $props();
-  function td(oscuro, o1, o2) {
-    return toDark(oscuro, o1, o2);
-  }
 </script>
 
 <!-- Modal Formulario Agregar Unidad - Dark Mode & Mobile Responsive -->
@@ -154,9 +149,9 @@
         dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600
         bg-gray-100 text-gray-800 hover:bg-gray-200
         
-      `}>Cancelar</button
+      `}>Cerrar</button
     >
-    {#if id != ""}
+    {#if id != "" && rol == "admin"}
       <button
         onclick={eliminar}
         class={`
@@ -168,16 +163,19 @@
       `}>Eliminar</button
       >
     {/if}
-
-    <button
-      onclick={guardar}
-      class={`
+    {#if (id == "" && rol == "admin") || id != ""}
+      <button
+        onclick={guardar}
+        class={`
         cursor-pointer
         px-4 py-2 rounded-md 
 
         bg-blue-600 text-white 
         hover:bg-blue-700 transition-colors
-      `}>Guardar</button
-    >
+      `}
+      >
+        {id == "" ? "Guardar" : "Guardar cambios"}
+      </button>
+    {/if}
   </div>
 </div>

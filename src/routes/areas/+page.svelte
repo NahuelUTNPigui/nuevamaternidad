@@ -1,16 +1,24 @@
 <script>
     import Navbar from "$lib/componentes/navbar/Navbar.svelte";
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
+
     import Buscador from "$lib/componentes/areas/Buscador.svelte";
     import Header from "$lib/componentes/areas/Header.svelte";
     import Listado from "$lib/componentes/areas/Listado.svelte";
     import Modal from "$lib/componentes/areas/Modal.svelte";
     import Swal from "sweetalert2";
     import PocketBase from "pocketbase";
+    import { user } from "$lib/stores/user.svelte";
+    import {
+        getLocalStorage,
+        setLocalStorage,
+        setLocalStorageDefault,
+    } from "$lib/localstore";
     import { onMount } from "svelte";
+
+    let rol = $state("esc")
+
     let ruta = import.meta.env.VITE_RUTA;
-    let oscuro = $derived(darker.oscurostate);
+
     let areas = $state([]);
     let buscar = $state("");
     let cantidades = $state([]);
@@ -26,6 +34,8 @@
     let nombre = $state("");
 
     onMount(async () => {
+        let localuser = getLocalStorage();
+        rol = localuser.rol
         const records = await pb.collection("areacount").getFullList({
             filter: "active=True",
         });
@@ -34,10 +44,9 @@
     });
 
     const pb = new PocketBase(ruta);
-    function td(oscuro, o1, o2) {
-        return toDark(oscuro, o1, o2);
-    }
+    
     function clickFila(_id) {
+
         id = _id;
         if (id == "") {
             nombre = "";
@@ -194,7 +203,7 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} bind:areasrows/>
+        <Header {clickFila} bind:areasrows {rol}/>
         <Buscador bind:buscar {filterUpdate} />
         <Listado bind:areasrows {clickFila} />
     </div>

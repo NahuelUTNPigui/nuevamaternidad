@@ -4,6 +4,7 @@
         bebesrows = $bindable(),
         unidades = $bindable([]),
         areas = $bindable([]),
+        rol = ""
     } = $props();
     function handleClick(id) {
         goto("/bebes/" + id);
@@ -108,14 +109,15 @@
                             
                             {b.nombrebebe}
                         </div>
+                        
                         <div class="table-cell px-4 py-3">
-                            {b.pesobebe}
+                            {rol=="admin"?b.pesobebe:"-"}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {getNombre(b.area, areas)}
+                            {rol=="admin"?getNombre(b.area, areas):"-"}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {getNombre(b.unidad, unidades)}
+                            {rol=="admin"?getNombre(b.unidad, unidades):"-"}
                         </div>
                     </div>
                 {/each}

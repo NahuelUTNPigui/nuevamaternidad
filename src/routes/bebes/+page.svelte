@@ -7,8 +7,17 @@
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import PocketBase from 'pocketbase'
+    import { user } from "$lib/stores/user.svelte";
+    import {
+        getLocalStorage,
+        setLocalStorage,
+        setLocalStorageDefault,
+    } from "$lib/localstore";
+
+
     let ruta = import.meta.env.VITE_RUTA
     const pb = new PocketBase(ruta);
+    let rol = $state("esc")
     //Filtros
     //listas
     let unidades = $state([]);
@@ -60,7 +69,7 @@
     function cambioArea(){
         unidad = "-1"
     }
-    onMount(async ()=>{
+    async function getData() {
         let records  = await pb.collection("bebes").getFullList({
             filter:"active=True"
         })
@@ -75,6 +84,11 @@
 
         let resunidades = await pb.collection("Unidades").getFullList({});
         unidades =unidades.concat(resunidades)
+    }
+    onMount(async ()=>{
+        let localuser = getLocalStorage();
+        rol = localuser.rol
+        await getData()
 
     })
 </script>
@@ -84,6 +98,7 @@
             bind:bebesrows 
             bind:unidades 
             bind:areas
+            {rol}
         />
         <Buscador 
             bind:buscar 
@@ -98,6 +113,7 @@
             bind:bebesrows 
             bind:unidades 
             bind:areas
+            {rol}
         />
     </div>
 </Navbar>

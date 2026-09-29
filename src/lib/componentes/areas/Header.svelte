@@ -4,59 +4,63 @@
     import Swal from "sweetalert2";
     import constantes from "$lib/constantes";
     import Exportar from "../Exportar.svelte";
-    let oscuro = $derived(darker.oscurostate)
-    let {
-        clickFila,
-        areasrows=[]
-    } = $props()
-    function nuevo(){
-        clickFila("")
+    let oscuro = $derived(darker.oscurostate);
+    let { clickFila, rol = "esc", areasrows = [] } = $props();
+    function nuevo() {
+        clickFila("");
     }
-    function prepararData(item){
+    function prepararData(item) {
         return {
-            "NOMBRE":item.nombre,
-            "BEBES":item.total_bebes,
-            "UNIDADES":item.total_unidades
-        }
+            NOMBRE: item.nombre,
+            BEBES: item.total_bebes,
+            UNIDADES: item.total_unidades,
+        };
     }
 </script>
+
 <!-- Título -->
 <header class="mb-8">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        
-        <div    
+    <div
+        class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+    >
+        <div
             class={`
-                ${toDark(oscuro,"bg-gray-900","bg-gray-50")} 
+                ${toDark(oscuro, "bg-gray-900", "bg-gray-50")} 
                 px-4 py-4 transition-colors duration-200 
             `}
         >
-            <h1 class={`text-2xl font-bold ${toDark(oscuro,"text-white","text-gray-900")}`}>
+            <h1
+                class={`text-2xl font-bold ${toDark(oscuro, "text-white", "text-gray-900")}`}
+            >
                 Listado de áreas
             </h1>
-            <p class={`text-sm ${toDark(oscuro,"text-gray-400","text-gray-500")} `}>
+            <p
+                class={`text-sm ${toDark(oscuro, "text-gray-400", "text-gray-500")} `}
+            >
                 Sistema de {constantes.nombreapp}
+                {rol}
             </p>
         </div>
-        <button
-            class={`
+        {#if rol == "admin"}
+            <button
+                class={`
                 cursor-pointer  text-center gap-2 px-4 py-2 
                 transition-colors rounded-md
                 text-white
-                ${toDark(oscuro,"bg-blue-500 hover:bg-blue-600 ","bg-blue-600 hover:bg-blue-700")}
-                  
+                dark:bg-blue-500 dark:hover:bg-blue-600 bg-blue-600 hover:bg-blue-700  
             `}
-            onclick={nuevo}
-        >
-            
-            <span class="text-xl font-medium text-center">Nueva área</span>
-        </button>
-        <Exportar
-            data={areasrows}
-            titulo={"Areas"}
-            confiltro={false}
-            filtros={[]}
-            prepararData={prepararData}
-            sheetname={""}
-        />
+                onclick={nuevo}
+            >
+                <span class="text-xl font-medium text-center">Nueva área</span>
+            </button>
+            <Exportar
+                data={areasrows}
+                titulo={"Areas"}
+                confiltro={false}
+                filtros={[]}
+                {prepararData}
+                sheetname={""}
+            />
+        {/if}
     </div>
 </header>

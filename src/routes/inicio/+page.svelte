@@ -369,7 +369,7 @@
 {#snippet childrencard()}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Boton onclick={clickBebe} titulo="Nuevo bebé"></Boton>
-        <Boton onclick={clickArea} titulo="Nueva area"></Boton>
+        <Boton onclick={clickArea} titulo="Nueva área"></Boton>
         <Boton onclick={clickUnidad} titulo="Nueva Unidad"></Boton>
         <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
         <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"></Boton>

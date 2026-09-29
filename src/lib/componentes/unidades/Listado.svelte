@@ -1,9 +1,12 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
+    
+
     import Swal from "sweetalert2";
-    let oscuro = $derived(darker.oscurostate);
-    let { unidadesrows = $bindable([]), clickFila } = $props();
+    let {
+        unidadesrows = $bindable([]),
+        clickFila = (id) => {},
+        rol = "esc",
+    } = $props();
     function handleClick(id) {
         clickFila(id);
         //Swal.fire("Modificar unidad", "En desarrollo", "info");
@@ -41,6 +44,7 @@
                     <tr class="bg-base-200">
                         <th class="text-base-content font-bold">Unidad</th>
                         <th class="text-base-content font-bold">Área</th>
+
                         <th class="text-base-content font-bold">Bebé</th>
                         <th class="text-base-content font-bold">Activa</th>
                     </tr>
@@ -58,10 +62,23 @@
                                 {fila.expand.area.nombre}
                             </td>
                             <td>
-                                {fila.nombrebebe}
+                                {#if rol == "admin"}
+                                    {fila.nombrebebe.length > 0
+                                        ? fila.nombrebebe
+                                        : "Desocupada"}
+                                {:else}
+                                    {fila.nombrebebe.length > 0
+                                        ? "Ocupada"
+                                        : "Desocupada"}
+                                {/if}
                             </td>
                             <td>
-                                <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" disabled bind:checked={fila.active}/>
+                                <input
+                                    type="checkbox"
+                                    class="checkbox checkbox-primary checkbox-sm"
+                                    disabled
+                                    bind:checked={fila.active}
+                                />
                             </td>
                         </tr>
                     {/each}
@@ -92,15 +109,30 @@
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-base-content/70">Bebé:</span>
-                                <span class="text-right"
-                                    >{fila.nombrebebe}</span
-                                >
+                                {#if rol == "admin"}
+                                    <span class="text-right"
+                                        >{fila.nombrebebe.length > 0
+                                            ? fila.nombrebebe
+                                            : "Desocupada"}</span
+                                    >
+                                {:else}
+                                    <span class="text-right"
+                                        >{fila.nombrebebe.length > 0
+                                            ? "Ocupada"
+                                            : "Desocupada"}</span
+                                    >
+                                {/if}
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-base-content/70">Activa:</span>
-                                <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" disabled bind:checked={fila.active}/>
+                                <span class="text-base-content/70">Activa:</span
+                                >
+                                <input
+                                    type="checkbox"
+                                    class="checkbox checkbox-primary checkbox-sm"
+                                    disabled
+                                    bind:checked={fila.active}
+                                />
                             </div>
-                            
                         </div>
                     </div>
                 </button>

@@ -161,7 +161,7 @@
         goto("/login")
     }
 </script>
-<div class={`min-h-screen transition-colors duration-300 ${oscuro ? "dark bg-slate-900" : "bg-gray-50"}`}>
+<div class={`min-h-screen transition-colors duration-300 ${oscuro ? "dark:ebg-slate-900" : "bg-gray-50"}`}>
     <div class="fixed top-4 right-4 z-10">
         <Oscuro></Oscuro>
     </div>
@@ -261,11 +261,8 @@
                             for="password"
                             class={`
                                 block text-sm font-medium mb-2 transition-colors duration-300 
-                                ${
-                                    oscuro 
-                                    ? "text-slate-300" 
-                                    : "text-gray-700"
-                                }
+                                dark:text-slate-300 text-gray-700
+                                
                             `}
                         >
                             Contraseña
@@ -372,11 +369,10 @@
                                 class={`
                                 cursor-pointer
                                     absolute inset-y-0 right-0 pr-3 flex items-center transition-colors duration-200 
-                                    ${
-                                        oscuro 
-                                        ? "text-slate-400 hover:text-slate-300" 
-                                        : "text-gray-400 hover:text-gray-600"
-                                    }`}
+                                    dark:text-slate-400 dark:hover:text-slate-300
+                                    text-gray-400 hover:text-gray-600
+                                    
+                                    `}
                             >
                                 {#if showpass}
                                     <Eyeoff size={"size-5"}></Eyeoff>

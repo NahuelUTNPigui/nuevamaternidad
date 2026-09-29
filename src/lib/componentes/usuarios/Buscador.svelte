@@ -10,7 +10,8 @@
 <div 
     class={`
         rounded-md p-4 shadow-md mb-4
-        ${toDark(oscuro,"bg-slate-800","bg-white")}
+        dark:bg-slate-800 bg-white
+        
         
     `}
 >
@@ -20,7 +21,8 @@
           class={`
             flex items-center flex-1 border
             rounded-md px-3 py-2
-            ${toDark(oscuro,"border-gray-600 bg-gray-900","border-gray-300 bg-white")}
+            dark:border-gray-600 dark:bg-gray-900 border-gray-300 bg-white
+            
           `}
         >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 dark:text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,7 +32,7 @@
                 type="text"
                 placeholder="Buscar por nombre"
                 class={`
-                    ${toDark(oscuro,"placeholder-gray-500 text-gray-100","placeholder-gray-400 text-gray-800")}
+                    dark:placeholder-gray-500 dark:text-gray-100 placeholder-gray-400 text-gray-800
                     w-full bg-transparent focus:outline-none
                 `}
 
