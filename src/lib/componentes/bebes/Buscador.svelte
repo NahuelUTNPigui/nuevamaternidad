@@ -1,7 +1,5 @@
 <script>
-    import { darker } from "$lib/stores/oscuro.svelte";
-    import { toDark } from "$lib/string/string";
-    let oscuro = $derived(darker.oscurostate);
+
     let estados = [
         { id: "", nombre: "Todos" },
         { id: false, nombre: "Sin alta" },
@@ -14,7 +12,8 @@
         area = $bindable(""),
         unidades = $bindable(""),
         areas = $bindable(""),
-        cambioArea =()=>{}
+        cambioArea =()=>{},
+        filterUpdate=()=>{}
     } = $props();
 </script>
 
@@ -55,6 +54,7 @@
                 type="text"
                 placeholder="Buscar por nombre..."
                 bind:value={buscar}
+                oninput={filterUpdate}
                 class={`
                     dark:placeholder-gray-500 dark:text-gray-100
                     placeholder-gray-400 text-gray-800
@@ -78,6 +78,7 @@
                         border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
                     `}
                     bind:value={estado}
+                    onchange={filterUpdate}
                 >
                     {#each estados as s}
                         <option value={s.id} class="rounded">{s.nombre}</option>
@@ -125,6 +126,7 @@
                         border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
                     `}
                     bind:value={unidad}
+                    onchange={filterUpdate}
                 >
                     {#each unidades as s}
                         <option value={s.id} class="rounded">{s.nombre}</option>

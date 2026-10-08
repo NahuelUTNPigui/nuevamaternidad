@@ -1,33 +1,28 @@
 <script>
-  import { darker } from "$lib/stores/oscuro.svelte";
-  import { toDark } from "$lib/string/string";
   import { roles } from "$lib/roles";
-  let oscuro = $derived(darker.oscurostate);
   let {
-    id = $bindable(""),
+    id = "",
     nombre = $bindable(""),
     apellido = $bindable(""),
     correo = $bindable(""),
     rol = $bindable(""),
-    guardar,
-    cancelar
+    contra = $bindable(""),
+    guardar = () => {},
+    cancelar = () => {},
   } = $props();
-  function td(oscuro,o1,o2){
-    return toDark(oscuro,o1,o2)
-  }
 </script>
 
 <!-- Modal Formulario Agregar Usuario - Dark Mode & Mobile Responsive -->
 <div
   class={`
-    ${td(oscuro,"bg-gray-900","bg-white")}
+    dark:bg-gray-900 bg-white
     w-full max-w-md mx-auto rounded-xl shadow-lg p-6 space-y-4
   `}
 >
   <div class="flex items-center space-x-2">
     <svg
       class={`
-        ${td(oscuro,"text-blue-400","text-blue-500")}
+        dark:text-blue-400 text-blue-500
         w-5 h-5
       `}
       fill="none"
@@ -42,16 +37,18 @@
       />
     </svg>
     {#if id == ""}
-      <h2 class={`
-            ${td(oscuro,"text-gray-100","text-gray-800")}
+      <h2
+        class={`
+            dark:text-gray-100 text-gray-800
             text-lg font-semibold 
           `}
       >
         Agregar Nuevo Usuario
       </h2>
     {:else}
-      <h2 class={`
-            ${td(oscuro,"text-gray-100","text-gray-800")}
+      <h2
+        class={`
+            dark:text-gray-100 text-gray-800
             text-lg font-semibold 
           `}
       >
@@ -63,11 +60,9 @@
     <label
       for="ucorreo"
       class={`
-        ${td(oscuro,"text-gray-300","text-gray-700")}
+        dark:text-gray-300 text-gray-700
         block text-sm font-medium 
-      `}
-      
-      >Correo</label
+      `}>Correo</label
     >
     <input
       id="ucorreo"
@@ -77,7 +72,7 @@
       class={`
         w-full px-3 py-2 border rounded-md 
         focus:outline-none focus:ring-2 focus:ring-blue-500
-        ${td(oscuro,"bg-gray-800 text-gray-100 border-gray-600","text-gray-900 bg-white border-gray-300")}
+        dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 text-gray-900 bg-white border-gray-300
       `}
     />
   </div>
@@ -85,10 +80,9 @@
     <label
       for="unombre"
       class={`
-        ${td(oscuro,"text-gray-300","text-gray-700")}
+        dark:text-gray-300 text-gray-700
         block text-sm font-medium 
-      `}
-      >Nombre</label
+      `}>Nombre</label
     >
     <input
       id="unombre"
@@ -98,7 +92,7 @@
       class={`
         w-full px-3 py-2 border rounded-md 
         focus:outline-none focus:ring-2 focus:ring-blue-500
-        ${td(oscuro,"bg-gray-800 text-gray-100 border-gray-600","text-gray-900 bg-white border-gray-300")}
+        dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 text-gray-900 bg-white border-gray-300
       `}
     />
   </div>
@@ -107,10 +101,9 @@
     <label
       for="uapellido"
       class={`
-        ${td(oscuro,"text-gray-300","text-gray-700")}
+        dark:text-gray-300 text-gray-700
         block text-sm font-medium 
-      `}
-      >Apellido</label
+      `}>Apellido</label
     >
     <input
       id="uapellido"
@@ -120,7 +113,7 @@
       class={`
         w-full px-3 py-2 border rounded-md 
         focus:outline-none focus:ring-2 focus:ring-blue-500
-        ${td(oscuro,"bg-gray-800 text-gray-100 border-gray-600","text-gray-900 bg-white border-gray-300")}
+        dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 text-gray-900 bg-white border-gray-300
       `}
     />
   </div>
@@ -129,44 +122,64 @@
     <label
       for="urol"
       class={`
-        ${td(oscuro,"text-gray-300","text-gray-700")}
+        dark:text-gray-300 text-gray-700
         block text-sm font-medium 
-      `}
-      >Rol</label
+      `}>Rol</label
     >
-    <select 
-        class={`select
+    <select
+      class={`select
           w-full px-3 py-2 border rounded-md 
           focus:outline-none focus:ring-2 focus:ring-blue-500
-          ${td(oscuro,"bg-gray-800 text-gray-100 border-gray-600","text-gray-900 bg-white border-gray-300")}
+          dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 text-gray-900 bg-white border-gray-300
         `}
-        bind:value={rol}
+      bind:value={rol}
     >
       {#each roles as r}
-        <option value={r.id} >{r.nombre}</option>
+        <option value={r.id}>{r.nombre}</option>
       {/each}
     </select>
   </div>
-
+  {#if id == ""}
+    <div class="space-y-2">
+      <label
+        for="uapellido"
+        class={`
+        dark:text-gray-300 text-gray-700
+        block text-sm font-medium 
+      `}>Contraseña</label
+      >
+      <input
+        id="uapellido"
+        type="text"
+        placeholder="Contraseña"
+        bind:value={contra}
+        class={`
+        w-full px-3 py-2 border rounded-md 
+        focus:outline-none focus:ring-2 focus:ring-blue-500
+        dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 text-gray-900 bg-white border-gray-300
+      `}
+      />
+    </div>
+  {/if}
   <div class="flex justify-end gap-3 pt-4">
     <button
       onclick={cancelar}
       class={`
         cursor-pointer
         px-4 py-2 rounded-md 
-        ${td(oscuro,"bg-gray-700 text-gray-200 hover:bg-gray-600","bg-gray-100 text-gray-800 hover:bg-gray-200" )} 
-      `}
-      >Cancelar</button
+        dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 bg-gray-100 text-gray-800 hover:bg-gray-200
+      `}>Cerrar</button
     >
-    <button
+    {#if id == ""}
+      <button
         onclick={guardar}
-      class={`
+        class={`
         cursor-pointer
         px-4 py-2 rounded-md 
         bg-blue-600 text-white 
         hover:bg-blue-700 transition-colors
-      `}
-      >Agregar</button
-    >
+      `}>Agregar</button
+      >
+    {/if}
   </div>
 </div>

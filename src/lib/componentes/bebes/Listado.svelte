@@ -4,7 +4,7 @@
         bebesrows = $bindable(),
         unidades = $bindable([]),
         areas = $bindable([]),
-        rol = ""
+        rol = "",
     } = $props();
     function handleClick(id) {
         goto("/bebes/" + id);
@@ -106,76 +106,78 @@
                         <div
                             class="table-cell px-4 py-3 font-semibold flex items-center gap-2"
                         >
-                            
                             {b.nombrebebe}
                         </div>
-                        
+
                         <div class="table-cell px-4 py-3">
-                            {rol=="admin"?b.pesobebe:"-"}
+                            {rol == "admin" ? b.pesobebe : "-"}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {rol=="admin"?getNombre(b.area, areas):"-"}
+                            {rol == "admin" ? getNombre(b.area, areas) : "-"}
                         </div>
                         <div class="table-cell px-4 py-3">
-                            {rol=="admin"?getNombre(b.unidad, unidades):"-"}
+                            {rol == "admin"
+                                ? getNombre(b.unidad, unidades)
+                                : "-"}
                         </div>
                     </div>
                 {/each}
             </div>
         </div>
     </div>
-    <!-- Mobile: tarjeta colapsada -->
-    <div
-        class={`
-            sm:hidden p-4 
-        `}
-    >
+    <!-- Cards Mobile -->
+    <div class="md:hidden space-y-4">
         {#each bebesrows as b}
             <div
-                role="button"
-                tabindex="0"
-                onclick={() => handleClick(b.id)}
-                onkeydown={(e) => {
-                    e.preventDefault();
-                }}
-                class="
-                    border-b
-                    dark:border-gray-700 border-gray-200
-                "
+                class="card bg-base-100 dark:bg-slate-800 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900 shadow-xl border border-base-200"
             >
-                <div class="font-semibold text-lg flex items-center gap-2">
-                    <span
-                        class={`h-2 w-2 rounded-full ${
-                            b.conalta ? "bg-green-500" : "bg-gray-400"
-                        }`}
-                    ></span>
-                    {b.nombrebebe}
-                </div>
-                <span
-                    class={`text-xs px-2 py-0.5 rounded-full ${
-                        b.conalta
-                            ? "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
-                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    }`}
-                >
-                    {b.conalta ? "Con alta" : "Sin alta"}
-                </span>
-                <!-- Info principal -->
-                <div class="mt-3 text-sm space-y-1">
-                    <div>
-                        <span class="font-medium">Peso:</span>
-                        {b.pesobebe}
+                <button onclick={() => handleClick(b.id)}>
+                    <div class="card-body p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="card-title text-lg">
+                                {b.nombrebebe}
+                            </h3>
+                            {#if b.conalta}
+                                <span
+                                    class="bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 px-2 py-0.5 rounded-full"
+                                    >{"Con alta"}</span
+                                >
+                            {:else}
+                                <span
+                                    class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100 px-2 py-0.5 rounded-full"
+                                    >{"Sin alta"}</span
+                                >
+                            {/if}
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Peso:</span>
+                                <span class="text-right"
+                                    >{rol == "admin" ? b.pesobebe : "-"}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Área:</span>
+                                <span class="text-right"
+                                    >{rol == "admin"
+                                        ? getNombre(b.area, areas)
+                                        : "-"}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Unidad:</span
+                                >
+                                <span class="text-right"
+                                    >{rol == "admin"
+                                        ? getNombre(b.unidad, unidades)
+                                        : "-"}</span
+                                >
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span class="font-medium">Área:</span>
-                        {getNombre(b.area, areas)}
-                    </div>
-                    <div>
-                        <span class="font-medium">Unidad:</span>
-                        {getNombre(b.unidad, unidades)}
-                    </div>
-                </div>
+                </button>
             </div>
         {/each}
     </div>
+    
 </div>

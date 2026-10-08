@@ -16,6 +16,9 @@
         setLocalStorage,
         setLocalStorageDefault,
     } from "$lib/localstore";
+
+    import { isEmpty } from "$lib/string/string";
+    let rolusuario = $state("esc");
     let ruta = import.meta.env.VITE_RUTA;
 
     let buscar = $state("");
@@ -29,12 +32,18 @@
     let apellido = $state("");
     let correo = $state("");
     let rol = $state("");
-    let contra= $state("")
+    let contra = $state("");
+    let confirmcontra = $state("");
     const pb = new PocketBase(ruta);
-    onMount(async () => {
+    async function getData() {
         users = await pb.collection("users").getFullList({
             sort: "-name",
         });
+    }
+    onMount(async () => {
+        let localuser = getLocalStorage();
+        rolusuario = localuser.rol;
+        await getData();
     });
     function buscarUser(_u) {
         let porNombre = _u.nombre.toLowerCase().includes(buscar.toLowerCase());
@@ -44,71 +53,120 @@
 
         return porNombre || porApellido;
     }
-    function clickFila(id) {
-        //userModal.showModal();
+    function clickFila(_id) {
+        if (_id != "") {
+            let idx_u = usuariosrows.findIndex((u) => u.id == _id);
+            if (idx_u != -1) {
+                let u = usuariosrows[idx_u];
+                id = _id;
+                nombre = u.nombre;
+                apellido = u.apellido;
+                correo = u.email;
+                rol = u.rol;
+            }
+        }
+
+        userModal.showModal();
     }
     function cerrarModal() {
         userModal.close();
     }
-    async function guardar() {
-        const authData = await pb.collection("users").authRefresh();
-        if (pb.authStore.isValid) {
-            if (pb.authStore.model.active) {
-                if (authData.record.rol != "admin") {
-                    Swal.fire(
-                        "Usuario no válido",
-                        "El usuario no es válido",
-                        "error",
-                    );
-                } else {
-                    
-                    user.setUserstate(
-                        authData.record.id,
-                        email,
-                        authData.record.rol,
-                    );
-                    setLocalStorage(
-                        authData.record.id,
-                        email,
-                        authData.record.rol,
-                    );
-                }
-            } else {
-                Swal.fire(
-                    "Usuario no válido",
-                    "El usuario no es válido",
-                    "error",
-                );
-            }
+    async function existeCorreo() {
+        const record = await pb.collection("users").getList(1, 1, {
+            filter: `email = '${correo}' && active = true`,
+        });
+
+        if (record.totalItems != 0) {
+            return true;
         } else {
-            Swal.fire("Usuario no válido", "El usuario no es válido", "error");
+            return false;
+        }
+    }
+    async function guardar() {
+        if (isEmpty(correo)) {
+            Swal.fire("Error guardar", "Nombre de usuario vacio", "error");
+            return;
+        }
+        if (isEmpty(rol)) {
+            Swal.fire("Error guardar", "Rol de usuario vacio", "error");
+            return;
+        }
+        if (isEmpty(contra)) {
+            Swal.fire("Error guardar", "Contraseña vacia", "error");
+            return;
+        }
+
+        let coincide = await existeCorreo(correo);
+        if (coincide) {
+            Swal.fire(
+                "Error guardar",
+                "Ya existe un usuario con ese correo",
+                "error",
+            );
+            return;
+        }
+
+        try {
+            const data = {
+                username: correo.trim(),
+                email: correo.trim(),
+                emailVisibility: true,
+                password: contra,
+                passwordConfirm: contra,
+                name: correo.trim(),
+                nombre: "",
+                apellido: "",
+                rol: rol,
+                active: true,
+            };
+            const record = await pb.collection("users").create(data);
+            await getData();
+            Swal.fire(
+                "Éxito guardar",
+                "Se logró guardar el nuevo usuario. Ingrese a la aplicación",
+                "success",
+            );
+        } catch (e) {
+            console.error(e);
+            Swal.fire(
+                "Error guardar",
+                "No se puede crear el nuevo usuario",
+                "error",
+            );
         }
         cerrarModal();
     }
     function cancelar() {
         cerrarModal();
     }
+    $effect(()=>{
+        console.log(buscar)
+    })
 </script>
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} />
-        <Buscador bind:buscar />
-        <Listado bind:usuariosrows {clickFila} />
+        <Header {clickFila} rol={rolusuario} bind:buscar />
+        <div class="hidden">
+            <Buscador bind:buscar />
+        </div>
+
+        <Listado bind:usuariosrows {clickFila} rol={rolusuario} />
     </div>
 </Navbar>
 <!-- Open the modal using ID.showModal() method -->
 
 <dialog id="userModal" class="modal">
-    <div class="modal-box bg-transparent">
+    <div class="modal-box bg-white dark:bg-slate-900">
         <Formulario
             {cancelar}
             {guardar}
-            bind:id
+            {id}
             bind:nombre
             bind:apellido
             bind:correo
             bind:rol
+            bind:contra
         />
     </div>
 </dialog>

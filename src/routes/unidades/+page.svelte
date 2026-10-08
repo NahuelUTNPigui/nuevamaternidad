@@ -257,14 +257,14 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} bind:unidadesrows {rol} />
-        <Buscador
-            bind:buscar
+        <Header {clickFila} bind:unidadesrows {rol} 
+        bind:buscar
             bind:todos
             bind:vacias
             bind:area={buscararea}
             bind:areas
         />
+       
         <Listado bind:unidadesrows {clickFila} {rol} />
     </div>
 </Navbar>

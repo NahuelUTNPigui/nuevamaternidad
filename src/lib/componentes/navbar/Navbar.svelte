@@ -21,7 +21,7 @@
     import User from "../svgs/User.svelte";
     import estilos from "$lib/estilo";
     import CONSTANTES from "$lib/constantes";
-    import { toDark } from "$lib/string/string";
+    
 
     //localstorage
 

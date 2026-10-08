@@ -203,8 +203,8 @@
 
 <Navbar>
     <div class="container mx-auto py-6 px-4 max-w-7xl">
-        <Header {clickFila} bind:areasrows {rol}/>
-        <Buscador bind:buscar {filterUpdate} />
+        <Header {clickFila} bind:areasrows {rol} bind:buscar {filterUpdate}/>
+        
         <Listado bind:areasrows {clickFila} />
     </div>
 </Navbar>

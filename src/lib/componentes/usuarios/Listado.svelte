@@ -3,10 +3,17 @@
     import estilo from "$lib/estilo";
     import { roles, getNombre } from "$lib/roles";
 
-    let { usuariosrows = $bindable([{ name: "xxx" }]), clickFila } = $props();
+    let {
+        usuariosrows = $bindable([{ name: "xxx" }]),
+        clickFila = (_id) => {},
+        rol = "esc",
+    } = $props();
 
     function handleClick(id) {
-        clickFila(id);
+        if (rol == "admin") {
+            clickFila(id);
+        }
+
         //Swal.fire("Modificar usuario","En desarrollo","info")
     }
     let pyfila = "py-2";
@@ -99,35 +106,46 @@
         </div>
     </div>
 
-    <!--Celu-->
-    <div
-        class={`
-            md:hidden
-            w-full grid grid-cols-1
-            mx-auto py-3 px-4 max-w-7xl
-        `}
-    >
+    <!-- Cards Mobile -->
+    <div class="md:hidden space-y-4">
         {#each usuariosrows as u, i}
             <div
-                role="button"
-                tabindex="0"
-                onclick={() => handleClick(u.id)}
-                onkeydown={(e) => {
-                    e.preventDefault();
-                }}
+                class="card bg-base-100 dark:bg-slate-800 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900 shadow-xl border border-base-200"
             >
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2 font-semibold text-lg">
-                        {u.name}
+            
+                <button onclick={() => handleClick(u.id)}>
+                    <div class="card-body p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="card-title text-lg">
+                                {u.name}
+                            </h3>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Nombre:</span>
+                                <span class="text-right"
+                                    >{u.nombre}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Apellido:</span>
+                                <span class="text-right"
+                                    >{u.apellido}</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70">Rol:</span>
+                                <span class="text-right"
+                                    >{getNombre(u.rol)}</span
+                                >
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-2 text-sm space-y-1">
-                    <div>
-                        <span class="font-medium">Rol:</span>{getNombre(u.rol)}
-                    </div>
-                </div>
+                </button>
             </div>
         {/each}
     </div>
+
+    
     <!--Fin-->
 </div>

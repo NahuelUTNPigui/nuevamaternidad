@@ -1,6 +1,10 @@
 <script>
     import { goto } from "$app/navigation";
-    import { setLocalStorageDefault } from "$lib/localstore";
+    import {
+        getLocalStorage,
+        setLocalStorage,
+        setLocalStorageDefault,
+    } from "$lib/localstore";
     import { user } from "$lib/stores/user.svelte";
     import { onMount } from "svelte";
     import Boton from "$lib/componentes/inicio/Boton.svelte";
@@ -15,6 +19,7 @@
     import DesubicarBebe from "$lib/componentes/inicio/DesubicarBebe.svelte";
 
     let ruta = import.meta.env.VITE_RUTA;
+    let rol = $state("esc");
     const pb = new PocketBase(ruta);
     let isSaving = $state(false);
     let nombreuser = $state("");
@@ -179,13 +184,13 @@
                             }
                             await getUnidades();
                             await getAreas();
-                            
+
                             Swal.fire(
                                 "Éxito guardar",
                                 "Se logró guardar la unidad",
                                 "success",
                             );
-                        }else{
+                        } else {
                             unidadInicioModal.showModal();
                         }
                     });
@@ -330,6 +335,8 @@
     onMount(async () => {
         let u = user.userstate;
         nombreuser = u.nombre;
+        let localuser = getLocalStorage();
+        rol = localuser.rol;
         await getAreas();
         await getUnidades();
         bebes = await pb.collection("bebes").getFullList({
@@ -368,13 +375,22 @@
 {/snippet}
 {#snippet childrencard()}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Boton onclick={clickBebe} titulo="Nuevo bebé"></Boton>
-        <Boton onclick={clickArea} titulo="Nueva área"></Boton>
-        <Boton onclick={clickUnidad} titulo="Nueva Unidad"></Boton>
-        <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
-        <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"></Boton>
-        <Boton onclick={() => goto("/reportes")} titulo="Ver reporte"></Boton>
-        <Boton onclick={() => goto("/bebes")} titulo="Listado bebés"></Boton>
+        {#if rol == "admin"}
+            <Boton onclick={clickBebe} titulo="Nuevo bebé"></Boton>
+            <Boton onclick={clickArea} titulo="Nueva área"></Boton>
+            <Boton onclick={clickUnidad} titulo="Nueva u    nidad"></Boton>
+            <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
+            <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"
+            ></Boton>
+            <Boton onclick={() => goto("/reportes")} titulo="Ver reporte"
+            ></Boton>
+            <Boton onclick={() => goto("/bebes")} titulo="Listado bebés"
+            ></Boton>
+        {:else}
+            <Boton onclick={clickOcuparUnidad} titulo="Ocupar unidad"></Boton>
+            <Boton onclick={clickDesocuparUnidad} titulo="Desocupar unidad"
+            ></Boton>
+        {/if}
     </div>
 {/snippet}
 

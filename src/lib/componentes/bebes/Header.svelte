@@ -1,11 +1,27 @@
 <script>
-    import { toDark } from "$lib/string/string";
     import { goto } from "$app/navigation";
     import opciones from "$lib/opciones";
     import Exportar from "../Exportar.svelte";
     import CONSTANTES from "$lib/constantes";
+    let estados = [
+        { id: "", nombre: "Todos" },
+        { id: false, nombre: "Sin alta" },
+        { id: true, nombre: "Con alta" },
+    ];
 
-    let { bebesrows = [], unidades = [], areas = [], rol = "admin" } = $props();
+    let {
+        bebesrows = [],
+        unidades = [],
+        areas = [],
+        rol = "admin",
+        buscar = $bindable(""),
+        estado = $bindable(""),
+        unidad = $bindable(""),
+        area = $bindable(""),
+
+        cambioArea = () => {},
+        filterUpdate = () => {},
+    } = $props();
     function nuevo() {
         goto("/bebes/nuevo");
     }
@@ -252,39 +268,32 @@
     }
 </script>
 
-<header class="mb-8">
+<header class="mb-8 container mx-auto py-1 px-4 max-w-7xl w-full">
+    <!--Header-->
     <div
-        class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        class={`
+            rounded-xl p-1 shadow-2xl mb-1
+            dark:bg-slate-900 bg-white
+            px-6
+        `}
     >
         <div
-            class={`
+            class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+            <div
+                class={`
                 dark:bg-gray-900 bg-gray-50
                 
                 px-4 py-4 transition-colors duration-200 
             `}
-        >
-            <h1 class={`text-2xl font-bold dark:text-white text-gray-900`}>
-                Listado de Bebés
-            </h1>
-            <p class={`text-sm dark:text-gray-400 text-gray-500`}>
-                Sistema de {CONSTANTES.nombreapp}
-            </p>
-        </div>
-        <button
-            class={`
-                cursor-pointer  text-center gap-2 px-4 py-2 
-                transition-colors rounded-md
-                text-white
-                dark:bg-blue-500 dark:hover:bg-blue-600
-                bg-blue-600 hover:bg-blue-700
-                
-                  
-            `}
-            onclick={nuevo}
-        >
-            <span class="text-xl font-medium">Nuevo Ingreso</span>
-        </button>
-        {#if rol == "admin"}
+            >
+                <h1 class={`text-2xl font-bold dark:text-white text-gray-900`}>
+                    Listado de Bebés
+                </h1>
+                <p class={`text-sm dark:text-gray-400 text-gray-500`}>
+                    Sistema de {CONSTANTES.nombreapp}
+                </p>
+            </div>
             <button
                 class={`
                 cursor-pointer  text-center gap-2 px-4 py-2 
@@ -292,21 +301,153 @@
                 text-white
                 dark:bg-blue-500 dark:hover:bg-blue-600
                 bg-blue-600 hover:bg-blue-700
+                
                   
             `}
-                onclick={reportes}
+                onclick={nuevo}
             >
-                <span class="text-xl font-medium">Reportes</span>
+                <span class="text-xl font-medium">Nuevo Ingreso</span>
             </button>
+            {#if rol == "admin"}
+                <button
+                    class={`
+                cursor-pointer  text-center gap-2 px-4 py-2 
+                transition-colors rounded-md
+                text-white
+                dark:bg-blue-500 dark:hover:bg-blue-600
+                bg-blue-600 hover:bg-blue-700
+                  
+            `}
+                    onclick={reportes}
+                >
+                    <span class="text-xl font-medium">Reportes</span>
+                </button>
 
-            <Exportar
-                data={bebesrows}
-                titulo={"Bebes"}
-                confiltro={false}
-                filtros={[]}
-                {prepararData}
-                sheetname={""}
-            />
-        {/if}
+                <Exportar
+                    data={bebesrows}
+                    titulo={"Bebes"}
+                    confiltro={false}
+                    filtros={[]}
+                    {prepararData}
+                    sheetname={""}
+                />
+            {/if}
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 sm:items-center gap-3">
+            <!-- 🔍 Input de búsqueda -->
+            <div
+                class={`
+                rounded-md px-3 py-2
+                flex items-center flex-1 border 
+                dark:border-gray-600 dark:bg-gray-900
+                border-gray-300 bg-white
+                mt-3        
+            `}
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class={`w-5 h-5 dark:text-gray-500 text-gray-400 mr-2`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.15 6.15z"
+                    />
+                </svg>
+                <input
+                    type="text"
+                    placeholder="Buscar por nombre..."
+                    bind:value={buscar}
+                    oninput={filterUpdate}
+                    class={`
+                    dark:placeholder-gray-500 dark:text-gray-100
+                    placeholder-gray-400 text-gray-800
+                    w-full bg-transparent focus:outline-none
+                `}
+                />
+            </div>
+            <div>
+                <label for="estado" class="label mb-0">
+                    <span class="label-text text-base">Estado</span>
+                </label>
+                <label class="input-group">
+                    <select
+                        class={`
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
+                        bind:value={estado}
+                        onchange={filterUpdate}
+                    >
+                        {#each estados as s}
+                            <option value={s.id} class="rounded"
+                                >{s.nombre}</option
+                            >
+                        {/each}
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label for="area" class="label mb-0">
+                    <span class="label-text text-base">Área</span>
+                </label>
+                <label class="input-group">
+                    <select
+                        class={`
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
+                        bind:value={area}
+                        onchange={cambioArea}
+                    >
+                        {#each areas as s}
+                            <option value={s.id} class="rounded"
+                                >{s.nombre}</option
+                            >
+                        {/each}
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label for="unidad" class="label mb-0">
+                    <span class="label-text text-base">Unidad</span>
+                </label>
+                <label class="input-group">
+                    <select
+                        class={`
+                        select select-bordered w-full
+                        rounded-md
+                        focus:outline-none focus:ring-2 
+                        focus:ring-green-500 
+                        focus:border-green-500
+                        
+                        border-gray-300 dark:border-gray-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+                    `}
+                        bind:value={unidad}
+                        onchange={filterUpdate}
+                    >
+                        {#each unidades as s}
+                            <option value={s.id} class="rounded"
+                                >{s.nombre}</option
+                            >
+                        {/each}
+                    </select>
+                </label>
+            </div>
+        </div>
     </div>
 </header>
